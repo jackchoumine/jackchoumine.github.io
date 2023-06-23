@@ -134,7 +134,7 @@ sch`,cover:""}},{route:"/science/index",meta:{title:"科学和理性",date:"2023
 > ）。
  华佗神功是真的吗
 ​ 从起源而言，《黄帝内经》大约是没资格坐中医头把交椅的，其作者一直无法验明正身，其内容也多经后世窜入
-与篡改，经典之说多少值得商榷。相反，20 世纪 70 年代马王堆`,cover:""}},{route:"/vue2/commonJS和ES6模块在Vue中混用",meta:{title:"commonJS和ES6模块在Vue中混用",date:"2023-06-14 16:13:06",tag:[],description:"|    引入    |        导出        | 是否可行 |                                          说明                  ",cover:""}},{route:"/vue2/index",meta:{title:"vue2学习总结",date:"2023-06-16 01:19:04",tag:[],description:` 如何使用 gh-pages 部署 vue 应用？
+与篡改，经典之说多少值得商榷。相反，20 世纪 70 年代马王堆`,cover:""}},{route:"/vue2/commonJS和ES6模块在Vue中混用",meta:{title:"commonJS和ES6模块在Vue中混用",date:"2023-06-14 16:13:06",tag:[],description:"|    引入    |        导出        | 是否可行 |                                          说明                  ",cover:""}},{route:"/vue2/index",meta:{title:"vue2学习总结",date:"2023-06-23 09:12:02",tag:[],description:` 如何使用 gh-pages 部署 vue 应用？
  vue2 响应式系统核心原理实现
 <!--  如何更好的管理公共组件 --
  组件封装
@@ -143,7 +143,7 @@ sch`,cover:""}},{route:"/science/index",meta:{title:"科学和理性",date:"2023
 有两种描述 DOM 的方式：模板和 render 函数。模板在编译阶段会被转成 render 函数，这一过程叫编`,cover:"https://cdn.jsdelivr.net/gh/jackchoumine/jack-picture@master/008i3skNgy1gqrnq8dbcpj31j60t4n1d.webp 'VNode 对象'"}},{route:"/vue2/vue-pro-deploy-gh-pages",meta:{title:"如何使用gh-pages部署vue应用？",date:"2023-06-14 16:13:06",tag:[],description:`使用 webpack5 实现了微前端，希望能把这些应用部署到 git-pages, 如何办呢？
 webpack5 模块联邦实现微前端
  gh-pages 是什么？
-gh-pages 是 github `,cover:""}},{route:"/vue2/vue-状态管理（一）",meta:{title:"vue 状态管理（一）",date:"2019-05-25 19:03:39",tags:["vue","vuex"],categories:[["vue"],["前端框架"]],tag:[["vue"],["前端框架"],"vue","vuex"],cover:'https://raw.githubusercontent.com/JackZhouMine/jack-picture/master/vuex.png "Vuex状态图"'}},{route:"/vue2/vue-状态管理（三）",meta:{title:"vue 状态管理（三）",date:"2019-05-26 12:35:39",tags:["vue","vuex"],categories:[["vue"],["前端框架"]],tag:[["vue"],["前端框架"],"vue","vuex"],cover:""}},{route:"/vue2/vue-状态管理（二）",meta:{title:"vue 状态管理（二）",date:"2019-05-26 10:57:29",tags:["vue","vuex"],categories:[["vue"],["前端框架"]],tag:[["vue"],["前端框架"],"vue","vuex"],cover:""}},{route:"/vue2/vue-组件封装",meta:{title:"vue组件封装",date:"2023-06-14 16:13:06",tag:[],description:`本文记录一下 Vue 组件封装的基本实践和一些组件的相关知识。主要涉及以下知识点：
+gh-pages 是 github `,cover:""}},{route:"/vue2/vue-状态管理（一）",meta:{title:"vue 状态管理（一）",date:"2019-05-25 19:03:39",tags:["vue","vuex"],categories:[["vue"],["前端框架"]],tag:[["vue"],["前端框架"],"vue","vuex"],cover:"https://raw.githubusercontent.com/JackZhouMine/jack-picture/master/vuex.png 'Vuex状态图'"}},{route:"/vue2/vue-状态管理（三）",meta:{title:"vue 状态管理（三）",date:"2019-05-26 12:35:39",tags:["vue","vuex"],categories:[["vue"],["前端框架"]],tag:[["vue"],["前端框架"],"vue","vuex"],cover:""}},{route:"/vue2/vue-状态管理（二）",meta:{title:"vue 状态管理（二）",date:"2019-05-26 10:57:29",tags:["vue","vuex"],categories:[["vue"],["前端框架"]],tag:[["vue"],["前端框架"],"vue","vuex"],cover:""}},{route:"/vue2/vue-组件封装",meta:{title:"vue组件封装",date:"2023-06-14 16:13:06",tag:[],description:`本文记录一下 Vue 组件封装的基本实践和一些组件的相关知识。主要涉及以下知识点：
 - 封装一个组件的代码组织形式；
 - vue 组件的三大核心：
   - 属性（props、data）;
