@@ -8,6 +8,7 @@ categories:
 - [vue]
 - [前端框架]
 ---
+
 我们修改 state，然后刷新浏览器，状态又变化原来的了，因为 state 是存在内存中的，为了点击刷新，状态不回到原来的，就需要 Vuex 提供的插件功能，当然插件还能实现其他复杂的功能。
 
 <!-- more -->
@@ -25,13 +26,16 @@ const myPlugin = store => {
   })
 }
 ```
+
 使用插件：
+
 ```js
 const store = new Vuex.Store({
   // ...
   plugins: [myPlugin]
 })
 ```
+
 使用插件本地 state 持久化。
 
 ```js
@@ -39,7 +43,7 @@ const store = new Vuex.Store({
 export default store => {
 	// 当 store 初始化后调用
 	console.log('store 初始化', JSON.stringify(store.state, '', 2))
-	// 已经初始化 
+	// 已经初始化
 	// 不能 store.state = '' 直接赋值方式改变 state
 	if (localStorage.getItem('state')) store.replaceState(JSON.parse(localStorage.state))
 	store.subscribe((mutation, state) => {
@@ -56,7 +60,9 @@ export default store => {
 	})
 }
 ```
+
 修改 store
+
 ```js
 // 引入插件
 import { localStore } from './plugins'
@@ -72,17 +78,20 @@ export default new Vuex.Store({
 	plugins: [localStore]
 })
 ```
+
 启用插件后，调用 commit 更新 state 后，会更新本地存储，即使实现浏览器，值也不会变。
 
 ## 处理表单
 
-在学习 mutations 时，我们使用表单的值更新state，我们这样写
+在学习 mutations 时，我们使用表单的值更新 state，我们这样写
+
 ```html
 		<input type="text" name="age" id="age" v-model="age" placeholder="请输入年纪" />
 		<button @click="changeAge">修改年纪</button>
 		<p>年纪:{{this.$store.state.age}}</p>
 		<input type="text" v-model="lastName" placeholder="请输入姓氏" @input="changeLastName" />
 ```
+
 ```js
 	import { mapMutations } from 'vuex'
 	export default {
@@ -108,7 +117,8 @@ export default new Vuex.Store({
 		}
 	}
 ```
-以上方式都是在方法中提获取表单的输入值，需要再data里生属性。其实我们可以在计算属性中使用`setter`、`getter`中实现，充分利用 `v-model` 双向绑定的特性来简化了代码。
+
+以上方式都是在方法中提获取表单的输入值，需要再 data 里生属性。其实我们可以在计算属性中使用`setter`、`getter`中实现，充分利用 `v-model` 双向绑定的特性来简化了代码。
 
 ```html
 <template>
@@ -132,4 +142,3 @@ export default new Vuex.Store({
 	}
 </script>
 ```
-

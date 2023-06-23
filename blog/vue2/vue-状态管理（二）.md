@@ -13,9 +13,11 @@ categories:
 提交 mutations 是改变 state 的唯一方式，不能用异步操作。actions 通过分发 action 来提交 mutation，可包含异步操作，比如 xhr 。
 
 <!-- more -->
+
 ## mutations
 
 声明 mutations:
+
 ```js
 // mutations.js
 import vue from 'vue'
@@ -33,7 +35,9 @@ export default {
 	}
 }
 ```
-使用 mutations 
+
+使用 mutations
+
 1. 通过 `mapMutations` 映射方法；
 2. 在方法中 调用 `this.$store.commit('mutaion')`；
 3. 可以在 mutation 种给 state 新增状态（属性），新增的状态会响应到视图上。
@@ -86,9 +90,10 @@ export default {
 	}
 </script>
 ```
-## actions 
 
-mutation  只能是同步操作，为了使用异步操作，Vuex 提供了 actions。
+## actions
+
+mutation 只能是同步操作，为了使用异步操作，Vuex 提供了 actions。
 
 - Action 提交的是 mutation，而不是直接变更状态。
 - Action 可以包含任意异步操作。
@@ -96,7 +101,7 @@ mutation  只能是同步操作，为了使用异步操作，Vuex 提供了 acti
 声明 actions
 
 - action 接收一个和 store 具有相同属性和方法的对象，可 context.commit 提交 mutation；
-- 可以解构赋值，获取 `commit` 和 `dispatch`，commit 用于提交 mutation, dispatch  用于分发其他 action。
+- 可以解构赋值，获取 `commit` 和 `dispatch`，commit 用于提交 mutation, dispatch 用于分发其他 action。
 
 ```js
 import http from 'axios'
@@ -119,6 +124,7 @@ export default {
 	}
 }
 ```
+
 在组件中使用 actions
 
 - 通过 `mapActions` 映射为方法。
@@ -178,25 +184,31 @@ export default {
 1. 提交 `mutation` 是改变你 state 的唯一方式；
 2. 方法执行上：
    - `dispatch` 分发 action ;
-    - `commit` 提交mutation。
+   - `commit` 提交 mutation。
 3. 辅助方法的映射
-  - getters、state 映射为计算属性；
-  - actions、mutations 映射为法法。
+
+- getters、state 映射为计算属性；
+- actions、mutations 映射为法法。
+
 4. 分离功能：
-  - state 保存数据；
-  - getters 是对 state 的操作；
-  - actions 要提交 mutation;
-  - mutations 改变 state。
+
+- state 保存数据；
+- getters 是对 state 的操作；
+- actions 要提交 mutation;
+- mutations 改变 state。
+
 5. 异步与同步：
-  - action 封装异步处理；
-  - mutation 只能是同步。
+
+- action 封装异步处理；
+- mutation 只能是同步。
+
 6. 视图响应
 
-  ( `vue component dispatch` → ) `vue component commit` → ` state` → （ `getters` →） `vue component`
+( `vue component dispatch` → ) `vue component commit` → ` state` → （ `getters` →） `vue component`
 
 7. state 对象太过复杂，使用 `module` 划分。
 
 ## 参考
 
-- [理解Vuex，看这篇就够了](https://mobilesite.github.io/2016/12/18/vuex-introduction/)
+- [理解 Vuex，看这篇就够了](https://mobilesite.github.io/2016/12/18/vuex-introduction/)
 - [veux 文档](https://vuex.vuejs.org/zh/guide/forms.html)

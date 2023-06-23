@@ -18,6 +18,12 @@
 
 ### [commonJS 和 ES6 模块在 Vue 中混用](./commonJS和ES6模块在Vue中混用.md)
 
+### [vue 状态管理（三）](./vue-%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%EF%BC%88%E4%B8%89%EF%BC%89.md)
+
+### [vue 状态管理（二）](./vue-%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%EF%BC%88%E4%BA%8C%EF%BC%89.md)
+
+### [vue 状态管理（一）](./vue-%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%EF%BC%88%E4%B8%80%EF%BC%89.md)
+
 ### [vue 路由基础](./vue路由基础.md)
 
 ### [vue 路由进阶](./vue路由进阶.md)
