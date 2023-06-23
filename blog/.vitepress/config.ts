@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-06-12 03:01:09
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-06-23 15:37:36
+ * @LastEditTime: 2023-06-23 16:28:58
  * @Description : vitepress 配置
  */
 import { defineConfig } from 'vitepress'
@@ -15,7 +15,7 @@ export default defineConfig({
   ignoreDeadLinks: true,
   title: `Jack Chou's blog`,
   description: 'A VitePress Site',
-  // base: '/jack-front/ 666',
+  // base: '/jack-front/',
   head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
   markdown: {
     // theme: 'material-theme-palenight',
@@ -86,6 +86,8 @@ export default defineConfig({
       message: 'Released under the MIT License.',
       copyright: 'Copyright © 2022-present Jack Chou',
     },
-    // socialLinks: [{ icon: 'github', link: 'https://github.com/vuejs/vitepress' }],
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/jackchoumine/jackchoumine.github.io' },
+    ],
   },
 })
