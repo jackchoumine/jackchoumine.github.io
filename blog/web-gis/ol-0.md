@@ -1,8 +1,18 @@
-# openLayers 学习笔记
+# openLayers 快速开始
 
-openLayers 是一个开源的二维的 JavaScript 地图库，用于在 web 上显示交互式的地图，简称 ol。
+[openLayers](https://openlayers.org/) 是一个开源的二维的 JavaScript 地图库，用于在 web 上显示交互式的地图，简称 ol。
 
 ol 的特点：
+
+- 开源
+- 模块化 -- 使用 ES6 模块化语法
+- 流行 -- 开发活跃，一直在更新；社区活跃，能够找到大量的资料
+- 成熟 -- 2013 年发布，历史悠久
+- 高性能
+- 功能丰富
+- 高度可定制
+- 支持多种数据源
+- 支持多种投影方式
 
 ## 在 vue3 中使用 ol
 
@@ -26,7 +36,6 @@ import 'ol/ol.css'
 <script lang="ts" setup>
 import { Map, View } from 'ol'
 
-import { Attribution } from 'ol/control'
 import { Tile } from 'ol/layer'
 import { XYZ } from 'ol/source'
 
@@ -93,6 +102,8 @@ target 指定地图渲染的容器，是页面上一个元素的 id 或者元素
 
 target 对`transform`属性有特殊要求，仅支持`scale`。
 
+可给容器设置一个背景，当放缩范围较大时，可避免出现空白，同时其美化作用。
+
 > layers
 
 layers 是一个图层数组，数组中的每个元素都是一个图层对象。图层渲染的顺序与数组中的顺序一致，数组中的第一个图层将被渲染在最底层。
@@ -116,13 +127,29 @@ layers 是一个图层数组，数组中的每个元素都是一个图层对象�
 天地图和 ol 定义的参数不同，天地图把`x`定义为`TILECOL`，`y`定义为`TILEROW`，而 ol 把`x`定义为`TILEROW`，`y`定义为`TILECOL`，所以需要对换位置。
 :::
 
-初始化时没有指定 layers，可以通过`setLayers`方法动态设置 layers。
+初始化时没有指定 layers，可以通过`map.addLayer`方法动态设置 layers。
 
 > view
 
 view 是一个视图对象，用于控制地图的显示范围、中心位置和缩放级别等，例子中设置放缩级别为`10`、中心位置在贵阳，投影方式为`EPSG:4326`。
 
 center 的值为经纬度坐标，先经度后纬度。
+
+`View`时地图视图类，主要控制地图和人的交互，比如地图的中心点、缩放级别、旋转角度等。
+
+> Map -- 地图容器类
+
+Map 类是 ol 的核心类，用于创建地图实例，管理地图的图层、地图控件(放缩、比例尺、鸟瞰图等)以及地图交互功能。
+
+比如通过 map 的实例方法`addLayer`、`removeLayer`，可动态添加或者删除图层。
+
+> Tile -- 瓦片图层类
+
+Tile 类是 ol 的瓦片图层基类，用于加载瓦片图层数据。
+
+> XYZ -- 瓦片图层数据源类
+
+XYZ 类是 ol 的瓦片图层数据源基类，用于加载瓦片图层数据源。
 
 ## 参考
 
