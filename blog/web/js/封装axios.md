@@ -478,7 +478,7 @@ function xhrAdapter(config) {
 
 > 只允许最新的请求发出
 
-![允许最新的请求发出](https://tva1.sinaimg.cn/large/008vxvgGly1h854izzaymj31hq0dwn1y.jpg)
+![允许最新的请求发出](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/008vxvgGly1h854izzaymj31hq0dwn1y.jpg)
 
 ---
 
