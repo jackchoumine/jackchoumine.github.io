@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-06-12 03:01:09
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-06-23 16:28:58
+ * @LastEditTime: 2023-06-26 02:51:09
  * @Description : vitepress 配置
  */
 import { defineConfig } from 'vitepress'
@@ -52,6 +52,7 @@ export default defineConfig({
     // },
     nav: [
       { text: 'vue3', link: '/vue3/', activeMatch: '/vue3/' },
+      { text: 'web-gis', link: '/web-gis/', activeMatch: '^/web-gis/' },
       { text: 'vue2', link: '/vue2/', activeMatch: '^/vue2/' },
       { text: 'react', link: '/react/', activeMatch: '^/react/' },
       { text: 'node', link: '/node/', activeMatch: '^/node/' },
