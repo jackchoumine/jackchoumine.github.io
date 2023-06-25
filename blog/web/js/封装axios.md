@@ -2,7 +2,7 @@
 
 工作中接手他人的项目，看到一些 axios 封装很是复杂，难用，现在来总结一下 axios 封装 xhr 的问题。
 
-![](https://tva1.sinaimg.cn/large/008vxvgGly1h856xt5v1tj306k08wt9h.jpg)
+![混乱的实现](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/008vxvgGly1h856xt5v1tj306k08wt9h.jpg)
 
 在 vue 项目中使用，希望达到下面的效果：
 
@@ -222,7 +222,7 @@ async postHttp() {
     }
 ```
 
-![](https://tva1.sinaimg.cn/large/008i3skNgy1gs5ayz0l8mj30t80bw75m.jpg)
+![](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/008i3skNgy1gs5ayz0l8mj30t80bw75m.jpg)
 
 ### 如何处理错误
 
@@ -261,7 +261,7 @@ message 是错误提示框。
 
 logInfo(response) 是错误输出，`方便调试`，输出如下：
 
-![](https://tva1.sinaimg.cn/large/008i3skNgy1gs5bewaxovj30t40bu40p.jpg)
+![](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/008i3skNgy1gs5bewaxovj30t40bu40p.jpg)
 
 > 还有哪些可能的需求？
 
@@ -478,7 +478,7 @@ function xhrAdapter(config) {
 
 > 只允许最新的请求发出
 
-![允许最新的请求发出](https://tva1.sinaimg.cn/large/008vxvgGly1h854izzaymj31hq0dwn1y.jpg)
+![允许最新的请求发出](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/008vxvgGly1h854izzaymj31hq0dwn1y.jpg)
 
 ---
 
@@ -490,7 +490,7 @@ function xhrAdapter(config) {
 
 缺点：用户拿到的可能不是最新的数据。
 
-![](https://tva1.sinaimg.cn/large/008vxvgGly1h86dhkhojmj31cu0lmqci.jpg)
+![](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/008vxvgGly1h86dhkhojmj31cu0lmqci.jpg)
 
 发出 14 个，后来的都取消了，第一个成功返回。
 
@@ -510,11 +510,11 @@ function xhrAdapter(config) {
 
 > 重复的请求都发出
 
-![重复的请求都发出](https://tva1.sinaimg.cn/large/008vxvgGly1h85566dyiij31gy078jsq.jpg)
+![重复的请求都发出](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/008vxvgGly1h85566dyiij31gy078jsq.jpg)
 
 > 有一个请求成功后，其他正在进行的请求取消
 
-![有一个请求成功，其他的请求取消](https://tva1.sinaimg.cn/large/008vxvgGly1h8557j50ycj31fe05i75p.jpg)
+![有一个请求成功，其他的请求取消](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/008vxvgGly1h8557j50ycj31fe05i75p.jpg)
 
 ### 取消重复请求的具体实现
 
