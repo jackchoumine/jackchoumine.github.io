@@ -2,11 +2,10 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-06-02 09:31:16
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-06-26 03:18:53
+ * @LastEditTime: 2023-06-26 03:38:24
  * @Description : 初始化 ol 地图
 -->
 <script lang="ts" setup>
-import { map } from 'leaflet';
 import { Map, View } from 'ol'
 
 import { Attribution } from 'ol/control'
@@ -82,7 +81,7 @@ function initMap() {
     }),
   })
   // map.addControl(attribution)
-  map.removeLayer(map.getLayers().getArray()[0])
+  // map.removeLayer(map.getLayers().getArray()[0])
   // map.addLayer(new Tile({ source }))
 }
 </script>
