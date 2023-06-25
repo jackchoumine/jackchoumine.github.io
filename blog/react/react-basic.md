@@ -590,7 +590,7 @@ componentWillUnmount，执行一些收尾工作，比如清除定时器，清除
 
 这些钩子很容易被滥用，在 17 以上版本还可能带来 bug。
 
-![](https://tva1.sinaimg.cn/large/008i3skNgy1grq9282k23j31gq0u0qqr.jpg 'react-生命周期')
+![](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/image.png 'react-生命周期')
 
 > 父子组件生命周期执行顺序？
 
