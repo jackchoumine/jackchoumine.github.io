@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-06-26 10:07:10
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-06-26 16:14:45
+ * @LastEditTime: 2023-06-26 16:28:36
  * @Description : 常用控件
 -->
 <script lang="ts" setup>
@@ -21,7 +21,7 @@ import {
 import { Tile } from 'ol/layer'
 import { XYZ } from 'ol/source'
 
-const olControl = ref(null)
+const mapContainer = ref(null)
 const layers = shallowRef([])
 onMounted(initMap)
 
@@ -49,7 +49,7 @@ function initMap() {
   })
 
   const map = new Map({
-    target: olControl.value,
+    target: mapContainer.value,
     layers: [
       new Tile({
         // name: 'hello',
@@ -122,7 +122,7 @@ function toggleLayer(index: number) {
 </script>
 
 <template>
-  <div class="init-map" ref="olControl">
+  <div class="init-map" ref="mapContainer">
     <div class="layer-control">
       <div class="title">
         <label> 图层列表 </label>

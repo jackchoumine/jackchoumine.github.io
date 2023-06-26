@@ -199,3 +199,160 @@ const attribution = new Attribution({
 })
 map.addControl(attribution)
 ```
+
+## 移除控件
+
+通过`removeControl`方法移除控件。
+
+```js
+map.removeControl(attribution)
+```
+
+## 修改控件
+
+控件都是通过 DOM 元素实现的，可通过修改 DOM 元素样式实现自定义控件样式。
+
+比如，把坐标拾取控件的坐标显示在地图**下方中间**的位置。
+
+```html
+<style scoped lang="scss">
+.init-map {
+  position: absolute;
+  inset: 0;
+
+  :deep(.ol-overlaycontainer-stopevent) {
+    .ol-mouse-position {
+      position: absolute;
+      inset: auto auto 8px 300px;
+      background-color: azure;
+    }
+  }
+}
+</style>
+```
+
+<!-- TODO 如何修改坐标值？ -->
+
+## 图层控件
+
+有时候，用户希望能控制图层的显示和隐藏，这时候就需要图层控件。
+
+ol 没有提供图层控件，可结合相关接口实现对图层的控制。
+
+```js
+const layers = map.getAllLayers() // 获取所有图层
+layers[0].getVisible() // 获取图层的显示状态
+layers[0].setVisible(bool) // 隐藏或者显示图层
+```
+
+```html
+<script lang="ts" setup>
+import { Map, View } from 'ol'
+
+import { Tile } from 'ol/layer'
+import { XYZ } from 'ol/source'
+
+const mapContainer = ref(null)
+const layers = shallowRef([])
+onMounted(initMap)
+
+function initMap() {
+  const tianDiTuKey = '4c409692826bccaca32ee3e1a74ba1b5'
+  // 矢量注记
+  const tianDiTuUrl3 = `http://t0.tianditu.gov.cn/cva_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cva&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=${tianDiTuKey}`
+  const tianDiTuSource3 = new XYZ({
+    url: tianDiTuUrl3,
+  })
+  // 影像注记
+  const tianDiTuUrl5 = `http://t0.tianditu.gov.cn/cia_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cia&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=${tianDiTuKey}`
+  const tianDiTuSource5 = new XYZ({
+    url: tianDiTuUrl5,
+  })
+
+  const map = new Map({
+    target: mapContainer.value,
+    layers: [
+      new Tile({
+        source: tianDiTuSource3,
+      }),
+      new Tile({
+        source: tianDiTuSource5,
+      }),
+    ],
+    view: new View({
+      center: [106.675271, 26.579508],
+      zoom: 10, // starting zoom
+      projection: 'EPSG:4326',
+    }),
+  })
+  layers.value = map.getAllLayers()
+}
+function toggleLayer(index: number) {
+  layers.value[index].setVisible(!layers.value[index].getVisible())
+}
+</script>
+
+<template>
+  <div class="init-map" ref="mapContainer">
+    <div class="layer-control">
+      <div class="title">
+        <label> 图层列表 </label>
+      </div>
+      <ul class="layer-tree">
+        <li v-for="(layer, index) in layers" :key="index">
+          <label :for="'' + index">
+            <input
+              type="checkbox"
+              :id="'' + index"
+              :checked="layer.getVisible()"
+              @change="toggleLayer(index)" />
+            {{ '图层' + (index + 1) }}
+          </label>
+        </li>
+      </ul>
+    </div>
+  </div>
+</template>
+
+<style scoped lang="scss">
+.init-map {
+  position: absolute;
+  inset: 0;
+
+  /* 图层控件的样式设置 */
+  .layer-control {
+    position: absolute;
+    top: 20%;
+    right: 0;
+    z-index: 2001;
+    min-width: 200px;
+    max-height: 200px;
+    color: #fff;
+    background-color: #4c4e5a;
+    border-width: 10px;
+    border-radius: 10px;
+    border-color: #000;
+
+    .title {
+      margin: 10px;
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    li {
+      list-style: none;
+      margin: 5px 10px;
+
+      label {
+        display: inline-block;
+        width: 100%;
+      }
+    }
+  }
+}
+</style>
+```
+
+![自定义图层控件](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/ol-layer-control.png)
+
+通过复选框，实现对图层的控制。
