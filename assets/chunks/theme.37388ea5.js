@@ -242,7 +242,7 @@ vue2 如何共享公共行为的？
 \r
 2. 回调函数\r
 \r
-父组件通过 prop 传递函数，子组件调用，通过`,cover:""}},{route:"/vue3/除了ref和reactive还有哪些函数声明响应式数据",meta:{title:"除了ref和reactive，还有哪些函数声明响应式数据？",date:"2023-06-14 16:13:06",tag:[],description:"\r\n ref vs shallowRef\r\n\r\nref 包裹的变量，返回响应式对象，通过`.value`获取原来的变量。被包裹的变量是对象或者数组，`内部`也会变成响应式的数据。\r\n\r\n```js\r\n",cover:""}},{route:"/vue3/项目总结",meta:{title:"项目总结",date:"2023-06-20 13:12:31",tag:[],description:` scss 的 0 带单位
+父组件通过 prop 传递函数，子组件调用，通过`,cover:""}},{route:"/vue3/除了ref和reactive还有哪些函数声明响应式数据",meta:{title:"除了ref和reactive，还有哪些函数声明响应式数据？",date:"2023-06-14 16:13:06",tag:[],description:"\r\n ref vs shallowRef\r\n\r\nref 包裹的变量，返回响应式对象，通过`.value`获取原来的变量。被包裹的变量是对象或者数组，`内部`也会变成响应式的数据。\r\n\r\n```js\r\n",cover:""}},{route:"/vue3/项目总结",meta:{title:"项目总结",date:"2023-06-26 09:22:36",tag:[],description:` scss 的 0 带单位
 
 修改 stylelint，确保其带单位
 \`\`\`js
