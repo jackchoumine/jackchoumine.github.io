@@ -254,8 +254,8 @@ vue2 如何共享公共行为的？
 ol 的特点：
 - 开源
 - 模块化 -- 使用 ES6 模块化语法
-- 流行`,cover:""}},{route:"/web-gis/ol-control",meta:{title:"ol常用控件",date:"2023-06-26 05:09:10",tag:[],description:`地图控件：方便用户操作地图的工具，如缩放、旋转、全屏、鼠标位置、比例尺等，都是 ol.control.Control 的子类。
-每个控件都作为一个 DOM 元素显示在屏幕上，因此可以通过 CSS 样式`,cover:""}},{route:"/webpack/index",meta:{title:"webpack相关文章",date:"2023-06-14 16:13:06",tag:[],description:` rollup 基础使用
+- 流行`,cover:""}},{route:"/web-gis/ol-control",meta:{title:"ol常用控件",date:"2023-06-26 08:29:06",tag:[],description:`地图控件：方便用户操作地图的工具，如缩放、旋转、全屏、鼠标位置、比例尺等，都是 ol.control.Control 的子类。
+每个控件都作为一个 DOM 元素显示在屏幕上，因此可以通过 CSS 样式`,cover:"https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/ol-layer-control.png"}},{route:"/webpack/index",meta:{title:"webpack相关文章",date:"2023-06-14 16:13:06",tag:[],description:` rollup 基础使用
  webpack5 模块联邦实现微前端
  如何在 github 上部署 vue 应用`,cover:""}},{route:"/webpack/rollup基础使用",meta:{title:"rollup基础使用",date:"2023-06-14 16:13:06",tag:[],description:`rollup 号称是下一代模块打包器，由 Svelte 的作者在 2015 年开发，专注于 JS 打包，通过其插件，也能处理其他文件。
 相比 webpack 复杂的配置，其配置简单，打包后的代码体积很`,cover:"https://tva1.sinaimg.cn/large/e6c9d24egy1h2wqs7ty9wj20r60c8gnn.jpg"}},{route:"/webpack/如何使用gh-pages部署vue应用",meta:{title:"如何使用gh-pages部署vue应用？",date:"2023-06-14 16:13:06",tag:[],description:`使用 webpack5 实现了微前端，希望能把这些应用部署到 git-pages, 如何办呢？
