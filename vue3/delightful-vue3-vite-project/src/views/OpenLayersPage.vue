@@ -2,12 +2,13 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-04-08 20:29:05
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-06-14 20:48:53
+ * @LastEditTime: 2023-06-26 10:14:09
  * @Description : leaflet 学习
 -->
 <script setup>
 import {
   OLInitMap,
+  OLControl,
   /* GeoJSON, InitMap, LayerControl, MarkerDemo */
 } from '@/components/OpenLayersDemos'
 
@@ -27,6 +28,7 @@ const tab = ref('init')
           align="justify"
           narrow-indicator>
           <QTab name="init" label="初始化" />
+          <QTab name="control" label="地图控件" />
           <QTab name="tile-layer" label="瓦片图层" />
           <QTab name="marker" label="标记" />
           <QTab name="layer-control" label="图层控制" />
@@ -39,6 +41,7 @@ const tab = ref('init')
           <QTabPanel name="init">
             <OLInitMap />
           </QTabPanel>
+          <QTabPanel name="control"><OLControl/> </QTabPanel>
           <QTabPanel name="tile-layer"> </QTabPanel>
           <QTabPanel name="marker">
             <!-- <MarkerDemo /> -->
