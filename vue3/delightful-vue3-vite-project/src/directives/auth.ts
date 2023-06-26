@@ -1,3 +1,10 @@
+/*
+ * @Author      : ZhouQiJun
+ * @Date        : 2023-02-12 18:41:36
+ * @LastEditors : ZhouQiJun
+ * @LastEditTime: 2023-06-27 03:17:10
+ * @Description : 权限指令
+ */
 import type { DirectiveBinding } from 'vue'
 
 const $auth = function (key = '') {

@@ -2,7 +2,7 @@
  * @Description : 导出组件
  * @Date        : 2022-10-15 19:51:59 +0800
  * @Author      : JackChou
- * @LastEditTime: 2023-05-15 16:52:58
+ * @LastEditTime: 2023-06-27 02:27:30
  * @LastEditors : ZhouQiJun
  */
 export { default as HelloWorld } from './HelloWorld.vue'
@@ -32,3 +32,4 @@ export { FunComponent } from './FunctionalCom'
 export { CircularArc } from './CircularArc'
 export * from './LeafletDemos'
 export * from './VueUseDemos'
+export * from './DirectiveDemos'
