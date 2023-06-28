@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-06-26 10:07:10
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-06-28 11:45:44
+ * @LastEditTime: 2023-06-28 15:42:59
  * @Description : 常用控件
 -->
 <script lang="ts" setup>
@@ -21,9 +21,9 @@ import {
 import { Coordinate, createStringXY } from 'ol/coordinate'
 import { Extent } from 'ol/extent'
 import { Tile } from 'ol/layer'
+import TileLayer from 'ol/layer/Tile'
 import { fromLonLat } from 'ol/proj'
 import { XYZ } from 'ol/source'
-import { create } from 'ol/transform'
 
 const mapContainer = ref(null)
 const layers = shallowRef([])
@@ -58,17 +58,15 @@ function initMap() {
     url: tianDiTuUrl5,
   })
 
+  const firstLayer = new Tile({
+    source: tianDiTuSource3,
+  })
+  const secondLayer = new Tile({
+    source: tianDiTuSource5,
+  })
   const map = new Map({
     target: mapContainer.value,
-    layers: [
-      new Tile({
-        // name: 'hello',
-        source: tianDiTuSource3,
-      }),
-      new Tile({
-        source: tianDiTuSource5,
-      }),
-    ],
+    layers: [firstLayer, secondLayer],
     // NOTE 默认控件
     // controls: defaultControls({
     //   attribution: true,
@@ -138,6 +136,8 @@ function initMap() {
   //   const attr = layer.getSource().getAttributions()(null)
   //   console.log(attr)
   // })
+  // onDocumentKeyDown(map)
+  // layerDetection(map, secondLayer, map.getView())
 }
 function toggleLayer(index: number) {
   layers.value[index].setVisible(!layers.value[index].getVisible())
@@ -160,6 +160,70 @@ function goToGuiYang() {
   // TODO 如何这是动画？
   view.setCenter(initCenter)
   view.setZoom(initZoom)
+}
+let mousePosition = null
+// 探查半径
+let radius = 75
+function layerDetection(map: Map, secondLayer: TileLayer<XYZ>, view: View) {
+  view.addEventListener('mousemove', function (event) {
+    mousePosition = map.getEventPixel(event)
+    console.log(mousePosition, 'zqj log')
+    map.render() // 重新渲染
+  })
+  view.addEventListener('mouseout', function () {
+    mousePosition = null
+    map.render()
+  })
+  // 在渲染之前进行剪裁
+  secondLayer.on('prerender', function (event) {
+    const ctx = event.context // 影像图层画布
+    const pixelRatio = event.frameState.pixelRatio // 像素比率
+    ctx.save()
+    ctx.beginPath()
+    if (mousePosition) {
+      // 只显示一个以鼠标焦点为中心(圆心)的圆圈
+      ctx.arc(
+        mousePosition[0] * pixelRatio,
+        mousePosition[1] * pixelRatio,
+        radius * pixelRatio,
+        0,
+        2 * Math.PI
+      )
+      ctx.lineWidth = 5 * pixelRatio // 圆边框的宽,设置为 5 个像素单位
+      ctx.strokeStyle = 'rgba(0,0,0,0.5)' // 圆边框样式(颜色)
+      ctx.stroke()
+    }
+    ctx.clip() // 裁剪画布
+  })
+  // 呈现下层图层后,恢复画布的背景
+  secondLayer.on('postrender', function (event) {
+    const ctx = event.context
+    ctx.restore()
+  })
+}
+
+function onDocumentKeyDown(map) {
+  document.addEventListener('keydown', function (evt: KeyboardEvent) {
+    // console.log(evt.which, 'zqj log') // TODO which 被废弃了
+    // https://developer.mozilla.org/en-US/docs/Web/API/UIEvent/which
+    // https://www.freecodecamp.org/news/javascript-keycode-list-keypress-event-key-codes/
+    // https://javascript.info/keyboard-events
+    // https://www.cnblogs.com/Renyi-Fan/p/8973576.html
+    // keyCode 列表
+    // https://css-tricks.com/snippets/javascript/javascript-keycodes/
+    // console.log(evt.key, 'zqj log')
+    if ('' + evt.which === '38') {
+      radius = Math.min(radius + 5, 150)
+      map.render()
+      evt.preventDefault()
+      console.log('zqj log', radius)
+    } else if ('' + evt.which === '40') {
+      radius = Math.max(radius - 5, 25)
+      map.render()
+      evt.preventDefault()
+      console.log('zqj log', radius)
+    }
+  })
 }
 </script>
 

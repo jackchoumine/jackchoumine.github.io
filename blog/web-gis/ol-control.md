@@ -429,3 +429,7 @@ view.setZoom(10)
 view.setCenter([106.675271, 26.579508])
 view.setRotation(0)
 ```
+
+## 图层探测控件
+
+<!-- TODO 运行不符合预期 -->
