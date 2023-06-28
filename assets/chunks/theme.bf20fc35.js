@@ -252,7 +252,7 @@ vue2 如何共享公共行为的？
 ol 的特点：
 - 开源
 - 模块化 -- 使用 ES6 模块化语法
-- 流行`,cover:""}},{route:"/web-gis/ol-control",meta:{title:"ol常用控件",date:"2023-06-28 07:45:23",tag:[],description:`地图控件：方便用户操作地图的工具，如缩放、旋转、全屏、鼠标位置、比例尺等，都是 ol.control.Control 的子类。
+- 流行`,cover:""}},{route:"/web-gis/ol-control",meta:{title:"ol常用控件",date:"2023-06-28 08:58:34",tag:[],description:`地图控件：方便用户操作地图的工具，如缩放、旋转、全屏、鼠标位置、比例尺等，都是 ol.control.Control 的子类。
 每个控件都作为一个 DOM 元素显示在屏幕上，因此可以通过 CSS 样式`,cover:"https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/ol-layer-control.png"}},{route:"/webpack/index",meta:{title:"webpack相关文章",date:"2023-06-14 16:13:06",tag:[],description:` rollup 基础使用
  webpack5 模块联邦实现微前端
  如何在 github 上部署 vue 应用`,cover:""}},{route:"/webpack/rollup基础使用",meta:{title:"rollup基础使用",date:"2023-06-14 16:13:06",tag:[],description:`rollup 号称是下一代模块打包器，由 Svelte 的作者在 2015 年开发，专注于 JS 打包，通过其插件，也能处理其他文件。
