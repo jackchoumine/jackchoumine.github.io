@@ -130,15 +130,17 @@ map.addControl(overviewMap)
 
 ## 旋转控件
 
-旋转控件`Rotate`，包含一个按钮，点击按钮可以旋转地图，在地图右下角。
+旋转控件`Rotate`，包含一个按钮，点击按钮可以旋转地图，在地图右上角。
+
+默认为`0`弧度，为 0 时，会自动隐藏。
 
 ```js
 import { Rotate } from 'ol/control'
-const rotate = new Rotate()
+const rotate = new Rotate({
+  autoHide: false,// 是否自动隐藏，默认为 true
+})
 map.addControl(rotate)
 ```
-
-<!-- TODO 为何点击没反应？-->
 
 ## 坐标拾取控件
 
@@ -356,3 +358,38 @@ function toggleLayer(index: number) {
 ![自定义图层控件](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/ol-layer-control.png)
 
 通过复选框，实现对图层的控制。
+
+## 基本操作
+
+基本操作是指用户和地图交互的简单操作，比如平移、缩放、旋转等。基本操作的方式多样：单击放缩控件、鼠标滚轮、键盘按键等，但其核心方法都是通过`View`类的方法实现的。
+
+### 缩放
+
+```js
+const view = map.getView()
+view.setZoom(10) // 设置缩放级别
+```
+
+### 平移
+
+即把地图移动到指定的位置，可通过设置中心点实现。
+
+```js
+view.setCenter([106.675271, 26.579508]) // 设置中心点
+```
+
+### 旋转
+
+```js
+view.setRotation(Math.PI / 6) // 设置旋转角度
+```
+
+### 复位
+
+即回到地图初始化状态，可从配置项中获取初始值或者初始化完成后获取初始状态，复位时再回答初始状态，使用前面几种操作即可
+
+```js
+view.setZoom(10)
+view.setCenter([106.675271, 26.579508])
+view.setRotation(0)
+```

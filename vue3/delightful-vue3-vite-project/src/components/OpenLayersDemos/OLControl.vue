@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-06-26 10:07:10
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-06-26 16:28:36
+ * @LastEditTime: 2023-06-28 10:55:01
  * @Description : 常用控件
 -->
 <script lang="ts" setup>
@@ -18,13 +18,22 @@ import {
   ZoomSlider,
   ZoomToExtent, // defaults as defaultControls,
 } from 'ol/control'
+import { Coordinate } from 'ol/coordinate'
+import { Extent } from 'ol/extent'
 import { Tile } from 'ol/layer'
+import { fromLonLat } from 'ol/proj'
 import { XYZ } from 'ol/source'
 
 const mapContainer = ref(null)
 const layers = shallowRef([])
 onMounted(initMap)
 
+let view: View = null
+const initZoom = 10
+const initCenter: Coordinate = [106.675271, 26.579508]
+const initExtent: Extent = [
+  105.49904724511718, 26.075510197265626, 107.85149475488281, 27.083505802734376,
+]
 function initMap() {
   const tianDiTuKey = '4c409692826bccaca32ee3e1a74ba1b5'
   // 矢量注记
@@ -70,8 +79,8 @@ function initMap() {
     //   }),
     // ]),
     view: new View({
-      center: [106.675271, 26.579508],
-      zoom: 10, // starting zoom
+      center: initCenter, // starting center position
+      zoom: initZoom, // starting zoom
       projection: 'EPSG:4326',
     }),
   })
@@ -87,9 +96,7 @@ function initMap() {
   map.addControl(zoomSlider)
   const zoomToExtent = new ZoomToExtent({
     // [经度1,纬度1,经度2,纬度2]
-    extent: [
-      105.49904724511718, 26.075510197265626, 107.85149475488281, 27.083505802734376,
-    ],
+    extent: initExtent,
   })
   map.addControl(zoomToExtent)
   const fullScreen = new FullScreen()
@@ -108,8 +115,13 @@ function initMap() {
     collapsible: true,
   })
   map.addControl(attribution)
-  console.log(map)
+  // console.log(map)
   layers.value = map.getAllLayers()
+  view = map.getView()
+  console.log(view.getZoom(), 'zqj log')
+  console.log(view.getRotation(), 'zqj log')
+  console.log(view.getCenter(), 'zqj log')
+  // initZoom = view.getZoom()
   // layers.forEach(layer => {
   //   layer.getSource().setAttributions('hello')
   //   const attr = layer.getSource().getAttributions()(null)
@@ -118,6 +130,25 @@ function initMap() {
 }
 function toggleLayer(index: number) {
   layers.value[index].setVisible(!layers.value[index].getVisible())
+}
+function resetMap() {
+  view.setCenter(initCenter)
+  view.setZoom(initZoom)
+  // 旋转，使用弧度
+  // 为 0 时自动隐藏旋转控件
+  // view.setRotation((45 / 180) * Math.PI)
+}
+
+function zoom(step: number) {
+  const zoom = view.getZoom()
+  view.setZoom(zoom + step)
+}
+function goToGuiYang() {
+  // TODO 如何使用 fromLonLat ？
+  // const wh = fromLonLat([105, 27])
+  // TODO 如何这是动画？
+  view.setCenter(initCenter)
+  view.setZoom(initZoom)
 }
 </script>
 
@@ -139,6 +170,13 @@ function toggleLayer(index: number) {
           </label>
         </li>
       </ul>
+      <div class="base-operate">
+        <p>基本操作</p>
+        <button @click="zoom(-1)">缩小</button>
+        <button @click="zoom(+1)">放大</button>
+        <button @click="goToGuiYang">平移到贵阳</button>
+        <button @click="resetMap">复位</button>
+      </div>
     </div>
   </div>
 </template>
@@ -158,6 +196,7 @@ function toggleLayer(index: number) {
     max-height: 200px;
     color: #fff;
     background-color: #4c4e5a;
+    opacity: 0.8;
     border-width: 10px;
     border-radius: 10px;
     border-color: #000;
@@ -176,6 +215,12 @@ function toggleLayer(index: number) {
         display: inline-block;
         width: 100%;
       }
+    }
+
+    button {
+      margin: 2px;
+      padding: 2px;
+      background-color: var(--q-primary);
     }
   }
 
