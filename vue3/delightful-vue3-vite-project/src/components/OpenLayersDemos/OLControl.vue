@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-06-26 10:07:10
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-06-28 11:36:10
+ * @LastEditTime: 2023-06-28 11:45:44
  * @Description : 常用控件
 -->
 <script lang="ts" setup>
@@ -100,12 +100,14 @@ function initMap() {
     extent: initExtent,
   })
   map.addControl(zoomToExtent)
-  const fullScreen = new FullScreen()
-  map.addControl(fullScreen)
-  const overviewMap = new OverviewMap({
-    collapsed: false,
+  const fullScreen = new FullScreen({
+    tipLabel: '全屏',
   })
-  map.addControl(overviewMap)
+  map.addControl(fullScreen)
+  // const overviewMap = new OverviewMap({
+  //   collapsed: false,
+  // })
+  // map.addControl(overviewMap)
   const rotate = new Rotate()
   map.addControl(rotate)
   const mousePosition = new MousePosition({
@@ -116,7 +118,9 @@ function initMap() {
     target: document.getElementById('mouse-position'), // 显示坐标的目标容器
   })
   map.addControl(mousePosition)
-  const scaleLine = new ScaleLine()
+  const scaleLine = new ScaleLine({
+    units: 'metric',
+  })
   map.addControl(scaleLine)
   const attribution = new Attribution({
     collapsible: true,
@@ -234,10 +238,15 @@ function goToGuiYang() {
 
   :deep(.custom-mouse-position) {
     display: inline;
-    position: relative;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    z-index: 2001;
     font-size: x-large;
     color: red;
     background-color: aquamarine;
+    opacity: 0.8;
+    transform: translateX(-50%);
   }
 
   :deep(.ol-overlaycontainer-stopevent) {

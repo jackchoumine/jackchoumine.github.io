@@ -257,6 +257,7 @@ map.addControl(mousePosition)
 target 是控件放置的容器，可以是 DOM 元素，也可以是 DOM 元素的 id，需要自己创建。
 
 > target 不要求是地图容器的子元素，也可以是地图容器的兄弟元素。
+> 需要注意新建的 div 对默认的控件样式的影响。
 
 ```html
 <div class="init-map" ref="mapContainer">
@@ -264,7 +265,11 @@ target 是控件放置的容器，可以是 DOM 元素，也可以是 DOM 元素
 </div>
 ```
 
-className 是坐标容器类，ol 会创建一个类名为 className 的 div，并添加为`target`的子元素。通过修改 className 的样式，可以实现自定义坐标拾取控件。
+className 是坐标容器的类名，ol 会创建一个类名为 className 的 div，并添加为`target`的子元素，不会创建默认的坐标容器。通过修改 className 的样式，可以实现自定义坐标拾取控件。
+
+## 常用控件的参数和方法
+
+上述常用控件的参数和方法可以参考[官方文档](https://openlayers.org/en/latest/apidoc/module-ol_control_Control-Control.html)。
 
 ## 图层控件
 
