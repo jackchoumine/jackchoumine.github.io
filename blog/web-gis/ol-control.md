@@ -233,7 +233,38 @@ map.removeControl(attribution)
 </style>
 ```
 
-<!-- TODO 如何修改坐标值？ -->
+ol 默认的控件类名都是以`ol-`开头的，所以可以通过`ol-`来修改控件样式。
+
+> 组件使用`scoped`，需要使用深度选择器`:deep()`来获取内部样式。
+
+## 完全自定义某个控件
+
+如何完全自定义某个控件，比如完全自定义坐标拾取控件？在控件初始化时传相关参数即可。
+
+自定义鼠标坐标拾取控件
+
+```js
+const mousePosition = new MousePosition({
+  coordinateFormat: createStringXY(6), // 保留小数点后4位, 默认为 createStringXY(15)
+  projection: 'EPSG:4326', // 坐标系
+  // undefinedHTML: '&nbsp', // 未定义坐标时的提示
+  className: 'custom-mouse-position', // 自定义样式
+  target: document.getElementById('mouse-position'), // 显示坐标的目标容器
+})
+map.addControl(mousePosition)
+```
+
+target 是控件放置的容器，可以是 DOM 元素，也可以是 DOM 元素的 id，需要自己创建。
+
+> target 不要求是地图容器的子元素，也可以是地图容器的兄弟元素。
+
+```html
+<div class="init-map" ref="mapContainer">
+  <div id="mouse-position"></div>
+</div>
+```
+
+className 是坐标容器类，ol 会创建一个类名为 className 的 div，并添加为`target`的子元素。通过修改 className 的样式，可以实现自定义坐标拾取控件。
 
 ## 图层控件
 

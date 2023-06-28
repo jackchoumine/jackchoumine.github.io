@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-06-26 10:07:10
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-06-28 10:55:01
+ * @LastEditTime: 2023-06-28 11:36:10
  * @Description : 常用控件
 -->
 <script lang="ts" setup>
@@ -18,11 +18,12 @@ import {
   ZoomSlider,
   ZoomToExtent, // defaults as defaultControls,
 } from 'ol/control'
-import { Coordinate } from 'ol/coordinate'
+import { Coordinate, createStringXY } from 'ol/coordinate'
 import { Extent } from 'ol/extent'
 import { Tile } from 'ol/layer'
 import { fromLonLat } from 'ol/proj'
 import { XYZ } from 'ol/source'
+import { create } from 'ol/transform'
 
 const mapContainer = ref(null)
 const layers = shallowRef([])
@@ -107,7 +108,13 @@ function initMap() {
   map.addControl(overviewMap)
   const rotate = new Rotate()
   map.addControl(rotate)
-  const mousePosition = new MousePosition({})
+  const mousePosition = new MousePosition({
+    coordinateFormat: createStringXY(6), // 保留小数点后4位, 默认为 createStringXY(15)
+    projection: 'EPSG:4326', // 坐标系
+    // undefinedHTML: '&nbsp', // 未定义坐标时的提示
+    className: 'custom-mouse-position', // 自定义样式
+    target: document.getElementById('mouse-position'), // 显示坐标的目标容器
+  })
   map.addControl(mousePosition)
   const scaleLine = new ScaleLine()
   map.addControl(scaleLine)
@@ -178,6 +185,7 @@ function goToGuiYang() {
         <button @click="resetMap">复位</button>
       </div>
     </div>
+    <div id="mouse-position"></div>
   </div>
 </template>
 
@@ -224,12 +232,20 @@ function goToGuiYang() {
     }
   }
 
+  :deep(.custom-mouse-position) {
+    display: inline;
+    position: relative;
+    font-size: x-large;
+    color: red;
+    background-color: aquamarine;
+  }
+
   :deep(.ol-overlaycontainer-stopevent) {
-    .ol-mouse-position {
-      position: absolute;
-      inset: auto auto 8px 300px;
-      background-color: azure;
-    }
+    // .ol-mouse-position {
+    //   position: absolute;
+    //   inset: auto auto 8px 300px;
+    //   background-color: azure;
+    // }
 
     .ol-zoom {
       .ol-zoom-out {
