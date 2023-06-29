@@ -98,7 +98,7 @@
 </div>
 ```
 
-> 由于类型选择器和元素选择器的优先级较低，优先在项目中使用。
+> 由于类选择器和元素选择器的优先级较低，优先在项目中使用。
 
 2. 通过类明预设一些可能的样式
 
@@ -350,7 +350,132 @@
 
 设计一个组件，通过默认的 prop、默认插槽等减少参数，提高易用性，但是提供更多的组件接口（props、行为钩子、插槽等）能提高扩展性，但是会降低易用性，需要在扩展性和易用性进行权衡。
 
+## v-model 的再思考
+
+有一个如下组件
+
+```html
+<script setup>
+  const emits = defineEmits(['update:name'])
+
+  const props = defineProps({
+    name: {
+      type: String,
+      default: '',
+    },
+  })
+
+  function changeNameLength() {
+    nameLength.value = Math.random()
+  }
+  const nameLength = computed({
+    get: () => props.name.length,
+    set: val => {
+      emits('update:name', '' + val)
+    },
+  })
+</script>
+
+<template>
+  <div>{{ props.name }} -- {{ nameLength }}</div>
+  <button @click="changeNameLength">change name length</button>
+</template>
+```
+
+主要功能是显示 props 的 name 和 name 的长度，name 的长度用计算属性得出，点击按钮改变 name 的长度，
+
+这种在组件内部根据 props 计算新的属性在日常开发中很常见。
+
+遵循了 vue 的单向数据流原则，但是限制组件的使用方式：必须使用`v-model`实现父子组件数据同步。
+
+```html
+<script setup>
+  import TestDemo from './TestDemo.vue'
+
+  let jack = ref('jack')
+</script>
+<template>
+  <p>{{ jack }}</p>
+  <TestDemo v-model:name="jack" />
+</template>
+```
+
+这种必须保持父子组件数据同步的方式，将两个组件耦合在一起了，有时候只是希望给`TestDemo`传递一个默认值或非响应式的数据，后续 TestDemo 能维护自己的状态。
+
+```html
+<script setup>
+  import TestDemo from './TestDemo.vue'
+
+  let tom = 'tom'
+</script>
+<template>
+  <TestDemo :name="tom" />
+</template>
+```
+
+这样使用后，TestDemo 内部又不能修改 nameLength 了，如何解决这个问题又不破坏单向数据流原则呢？
+
+组件内部声明一个 innerName，初始值从 props.name 里取，后续内部修改 innerName，不影响外部的 name。
+
+```html
+<script setup>
+  const emits = defineEmits(['update:name'])
+
+  const props = defineProps({
+    name: {
+      type: String,
+      required: true,
+    },
+  })
+
+  const innerName = ref(props.name)
+  const nameLength = computed(() => innerName.value.length)
+
+  function changeNameLength() {
+    innerName.value = '' + Math.random()
+    emits('update:name', '' + val)
+  }
+  // 或者在 computed 的 set 里触发事件
+  // const nameLength = computed({
+  //   get: () => innerName.value.length,
+  //   set: val => {
+  //     emits('update:name', '' + val)
+  //     innerName.value = '' + val
+  //   },
+  // })
+
+  // function changeNameLength() {
+  //   nameLength.value = Math.random()
+  // }
+</script>
+
+<template>
+  <div>{{ innerName }} -- {{ nameLength }}</div>
+  <button @click="changeNameLength">change name length</button>
+</template>
+```
+
+修改后，TestDemo 就支持两种使用方式了，使用上也更加灵活。
+
+```html
+<script setup>
+  import TestDemo from './TestDemo.vue'
+
+  const jack = ref('jack')
+  let tom = 'tom'
+</script>
+<template>
+  <!-- 希望同步数据 -->
+  <p>{{ jack }}</p>
+  <TestDemo v-model:name="jack" />
+  <!-- 不希望同步数据 -->
+  <TestDemo :name="tom" />
+</template>
+```
+
 ## 二次封装组件
+
+在写项目时不可避免需要二次封装组件，比如封装第三方组件，或者自己的组件，二次封装都有哪些常用技巧呢？
 
 ### 二次封装如何处理插槽
 
@@ -368,7 +493,7 @@
 
 ### 二次封装如何处理 props
 
-1. 给默认值提高易用性
+1. 给 props 设置默认值，以提高易用性
 
 2. `inheritAttrs: false` 防止冲突
 
