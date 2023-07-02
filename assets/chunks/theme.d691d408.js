@@ -252,8 +252,11 @@ vue2 如何共享公共行为的？
 ol 的特点：
 - 开源
 - 模块化 -- 使用 ES6 模块化语法
-- 流行`,cover:""}},{route:"/web-gis/ol-control",meta:{title:"ol常用控件",date:"2023-06-28 08:58:34",tag:[],description:`地图控件：方便用户操作地图的工具，如缩放、旋转、全屏、鼠标位置、比例尺等，都是 ol.control.Control 的子类。
-每个控件都作为一个 DOM 元素显示在屏幕上，因此可以通过 CSS 样式`,cover:"https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/ol-layer-control.png"}},{route:"/webpack/index",meta:{title:"webpack相关文章",date:"2023-06-14 16:13:06",tag:[],description:` rollup 基础使用
+- 流行`,cover:""}},{route:"/web-gis/ol-control",meta:{title:"ol常用控件",date:"2023-06-28 15:58:51",tag:[],description:`地图控件：方便用户操作地图的工具，如缩放、旋转、全屏、鼠标位置、比例尺等，都是 ol.control.Control 的子类。
+每个控件都作为一个 DOM 元素显示在屏幕上，因此可以通过 CSS 样式`,cover:"https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/ol-layer-control.png"}},{route:"/web-gis/ol-data-source",meta:{title:"ol之多源数据展示",date:"2023-07-02 05:56:51",tag:[],description:`web 技术持续推进，地图展示的数据来源丰富，格式众多，如何将多源异构数据展示在地图上，成为 webGIS 的关键。
+ol 为多源异构数据的展示提供了很好的支持。
+ 加载数据的原理
+地图形式：矢量地图`,cover:""}},{route:"/webpack/index",meta:{title:"webpack相关文章",date:"2023-06-14 16:13:06",tag:[],description:` rollup 基础使用
  webpack5 模块联邦实现微前端
  如何在 github 上部署 vue 应用`,cover:""}},{route:"/webpack/rollup基础使用",meta:{title:"rollup基础使用",date:"2023-06-14 16:13:06",tag:[],description:`rollup 号称是下一代模块打包器，由 Svelte 的作者在 2015 年开发，专注于 JS 打包，通过其插件，也能处理其他文件。
 相比 webpack 复杂的配置，其配置简单，打包后的代码体积很`,cover:"https://tva1.sinaimg.cn/large/e6c9d24egy1h2wqs7ty9wj20r60c8gnn.jpg"}},{route:"/webpack/如何使用gh-pages部署vue应用",meta:{title:"如何使用gh-pages部署vue应用？",date:"2023-06-14 16:13:06",tag:[],description:`使用 webpack5 实现了微前端，希望能把这些应用部署到 git-pages, 如何办呢？
