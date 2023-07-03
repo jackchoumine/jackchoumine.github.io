@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-06-26 10:07:10
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-06-28 15:42:59
+ * @LastEditTime: 2023-06-28 23:54:17
  * @Description : 常用控件
 -->
 <script lang="ts" setup>
@@ -19,6 +19,7 @@ import {
   ZoomToExtent, // defaults as defaultControls,
 } from 'ol/control'
 import { Coordinate, createStringXY } from 'ol/coordinate'
+import { easeIn, easeOut } from 'ol/easing'
 import { Extent } from 'ol/extent'
 import { Tile } from 'ol/layer'
 import TileLayer from 'ol/layer/Tile'
@@ -67,6 +68,12 @@ function initMap() {
   const map = new Map({
     target: mapContainer.value,
     layers: [firstLayer, secondLayer],
+    // loadTilesWhileAnimating: true,
+    view: new View({
+      center: initCenter, // starting center position
+      zoom: initZoom, // starting zoom
+      projection: 'EPSG:4326',
+    }),
     // NOTE 默认控件
     // controls: defaultControls({
     //   attribution: true,
@@ -77,11 +84,6 @@ function initMap() {
     //     collapsible: false,
     //   }),
     // ]),
-    view: new View({
-      center: initCenter, // starting center position
-      zoom: initZoom, // starting zoom
-      projection: 'EPSG:4326',
-    }),
   })
   // 获取控件列表
   const defaultControlList = map.getControls()
@@ -127,9 +129,10 @@ function initMap() {
   // console.log(map)
   layers.value = map.getAllLayers()
   view = map.getView()
-  console.log(view.getZoom(), 'zqj log')
-  console.log(view.getRotation(), 'zqj log')
-  console.log(view.getCenter(), 'zqj log')
+  // console.log(view.getZoom(), 'zqj log')
+  // console.log(view.getRotation(), 'zqj log')
+  // console.log(view.getCenter(), 'zqj log')
+
   // initZoom = view.getZoom()
   // layers.forEach(layer => {
   //   layer.getSource().setAttributions('hello')
@@ -225,6 +228,62 @@ function onDocumentKeyDown(map) {
     }
   })
 }
+const shenYang = fromLonLat([123.24, 41.5])
+const beiJing = fromLonLat([116.28, 39.54])
+const shangHai = fromLonLat([121.29, 31.14])
+const wuHan = fromLonLat([114.21, 30.37])
+const guangZhou = fromLonLat([113.15, 23.08])
+const haiKou = fromLonLat([110.2, 20.02])
+
+function rotateToShenYang() {
+  const center = view.getCenter()
+  view.animate(
+    {
+      center: [(center[0] + shenYang[0]) / 2, (center[1] + shenYang[1]) / 2],
+      rotation: Math.PI,
+      easing: easeIn,
+    },
+    {
+      center: shenYang,
+      rotation: Math.PI * 3,
+      easing: easeOut,
+    }
+  )
+  console.log(view.getCenter(), 'zqj log')
+}
+
+function bounceToShanghai() {
+  view.animate({
+    center: shangHai,
+    duration: 2000,
+    easing: bounce,
+  })
+}
+function bounce(t) {
+  const s = 7.5625
+  const p = 2.75
+  let l
+  if (t < 1 / p) {
+    l = s * t * t
+  } else {
+    if (t < 2 / p) {
+      t -= 1.5 / p
+      l = s * t * t + 0.75
+    } else {
+      if (t < 2.5 / p) {
+        t -= 2.25 / p
+        l = s * t * t + 0.9375
+      } else {
+        t -= 2.625 / p
+        l = s * t * t + 0.984375
+      }
+    }
+  }
+  return l
+}
+function elastic(t) {
+  return Math.pow(2, -10 * t) * Math.sin(t - 0.075 - (2 * Math.PI) / 0.3) + 1
+}
 </script>
 
 <template>
@@ -251,6 +310,12 @@ function onDocumentKeyDown(map) {
         <button @click="zoom(+1)">放大</button>
         <button @click="goToGuiYang">平移到贵阳</button>
         <button @click="resetMap">复位</button>
+        <hr />
+        <button @click="rotateToShenYang">旋转定位到沈阳</button>
+        <button @click="rotateToShenYang">弹性定位到北京</button>
+        <button @click="bounceToShanghai">反弹定位到上海</button>
+        <button @click="rotateToShenYang">围绕武汉旋转</button>
+        <button @click="rotateToShenYang">飞行定位到广州</button>
       </div>
     </div>
     <div id="mouse-position"></div>

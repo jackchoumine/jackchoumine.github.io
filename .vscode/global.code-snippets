@@ -20,13 +20,13 @@
   "export": {
     "scope": "javascript,typescript",
     "prefix": "e",
-    "body": ["export { '$2' } from '$1';"],
+    "body": ["export { $1 } from '$1';"],
     "description": "Export a module"
   },
   "export-default": {
     "scope": "javascript,typescript",
     "prefix": "ed",
-    "body": ["export { default as '$2' } from '$1';"],
+    "body": ["export { default as $1 } from '$1';"],
     "description": "Export a module"
   },
   "export-all": {
