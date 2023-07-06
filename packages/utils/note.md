@@ -382,11 +382,15 @@ esnext，现代的 ESM 版本。
 
 es5，兼容老板的 UMD 版本。
 
+[How to publish to npm in 2023 --- add tsconfig](https://blog.taskli.st/posts/how-to-publish-to-npm-in-2023#3-add-typescript)
+
 2. 使用 babel
 
 <!-- 如何配置兼容设置？ -->
 
 > 拆分 css ?
+
+<!-- TODO 如何拆分 -->
 
 创建 ui 库，关于 css 最简单的方式的提供单一的 css 文档，但是可能导致文件过大。
 
@@ -411,6 +415,17 @@ es5，兼容老板的 UMD 版本。
 - type 字段用于定义 package.json 文件和该文件所在目录中`.js`文件和无拓展名文件的处理方式。
 
 值为`module`则当作 ES 模块处理；值为'commonjs'或者没有，则被当作 cjs 模块处理。
+
+> node 需要 14.17 开始才支持 ESM，声明 node 版本。
+
+```json
+{
+  "type": "module",
+  "engines": {
+    "node": ">=14.17"
+  }
+}
+```
 
 无论 package.json 中的`type`字段为何值，`.mjs` 的文件都按照 ES 模块来处理，`.cjs` 的文件都按照 cjs 模块来处理。
 
@@ -606,16 +621,104 @@ export {
 - `keywords`：指定关键字，方便搜索
 - `description`：指定描述
 - `repository`：指定代码仓库地址
+- `private`：指定是否私有
+- `publishConfig`：指定发布配置
+- `engines`：指定运行环境
 - `author`：指定作者
 - `homepage`：指定项目主页
 - `bugs`：指定 bug 反馈地址
 - `contributors`：指定贡献者
-- `engines`：指定运行环境
 - `funding`：指定赞助地址
-- `publishConfig`：指定发布配置
-- `private`：指定是否私有
+
+> `publishConfig` 用于指定发布配置
+
+```json
+{
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/",
+    "tag": "latest"
+  }
+}
+```
+
+> `private` vs `publishConfig.access`
+
+如果你的包是私有的，设置`private`为`true`，如果你的包是公开的，设置`publishConfig.access`为`public`。
+
+private 为 false，将无法**公开**发布到 npm。
+
+> `engines` vs `enginesStrict`
+
+`engines`指定运行环境，可指定 node 和 npm 版本，不满足，允许安装，但是会有警告。
+
+```json
+{
+  "engines" : {
+    "npm" : ">=8.0.0 <9.0.0",
+    "node" : ">=16.0.0 <17.0.0"
+  }
+}
+```
+
+`enginesStrict`指定运行环境是否严格匹配，不满足，不允许安装。
+
+已经废弃。
+
+[How can I specify the required Node.js version in package.json?](https://stackoverflow.com/questions/29349684/how-can-i-specify-the-required-node-js-version-in-package-json)
 
 ## 如何发布这个库？
+
+发布之前升级版本号。
+
+```bash
+npm version patch # 升级补丁版本号，如 1.0.0 -> 1.0.1 向下兼容，修复 bug
+npm version prepatch # 升级预发布版本号，如 1.0.0 -> 1.0.1-0
+
+npm version minor # 升级小版本号，如 1.0.0 -> 1.1.0 向下兼容，增加功能
+npm version major # 升级大版本号，如 1.0.0 -> 2.0.0 不向下兼容，重大改变
+
+# 所有
+npm version [<newversion> | major | minor | patch | premajor | preminor | prepatch | prerelease [--preid=<prerelease-id>] | from-git]
+```
+
+生成 1.0.0-alpha.1 风格的版本号
+
+```bash
+npm version prerelease --preid=alpha
+```
+
+执行了 npm version 之后，脚本会自动修改版本号，并在 git 中创建提交和标签，如果想要禁用该行为，可以传入`--no-git-tag-version` 来阻止。
+
+### 打 tag
+
+tag 用于标记不同版本的用途，至少会有 latest 这个 tag，可根据测试版本、稳定版本、预发布版本打不同的 tag。
+
+```bash
+npm publish --tag beta
+npm publish --tag next
+npm publish --tag alpha
+```
+
+tag 会在 npm 上显示，用户可以根据 tag 安装不同版本。
+
+```bash
+npm install vue@v2-latest # 指定 tag 安装
+```
+
+使用`npm view <package-name> dist-tags`查看所有 tag。
+
+### 移除 tag
+
+```bash
+npm dist-tag rm <package-name>@<version> <tag>
+```
+
+发布前需要升级版本或者打 tag，发布后根据需要移除 tag。
+
+### 推荐使用 np 发布
+
+[np](https://github.com/sindresorhus/np)
 
 ## 维护
 
@@ -628,3 +731,9 @@ changlog 的非常重要。
 [打包 JavaScript 库的现代化指南](https://github.com/frehner/modern-guide-to-packaging-js-library/blob/main/README-zh_CN.md)
 
 [How to publish to npm in 2023](https://blog.taskli.st/posts/how-to-publish-to-npm-in-2023)
+
+[Best practices for creating a modern npm package](https://snyk.io/blog/best-practices-create-modern-npm-package/)
+
+[如何创建可进行摇树优化的库](https://blog.theodo.com/2021/04/library-tree-shaking/)
+
+[ESModule 与 CommonJS 的异同点是什么？](https://mp.weixin.qq.com/s/MqoIa80IpvRDfOA2EahBdQ)
