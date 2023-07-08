@@ -1,0 +1,116 @@
+<!--
+ * @Author      : ZhouQiJun
+ * @Date        : 2023-07-08 16:29:24
+ * @LastEditors : ZhouQiJun
+ * @LastEditTime: 2023-07-08 17:21:55
+ * @Description : 绘制几何图形
+ * 参考 https://openlayers.org/en/latest/examples/draw-features.html
+-->
+<script lang="ts" setup>
+import { Map, View } from 'ol'
+
+import { Attribution } from 'ol/control'
+import { Tile } from 'ol/layer'
+import { TileJSON, XYZ } from 'ol/source'
+
+const mapContainer = ref()
+
+onMounted(initMap)
+
+function initMap() {
+  const tianDiTuKey = '4c409692826bccaca32ee3e1a74ba1b5'
+  // 矢量地图
+  const tianDiTuUrl2 = `http://t0.tianditu.gov.cn/vec_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=vec&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=${tianDiTuKey}`
+  const tianDiTuSource2 = new XYZ({
+    url: tianDiTuUrl2,
+  })
+  // 矢量注记
+  const tianDiTuUrl3 = `http://t0.tianditu.gov.cn/cva_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cva&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=${tianDiTuKey}`
+  const tianDiTuSource3 = new XYZ({
+    url: tianDiTuUrl3,
+  })
+
+  const map = new Map({
+    target: mapContainer.value,
+    layers: [
+      new Tile({
+        source: tianDiTuSource2,
+      }),
+      new Tile({
+        source: tianDiTuSource3,
+      }),
+    ],
+    view: new View({
+      center: [106.675271, 26.579508],
+      zoom: 10,
+      projection: 'EPSG:4326',
+    }),
+  })
+}
+const geoList = shallowRef([
+  { type: '点', active: false },
+  { type: '线', active: false },
+])
+
+function onSelect(index) {
+  geoList.value = geoList.value.map((item, i) => {
+    if (i === index) {
+      item.active = !item.active
+    } else {
+      item.active = false
+    }
+    return item
+  })
+}
+</script>
+
+<template>
+  <div class="draw-geo" ref="mapContainer">
+    <div class="geo-list">
+      <ul>
+        <li
+          v-for="(item, index) in geoList"
+          :key="index"
+          @click="onSelect(index)"
+          :class="{ 'active-item': item.active }">
+          {{ item.type }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</template>
+
+<style scoped lang="scss">
+.draw-geo {
+  position: absolute;
+  inset: 0;
+
+  .geo-list {
+    position: absolute;
+    top: 100px;
+    left: 10px;
+    z-index: 999;
+    background-color: #fff;
+    border-radius: 5px;
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+
+      li {
+        padding: 5px 10px;
+        cursor: pointer;
+
+        &.active-item {
+          background-color: #aaa;
+        }
+
+        &:hover {
+          background-color: darkcyan;
+        }
+      }
+    }
+  }
+}
+</style>

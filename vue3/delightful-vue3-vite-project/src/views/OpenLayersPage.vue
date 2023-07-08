@@ -2,15 +2,16 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-04-08 20:29:05
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-02 16:46:10
+ * @LastEditTime: 2023-07-08 17:01:41
  * @Description : leaflet 学习
 -->
 <script setup>
 import {
+  DrawGeo,
+  /* GeoJSON, InitMap, LayerControl, MarkerDemo */
   OLControl,
   OLInitMap,
   PublicMapData,
-  /* GeoJSON, InitMap, LayerControl, MarkerDemo */
 } from '@/components/OpenLayersDemos'
 
 const tab = ref('init')
@@ -31,6 +32,7 @@ const tab = ref('init')
           <QTab name="init" label="初始化" />
           <QTab name="control" label="地图控件" />
           <QTab name="public-map-data" label="公共地图数据" />
+          <QTab name="draw-geo" label="交互图形" />
           <QTab name="marker" label="标记" />
           <QTab name="layer-control" label="图层控制" />
           <QTab name="geo-json" label="geoJson" />
@@ -45,6 +47,10 @@ const tab = ref('init')
           <QTabPanel name="control"><OLControl /> </QTabPanel>
           <QTabPanel name="public-map-data">
             <PublicMapData />
+          </QTabPanel>
+          <QTabPanel name="draw-geo">
+            <!-- 交互绘制几何图形 -->
+            <DrawGeo />
           </QTabPanel>
           <QTabPanel name="marker">
             <!-- <MarkerDemo /> -->
