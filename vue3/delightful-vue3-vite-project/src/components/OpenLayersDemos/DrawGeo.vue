@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-08 16:29:24
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-08 17:21:55
+ * @LastEditTime: 2023-07-08 17:42:24
  * @Description : 绘制几何图形
  * 参考 https://openlayers.org/en/latest/examples/draw-features.html
 -->
@@ -10,13 +10,17 @@
 import { Map, View } from 'ol'
 
 import { Attribution } from 'ol/control'
-import { Tile } from 'ol/layer'
-import { TileJSON, XYZ } from 'ol/source'
+import { Draw, Interaction } from 'ol/interaction'
+import { Tile, Vector as VectorLayer } from 'ol/layer'
+import { TileJSON, Vector as VectorSource, XYZ } from 'ol/source'
 
 const mapContainer = ref()
 
 onMounted(initMap)
 
+let map = null
+let vectorSource = null
+let draw = null
 function initMap() {
   const tianDiTuKey = '4c409692826bccaca32ee3e1a74ba1b5'
   // 矢量地图
@@ -30,7 +34,13 @@ function initMap() {
     url: tianDiTuUrl3,
   })
 
-  const map = new Map({
+  vectorSource = new VectorSource({
+    wrapX: false,
+  })
+  const vectorLayer = new VectorLayer({
+    source: vectorSource,
+  })
+  map = new Map({
     target: mapContainer.value,
     layers: [
       new Tile({
@@ -39,6 +49,7 @@ function initMap() {
       new Tile({
         source: tianDiTuSource3,
       }),
+      vectorLayer,
     ],
     view: new View({
       center: [106.675271, 26.579508],
@@ -47,20 +58,36 @@ function initMap() {
     }),
   })
 }
+
 const geoList = shallowRef([
-  { type: '点', active: false },
-  { type: '线', active: false },
+  { type: 'Point', text: '点', active: false },
+  { type: 'LineString', text: '线', active: false },
 ])
 
 function onSelect(index) {
   geoList.value = geoList.value.map((item, i) => {
     if (i === index) {
-      item.active = !item.active
+      item.active = true //!item.active
+      addInteraction(item.type)
     } else {
       item.active = false
     }
     return item
   })
+}
+
+function addInteraction(type: any) {
+  draw = new Draw({
+    source: vectorSource,
+    type: type,
+  })
+  map.addInteraction(draw)
+}
+
+function undo() {
+  //   map.removeInteraction(draw)
+  draw.removeLastPoint()
+  //   vectorSource.clear()
 }
 </script>
 
@@ -73,8 +100,9 @@ function onSelect(index) {
           :key="index"
           @click="onSelect(index)"
           :class="{ 'active-item': item.active }">
-          {{ item.type }}
+          {{ item.text }}
         </li>
+        <li @click="undo">清除</li>
       </ul>
     </div>
   </div>
@@ -100,6 +128,7 @@ function onSelect(index) {
 
       li {
         padding: 5px 10px;
+        text-align: center;
         cursor: pointer;
 
         &.active-item {
