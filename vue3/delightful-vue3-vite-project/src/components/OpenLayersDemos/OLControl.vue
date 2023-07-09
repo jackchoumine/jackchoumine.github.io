@@ -2,8 +2,10 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-06-26 10:07:10
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-06-28 23:54:17
+ * @LastEditTime: 2023-07-10 02:06:19
  * @Description : 常用控件
+ * 放缩滑块 https://openlayers.org/en/latest/examples/zoomslider.html
+ * 
 -->
 <script lang="ts" setup>
 import { Map, View } from 'ol'
