@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-08 16:29:24
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-09 17:46:11
+ * @LastEditTime: 2023-07-09 19:24:50
  * @Description : 绘制几何图形
  * 参考 https://openlayers.org/en/latest/examples/draw-features.html
 -->
@@ -12,6 +12,8 @@ import { Map, View } from 'ol'
 import { Draw, Interaction } from 'ol/interaction'
 import { Tile, Vector as VectorLayer } from 'ol/layer'
 import { Vector as VectorSource, XYZ } from 'ol/source'
+
+import { GeoList } from './components'
 
 const mapContainer = ref()
 
@@ -59,25 +61,6 @@ function initMap() {
   })
 }
 
-const geoList = shallowRef([
-  { type: 'Point', text: '点', active: false },
-  { type: 'LineString', text: '线', active: false },
-  { type: 'Polygon', text: '面', active: false },
-  { type: 'Circle', text: '圆', active: false },
-])
-
-function onSelect(index) {
-  geoList.value = geoList.value.map((item, i) => {
-    if (i === index) {
-      item.active = true //! item.active
-      addInteraction(item.type)
-    } else {
-      item.active = false
-    }
-    return item
-  })
-}
-
 // TODO 如何导入 Draw 参数类型
 function addInteraction(type: any) {
   draw = new Draw({
@@ -97,18 +80,7 @@ function undo() {
 
 <template>
   <div class="draw-geo" ref="mapContainer">
-    <div class="geo-list">
-      <ul>
-        <li
-          v-for="(item, index) in geoList"
-          :key="index"
-          @click="onSelect(index)"
-          :class="{ 'active-item': item.active }">
-          {{ item.text }}
-        </li>
-        <li @click="undo">清除</li>
-      </ul>
-    </div>
+    <GeoList @select="addInteraction" @undo="undo" />
   </div>
 </template>
 
@@ -116,34 +88,5 @@ function undo() {
 .draw-geo {
   position: absolute;
   inset: 0;
-
-  .geo-list {
-    position: absolute;
-    top: 100px;
-    left: 10px;
-    z-index: 999;
-    background-color: #fff;
-    border-radius: 5px;
-
-    ul {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-
-      li {
-        padding: 5px 10px;
-        text-align: center;
-        cursor: pointer;
-
-        &.active-item {
-          background-color: #aaa;
-        }
-
-        &:hover {
-          background-color: darkcyan;
-        }
-      }
-    }
-  }
 }
 </style>
