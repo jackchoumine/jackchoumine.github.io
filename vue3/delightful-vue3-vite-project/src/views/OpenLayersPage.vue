@@ -2,12 +2,13 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-04-08 20:29:05
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-09 17:40:31
+ * @LastEditTime: 2023-07-09 18:27:47
  * @Description : leaflet 学习
 -->
 <script setup>
 import {
   DrawGeo,
+  GeoStyle,
   /* GeoJSON, InitMap, LayerControl, MarkerDemo */
   OLControl,
   OLInitMap,
@@ -33,6 +34,7 @@ const tab = ref('init')
           <QTab name="control" label="地图控件" />
           <QTab name="public-map-data" label="公共地图数据" />
           <QTab name="draw-geo" label="交互绘制" />
+          <QTab name="geo-style" label="几何图形的样式" />
           <QTab name="marker" label="标记" />
           <QTab name="layer-control" label="图层控制" />
           <QTab name="geo-json" label="geoJson" />
@@ -51,6 +53,10 @@ const tab = ref('init')
           <QTabPanel name="draw-geo">
             <!-- 交互绘制几何图形 -->
             <DrawGeo />
+          </QTabPanel>
+          <QTabPanel name="geo-style">
+            <!-- 交互绘制几何图形 -->
+            <GeoStyle />
           </QTabPanel>
           <QTabPanel name="marker">
             <!-- <MarkerDemo /> -->
