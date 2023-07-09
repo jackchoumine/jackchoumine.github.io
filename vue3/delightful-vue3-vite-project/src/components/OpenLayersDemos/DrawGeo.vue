@@ -2,17 +2,16 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-08 16:29:24
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-08 17:42:24
+ * @LastEditTime: 2023-07-09 17:46:11
  * @Description : 绘制几何图形
  * 参考 https://openlayers.org/en/latest/examples/draw-features.html
 -->
 <script lang="ts" setup>
 import { Map, View } from 'ol'
 
-import { Attribution } from 'ol/control'
 import { Draw, Interaction } from 'ol/interaction'
 import { Tile, Vector as VectorLayer } from 'ol/layer'
-import { TileJSON, Vector as VectorSource, XYZ } from 'ol/source'
+import { Vector as VectorSource, XYZ } from 'ol/source'
 
 const mapContainer = ref()
 
@@ -49,6 +48,7 @@ function initMap() {
       new Tile({
         source: tianDiTuSource3,
       }),
+      // NOTE  不添加矢量图层，绘制的图形会被覆盖，绘制不了
       vectorLayer,
     ],
     view: new View({
@@ -62,12 +62,14 @@ function initMap() {
 const geoList = shallowRef([
   { type: 'Point', text: '点', active: false },
   { type: 'LineString', text: '线', active: false },
+  { type: 'Polygon', text: '面', active: false },
+  { type: 'Circle', text: '圆', active: false },
 ])
 
 function onSelect(index) {
   geoList.value = geoList.value.map((item, i) => {
     if (i === index) {
-      item.active = true //!item.active
+      item.active = true //! item.active
       addInteraction(item.type)
     } else {
       item.active = false
@@ -76,18 +78,20 @@ function onSelect(index) {
   })
 }
 
+// TODO 如何导入 Draw 参数类型
 function addInteraction(type: any) {
   draw = new Draw({
     source: vectorSource,
-    type: type,
+    type,
   })
   map.addInteraction(draw)
 }
 
 function undo() {
-  //   map.removeInteraction(draw)
+  console.log('undo', draw)
+  //  map.removeInteraction(draw)
   draw.removeLastPoint()
-  //   vectorSource.clear()
+  // vectorSource.clear()
 }
 </script>
 
