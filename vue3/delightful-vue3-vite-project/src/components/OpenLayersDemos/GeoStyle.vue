@@ -2,9 +2,10 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-09 18:19:04
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-10 01:33:55
+ * @LastEditTime: 2023-07-10 01:41:03
  * @Description : 几何图形的样式
  * 参考：https://openlayers.org/en/latest/examples/draw-and-modify-features.html
+ * https://openlayers.org/en/latest/examples/snap.html
 -->
 <script lang="ts" setup>
 import { Draw, Modify, Snap } from 'ol/interaction'
