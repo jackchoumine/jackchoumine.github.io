@@ -335,7 +335,7 @@ nav 里配置 \`activeMatch\`
 {
   nav: [
     { text: 'vue3'`,cover:""}},{route:"/web/css/CSS性能",meta:{title:"提升CSS性能的技巧",date:"2023-06-14 16:13:06",tag:[],description:` 参考
-提升页面渲染速度的 4 个 CSS 技巧`,cover:""}},{route:"/web/css/css书写规范",meta:{title:"CSS书写规范",date:"2023-06-14 16:13:06",tag:[],description:` 属性书写顺序
+提升页面渲染速度的 4 个 CSS 技巧`,cover:""}},{route:"/web/css/css书写规范",meta:{title:"CSS书写规范",date:"2023-07-10 09:59:15",tag:[],description:` 属性书写顺序
 
 1. display
 2. position
