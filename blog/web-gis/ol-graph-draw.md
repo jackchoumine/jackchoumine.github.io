@@ -60,3 +60,11 @@ import {
 ```js
 
 ```
+
+## 修改已绘制的图形
+
+修改图形的集合信息一般通过交互方式实现，通过交互式编辑控件 ol.interaction.Modify 和要素选择控件 ol.interaction.Select 一起使用实现。
+
+```js
+
+```

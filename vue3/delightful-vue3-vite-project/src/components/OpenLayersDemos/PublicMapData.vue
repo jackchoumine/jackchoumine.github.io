@@ -2,8 +2,9 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-02 16:37:53
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-02 23:13:07
+ * @LastEditTime: 2023-07-11 03:03:29
  * @Description : 公共地图数据
+ * http://www.xiaobaigis.com/GiSarticles/GiSArticle?ID=30
 -->
 <script lang="ts" setup>
 import { Map, View } from 'ol'
