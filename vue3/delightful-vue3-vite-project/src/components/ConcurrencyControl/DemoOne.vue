@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-06-05 10:14:53
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-06-05 11:10:35
+ * @LastEditTime: 2023-07-10 17:16:17
  * @Description : 并发控制-示例一
 -->
 <script lang="ts" setup>
@@ -38,11 +38,29 @@ tasks.forEach(task => {
 <template>
   <div class="demo-one">
     <h4>使用 concurrencyControl</h4>
+    <p class="p-1">hello</p>
+    <p class="p-2">hello</p>
+    <p class="p-3">hello</p>
+    <p>hello</p>
   </div>
 </template>
 
 <style scoped lang="scss">
 .demo-one {
   // scss code
+  .p-1 {
+    font-size: 1.6rem;
+    color: green;
+  }
+
+  .p-2 {
+    font-size: 16px;
+    color: red;
+  }
+
+  .p-3 {
+    font-size: 3.2rem;
+    color: red;
+  }
 }
 </style>

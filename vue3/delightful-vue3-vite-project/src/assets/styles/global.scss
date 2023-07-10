@@ -1,3 +1,17 @@
+:root {
+  // 大部分浏览器默认字体大小为16px，所以1rem = 16px
+  // font-size: 6.25%;
+  // 16px * 0.0625 = 1px 1rem === 1px
+
+  // 为了方便计算，我们将根元素的字体大小设置为62.5%，即10px
+  // 2.4rem === 24px
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 16rem;
+}
+
 .page {
   display: flex;
   flex: 1;
