@@ -3,13 +3,13 @@
   // font-size: 6.25%;
   // 16px * 0.0625 = 1px 1rem === 1px
 
-  // 为了方便计算，我们将根元素的字体大小设置为62.5%，即10px
+  // 为了方便计算，我们将根元素的字体大小设置为62.5%，即 16px * 0.625 = 10px  1rem = 10px
   // 2.4rem === 24px
   font-size: 62.5%;
 }
 
 body {
-  font-size: 16rem;
+  font-size: 1.6rem;
 }
 
 .page {
@@ -34,4 +34,13 @@ body {
 
 .h-full {
   height: 100%;
+}
+
+input:focus {
+  outline: 2px solid #000;
+}
+
+input:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: 1px 1px 5px rgb(1 1 0 / 0.7);
 }
