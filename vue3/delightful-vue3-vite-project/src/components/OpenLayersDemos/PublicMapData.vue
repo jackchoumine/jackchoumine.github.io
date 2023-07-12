@@ -2,51 +2,62 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-02 16:37:53
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-11 03:03:29
+ * @LastEditTime: 2023-07-13 01:27:36
  * @Description : 公共地图数据
  * http://www.xiaobaigis.com/GiSarticles/GiSArticle?ID=30
+ * https://lzugis.cn/geoserver/web/wicket/bookmarkable/org.geoserver.web.demo.MapPreviewPage?4&filter=false
 -->
 <script lang="ts" setup>
 import { Map, View } from 'ol'
 
-import { Tile } from 'ol/layer'
-import { fromLonLat } from 'ol/proj'
-import { BingMaps, OSM, XYZ } from 'ol/source'
+import { Image as ImageLayer, Tile } from 'ol/layer'
+// import { fromLonLat } from 'ol/proj'
+import { BingMaps, ImageWMS, OSM, TileWMS, XYZ } from 'ol/source'
+import Static from 'ol/source/ImageStatic'
+
+import { initMap } from './tool'
 
 const publicMapData = ref()
 
-const bingMapKey = `mVyFfa19lPVoePMsMGJa0L_Z-UcAkv-5IzPo5NmfafJAd9Hh3Q`
-
-onMounted(initMap)
-
-const gaoDeSource = new XYZ({
-  url: 'http://wprd0{1-4}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=7&x={y}&y={x}&z={z}',
-})
-function initMap() {
-  const map = new Map({
+onMounted(() => {
+  const { map } = initMap({
     target: publicMapData.value,
-    layers: [
-      //   new Tile({
-      //     source: new OSM(),
-      //   }),
-      //   new Tile({
-      //     source: new BingMaps({
-      //       key: bingMapKey,
-      //       // 地图类型
-      //       imagerySet: 'Road',
-      //     }),
-      //   }),
-      new Tile({
-        source: gaoDeSource,
-        // wrapX: false,
-      }),
-    ],
-    view: new View({
-      center: [106.675271, 26.579508],
-      zoom: 10,
+    zoom: 4,
+  })
+  // 图片图层
+  const imageLayer = new ImageLayer({
+    source: new ImageWMS({
+      // crossOrigin: 'anonymous',
+      url: 'https://lzugis.cn/geoserver/lzugis/wms',
+      // params: { LAYERS: 'lzugis:lake' },
+      params: { LAYERS: 'lzugis:china' },
+      ratio: 1,
+      // serverType: 'geoserver',
     }),
   })
-}
+  map.addLayer(imageLayer)
+
+  // TileWMS 图层
+  const tileLayer = new Tile({
+    source: new TileWMS({
+      url: 'https://lzugis.cn/geoserver/lzugis/wms',
+      params: { LAYERS: 'lzugis:city' },
+      transition: 0,
+    }),
+  })
+  map.addLayer(tileLayer)
+
+  // 静态图片图层
+  const staticLayer = new ImageLayer({
+    source: new Static({
+      url: '/china.png',
+      imageExtent: [
+        -12.575765437499996, 67.60788818750001, 65.7347814375, 145.7426538125,
+      ],
+    }),
+  })
+  map.addLayer(staticLayer)
+})
 </script>
 
 <template>
