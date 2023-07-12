@@ -2,13 +2,14 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-06-26 10:07:10
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-10 02:06:19
+ * @LastEditTime: 2023-07-12 22:28:21
  * @Description : 常用控件
  * 放缩滑块 https://openlayers.org/en/latest/examples/zoomslider.html
  * 
 -->
 <script lang="ts" setup>
 import { Map, View } from 'ol'
+import { debounce } from 'quasar'
 
 import {
   Attribution,
@@ -25,7 +26,7 @@ import { easeIn, easeOut } from 'ol/easing'
 import { Extent } from 'ol/extent'
 import { Tile } from 'ol/layer'
 import TileLayer from 'ol/layer/Tile'
-import { fromLonLat } from 'ol/proj'
+import { fromLonLat, toLonLat } from 'ol/proj'
 import { XYZ } from 'ol/source'
 
 const mapContainer = ref(null)
@@ -87,6 +88,12 @@ function initMap() {
     //   }),
     // ]),
   })
+  const onPointerMove = debounce((event: any) => {
+    // console.log(event)
+    // const coordinate = toLonLat(event.coordinate)
+    console.log(event.coordinate)
+  }, 300)
+  map.on('pointermove', onPointerMove)
   // 获取控件列表
   const defaultControlList = map.getControls()
   defaultControlList.forEach(control => {
@@ -106,10 +113,19 @@ function initMap() {
     tipLabel: '全屏',
   })
   map.addControl(fullScreen)
-  // const overviewMap = new OverviewMap({
-  //   collapsed: false,
-  // })
-  // map.addControl(overviewMap)
+  // 添加鸟瞰控件
+  const _firstLayer = new Tile({
+    source: tianDiTuSource3,
+  })
+  const _secondLayer = new Tile({
+    source: tianDiTuSource5,
+  })
+  const overviewMap = new OverviewMap({
+    collapsed: false,
+    // 需要添加鸟瞰的图层，否则不会显示
+    layers: [_firstLayer, _secondLayer],
+  })
+  map.addControl(overviewMap)
   const rotate = new Rotate()
   map.addControl(rotate)
   const mousePosition = new MousePosition({
@@ -123,7 +139,7 @@ function initMap() {
   const scaleLine = new ScaleLine({
     units: 'metric',
   })
-  map.addControl(scaleLine)
+  // map.addControl(scaleLine)
   const attribution = new Attribution({
     collapsible: true,
   })
