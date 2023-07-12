@@ -1,0 +1,50 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "名称": "漫咖啡 Maan Coffee",
+        "下载速度": "1.53 Mbps",
+        "Speedtest 链接": "http://www.speedtest.net/my-result/i/2039519025",
+        "评论 (@xhacker)": "地方超级大，人不太多，比较嘈杂。",
+        "marker-color": "#C24740",
+        "marker-symbol": "cafe"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.701, 26.5952]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "名称": "星巴克 Starbucks（贵阳花果园1店）",
+        "下载速度": "64.7 Mbps",
+        "Speedtest 链接": "https://www.speedtest.net/my-result/i/3024837860",
+        "评论 (@xhacker)": "人不太多，网速快。",
+        "marker-color": "#50C240",
+        "marker-symbol": "cafe"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.685, 26.571]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "名称": "悦读观山湖咖啡书屋",
+        "下载速度": "108 Mbps",
+        "Speedtest 链接": "https://www.speedtest.net/my-result/i/4172540146",
+        "评论 (@xhacker)": "环境幽静，人不多。书比较少。没有电源。",
+        "marker-color": "#50C240",
+        "marker-symbol": "cafe"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.628, 26.639]
+      }
+    }
+  ]
+}
