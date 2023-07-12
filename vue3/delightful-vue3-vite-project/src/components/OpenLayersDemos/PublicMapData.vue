@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-02 16:37:53
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-13 01:27:36
+ * @LastEditTime: 2023-07-13 01:31:09
  * @Description : 公共地图数据
  * http://www.xiaobaigis.com/GiSarticles/GiSArticle?ID=30
  * https://lzugis.cn/geoserver/web/wicket/bookmarkable/org.geoserver.web.demo.MapPreviewPage?4&filter=false
@@ -26,6 +26,7 @@ onMounted(() => {
   })
   // 图片图层
   const imageLayer = new ImageLayer({
+    // demo https://openlayers.org/en/latest/examples/wms-image.html
     source: new ImageWMS({
       // crossOrigin: 'anonymous',
       url: 'https://lzugis.cn/geoserver/lzugis/wms',
@@ -39,6 +40,7 @@ onMounted(() => {
 
   // TileWMS 图层
   const tileLayer = new Tile({
+    // demo https://openlayers.org/en/latest/examples/wms-tiled.html
     source: new TileWMS({
       url: 'https://lzugis.cn/geoserver/lzugis/wms',
       params: { LAYERS: 'lzugis:city' },
