@@ -256,7 +256,7 @@ ol 的特点：
 每个控件都作为一个 DOM 元素显示在屏幕上，因此可以通过 CSS 样式`,cover:"https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/ol-layer-control.png"}},{route:"/web-gis/ol-data-source",meta:{title:"ol之多源数据展示",date:"2023-07-12 17:28:45",tag:[],description:`随着 web 技术持续推进，地图展示的数据来源越来越丰富，格式众多，如何将多源异构数据展示在地图上，成为 webGIS 的关键。
 ol 为多源异构数据的展示提供了很好的支持。
  加载数据的原理
-地图形`,cover:""}},{route:"/web-gis/ol-graph-draw",meta:{title:"图形绘制",date:"2023-07-10 19:03:43",tag:[],description:`图形绘制：在地图上绘制点、线、面等图形，可以用来标记地图上的一些特殊位置，或者用来标记地图上的一些区域。
+地图形`,cover:""}},{route:"/web-gis/ol-graph-draw",meta:{title:"ol之图形绘制",date:"2023-07-13 13:26:19",tag:[],description:`图形绘制：在地图上绘制点、线、面等图形，可以用来标记地图上的一些特殊位置，或者用来标记地图上的一些区域。
 两种绘制方式：
 1. 空间坐标未知，可使用鼠标绘制，即用户使用鼠标在地图上绘制图形，又叫交互式`,cover:""}},{route:"/webpack/index",meta:{title:"webpack相关文章",date:"2023-06-14 16:13:06",tag:[],description:` rollup 基础使用
  webpack5 模块联邦实现微前端
