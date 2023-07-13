@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-08 16:29:24
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-13 21:18:58
+ * @LastEditTime: 2023-07-13 21:25:48
  * @Description : 绘制几何图形
  * 参考 https://openlayers.org/en/latest/examples/draw-features.html
 -->
@@ -101,6 +101,7 @@ function drewFeatures(type = 'Point') {
     // 绘制结束后，图层可能还在渲染，所以延迟一下
     setTimeout(() => {
       setDoubleClickActive(true)
+      select.setActive(true)
     }, 300)
   })
 }
@@ -121,6 +122,8 @@ function addSnap() {
     source: vectorSource,
   })
   map.addInteraction(snap)
+  // BUG 似乎不行
+  select.setActive(false)
 }
 
 function undo() {
