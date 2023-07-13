@@ -2,14 +2,22 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-08 16:29:24
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-13 20:46:12
+ * @LastEditTime: 2023-07-13 20:47:34
  * @Description : 绘制几何图形
  * 参考 https://openlayers.org/en/latest/examples/draw-features.html
 -->
 <script lang="ts" setup>
 import { Image, Map, View } from 'ol'
 
-import { DoubleClickZoom, Draw, Interaction, Modify, Select, Snap } from 'ol/interaction'
+import {
+  DoubleClickZoom,
+  DragPan,
+  Draw,
+  Interaction,
+  Modify,
+  Select,
+  Snap,
+} from 'ol/interaction'
 import { Tile, Vector as VectorLayer } from 'ol/layer'
 import { Vector as VectorSource, XYZ } from 'ol/source'
 import { Circle, Fill, Stroke, Style } from 'ol/style'
@@ -38,19 +46,19 @@ onMounted(() => {
   map.addLayer(vectorLayer)
 
   // // 选中
-  // select = new Select({
-  //   layers: [vectorLayer],
-  //   // style
-  // })
-  // map.addInteraction(select)
+  select = new Select({
+    layers: [vectorLayer],
+    // style
+  })
+  map.addInteraction(select)
 
-  // // 修改
-  // modify = new Modify({
-  //   // source: vectorSource,
-  //   // 使用选中的要素
-  //   features: select.getFeatures(),
-  // })
-  // map.addInteraction(modify)
+  // 修改
+  modify = new Modify({
+    // source: vectorSource,
+    // 使用选中的要素
+    features: select.getFeatures(),
+  })
+  map.addInteraction(modify)
 })
 
 function drewFeatures(type = 'Point') {
@@ -129,6 +137,9 @@ function createVectorLayer() {
 function setDoubleClickActive(active) {
   map.getInteractions().forEach(interaction => {
     if (interaction instanceof DoubleClickZoom) {
+      interaction.setActive(active)
+    }
+    if (interaction instanceof DragPan) {
       interaction.setActive(active)
     }
   })
