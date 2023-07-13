@@ -2,11 +2,13 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-08 16:29:24
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-13 21:11:56
+ * @LastEditTime: 2023-07-13 21:18:58
  * @Description : 绘制几何图形
  * 参考 https://openlayers.org/en/latest/examples/draw-features.html
 -->
 <script lang="ts" setup>
+import { debounce } from 'quasar'
+
 import { GeoJSON } from 'ol/format'
 import {
   DoubleClickZoom,
@@ -77,6 +79,14 @@ onMounted(() => {
     const geoJson = new GeoJSON().writeFeatures(features[0])
     console.log(geoJson, 'zqj log')
   })
+
+  const onPointerMove = debounce(event => {
+    const features = map.getFeaturesAtPixel(event.pixel)
+    console.log(features.length)
+    mapContainer.value.style.cursor = features.length ? 'pointer' : ''
+    console.log('onPointerMove', event)
+  }, 300)
+  map.on('pointermove', onPointerMove)
 })
 
 function drewFeatures(type = 'Point') {
