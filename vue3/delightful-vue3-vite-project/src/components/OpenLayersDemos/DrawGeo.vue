@@ -2,13 +2,12 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-08 16:29:24
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-13 20:47:34
+ * @LastEditTime: 2023-07-13 21:11:56
  * @Description : 绘制几何图形
  * 参考 https://openlayers.org/en/latest/examples/draw-features.html
 -->
 <script lang="ts" setup>
-import { Image, Map, View } from 'ol'
-
+import { GeoJSON } from 'ol/format'
 import {
   DoubleClickZoom,
   DragPan,
@@ -45,10 +44,21 @@ onMounted(() => {
   vectorLayer = obj.vectorLayer
   map.addLayer(vectorLayer)
 
-  // // 选中
+  // 选中
   select = new Select({
     layers: [vectorLayer],
     // style
+  })
+
+  select.on('select', event => {
+    console.log('select', event)
+    if (event.selected.length) {
+      // 选中时，添加捕捉
+      addSnap()
+    } else {
+      // 取消选中
+      map.removeInteraction(snap)
+    }
   })
   map.addInteraction(select)
 
@@ -59,6 +69,14 @@ onMounted(() => {
     features: select.getFeatures(),
   })
   map.addInteraction(modify)
+  // 修改结束
+  modify.on('modifyend', event => {
+    console.log('modifyend', event)
+    const features = event.features.getArray()
+    console.log(features)
+    const geoJson = new GeoJSON().writeFeatures(features[0])
+    console.log(geoJson, 'zqj log')
+  })
 })
 
 function drewFeatures(type = 'Point') {
