@@ -2,14 +2,14 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-08 16:29:24
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-13 20:33:01
+ * @LastEditTime: 2023-07-13 20:46:12
  * @Description : 绘制几何图形
  * 参考 https://openlayers.org/en/latest/examples/draw-features.html
 -->
 <script lang="ts" setup>
 import { Image, Map, View } from 'ol'
 
-import { Draw, Interaction, Modify, Select, Snap } from 'ol/interaction'
+import { DoubleClickZoom, Draw, Interaction, Modify, Select, Snap } from 'ol/interaction'
 import { Tile, Vector as VectorLayer } from 'ol/layer'
 import { Vector as VectorSource, XYZ } from 'ol/source'
 import { Circle, Fill, Stroke, Style } from 'ol/style'
@@ -54,8 +54,19 @@ onMounted(() => {
 })
 
 function drewFeatures(type = 'Point') {
+  setDoubleClickActive(false)
   addSnap()
   addDraw(type)
+  // 双击结束绘制，因此需要在绘制让双击放大失效
+  map.on('drawend', event => {
+    console.log('drawend', event)
+    map.removeInteraction(draw)
+    map.removeInteraction(snap)
+    // 绘制结束后，图层可能还在渲染，所以延迟一下
+    setTimeout(() => {
+      setDoubleClickActive(true)
+    }, 300)
+  })
 }
 
 function addDraw(type) {
@@ -113,6 +124,14 @@ function createVectorLayer() {
     },
   })
   return { vectorSource, vectorLayer }
+}
+
+function setDoubleClickActive(active) {
+  map.getInteractions().forEach(interaction => {
+    if (interaction instanceof DoubleClickZoom) {
+      interaction.setActive(active)
+    }
+  })
 }
 </script>
 
