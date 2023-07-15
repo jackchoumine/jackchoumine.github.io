@@ -211,6 +211,60 @@ popup.openOn(map)
 
 ```
 
+切换图层
+
+```js
+layer.setUrl()
+```
+
+添加 wms 图层
+
+```js
+L.tileLayer
+  .wms('http://demo.boundlessgeo.com/geoserver/ows?', {
+    layers: 'nasa:bluemarble',
+    format: 'image/png',
+    transparent: true,
+    attribution: 'NASA Blue Marble',
+  })
+  .addTo(map)
+```
+
+加载静态图片
+
+```js
+L.imageOverlay('http://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg', [
+  [40.712216, -74.22655],
+  [40.773941, -74.12544],
+]).addTo(map)
+```
+
+加载矢量图层
+
+### GeoJSON
+
+```js
+L.geoJSON(geojsonFeature, {
+  style: function (feature) {
+    return { color: feature.properties.color }
+  },
+}).addTo(map)
+```
+
+### 添加线
+
+### 添加面
+
+### 删除图层
+
+```js
+
+```
+
+> 为何使用图层组，方便操作图层，比如添加、删除、切换图层等。
+
+### marker
+
 ## 地理信息数据结构
 
 表示地理信息的数据格式有多种：`geoJSON`、`WKT`、`WKB`、`GML`、`GPX`、`KML`、`TopoJSON`等。

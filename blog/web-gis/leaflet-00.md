@@ -154,3 +154,5 @@ interface MapOptions {
 | mouseout    | 当鼠标移出时触发。     |
 | mousemove   | 当鼠标移动时触发。     |
 | contextmenu | 当鼠标右键点击时触发。 |
+
+## 方法
