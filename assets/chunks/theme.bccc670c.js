@@ -248,7 +248,7 @@ vue2 如何共享公共行为的？
   rules: {
     // NOTE 忽略这个规则，因为不带单位的 0 参与 calc 计算时，报错
   `,cover:"https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/flex-space.png"}},{route:"/web-gis/index",meta:{title:"webgis",date:"2023-06-26 05:09:10",tag:[],description:` openLayers 之快速开始
-<!--  openLayers 之地图控件 --`,cover:""}},{route:"/web-gis/leaflet-00",meta:{title:"leaflet学习笔记",date:"2023-07-15 06:45:56",tag:[],description:"Map 是 leaflet 的核心类，通过它可以在页面上创建并操作地图。\n其初始化方法为: `L.map(<String|HTMLElement\n主要`options`对象选项\n| 分组     | ",cover:""}},{route:"/web-gis/ol-0",meta:{title:"openLayers快速开始",date:"2023-07-16 17:05:25",tag:[],description:`openLayers 是一个开源的二维的 JavaScript 地图库，用于在 web 上显示交互式的地图，简称 ol。
+<!--  openLayers 之地图控件 --`,cover:""}},{route:"/web-gis/leaflet-00",meta:{title:"leaflet学习笔记",date:"2023-07-15 06:45:56",tag:[],description:"Map 是 leaflet 的核心类，通过它可以在页面上创建并操作地图。\n其初始化方法为: `L.map(<String|HTMLElement\n主要`options`对象选项\n| 分组     | ",cover:""}},{route:"/web-gis/ol-0",meta:{title:"ol之快速开始",date:"2023-07-16 17:17:01",tag:[],description:`openLayers 是一个开源的二维的 JavaScript 地图库，用于在 web 上显示交互式的地图，简称 ol。
 ol 的特点：
 - 开源
 - 模块化 -- 使用 ES6 模块化语法
