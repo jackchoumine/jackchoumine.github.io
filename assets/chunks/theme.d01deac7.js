@@ -248,7 +248,7 @@ vue2 如何共享公共行为的？
   rules: {
     // NOTE 忽略这个规则，因为不带单位的 0 参与 calc 计算时，报错
   `,cover:"https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/flex-space.png"}},{route:"/web-gis/index",meta:{title:"webgis",date:"2023-06-26 05:09:10",tag:[],description:` openLayers 之快速开始
-<!--  openLayers 之地图控件 --`,cover:""}},{route:"/web-gis/leaflet-00",meta:{title:"leaflet学习笔记",date:"2023-07-15 06:45:56",tag:[],description:"Map 是 leaflet 的核心类，通过它可以在页面上创建并操作地图。\n其初始化方法为: `L.map(<String|HTMLElement\n主要`options`对象选项\n| 分组     | ",cover:""}},{route:"/web-gis/ol-0",meta:{title:"openLayers快速开始",date:"2023-06-25 19:33:18",tag:[],description:`openLayers 是一个开源的二维的 JavaScript 地图库，用于在 web 上显示交互式的地图，简称 ol。
+<!--  openLayers 之地图控件 --`,cover:""}},{route:"/web-gis/leaflet-00",meta:{title:"leaflet学习笔记",date:"2023-07-15 06:45:56",tag:[],description:"Map 是 leaflet 的核心类，通过它可以在页面上创建并操作地图。\n其初始化方法为: `L.map(<String|HTMLElement\n主要`options`对象选项\n| 分组     | ",cover:""}},{route:"/web-gis/ol-0",meta:{title:"openLayers快速开始",date:"2023-07-16 17:05:25",tag:[],description:`openLayers 是一个开源的二维的 JavaScript 地图库，用于在 web 上显示交互式的地图，简称 ol。
 ol 的特点：
 - 开源
 - 模块化 -- 使用 ES6 模块化语法
@@ -258,7 +258,22 @@ ol 为多源异构数据的展示提供了很好的支持。
  加载数据的原理
 地图形`,cover:""}},{route:"/web-gis/ol-graph-draw",meta:{title:"ol之图形绘制",date:"2023-07-13 13:26:19",tag:[],description:`图形绘制：在地图上绘制点、线、面等图形，可以用来标记地图上的一些特殊位置，或者用来标记地图上的一些区域。
 两种绘制方式：
-1. 空间坐标未知，可使用鼠标绘制，即用户使用鼠标在地图上绘制图形，又叫交互式`,cover:""}},{route:"/webpack/index",meta:{title:"webpack相关文章",date:"2023-06-14 16:13:06",tag:[],description:` rollup 基础使用
+1. 空间坐标未知，可使用鼠标绘制，即用户使用鼠标在地图上绘制图形，又叫交互式`,cover:""}},{route:"/web-gis/地图库学习要点",meta:{title:"地图库学习要点",date:"2023-07-16 17:01:53",tag:[],description:` 初始化
+ 地图事件
+ 地图控件
+ 默认控件
+ 修改控件
+ 图层
+ 添加
+ 移除
+ 切换
+ 地图要素绘制
+ 添加
+ 查询
+ 选中
+ 修改
+主要是修改样式
+ 移除`,cover:""}},{route:"/webpack/index",meta:{title:"webpack相关文章",date:"2023-06-14 16:13:06",tag:[],description:` rollup 基础使用
  webpack5 模块联邦实现微前端
  如何在 github 上部署 vue 应用`,cover:""}},{route:"/webpack/rollup基础使用",meta:{title:"rollup基础使用",date:"2023-06-14 16:13:06",tag:[],description:`rollup 号称是下一代模块打包器，由 Svelte 的作者在 2015 年开发，专注于 JS 打包，通过其插件，也能处理其他文件。
 相比 webpack 复杂的配置，其配置简单，打包后的代码体积很`,cover:"https://tva1.sinaimg.cn/large/e6c9d24egy1h2wqs7ty9wj20r60c8gnn.jpg"}},{route:"/webpack/如何使用gh-pages部署vue应用",meta:{title:"如何使用gh-pages部署vue应用？",date:"2023-06-14 16:13:06",tag:[],description:`使用 webpack5 实现了微前端，希望能把这些应用部署到 git-pages, 如何办呢？
