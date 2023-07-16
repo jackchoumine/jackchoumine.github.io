@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-06-02 09:31:16
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-06-26 03:38:24
+ * @LastEditTime: 2023-07-17 00:52:11
  * @Description : 初始化 ol 地图
 -->
 <script lang="ts" setup>
@@ -93,6 +93,8 @@ function initMap() {
 <style scoped lang="scss">
 .init-map {
   position: absolute;
+
+  // about insert https://www.lambdatest.com/blog/css-inset-property/
   inset: 0;
 }
 </style>
