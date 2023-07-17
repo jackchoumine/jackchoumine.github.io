@@ -1,4 +1,4 @@
-# web gis 学习笔记
+# WEB GIS 学习笔记
 
 ## 介绍
 
@@ -18,17 +18,17 @@ GIS: 地理信息系统(geographic information system)
 
 地图导航、地图搜索、地图标注、地图分享、地图游戏等。
 
-### web gis
+### WEB GIS
 
-GIS 和 web 服务相结合，将 GIS 功能发布到 web 上，用户可以通过 web 浏览器访问 GIS 服务，实现空间数据的共享和交换。
+GIS 和 WEB 服务相结合，将 GIS 功能发布到 WEB 上，用户可以通过 WEB 浏览器访问 GIS 服务，实现空间数据的共享和交换。
 
-得益于 web 技术的发展，web gis 也在不断发展，从最初的静态地图，到现在的动态地图，web gis 的应用也越来越广泛。
+得益于 WEB 技术的发展，WEB GIS 也在不断发展，从最初的静态地图，到现在的动态地图，WEB GIS 的应用也越来越广泛。
 
-web gis 的项目架构和传统 web 项目的架构几乎没有区别，都是前端(表现层)、后端、数据库，只是前端的展示形式不同，即 web gis 的前端展示的是地图，后台需要提供地图服务。
+WEB GIS 的项目架构和传统 WEB 项目的架构几乎没有区别，都是前端(表现层)、后端、数据库，只是前端的展示形式不同，即 WEB GIS 的前端展示的是地图，后台需要提供地图服务。
 
-### 常见的 web gis 技术或者平台
+### 常见的 WEB GIS 技术或者平台
 
-### 传统的 web 开发者需要了解的 GIS 知识
+### 传统的 WEB 开发者需要了解的 GIS 知识
 
 GIS 最核心的是空间数据，空间数据的表现形式是**地图**，地图的表现形式是**图层**，图层的表现形式是**要素**，要素的表现形式是**几何图形**。
 
@@ -36,7 +36,7 @@ GIS 最核心的是空间数据，空间数据的表现形式是**地图**，地
 
 canvas API
 
-webGL
+WEBGL
 
 > 学会使用常用的地图库
 
@@ -64,7 +64,7 @@ webGL
 
 莫卡托投影： 光源在地球中心，投影到平面上，保证了角度的不变性，但是面积会发生变化。
 
-web mercator = WGS84 + 莫卡托投影
+WEB mercator = WGS84 + 莫卡托投影
 
 ![](https://cdn.jsdelivr.net/gh/jackchoumine/jack-picture@master/xy.png)
 
@@ -99,11 +99,11 @@ transform 函数源码学习
 
 [生成几何图形](https://geojson.io)
 
-矢量数据放大缩小不会失真，但或出现据此，和屏幕分辨率有关。
+矢量数据放大缩小不会失真，但会出现锯齿，和屏幕分辨率有关。
 
-常见的矢量格式
+常见的矢量格式：
 
-svg
+svg、shapeFile(shp)、geojson、kml、gml
 
 实操：使用 [qgis](https://qgis.org/) 软件作图，了解矢量数据的特点。
 
@@ -113,7 +113,9 @@ svg
 
 栅格数据放大会失真
 
-png jpg bmp
+常见的栅格格式：
+
+png jpg bmp tiff
 
 #### FeatureClass & FeatureLayer
 
@@ -127,7 +129,7 @@ png jpg bmp
 
 - esri shapeFile (.shp) 标准格式
 
-- geojson -- 常见于 webGIS 数据交换
+- geojson -- 常见于 WEBGIS 数据交换
 
 - esri geoDatabase (.pgdb .fgdb ) -- esri 公司的专有格式
 
