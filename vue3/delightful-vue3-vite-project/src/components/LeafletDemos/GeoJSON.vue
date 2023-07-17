@@ -2,14 +2,14 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-04-08 21:08:15
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-04-09 02:21:16
+ * @LastEditTime: 2023-07-17 11:21:05
  * @Description : geoJson
 -->
 <script lang="ts" setup>
 import L from 'leaflet'
 import type { GeoJSON } from 'leaflet'
 
-import { circle, lines, points, polygon } from './data'
+import { circles, lines, points, polygons } from './data'
 
 const mapContainer = ref()
 let map = null
@@ -67,7 +67,7 @@ function drawFeatures(map) {
     },
   })
   mapLines.addTo(map)
-  const mapPolygon = L.geoJSON(polygon as GeoJSON.GeoJsonObject, {
+  const mapPolygon = L.geoJSON(polygons as GeoJSON.GeoJsonObject, {
     style: feature => {
       console.log(feature)
       return {
@@ -77,10 +77,21 @@ function drawFeatures(map) {
         fillOpacity: 0.4, // feature.properties['fill-opacity'],
       }
     },
+    // 每个 feature 的回调
     onEachFeature: (feature, layer) => {
+      // 点击每个 feature 的回调，弹出提示框
       console.log('onEachFeature')
-      const areaSize = `<span style="color:red;">面积：</span> ${feature.properties.area}`
-      layer.bindPopup(areaSize)
+      const areaSize = `<span style="color:red;">面积：${feature.properties.area} </span> `
+      // layer.bindPopup(areaSize)
+      // 还可以使用 marker
+      const divIcon = L.divIcon({
+        className: 'my-div-icon',
+        html: `<div style="color:red;width:100px;background-color:yellow;">面积：${feature.properties.area}</div> `,
+      })
+      const marker = L.marker(layer.getBounds().getCenter(), {
+        icon: divIcon,
+      })
+      marker.addTo(map)
       // console.log('feature')
       // console.log(feature)
       // console.log('layer')
@@ -91,8 +102,12 @@ function drawFeatures(map) {
     },
   })
   mapPolygon.addTo(map)
-  const mapCircle = L.geoJSON(circle as GeoJSON.GeoJsonObject)
-  mapCircle.addTo(map)
+  // 获取 geojson 的边界，把polygon 放在视图中心
+  const bound = mapPolygon.getBounds()
+  console.log(bound, 'zqj log')
+  map.fitBounds(bound)
+  const mapCircles = L.geoJSON(circles as GeoJSON.GeoJsonObject)
+  mapCircles.addTo(map)
   return map
 }
 </script>

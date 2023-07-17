@@ -2,10 +2,10 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-04-09 00:59:04
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-04-09 02:11:35
+ * @LastEditTime: 2023-07-17 11:19:48
  * @Description : geoJson
  */
-export const points = {
+const points = {
   type: 'FeatureCollection',
   features: [
     {
@@ -46,7 +46,7 @@ export const points = {
   ],
 }
 
-export const lines = {
+const lines = {
   type: 'FeatureCollection',
   features: [
     {
@@ -76,13 +76,13 @@ export const lines = {
   ],
 }
 
-export const polygon = {
+const polygons = {
   type: 'FeatureCollection',
   features: [
     {
       type: 'Feature',
       properties: {
-        area: '1200平方米',
+        area: '1200㎡',
       },
       geometry: {
         coordinates: [
@@ -101,7 +101,7 @@ export const polygon = {
       type: 'Feature',
       properties: {
         name: '面',
-        area: '1000平方米',
+        area: '1000㎡',
         stroke: '#a72020',
         'stroke-width': 2,
         'stroke-opacity': 1,
@@ -124,7 +124,7 @@ export const polygon = {
   ],
 }
 
-export const circle = {
+const circles = {
   type: 'FeatureCollection',
   features: [
     {
@@ -305,3 +305,5 @@ export const circle = {
     },
   ],
 }
+
+export { points, lines, polygons, circles }
