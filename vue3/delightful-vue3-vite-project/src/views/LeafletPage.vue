@@ -2,11 +2,18 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-04-08 20:29:05
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-16 20:10:54
+ * @LastEditTime: 2023-07-17 09:52:41
  * @Description : leaflet 学习
 -->
 <script setup>
-import { GeoJSON, InitMap, LayerControl, LayerDemo, MarkerDemo } from '@/components'
+import {
+  GeoJSON,
+  InitMap,
+  InitMap2,
+  LayerControl,
+  LayerDemo,
+  MarkerDemo,
+} from '@/components'
 
 const tab = ref('init')
 </script>
@@ -23,7 +30,8 @@ const tab = ref('init')
           indicator-color="primary"
           align="justify"
           narrow-indicator>
-          <QTab name="init" label="初始化" />
+          <QTab name="init" label="初始化-demo1" />
+          <QTab name="init2" label="初始化-demo2" />
           <QTab name="tile-layer" label="瓦片图层" />
           <QTab name="marker" label="标记" />
           <QTab name="layer-control" label="图层控制" />
@@ -35,6 +43,9 @@ const tab = ref('init')
         <QTabPanels v-model="tab" animated>
           <QTabPanel name="init">
             <InitMap />
+          </QTabPanel>
+          <QTabPanel name="init2">
+            <InitMap2 />
           </QTabPanel>
           <QTabPanel name="tile-layer"><LayerDemo /> </QTabPanel>
           <QTabPanel name="marker"> <MarkerDemo /> </QTabPanel>
