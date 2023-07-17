@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-04-09 00:59:04
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-17 11:19:48
+ * @LastEditTime: 2023-07-17 23:42:38
  * @Description : geoJson
  */
 const points = {
@@ -305,5 +305,6 @@ const circles = {
     },
   ],
 }
+const aMapKey = '9e40eec8abc79f8f93d89db04639f57e'
 
-export { points, lines, polygons, circles }
+export { points, lines, polygons, circles, aMapKey }

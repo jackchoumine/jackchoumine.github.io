@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-04-08 20:29:05
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-17 09:52:41
+ * @LastEditTime: 2023-07-18 00:13:45
  * @Description : leaflet 学习
 -->
 <script setup>
@@ -13,6 +13,7 @@ import {
   LayerControl,
   LayerDemo,
   MarkerDemo,
+  WithAMap,
 } from '@/components'
 
 const tab = ref('init')
@@ -32,6 +33,7 @@ const tab = ref('init')
           narrow-indicator>
           <QTab name="init" label="初始化-demo1" />
           <QTab name="init2" label="初始化-demo2" />
+          <QTab name="with-a-map" label="整合高德" />
           <QTab name="tile-layer" label="瓦片图层" />
           <QTab name="marker" label="标记" />
           <QTab name="layer-control" label="图层控制" />
@@ -46,6 +48,9 @@ const tab = ref('init')
           </QTabPanel>
           <QTabPanel name="init2">
             <InitMap2 />
+          </QTabPanel>
+          <QTabPanel name="with-a-map">
+            <WithAMap />
           </QTabPanel>
           <QTabPanel name="tile-layer"><LayerDemo /> </QTabPanel>
           <QTabPanel name="marker"> <MarkerDemo /> </QTabPanel>
