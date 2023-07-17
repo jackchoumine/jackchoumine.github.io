@@ -2,11 +2,14 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-09 18:21:37
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-17 09:56:02
+ * @LastEditTime: 2023-07-17 14:31:16
  * @Description :
  */
 import { XYZ } from 'ol/source'
 
+// NOTE 天地图地图服务
+// vec_w  w 表示墨卡托投影  vec 表示矢量地图
+// vec_c  c 表示经纬度投影，也叫 CGCS2000 投影  vec 表示矢量地图
 const tianDiTuKey = '4c409692826bccaca32ee3e1a74ba1b5'
 // const tianDiTuUrl = `http://t0.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=${tianDiTuKey}`
 // 矢量地图
@@ -37,4 +40,4 @@ const source = {
   tianDiTuSource5,
 }
 const guiYangPosition = [106.675271, 26.579508]
-export { source, guiYangPosition }
+export { tianDiTuUrl2, tianDiTuUrl3, source, guiYangPosition }
