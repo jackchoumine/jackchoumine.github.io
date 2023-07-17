@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-04-08 21:53:14
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-04-09 23:15:25
+ * @LastEditTime: 2023-07-17 15:47:20
  * @Description : 添加标记
  * 标记文档：https://leafletjs.cn/reference.html#marker
  * hover 事件：https://leafletjs.com/reference-1.7.1.html#marker-mouseover
@@ -83,6 +83,10 @@ function initMap(
   })
   return map
 }
+// TODO 使用 svg 作为图标的技巧
+//  复制 svg 代码  iconUrl: 'data:image/svg+xml;base64,' + btoa(svg), iconSize: [30, 50] sizeAnchor: [15, 50]
+//  iconUrl: 'data:image/svg+xml,' + encodeURIComponent(svg),
+// 或者cloudflare cdn 获取 svg 图标的 url
 </script>
 
 <template>
