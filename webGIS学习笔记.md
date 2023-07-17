@@ -26,7 +26,31 @@ GIS 和 WEB 服务相结合，将 GIS 功能发布到 WEB 上，用户可以通�
 
 WEB GIS 的项目架构和传统 WEB 项目的架构几乎没有区别，都是前端(表现层)、后端、数据库，只是前端的展示形式不同，即 WEB GIS 的前端展示的是地图，后台需要提供地图服务。
 
-### 常见的 WEB GIS 技术或者平台
+### 常用的 WEB GIS 库或者平台
+
+#### leaflet
+
+1. 优点：轻量、简单、易上手、支持移动端
+
+为何移动端支持友好？
+
+使用 img 和 svg 绘图，不使用 canvas，canvas 在移动端的性能不好。
+
+#### openLayers
+
+1. 优点：功能强大、支持移动端
+
+绘制图形的方式是 canvas，主要用在 pc 上。
+
+#### mapbox
+
+多端支持，渲染的地图精美。
+
+绘制图形的方式是 canvas WEBGL 模式。
+
+#### cesium
+
+3D 地图，webgl。
 
 ### 传统的 WEB 开发者需要了解的 GIS 知识
 
@@ -78,7 +102,7 @@ transform 函数源码学习
 
 > 地图坐标系和屏幕坐标的转化如何转换？
 
-#### 数据格式
+#### 两种数据类型
 
 - 矢量数据
 
@@ -115,7 +139,7 @@ svg、shapeFile(shp)、geojson、kml、gml
 
 常见的栅格格式：
 
-png jpg bmp tiff
+png jpg bmp tiff（影像图层）
 
 #### FeatureClass & FeatureLayer
 
@@ -144,6 +168,20 @@ png jpg bmp tiff
 #### 渲染方式
 
 前端渲染
+
+三种渲染方式
+
+栅格数据渲染方式：
+
+1. 渲染到 img 标签上
+2. 渲染到 canvas 标签上
+
+矢量数据渲染方式：
+
+1. 渲染到 svg 标签上
+2. 渲染到 canvas 标签上
+
+这些是常见 WEB GIS 库底层渲染原理。
 
 后端渲染
 
