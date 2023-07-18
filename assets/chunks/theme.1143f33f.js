@@ -252,7 +252,9 @@ vue2 如何共享公共行为的？
   rules: {
     // NOTE 忽略这个规则，因为不带单位的 0 参与 calc 计算时，报错
   `,cover:"https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/flex-space.png"}},{route:"/web-gis/index",meta:{title:"webgis",date:"2023-06-26 05:09:10",tag:[],description:` openLayers 之快速开始
-<!--  openLayers 之地图控件 --`,cover:""}},{route:"/web-gis/leaflet-00",meta:{title:"leaflet学习笔记",date:"2023-07-15 06:45:56",tag:[],description:"Map 是 leaflet 的核心类，通过它可以在页面上创建并操作地图。\n其初始化方法为: `L.map(<String|HTMLElement\n主要`options`对象选项\n| 分组     | ",cover:""}},{route:"/web-gis/leaflet整合高德地图",meta:{title:"leaflet集成高德地图",date:"2023-07-18 12:02:23",tag:[],description:`这样做的好处：能够最大限度的利用高德地图的图层，又能使用 leaflet 的的 api 控制图层。
+<!--  openLayers 之地图控件 --`,cover:""}},{route:"/web-gis/leaflet-00",meta:{title:"leaflet学习笔记",date:"2023-07-15 06:45:56",tag:[],description:"Map 是 leaflet 的核心类，通过它可以在页面上创建并操作地图。\n其初始化方法为: `L.map(<String|HTMLElement\n主要`options`对象选项\n| 分组     | ",cover:""}},{route:"/web-gis/leaflet-label冲突检测",meta:{title:"label冲突检测",date:"2023-07-18 13:28:33",tag:[],description:`什么是 label 冲突？
+当两个 label 距离很近的时候，会发生重叠，这就是 label 冲突。
+label 重叠 (label overlapping)，会导致用户无法看清楚地图上的信息，所以`,cover:"https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/leaflet-collision.png '两个label重叠'"}},{route:"/web-gis/leaflet整合高德地图",meta:{title:"leaflet集成高德地图",date:"2023-07-18 12:02:23",tag:[],description:`这样做的好处：能够最大限度的利用高德地图的图层，又能使用 leaflet 的的 api 控制图层。
 
  如何做？
  1. 引入高德地图的 js
