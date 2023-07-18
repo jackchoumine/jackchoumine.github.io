@@ -4,12 +4,14 @@ importers:
 
   .:
     specifiers:
+      mitt: ~3.0.0
       only-allow: ~1.1.1
       vitepress: ~1.0.0-alpha.25
       vitepress-plugin-pagefind: ~0.2.4
     dependencies:
       vitepress-plugin-pagefind: 0.2.4_vitepress@1.0.0-beta.5
     devDependencies:
+      mitt: 3.0.0
       only-allow: 1.1.1
       vitepress: 1.0.0-beta.5
 
@@ -453,7 +455,6 @@ importers:
       lint-staged: 13.2.3
       lit: ~2.7.5
       lodash-es: ~4.17.21
-      mitt: ~3.0.0
       ol: ~7.4.0
       only-allow: ~1.1.1
       pinia: 2.1.4
@@ -503,7 +504,6 @@ importers:
       leaflet: 1.9.4
       lit: 2.7.5
       lodash-es: 4.17.21
-      mitt: 3.0.0
       ol: 7.4.0
       pinia: 2.1.4_typescript@5.1.6+vue@3.3.4
       quasar: 2.12.2
@@ -8653,7 +8653,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.4.0-beta.3
+      vite: 4.4.0-beta.3_sass@1.63.6
       vue: 3.3.4
 
   /@vitejs/plugin-vue/4.2.3_vite@4.3.9+vue@3.2.47:
@@ -8674,7 +8674,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.3.9
+      vite: 4.3.9_sass@1.63.6
       vue: 3.3.4
     dev: true
 
@@ -21754,7 +21754,6 @@ packages:
 
   /mitt/3.0.0:
     resolution: {integrity: sha512-7dX2/10ITVyqh4aOSVI9gdape+t9l2/8QxHrFmUXu4EEUpdlxl6RudZUPZoc+zuY2hk1j7XxVroIVIan/pD/SQ==}
-    dev: false
 
   /mixin-deep/1.3.2:
     resolution: {integrity: sha512-WRoDn//mXBiJ1H40rqa3vH0toePwSsGb45iInWlTySa+Uu4k3tYUSxa2v1KqAiLtvlrSzaExqS1gtk96A9zvEA==}
@@ -29030,7 +29029,6 @@ packages:
       sass: 1.63.6
     optionalDependencies:
       fsevents: 2.3.2
-    dev: true
 
   /vitepress-plugin-pagefind/0.2.4_vitepress@1.0.0-beta.5:
     resolution: {integrity: sha512-+GtPZcc4lLzf84bzuBR1LdQDqGUak75X7yUgC+IqX3hfwCo3i7GbvGhj6lY13MKrz1vfXh3vhqRXKgtiYW//PA==}
