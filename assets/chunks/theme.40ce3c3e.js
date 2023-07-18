@@ -36,14 +36,18 @@ macOS 下使用 docker 安装
 docker run -d --name sql_server_2019 -e 'ACCEPT_EULA=Y' -e 'SA_P`,cover:""}},{route:"/node/Centos云主机安装node",meta:{title:"Centos云主机安装node",date:"2023-06-14 16:13:06",tag:[],description:"xShell 登录云主机\n新建一个文件夹安装：\n```js\nmkdir node\ncd node //进入 node 目录\n```\n安装\n```js\ncurl --silent --location ",cover:""}},{route:"/node/REST风格的API",meta:{title:"RESTAPI设计理念",date:"2023-06-14 16:13:06",tag:[],description:`REST 风格的接口
  参考
 Best Practices for Designing a Pragmatic RESTful API
-美国白宫 WEB API 标准`,cover:""}},{route:"/node/index",meta:{title:"node学习记录",date:"2023-06-14 16:13:06",tag:[],description:` 如何在本地测试 npm 包？
+美国白宫 WEB API 标准`,cover:""}},{route:"/node/how-to-use-pnpm",meta:{title:"pnpm使用",date:"2023-07-18 09:44:31",tag:[],description:` 常用命令
+\`\`\`bash
+pnpm i package-name
+pnpm i package-name -w  安装到根工作空间
+pnpm i package-name -r number  递归`,cover:""}},{route:"/node/index",meta:{title:"node学习记录",date:"2023-07-18 09:44:31",tag:[],description:` pnpm 的使用
+ 如何在本地测试 npm 包？
  node 学习笔记之 CommonJS 规范
  node 中的 ES6
  npm 使用
  npm 源管理的方式
  npm 使用问题
- yarn 使用
- node 使用`,cover:""}},{route:"/node/mongoDB数据库基本使用",meta:{title:"mongoDB数据库基本使用",date:"2023-06-14 16:13:06",tag:[],description:` 安装配置数据库
+ yarn 使`,cover:""}},{route:"/node/mongoDB数据库基本使用",meta:{title:"mongoDB数据库基本使用",date:"2023-06-14 16:13:06",tag:[],description:` 安装配置数据库
 在 D 盘创建一个文件夹安装：D:\\Mongo
 安装完成后，在 D:\\Mongo 会看到一个 bin 目录和一些其他文件。
 创建工作目录：
