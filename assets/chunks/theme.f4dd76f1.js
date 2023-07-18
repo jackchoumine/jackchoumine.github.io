@@ -36,7 +36,7 @@ macOS 下使用 docker 安装
 docker run -d --name sql_server_2019 -e 'ACCEPT_EULA=Y' -e 'SA_P`,cover:""}},{route:"/node/Centos云主机安装node",meta:{title:"Centos云主机安装node",date:"2023-06-14 16:13:06",tag:[],description:"xShell 登录云主机\n新建一个文件夹安装：\n```js\nmkdir node\ncd node //进入 node 目录\n```\n安装\n```js\ncurl --silent --location ",cover:""}},{route:"/node/REST风格的API",meta:{title:"RESTAPI设计理念",date:"2023-06-14 16:13:06",tag:[],description:`REST 风格的接口
  参考
 Best Practices for Designing a Pragmatic RESTful API
-美国白宫 WEB API 标准`,cover:""}},{route:"/node/how-to-use-pnpm",meta:{title:"pnpm使用",date:"2023-07-18 09:44:31",tag:[],description:` 常用命令
+美国白宫 WEB API 标准`,cover:""}},{route:"/node/how-to-use-pnpm",meta:{title:"pnpm使用",date:"2023-07-18 11:18:03",tag:[],description:` 常用命令
 \`\`\`bash
 pnpm i package-name
 pnpm i package-name -w  安装到根工作空间
