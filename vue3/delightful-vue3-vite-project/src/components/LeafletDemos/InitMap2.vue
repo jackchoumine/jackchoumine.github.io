@@ -2,17 +2,33 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-17 09:48:25
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-17 15:32:34
+ * @LastEditTime: 2023-07-18 21:27:02
  * @Description : 使用ES6模块化引入leaflet
  * 参考例子：https://stackblitz.com/@shengzheng1981
  【Leaflet_D2】 https://www.bilibili.com/video/BV1kX4y1y7Gq/?share_source=copy_web&vd_source=c23ab500627f369ceee9c74b051e83b6
  * 图层组：用于将几个图层分组并作为一个整体处理。如果你把它添加到地图上，任何从该组中添加或删除的图层也会在地图上添加/删除。
+ * 冲突检测，
+ * 视频 https://www.bilibili.com/video/BV1Sf4y1t73B/?spm_id_from=333.337.search-card.all.click&vd_source=9bbf149e26315d2edf55b034712e09d6
 -->
 <script lang="ts" setup>
-import { LatLngExpression, LayerGroup, Map, TileLayer } from 'leaflet'
+import { CanvasLabel } from '@panzhiyue/leaflet-canvaslabel'
+import {
+  CircleMarker,
+  LatLng,
+  LatLngExpression,
+  LayerGroup,
+  Map,
+  Polyline,
+  TileLayer,
+} from 'leaflet'
 import { reverse } from 'lodash-es'
 
 import { guiYangPosition, tianDiTuUrl2, tianDiTuUrl3 } from '../OpenLayersDemos/data'
+
+const canvasLabel = new CanvasLabel({
+  collisionFlg: true,
+  scale: 2,
+})
 
 const mapContainer = ref()
 
@@ -36,6 +52,48 @@ const layerGroup = new LayerGroup([tianDiTuLayer2, tianDiTuLayer3]) // .addLayer
 let map = null
 onMounted(() => {
   map = initMap(mapContainer.value)
+  // 添加矢量数据 106.635271, 26.579508
+  const p = new Polyline(
+    [
+      [
+        [26.575786, 106.639213],
+        [26.576786, 106.638213],
+        [26.575786, 106.637213],
+      ],
+      [
+        [26.575786 + 0.1, 106.639213],
+        [26.576786 + 0.1, 106.638213],
+        [26.575786 + 0.1, 106.637213],
+      ],
+    ],
+    {
+      labelStyle: {
+        text: 'Leaflet.LabelTextCollision!!!!!!!!',
+        zIndex: 0,
+        collisionFlg: false,
+        zIndex: 0,
+      },
+      color: '#fe57a1',
+    }
+  ).addTo(map)
+
+  for (let i = 0; i < 1000; i++) {
+    const plus = Math.random() > 0.5 ? 1 : -1
+    const plus2 = Math.random() > 0.5 ? 1 : -1
+    const latlng = new LatLng(
+      26.545786 + Math.random() * 1.8 * plus,
+      106.639213 + Math.random() * 3.6 * plus2
+    )
+    const c = new CircleMarker(latlng, {
+      radius: 5,
+      labelStyle: {
+        text: '22222',
+        scale: 1,
+        rotation: 0,
+        zIndex: i,
+      },
+    }).addTo(map)
+  }
   layerGroup.addTo(map)
 })
 
@@ -43,10 +101,11 @@ function initMap(
   container,
   layers = [],
   coordinates = reverse(guiYangPosition),
-  zoom = 11
+  zoom = 8
 ) {
   const map = new Map(container, {
     layers,
+    renderer: canvasLabel,
   })
   map.setView(coordinates as LatLngExpression, zoom)
   return map

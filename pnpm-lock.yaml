@@ -416,6 +416,7 @@ importers:
     specifiers:
       '@jack/components': workspace:0.0.0
       '@jack/http': workspace:1.0.0
+      '@panzhiyue/leaflet-canvaslabel': ~1.2.0
       '@popperjs/core': ~2.11.8
       '@quasar/extras': 1.16.4
       '@quasar/vite-plugin': 1.4.1
@@ -489,6 +490,7 @@ importers:
     dependencies:
       '@jack/components': link:../components
       '@jack/http': link:../../packages/http
+      '@panzhiyue/leaflet-canvaslabel': 1.2.0
       '@popperjs/core': 2.11.8
       '@quasar/extras': 1.16.4
       '@vueuse/core': 10.2.1_vue@3.3.4
@@ -6047,6 +6049,12 @@ packages:
     transitivePeerDependencies:
       - rollup
       - supports-color
+    dev: false
+
+  /@panzhiyue/leaflet-canvaslabel/1.2.0:
+    resolution: {integrity: sha512-VuZfoBw9BscJpDT45X18aUZEqR1GNIK/OGrcs9ZBpZJxWOWAE/RPUmAUlrsiOD2q9Xhid50xdDOttw9aKlLqcg==}
+    dependencies:
+      rbush: 2.0.2
     dev: false
 
   /@parcel/bundler-default/2.8.3_@parcel+core@2.8.3:
@@ -24172,6 +24180,10 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
+  /quickselect/1.1.1:
+    resolution: {integrity: sha512-qN0Gqdw4c4KGPsBOQafj6yj/PA6c/L63f6CaZ/DCF/xF4Esu3jVmKLUDYxghFx8Kb/O7y9tI7x2RjTSXwdK1iQ==}
+    dev: false
+
   /quickselect/2.0.0:
     resolution: {integrity: sha512-RKJ22hX8mHe3Y6wH/N3wCM6BWtjaxIyyUIkpHOvfFnxdI4yD4tBXEBKSbriGujF6jnSVkJrffuo6vxACiSSxIw==}
 
@@ -24206,6 +24218,12 @@ packages:
       iconv-lite: 0.4.24
       unpipe: 1.0.0
     dev: true
+
+  /rbush/2.0.2:
+    resolution: {integrity: sha512-XBOuALcTm+O/H8G90b6pzu6nX6v2zCKiFG4BJho8a+bY6AER6t8uQUZdi5bomQc0AprCWhEGa7ncAbbRap0bRA==}
+    dependencies:
+      quickselect: 1.1.1
+    dev: false
 
   /rbush/3.0.1:
     resolution: {integrity: sha512-XRaVO0YecOpEuIvbhbpTrZgoiI6xBlz6hnlr6EHhd+0x9ase6EmeN+hdwwUaJvLcsFFQ8iWVF1GAK1yB0BWi0w==}

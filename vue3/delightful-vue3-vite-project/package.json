@@ -31,6 +31,7 @@
   "dependencies": {
     "@jack/components": "workspace:0.0.0",
     "@jack/http": "workspace:1.0.0",
+    "@panzhiyue/leaflet-canvaslabel": "~1.2.0",
     "@popperjs/core": "~2.11.8",
     "@quasar/extras": "1.16.4",
     "@vueuse/core": "10.2.1",
