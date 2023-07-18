@@ -205,6 +205,55 @@ popup.openOn(map)
 
 `setContent` 接收一个参数，和`bindPopup`的第一个参数类型一样。
 
+### 要素的显示顺序
+
+默认情况下，要素的显示顺序是按照添加到地图上的顺序来的，**后添加的要素会覆盖前面的要素**。如果想要改变显示顺序，可以使用`bringToFront`和`bringToBack`方法。
+
+```js
+const circle = L.circle(GuiYangPosition, {
+  color: 'red',
+  fillColor: '#f03',
+  fillOpacity: 0.5,
+  radius: 5000,
+})
+circle.bringToFront() // 将要素置于最前面
+```
+
+缺点：
+
+当要素很多时，这种方式就不太好用了。
+
+> 推荐的方式 -- 使用地图 panes
+
+panes 是一些 DOM 元素的集合，leaflet 会将要素添加到这些 DOM 元素中，不同的 pane 具有不同的 z-index，从而控制不同的图层。panes 有 4 个，分别是：
+
+- mapPane
+- tilePane
+- overlayPane
+- shadowPane
+- markerPane
+- tooltipPane
+- popupPane
+
+mapPane 的 z-index 为 auto, popupPane 的 z-index 为 7000，最大。具体可看[官方文档](https://leafletjs.com/reference-1.7.1.html#map-pane)
+
+overlayPane 默认容纳矢量要素的 pane，z-index 为 400。
+
+通过`createPane`方法创建一个 pane，然后将要素添加到这个 pane 上，从而实现控制要素的显示顺序。
+
+```js
+const circlesPane = map.createPane('circlesPane')
+circlesPane.style.zIndex = 410 // 比如默认的 overlayPane 大 10
+const mapCircles = L.geoJSON(circles as GeoJSON.GeoJsonObject, {
+  pane: 'circlesPane',
+})
+mapCircles.addTo(map)
+```
+
+页面上会创建一个`div`，类名为`leaflet-pane leaflet-circles-pane`，然后将要素添加到这个`div`中。
+
+> 通过 pane 批量设置要素的层级，是非常有用的。
+
 ## 图层
 
 ```ts
