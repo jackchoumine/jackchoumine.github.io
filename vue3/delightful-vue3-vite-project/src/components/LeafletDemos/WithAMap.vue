@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-17 23:50:25
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-19 19:34:49
+ * @LastEditTime: 2023-07-19 20:30:25
  * @Description : leaflet 和高德地图底图集成
  * 参考 https://stackblitz.com/edit/leaflet-d10?file=index.js
 -->
@@ -14,6 +14,7 @@ import {
   Icon,
   Map,
   Marker,
+  Point,
   Polygon,
   Polyline,
 } from 'leaflet'
@@ -21,7 +22,7 @@ import { MarkerClusterGroup } from 'leaflet.markercluster'
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
 
-import { redSvg, threeMakerInGuiYang } from './data'
+import { redSvg, someGeoJson, threeMakerInGuiYang } from './data'
 
 const aMapContainer = ref()
 const leafletMapContainer = ref()
@@ -32,7 +33,8 @@ onMounted(function () {
     maxZoom: 20,
   })
   // NOTE 不设置地图中心点，监听不到事件
-  map.setView([26.55, 106.6], 13)
+  // map.setView([26.55, 106.6], 13)
+  map.setView([26.543571948749644, 106.70140365782015], 13)
   // map.setView([26.5509186, 116.397411], 10)
 
   map.on('zoom', event => {
@@ -59,25 +61,53 @@ onMounted(function () {
         }),
       }
     )
-    marker.addTo(featureGroup)
+    marker.bindPopup(feature.properties.NAME)
+    // marker.addTo(featureGroup)
+    featureGroup.addLayer(marker)
   })
-  featureGroup.addTo(map)
+  const featMap = {
+    // Point,
+    LineString: Polyline,
+    Polygon,
+  }
+  // someGeoJson.features.forEach(feature => {
+  //   // console.log(feature.geometry, 'zqj log')
+  //   if (feature.geometry.type === 'Point') {
+  //     const feat = new Point(feature.geometry.coordinates)
+  //     featureGroup.addLayer(feat)
+  //   } else if (feature.geometry.type === 'LineString') {
+  //     const feat = new Polyline(feature.geometry.coordinates)
+  //     featureGroup.addLayer(feat)
+  //   } else if (feature.geometry.type === 'Polygon') {
+  //     const feat = new Polygon(feature.geometry.coordinates)
+  //     // featureGroup.addLayer(feat)
+  //     feat.addTo(featureGroup)
+  //   }
+  // })
+  featureGroup.on('click', event => {
+    console.log('featureGroup click', event)
+  })
+  // featureGroup.bindPopup(feature => {
+  //   // const { NAME } = feature.
+  //   console.log('featureGroup bindPopup', feature)
+  //   return `<span>hello</span>`
+  // })
   // 点  图标
   new Marker([26.5509186, 106.397411], {
     icon: new Icon({
       iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
       iconAnchor: [12, 41],
     }),
-  }).addTo(map)
+  }).addTo(featureGroup)
 
   // 点  圆点
-  new CircleMarker([26.5509186, 106.557411]).addTo(map)
+  new CircleMarker([26.5509186, 106.557411]).addTo(featureGroup)
 
   // 线
   new Polyline([
     [26.5509186, 106.597411],
     [26.5599186, 106.587411],
-  ]).addTo(map)
+  ]).addTo(featureGroup)
 
   // 面
   new Polygon([
@@ -85,7 +115,12 @@ onMounted(function () {
     [26.5599186, 106.527411],
     [26.5699186, 106.517411],
     [26.5899186, 106.507411],
-  ]).addTo(map)
+  ]).addTo(featureGroup)
+
+  featureGroup.addTo(map)
+  // setTimeout(() => {
+  //   map.removeLayer(featureGroup)
+  // }, 2000)
 })
 
 function initAMap() {

@@ -62,3 +62,52 @@ const featureGroup = new MarkerClusterGroup()
 地图缩小到一定级别，标记聚合成一个
 
 ![](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/marker-cluster-to-one.png)
+
+## 如何配置聚合插件？
+
+配置项有点多，等需要时再来了解吧。
+
+文档：[markercluster](https://github.com/Leaflet/Leaflet.markercluster)
+
+## 可以聚合其他图层吗，比如 circleMarker ？
+
+可以聚合 circleMarker，其他不行。
+
+## 关于 FeatureGroup
+
+FeatureGroup 要素组，扩展了 LayerGroup，方便对所有要素图层进行操作，比如添加到地图上，移除等。
+
+文档：[featuregroup](https://leafletjs.cn/reference.html#featuregroup)
+
+比如：
+
+```js
+  // 点  圆点
+  new CircleMarker([26.5509186, 106.557411]).addTo(featureGroup)
+
+  // 线
+  new Polyline([
+    [26.5509186, 106.597411],
+    [26.5599186, 106.587411],
+  ]).addTo(featureGroup)
+
+  // 面
+  new Polygon([
+    [26.5599186, 106.577411],
+    [26.5599186, 106.527411],
+    [26.5699186, 106.517411],
+    [26.5899186, 106.507411],
+  ]).addTo(featureGroup)
+
+  featureGroup.addTo(map)
+
+  setTimeout(() => {
+    map.removeLayer(featureGroup)
+  }, 2000)
+```
+
+把要素添加到要素组中，然后把要素组添加到地图上，2 秒后移除要素组。
+
+## 参考
+
+[Leaflet 进阶 D14--marker 聚合源码](https://stackblitz.com/edit/leaflet-d14?file=index.js)
