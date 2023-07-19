@@ -259,7 +259,7 @@ label 重叠 (label overlapping)，会导致用户无法看清楚地图上的信
  如何做？
  1. 引入高德地图的 js
 \`\`\`html
-<script src="https:/`,cover:""}},{route:"/web-gis/leaflet点聚合",meta:{title:"leaflet标记聚合",date:"2023-07-19 12:36:58",tag:[],description:`在地图上标记大量的点时，如果点之间的距离很小，当地图缩小时，点会重叠在一起，遮挡地图，这时候就需要对点进行聚合，当地图缩小时，点会聚合在一起，当地图放大时，点会分散开来。
+<script src="https:/`,cover:""}},{route:"/web-gis/leaflet点聚合",meta:{title:"leaflet标记聚合",date:"2023-07-19 12:37:33",tag:[],description:`在地图上标记大量的点时，如果点之间的距离很小，当地图缩小时，点会重叠在一起，遮挡地图，这时候就需要对点进行聚合，当地图缩小时，点会聚合在一起，当地图放大时，点会分散开来。
 使用 leaflet 的插件`,cover:"https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/marker-cluster-before.png"}},{route:"/web-gis/ol-0",meta:{title:"ol之快速开始",date:"2023-07-16 17:17:01",tag:[],description:`openLayers 是一个开源的二维的 JavaScript 地图库，用于在 web 上显示交互式的地图，简称 ol。
 ol 的特点：
 - 开源
