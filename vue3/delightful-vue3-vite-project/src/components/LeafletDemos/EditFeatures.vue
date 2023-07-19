@@ -2,11 +2,14 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-19 20:54:43
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-19 21:02:22
+ * @LastEditTime: 2023-07-19 21:18:56
  * @Description : 编辑要素
 -->
 <script lang="ts" setup>
-import { LatLngExpression, Map, TileLayer } from 'leaflet'
+import '@geoman-io/leaflet-geoman-free'
+import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css'
+import { Map, TileLayer } from 'leaflet'
+import type { LatLngExpression } from 'leaflet'
 import { reverse } from 'lodash-es'
 
 import { guiYangPosition } from '../OpenLayersDemos/data'
@@ -24,6 +27,9 @@ const gaoDeLayer = new TileLayer(
 let map = null
 onMounted(() => {
   map = initMap(mapContainer.value, [gaoDeLayer])
+  map.pm.addControls({
+    position: 'topright',
+  })
 })
 
 function initMap(
