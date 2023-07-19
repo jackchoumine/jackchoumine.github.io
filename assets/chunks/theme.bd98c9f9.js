@@ -260,7 +260,7 @@ label 重叠 (label overlapping)，会导致用户无法看清楚地图上的信
  1. 引入高德地图的 js
 \`\`\`html
 <script src="https:/`,cover:""}},{route:"/web-gis/leaflet点聚合",meta:{title:"leaflet标记聚合",date:"2023-07-19 12:37:33",tag:[],description:`在地图上标记大量的点时，如果点之间的距离很小，当地图缩小时，点会重叠在一起，遮挡地图，这时候就需要对点进行聚合，当地图缩小时，点会聚合在一起，当地图放大时，点会分散开来。
-使用 leaflet 的插件`,cover:"https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/marker-cluster-before.png"}},{route:"/web-gis/leaflet要素编辑",meta:{title:"leaflet要素编辑",date:"2023-07-19 13:03:54",tag:[],description:"使用 leaflet 插件geoman-io实现要素编辑功能，这个插件有免费版和付费版，免费版功能已经很强大了，付费版功能更强大，但是价格也不菲，最低 999 欧元/年。",cover:""}},{route:"/web-gis/ol-0",meta:{title:"ol之快速开始",date:"2023-07-16 17:17:01",tag:[],description:`openLayers 是一个开源的二维的 JavaScript 地图库，用于在 web 上显示交互式的地图，简称 ol。
+使用 leaflet 的插件`,cover:"https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/marker-cluster-before.png"}},{route:"/web-gis/leaflet要素编辑",meta:{title:"leaflet要素编辑",date:"2023-07-19 13:24:28",tag:[],description:"使用 leaflet 插件geoman-io实现要素编辑功能，这个插件有免费版和付费版，免费版功能已经很强大了，付费版功能更强大，但是价格也不菲，最低 999 欧元/年。\n 安装\n```bash\nnp",cover:""}},{route:"/web-gis/ol-0",meta:{title:"ol之快速开始",date:"2023-07-16 17:17:01",tag:[],description:`openLayers 是一个开源的二维的 JavaScript 地图库，用于在 web 上显示交互式的地图，简称 ol。
 ol 的特点：
 - 开源
 - 模块化 -- 使用 ES6 模块化语法
