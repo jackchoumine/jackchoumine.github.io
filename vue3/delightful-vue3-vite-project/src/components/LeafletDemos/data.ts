@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-04-09 00:59:04
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-17 23:42:38
+ * @LastEditTime: 2023-07-19 19:18:00
  * @Description : geoJson
  */
 const points = {
@@ -307,4 +307,86 @@ const circles = {
 }
 const aMapKey = '9e40eec8abc79f8f93d89db04639f57e'
 
-export { points, lines, polygons, circles, aMapKey }
+const threeMakerInGuiYang = {
+  type: 'FeatureCollection',
+  features: [
+    {
+      type: 'Feature',
+      properties: {
+        NAME: '西北五环',
+        URL: 'https://lbsugc.cdn.bcebos.com/images/H6609c93d70cf3bc772e13cf7de00baa1cc112acc.jpg',
+        DESC: '这是一段很长的描述很长的描述很长的描述很长的描述很长的描述',
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: [106.69996197509766, 26.575270800414],
+      },
+    },
+    {
+      type: 'Feature',
+      properties: {
+        NAME: '东五环',
+        URL: 'https://lbsugc.cdn.bcebos.com/images/H7e3e6709c93d70cfd71b5b16f7dcd100bba12bcc.jpg',
+        DESC: '这又是一段很长的描述很长的描述很长的描述很长的描述很长的描述',
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: [106.69281622314453, 26.559034155951341],
+      },
+    },
+    {
+      type: 'Feature',
+      properties: {
+        NAME: '南五环',
+        URL: 'https://poi-pic.cdn.bcebos.com/d0bf12c973c86ccf2eb79d337bdeb860.jpg',
+        DESC: '这还是一段很长的描述很长的描述很长的描述很长的描述很长的描述',
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: [106.67151977539062, 26.59631584037253],
+      },
+    },
+    {
+      type: 'Feature',
+      properties: {
+        NAME: '西北五环',
+        URL: 'https://lbsugc.cdn.bcebos.com/images/H6609c93d70cf3bc772e13cf7de00baa1cc112acc.jpg',
+        DESC: '这是一段很长的描述很长的描述很长的描述很长的描述很长的描述',
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: [106.6499197509766, 26.565270800414],
+      },
+    },
+    {
+      type: 'Feature',
+      properties: {
+        NAME: '东五环',
+        URL: 'https://lbsugc.cdn.bcebos.com/images/H7e3e6709c93d70cfd71b5b16f7dcd100bba12bcc.jpg',
+        DESC: '这又是一段很长的描述很长的描述很长的描述很长的描述很长的描述',
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: [106.6781622314453, 26.59034155951341],
+      },
+    },
+    {
+      type: 'Feature',
+      properties: {
+        NAME: '南五环',
+        URL: 'https://poi-pic.cdn.bcebos.com/d0bf12c973c86ccf2eb79d337bdeb860.jpg',
+        DESC: '这还是一段很长的描述很长的描述很长的描述很长的描述很长的描述',
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: [106.69951977539062, 26.58081584037253],
+      },
+    },
+  ],
+}
+
+const redSvg = `<svg t="1621166776642" class="icon" 
+  viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+   p-id="1407" width="200" height="200"><path d="M512 85.333333c-164.949333 0-298.666667 133.738667-298.666667 298.666667 0 164.949333 298.666667 554.666667 298.666667 554.666667s298.666667-389.717333 298.666667-554.666667c0-164.928-133.717333-298.666667-298.666667-298.666667z m0 448a149.333333 149.333333 0 1 1 0-298.666666 149.333333 149.333333 0 0 1 0 298.666666z" fill="#F00" p-id="1408"></path></svg>`
+
+export { points, lines, polygons, circles, aMapKey, threeMakerInGuiYang, redSvg }

@@ -45,6 +45,7 @@
     "hoverintent": "2.2.1",
     "jack-web-ui": "~0.0.8",
     "leaflet": "~1.9.4",
+    "leaflet.markercluster": "~1.5.3",
     "lit": "~2.7.5",
     "lodash-es": "~4.17.21",
     "ol": "~7.4.0",

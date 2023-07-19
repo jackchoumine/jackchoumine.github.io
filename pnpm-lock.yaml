@@ -453,6 +453,7 @@ importers:
       jack-web-ui: ~0.0.8
       jsdom: 22.1.0
       leaflet: ~1.9.4
+      leaflet.markercluster: ~1.5.3
       lint-staged: 13.2.3
       lit: ~2.7.5
       lodash-es: ~4.17.21
@@ -504,6 +505,7 @@ importers:
       hoverintent: 2.2.1
       jack-web-ui: 0.0.8
       leaflet: 1.9.4
+      leaflet.markercluster: 1.5.3_leaflet@1.9.4
       lit: 2.7.5
       lodash-es: 4.17.21
       ol: 7.4.0
@@ -20524,6 +20526,14 @@ packages:
     engines: {node: '>= 0.10'}
     dependencies:
       flush-write-stream: 1.1.1
+
+  /leaflet.markercluster/1.5.3_leaflet@1.9.4:
+    resolution: {integrity: sha512-vPTw/Bndq7eQHjLBVlWpnGeLa3t+3zGiuM7fJwCkiMFq+nmRuG3RI3f7f4N4TDX7T4NpbAXpR2+NTRSEGfCSeA==}
+    peerDependencies:
+      leaflet: ^1.3.1
+    dependencies:
+      leaflet: 1.9.4
+    dev: false
 
   /leaflet/1.9.4:
     resolution: {integrity: sha512-nxS1ynzJOmOlHp+iL3FyWqK89GtNL8U8rvlMOsQdTTssxZwCXh8N2NB3GDQOL+YR3XnWyZAxwQixURb+FA74PA==}
