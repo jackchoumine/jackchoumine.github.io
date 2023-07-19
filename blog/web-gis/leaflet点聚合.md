@@ -108,6 +108,10 @@ FeatureGroup 要素组，扩展了 LayerGroup，方便对所有要素图层进�
 
 把要素添加到要素组中，然后把要素组添加到地图上，2 秒后移除要素组。
 
+## 关于聚合容差 tolerance
+
+检测两个点是否重叠的容差，单位是像素，当小于这个容差时，两个点会被聚合在一起。
+
 ## 参考
 
 [Leaflet 进阶 D14--marker 聚合源码](https://stackblitz.com/edit/leaflet-d14?file=index.js)
