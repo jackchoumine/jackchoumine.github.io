@@ -2,11 +2,12 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-04-08 20:29:05
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-18 00:13:45
+ * @LastEditTime: 2023-07-19 20:56:18
  * @Description : leaflet 学习
 -->
 <script setup>
 import {
+  EditFeatures,
   GeoJSON,
   InitMap,
   InitMap2,
@@ -38,6 +39,7 @@ const tab = ref('init')
           <QTab name="marker" label="标记" />
           <QTab name="layer-control" label="图层控制" />
           <QTab name="geo-json" label="geoJson" />
+          <QTab name="edit-features" label="编辑要素" />
           <QTab name="event" label="事件" />
           <QTab name="style-custom" label="修改组件样式" />
         </QTabs>
@@ -56,6 +58,7 @@ const tab = ref('init')
           <QTabPanel name="marker"> <MarkerDemo /> </QTabPanel>
           <QTabPanel name="layer-control"> <LayerControl /> </QTabPanel>
           <QTabPanel name="geo-json"><GeoJSON /> </QTabPanel>
+          <QTabPanel name="edit-features"> <EditFeatures /></QTabPanel>
           <QTabPanel name="event"> </QTabPanel>
           <QTabPanel name="style-custom"> </QTabPanel>
         </QTabPanels>
