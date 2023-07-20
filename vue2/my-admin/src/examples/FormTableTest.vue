@@ -2,14 +2,14 @@
  * @Description: 测试组件
  * @Date: 2021-06-09 20:49:21 +0800
  * @Author: JackChou
- * @LastEditTime: 2022-09-19 18:46:39 +0800
- * @LastEditors : JackChou
+ * @LastEditTime: 2023-07-20 21:36:44
+ * @LastEditors : ZhouQiJun
 -->
 <template>
   <div>
     <FormTable title="使用例子" :data="data" :titleList="titleList" />
     <FormTable title="使用例子2" :data="data" :titleList="titleList" :titleWidth="150" />
-    <button @click="testClick">按钮</button>
+    <button @click="testClick">动态导入js</button>
     <div>
       <HelloOne v-if="showAsync" />
       <HelloTwo />
@@ -94,7 +94,7 @@ export default {
     testClick() {
       console.log('testClick')
       // onClick()
-      import(/* webpackChunkName: "test" */ './test.js').then(({ onClick }) => {
+      import(/* webpackChunkName: "testDynamicImport" */ './testDynamicImport.js').then(({ onClick }) => {
         onClick()
       })
       this.showAsync = !this.showAsync
