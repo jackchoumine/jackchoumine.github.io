@@ -152,7 +152,12 @@ gh-pages 是 github `,cover:""}},{route:"/vue2/vue-状态管理（一）",meta:{
 - vue 组件的三大核心：
   - 属性（props、data）;
   - 事件`,cover:""}},{route:"/vue2/vue2响应式系统核心原理实现",meta:{title:"vue2响应式核心原理实现",date:"2023-06-23 09:40:53",tag:[],description:`vue 的核心功能就是实现了数据到模板的响应式系统----修改数据，vue 自动执行副作用（更新 DOM、执行监听器等），从而让开发者从手动处理 DOM 更新的繁琐中解脱出来。
-今天就来实现一个响应式`,cover:"https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/e6c9d24egy1h4a2hzckb8j20ma052dgd.2kdcch4bl6k0.webp"}},{route:"/vue2/vueConfig配置",meta:{title:"vue2-demos",date:"2023-06-14 16:13:06",tag:[],description:" Project setup\n```\nnpm install\n```\n Compiles and hot-reloads for development\n```\nnpm run serve\n```\n ",cover:""}},{route:"/vue2/vue路由基础",meta:{title:"vue路由基础",date:"2023-06-14 16:13:06",tag:[],description:`vue 使用 vue-router 插件处理路由，路由是开发单页应用必须掌握的知识。
+今天就来实现一个响应式`,cover:"https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/e6c9d24egy1h4a2hzckb8j20ma052dgd.2kdcch4bl6k0.webp"}},{route:"/vue2/vue2组件测试",meta:{title:"vue2组件测试",date:"2023-07-20 08:40:25",tag:[],description:` 前端测试
+软件测试：检查软件是否按照预期工作的过程。
+测试分类：
+从是否需要手动测试来分：
+- 手动测试：需要人工操作，比如点击按钮，输入文字等。
+- 自动测试：写代码测试其他代码，不需要人亲自手动`,cover:"https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/front-end-test.png"}},{route:"/vue2/vueConfig配置",meta:{title:"vue2-demos",date:"2023-06-14 16:13:06",tag:[],description:" Project setup\n```\nnpm install\n```\n Compiles and hot-reloads for development\n```\nnpm run serve\n```\n ",cover:""}},{route:"/vue2/vue路由基础",meta:{title:"vue路由基础",date:"2023-06-14 16:13:06",tag:[],description:`vue 使用 vue-router 插件处理路由，路由是开发单页应用必须掌握的知识。
 <!--more--
  什么是 vue-router？
 （1）vue-router 是 Vue 官方提供前端路由插`,cover:""}},{route:"/vue2/vue路由进阶",meta:{title:"vue路由进阶",date:"2023-06-14 16:13:06",tag:[],description:"路由可向路由匹配的组件传递参数，`不同情况`向组件传递不同的参数，从而实现组件的复用。\n<!--more--\n 路由向组件传递参数\n和路由匹配的组件可以在组件中使用 `$route` 获取路由上的参数",cover:""}},{route:"/vue2/函数式组件",meta:{title:"函数式组件",date:"2023-06-23 09:40:53",tag:[],description:"函数式组件（functional component）是一个不持有状态`data`、实例`this`和生命周期的组件。\n\n模板定义：\n```html\n<template functional>\n  <",cover:"https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/008i3skNgy1gqwvhz9dt4j30fq02ywen.webp 'slots()'"}},{route:"/vue2/如何优雅地注册全局组件",meta:{title:"如何更好的注册全局组件",date:"2023-06-14 16:13:06",tag:[],description:" 通常做法\n把组件导出到 main.js，然后 `Vue.component(id,component)`，一个个注册，缺点：效率不高\n改进：把需要全局注册的组件放在数组中导出，然后 forEach ",cover:""}},{route:"/vue2/如何使用render函数封装高扩展的组件",meta:{title:"如何使用render改善组件",date:"2023-06-23 09:40:53",tag:[],description:`前面的文章有提到，vue 官网给出的 render 函数的例子只能体现 render 函数的优雅的一方面，却不能看出其扩展性，今天就来封装一个体现其扩展性的组件。
