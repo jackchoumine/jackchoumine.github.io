@@ -306,7 +306,7 @@ App.vue
 
 渲染输出：
 
-![](./public//toggle-demo.png)
+![](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/toggle-demo.png)
 
 完美！
 
@@ -448,3 +448,44 @@ import '../dist/css/toggle.css'
 import { JToggle } from '../dist'
 Vue.use(JToggle)
 ```
+
+## 测试组件
+
+### 单元测试
+
+安装 vue 测试插件：
+
+```bash
+vue add @vue/cli-plugin-unit-jest
+```
+
+安装完毕会自动配置测试环境，并创建了一个测试`HelloWorld.vue`的用例，但是项目里没有 HelloWorld.vue，在`tests/unit`就近新建一个。
+
+```html
+<script>
+  export default {
+    name: 'HelloWorld',
+    props: {
+      msg: {
+        type: String,
+        default: '',
+      },
+    },
+    data() {
+      return {}
+    },
+  }
+</script>
+
+<template>
+  <div>{{ msg }}</div>
+</template>
+```
+
+然后引入组件：
+
+```js
+import HelloWorld from './HelloWorld.vue'
+```
+
+执行`npm run test:unit`，测试环境是否配置成功。
