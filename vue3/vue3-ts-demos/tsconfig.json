@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "allowJs": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "lib": ["esnext", "dom"],
+    "types": ["vite/client"]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "src/**/*.js",
+    "src/**/*.js",
+    "./types.d.ts"
+, "src/views/StencilRender.jsx"  ],
+  // "paths": {
+  //   "@/*": ["src/*"]
+  // }
+  // "baseUrl": "./src",
+  "baseUrl": ".",
+  "paths": {
+    "@/*": ["src/*"],
+    "@com": ["src/components/*"],
+    "@hooks": ["src/hooks/*"],
+    "@utils": ["src/utils/*"]
+  }
+}
