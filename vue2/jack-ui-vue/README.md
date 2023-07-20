@@ -489,3 +489,5 @@ import HelloWorld from './HelloWorld.vue'
 ```
 
 执行`npm run test:unit`，测试环境是否配置成功。
+
+> 搭建测试系统的第一步是编写一个简单的测试来检查系统是否配置正确。这被称为**可用性（sanity）测试**。
