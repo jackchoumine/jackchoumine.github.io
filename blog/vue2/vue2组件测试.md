@@ -468,3 +468,58 @@ describe('ContractList.vue', () => {
     })
   })
 ```
+
+如果 props 多传一个字段，但是组件上不用呢？
+
+```js
+describe('ContractList.vue', () => {
+  const richFriends = [
+    {
+      name: '马爸爸',
+      city: '杭州',
+      img: 'https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/ma-yun.png',
+      phone: '123456789',
+      position: 'CEO',
+      company: '阿里巴巴',
+      twitter: 'https://twitter.com/jack-ma',
+      fortune: '400亿美元', // 多余的字段
+    },
+    {
+      name: '麻花藤',
+      city: '深圳',
+      img: 'https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/pony-ma.png',
+      phone: '99988123',
+      position: 'CTO',
+      company: '腾讯',
+      twitter: 'https://twitter.com/pony-ma',
+      fortune: '600亿美元',
+    },
+  ]
+  it('测试 props', () => {
+    const wrapper = shallowMount(ContractList, {
+      propsData: {
+        persons: richFriends,
+      },
+    })
+    const items = wrapper.findAllComponents(ContractItem)
+    items.wrappers.forEach((wrapper, index) => {
+      // console.log(wrapper.props())
+      expect(wrapper.props()).toEqual(richFriends[index])
+    })
+  })
+})
+```
+
+增加一个 fortune 字段，但是组件上没有用到，测试用例不通过，如何修改断言让它通过呢？
+
+> 最好别这样做，否则人家不知道的组件 props 到底是什么。
+
+传递为声明的 prop，会怎样？
+
+删除`ContractItem` 的 `city`，而仍然传递`city`，看看效果。
+
+`it('测试 props')` 用例失败，提示 props 缺少 city。
+
+![](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/no-prop.png)
+
+> 多传递 prop 是一个陷阱，需要格外小心。

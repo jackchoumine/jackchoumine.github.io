@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-20 19:28:34
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-20 20:41:16
+ * @LastEditTime: 2023-07-20 20:57:08
  * @Description :
  */
 import { shallowMount } from '@vue/test-utils'
@@ -19,6 +19,7 @@ describe('ContractList.vue', () => {
       position: 'CEO',
       company: '阿里巴巴',
       twitter: 'https://twitter.com/jack-ma',
+      // fortune: '400亿美元',
     },
     {
       name: '麻花藤',
@@ -28,6 +29,7 @@ describe('ContractList.vue', () => {
       position: 'CTO',
       company: '腾讯',
       twitter: 'https://twitter.com/pony-ma',
+      // fortune: '600亿美元',
     },
   ]
   it("ContractItem's size", () => {
