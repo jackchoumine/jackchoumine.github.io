@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-20 16:06:59
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-20 16:13:32
+ * @LastEditTime: 2023-07-20 18:49:09
  * @Description : 测试 HelloWorld.vue
  */
 import { shallowMount } from '@vue/test-utils'
@@ -15,5 +15,15 @@ describe('HelloWorld.vue', () => {
       propsData: { msg },
     })
     expect(wrapper.text()).toMatch(msg)
+    expect(wrapper.text()).toBe(msg)
+    expect(wrapper.text()).toEqual(msg)
+    expect(wrapper.text()).toContain(msg)
+  })
+  test('始终通过的测试', () => {
+    // TODO 如何编写 runner
+    // runner.start()
+    // setTimeout(() => {
+    //   expect(runner.finished).toBe(true)
+    // }, 1000)
   })
 })

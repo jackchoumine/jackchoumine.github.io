@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve examples/main.js",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
+    "test:debug": "node --inspect-brk node_modules/.bin/vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "build:css": "npx gulp",
     "build:jackUI": "npm run build:js && npm run build:css",
