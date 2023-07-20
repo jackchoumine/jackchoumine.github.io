@@ -205,6 +205,55 @@ popup.openOn(map)
 
 `setContent` 接收一个参数，和`bindPopup`的第一个参数类型一样。
 
+### 要素的显示顺序
+
+默认情况下，要素的显示顺序是按照添加到地图上的顺序来的，**后添加的要素会覆盖前面的要素**。如果想要改变显示顺序，可以使用`bringToFront`和`bringToBack`方法。
+
+```js
+const circle = L.circle(GuiYangPosition, {
+  color: 'red',
+  fillColor: '#f03',
+  fillOpacity: 0.5,
+  radius: 5000,
+})
+circle.bringToFront() // 将要素置于最前面
+```
+
+缺点：
+
+当要素很多时，这种方式就不太好用了。
+
+> 推荐的方式 -- 使用地图 panes
+
+panes 是一些 DOM 元素的集合，leaflet 会将要素添加到这些 DOM 元素中，不同的 pane 具有不同的 z-index，从而控制不同的图层。panes 有 4 个，分别是：
+
+- mapPane
+- tilePane
+- overlayPane
+- shadowPane
+- markerPane
+- tooltipPane
+- popupPane
+
+mapPane 的 z-index 为 auto, popupPane 的 z-index 为 7000，最大。具体可看[官方文档](https://leafletjs.com/reference-1.7.1.html#map-pane)
+
+overlayPane 默认容纳矢量要素的 pane，z-index 为 400。
+
+通过`createPane`方法创建一个 pane，然后将要素添加到这个 pane 上，从而实现控制要素的显示顺序。
+
+```js
+const circlesPane = map.createPane('circlesPane')
+circlesPane.style.zIndex = 410 // 比如默认的 overlayPane 大 10
+const mapCircles = L.geoJSON(circles as GeoJSON.GeoJsonObject, {
+  pane: 'circlesPane',
+})
+mapCircles.addTo(map)
+```
+
+页面上会创建一个`div`，类名为`leaflet-pane leaflet-circles-pane`，然后将要素添加到这个`div`中。
+
+> 通过 pane 批量设置要素的层级，是非常有用的。
+
 ## 图层
 
 ```ts
@@ -370,6 +419,28 @@ geoJSON 是一种用于表示地理信息的数据结构，它是一种 JSON 格
 [geoJson 格式说明](https://chenoge.github.io/2019/07/18/geoJson%E6%A0%BC%E5%BC%8F/)
 
 ### WKT
+
+## 渲染方式
+
+leaflet 支持两种渲染方式：`SVG`和`Canvas`，默认使用`SVG`。
+
+启用`Canvas`渲染方式：
+
+```js
+Map(id, {
+  renderer: L.canvas(),
+})
+```
+
+> 启用后，检测页面的的 `.overlay-pane` 节点，会发现多了一个 canvas 节点。
+
+> canvas 和 svg 有什么区别？
+
+svg 是基于 XML 或者 html, 用于定义二维图形和动画。SVG 图像是通过描述形状、路径、颜色和样式等元素来构建的，它们以文本的形式存储，并且可以通过 CSS 和 JavaScript 进行操作和控制。
+
+canvas 是 HTML5 提供的一个元素，通过 JavaScript 来实现图形绘制。Canvas 提供了一个空白的画布，开发者可以使用 JavaScript 绘制图形和动画。与 SVG 不同，Canvas 绘图是基于像素的，意味着图形的细节和清晰度取决于屏幕的分辨率。当画布的大小改变时，画布上的图像会被擦除，因此需要通过 JavaScript 重新绘制。
+
+总的来说，SVG 适用于需要保持高清晰度和可伸缩性的图形，特别适用于图标、图表和矢量艺术等场景。而 Canvas 更适用于需要实时动画和复杂的图形处理，例如游戏和图像编辑器。选择使用 SVG 还是 Canvas 取决于你的具体需求和场景。
 
 ## 问题
 

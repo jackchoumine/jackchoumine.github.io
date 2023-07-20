@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-04-08 21:08:15
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-17 11:21:05
+ * @LastEditTime: 2023-07-18 20:25:12
  * @Description : geoJson
 -->
 <script lang="ts" setup>
@@ -24,7 +24,9 @@ function initMap(
   coordinates: [number, number] = [26.56, 106.75],
   zoom: number = 11.4
 ) {
-  const map = L.map(mapContainer).setView(coordinates, zoom)
+  const map = L.map(mapContainer, {
+    renderer: L.canvas(),
+  }).setView(coordinates, zoom)
   const googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
   })
@@ -106,7 +108,11 @@ function drawFeatures(map) {
   const bound = mapPolygon.getBounds()
   console.log(bound, 'zqj log')
   map.fitBounds(bound)
-  const mapCircles = L.geoJSON(circles as GeoJSON.GeoJsonObject)
+  const circlesPane = map.createPane('circlesPane')
+  circlesPane.style.zIndex = 410
+  const mapCircles = L.geoJSON(circles as GeoJSON.GeoJsonObject, {
+    pane: 'circlesPane',
+  })
   mapCircles.addTo(map)
   return map
 }

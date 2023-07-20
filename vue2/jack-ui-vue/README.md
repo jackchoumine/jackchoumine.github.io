@@ -306,7 +306,7 @@ App.vue
 
 渲染输出：
 
-![](./public//toggle-demo.png)
+![](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/toggle-demo.png)
 
 完美！
 
@@ -448,3 +448,54 @@ import '../dist/css/toggle.css'
 import { JToggle } from '../dist'
 Vue.use(JToggle)
 ```
+
+## 测试组件
+
+### 单元测试
+
+安装 vue 测试插件：
+
+```bash
+vue add @vue/cli-plugin-unit-jest
+```
+
+安装完毕会自动配置测试环境，并创建了一个测试`HelloWorld.vue`的用例，但是项目里没有 HelloWorld.vue，在`tests/unit`就近新建一个。
+
+```html
+<script>
+  export default {
+    name: 'HelloWorld',
+    props: {
+      msg: {
+        type: String,
+        default: '',
+      },
+    },
+    data() {
+      return {}
+    },
+  }
+</script>
+
+<template>
+  <div>{{ msg }}</div>
+</template>
+```
+
+然后引入组件：
+
+```js
+import HelloWorld from './HelloWorld.vue'
+```
+
+执行`npm run test:unit`，测试环境是否配置成功。
+
+> 可用性（sanity）测试
+
+搭建测试系统的第一步是编写一个简单的测试来检查系统是否配置正确。这被称为**可用性（sanity）测试**。
+
+在排查复杂问题或者配置环境时，可用性测试应该成为第一个测试用例，因为它能检查环境是否配置正确。
+
+> 就近放置测试文件
+
+将单元测试放置在尽可能接近被测代码的位置，会更容易被其他开发人员找到。

@@ -4,12 +4,14 @@ importers:
 
   .:
     specifiers:
+      mitt: ~3.0.0
       only-allow: ~1.1.1
       vitepress: ~1.0.0-alpha.25
       vitepress-plugin-pagefind: ~0.2.4
     dependencies:
       vitepress-plugin-pagefind: 0.2.4_vitepress@1.0.0-beta.5
     devDependencies:
+      mitt: 3.0.0
       only-allow: 1.1.1
       vitepress: 1.0.0-beta.5
 
@@ -412,8 +414,10 @@ importers:
 
   vue3/delightful-vue3-vite-project:
     specifiers:
+      '@geoman-io/leaflet-geoman-free': ~2.14.2
       '@jack/components': workspace:0.0.0
       '@jack/http': workspace:1.0.0
+      '@panzhiyue/leaflet-canvaslabel': ~1.2.0
       '@popperjs/core': ~2.11.8
       '@quasar/extras': 1.16.4
       '@quasar/vite-plugin': 1.4.1
@@ -450,10 +454,10 @@ importers:
       jack-web-ui: ~0.0.8
       jsdom: 22.1.0
       leaflet: ~1.9.4
+      leaflet.markercluster: ~1.5.3
       lint-staged: 13.2.3
       lit: ~2.7.5
       lodash-es: ~4.17.21
-      mitt: ~3.0.0
       ol: ~7.4.0
       only-allow: ~1.1.1
       pinia: 2.1.4
@@ -486,8 +490,10 @@ importers:
       vue-tsc: ~1.8.3
       yup: 1.2.0
     dependencies:
+      '@geoman-io/leaflet-geoman-free': 2.14.2_leaflet@1.9.4
       '@jack/components': link:../components
       '@jack/http': link:../../packages/http
+      '@panzhiyue/leaflet-canvaslabel': 1.2.0
       '@popperjs/core': 2.11.8
       '@quasar/extras': 1.16.4
       '@vueuse/core': 10.2.1_vue@3.3.4
@@ -501,9 +507,9 @@ importers:
       hoverintent: 2.2.1
       jack-web-ui: 0.0.8
       leaflet: 1.9.4
+      leaflet.markercluster: 1.5.3_leaflet@1.9.4
       lit: 2.7.5
       lodash-es: 4.17.21
-      mitt: 3.0.0
       ol: 7.4.0
       pinia: 2.1.4_typescript@5.1.6+vue@3.3.4
       quasar: 2.12.2
@@ -5266,6 +5272,20 @@ packages:
       '@floating-ui/core': 1.3.1
     dev: false
 
+  /@geoman-io/leaflet-geoman-free/2.14.2_leaflet@1.9.4:
+    resolution: {integrity: sha512-6lIyG8RvSVdFjVjiQgBPyNASjymSyqzsiUeBW0pA+q41lB5fAg4SDC6SfJvWdEyDHa81Jb5FWjUkCc9O+u0gbg==}
+    peerDependencies:
+      leaflet: ^1.2.0
+    dependencies:
+      '@turf/boolean-contains': 6.5.0
+      '@turf/kinks': 6.5.0
+      '@turf/line-intersect': 6.5.0
+      '@turf/line-split': 6.5.0
+      leaflet: 1.9.4
+      lodash: 4.17.21
+      polygon-clipping: 0.15.3
+    dev: false
+
   /@hapi/address/2.1.4:
     resolution: {integrity: sha512-QD1PhQk+s31P1ixsX0H0Suoupp3VMXzIVMSwobR3F3MSUO2YCV0B7xqLcUw/Bh8yuvd3LhpyqLQWTNcRmp6IdQ==}
     deprecated: Moved to 'npm install @sideway/address'
@@ -6047,6 +6067,12 @@ packages:
     transitivePeerDependencies:
       - rollup
       - supports-color
+    dev: false
+
+  /@panzhiyue/leaflet-canvaslabel/1.2.0:
+    resolution: {integrity: sha512-VuZfoBw9BscJpDT45X18aUZEqR1GNIK/OGrcs9ZBpZJxWOWAE/RPUmAUlrsiOD2q9Xhid50xdDOttw9aKlLqcg==}
+    dependencies:
+      rbush: 2.0.2
     dev: false
 
   /@parcel/bundler-default/2.8.3_@parcel+core@2.8.3:
@@ -7577,6 +7603,139 @@ packages:
       path-browserify: 1.0.1
     dev: true
 
+  /@turf/bbox/6.5.0:
+    resolution: {integrity: sha512-RBbLaao5hXTYyyg577iuMtDB8ehxMlUqHEJiMs8jT1GHkFhr6sYre3lmLsPeYEi/ZKj5TP5tt7fkzNdJ4GIVyw==}
+    dependencies:
+      '@turf/helpers': 6.5.0
+      '@turf/meta': 6.5.0
+    dev: false
+
+  /@turf/bearing/6.5.0:
+    resolution: {integrity: sha512-dxINYhIEMzgDOztyMZc20I7ssYVNEpSv04VbMo5YPQsqa80KO3TFvbuCahMsCAW5z8Tncc8dwBlEFrmRjJG33A==}
+    dependencies:
+      '@turf/helpers': 6.5.0
+      '@turf/invariant': 6.5.0
+    dev: false
+
+  /@turf/boolean-contains/6.5.0:
+    resolution: {integrity: sha512-4m8cJpbw+YQcKVGi8y0cHhBUnYT+QRfx6wzM4GI1IdtYH3p4oh/DOBJKrepQyiDzFDaNIjxuWXBh0ai1zVwOQQ==}
+    dependencies:
+      '@turf/bbox': 6.5.0
+      '@turf/boolean-point-in-polygon': 6.5.0
+      '@turf/boolean-point-on-line': 6.5.0
+      '@turf/helpers': 6.5.0
+      '@turf/invariant': 6.5.0
+    dev: false
+
+  /@turf/boolean-point-in-polygon/6.5.0:
+    resolution: {integrity: sha512-DtSuVFB26SI+hj0SjrvXowGTUCHlgevPAIsukssW6BG5MlNSBQAo70wpICBNJL6RjukXg8d2eXaAWuD/CqL00A==}
+    dependencies:
+      '@turf/helpers': 6.5.0
+      '@turf/invariant': 6.5.0
+    dev: false
+
+  /@turf/boolean-point-on-line/6.5.0:
+    resolution: {integrity: sha512-A1BbuQ0LceLHvq7F/P7w3QvfpmZqbmViIUPHdNLvZimFNLo4e6IQunmzbe+8aSStH9QRZm3VOflyvNeXvvpZEQ==}
+    dependencies:
+      '@turf/helpers': 6.5.0
+      '@turf/invariant': 6.5.0
+    dev: false
+
+  /@turf/destination/6.5.0:
+    resolution: {integrity: sha512-4cnWQlNC8d1tItOz9B4pmJdWpXqS0vEvv65bI/Pj/genJnsL7evI0/Xw42RvEGROS481MPiU80xzvwxEvhQiMQ==}
+    dependencies:
+      '@turf/helpers': 6.5.0
+      '@turf/invariant': 6.5.0
+    dev: false
+
+  /@turf/distance/6.5.0:
+    resolution: {integrity: sha512-xzykSLfoURec5qvQJcfifw/1mJa+5UwByZZ5TZ8iaqjGYN0vomhV9aiSLeYdUGtYRESZ+DYC/OzY+4RclZYgMg==}
+    dependencies:
+      '@turf/helpers': 6.5.0
+      '@turf/invariant': 6.5.0
+    dev: false
+
+  /@turf/helpers/6.5.0:
+    resolution: {integrity: sha512-VbI1dV5bLFzohYYdgqwikdMVpe7pJ9X3E+dlr425wa2/sMJqYDhTO++ec38/pcPvPE6oD9WEEeU3Xu3gza+VPw==}
+    dev: false
+
+  /@turf/invariant/6.5.0:
+    resolution: {integrity: sha512-Wv8PRNCtPD31UVbdJE/KVAWKe7l6US+lJItRR/HOEW3eh+U/JwRCSUl/KZ7bmjM/C+zLNoreM2TU6OoLACs4eg==}
+    dependencies:
+      '@turf/helpers': 6.5.0
+    dev: false
+
+  /@turf/kinks/6.5.0:
+    resolution: {integrity: sha512-ViCngdPt1eEL7hYUHR2eHR662GvCgTc35ZJFaNR6kRtr6D8plLaDju0FILeFFWSc+o8e3fwxZEJKmFj9IzPiIQ==}
+    dependencies:
+      '@turf/helpers': 6.5.0
+    dev: false
+
+  /@turf/line-intersect/6.5.0:
+    resolution: {integrity: sha512-CS6R1tZvVQD390G9Ea4pmpM6mJGPWoL82jD46y0q1KSor9s6HupMIo1kY4Ny+AEYQl9jd21V3Scz20eldpbTVA==}
+    dependencies:
+      '@turf/helpers': 6.5.0
+      '@turf/invariant': 6.5.0
+      '@turf/line-segment': 6.5.0
+      '@turf/meta': 6.5.0
+      geojson-rbush: 3.2.0
+    dev: false
+
+  /@turf/line-segment/6.5.0:
+    resolution: {integrity: sha512-jI625Ho4jSuJESNq66Mmi290ZJ5pPZiQZruPVpmHkUw257Pew0alMmb6YrqYNnLUuiVVONxAAKXUVeeUGtycfw==}
+    dependencies:
+      '@turf/helpers': 6.5.0
+      '@turf/invariant': 6.5.0
+      '@turf/meta': 6.5.0
+    dev: false
+
+  /@turf/line-split/6.5.0:
+    resolution: {integrity: sha512-/rwUMVr9OI2ccJjw7/6eTN53URtGThNSD5I0GgxyFXMtxWiloRJ9MTff8jBbtPWrRka/Sh2GkwucVRAEakx9Sw==}
+    dependencies:
+      '@turf/bbox': 6.5.0
+      '@turf/helpers': 6.5.0
+      '@turf/invariant': 6.5.0
+      '@turf/line-intersect': 6.5.0
+      '@turf/line-segment': 6.5.0
+      '@turf/meta': 6.5.0
+      '@turf/nearest-point-on-line': 6.5.0
+      '@turf/square': 6.5.0
+      '@turf/truncate': 6.5.0
+      geojson-rbush: 3.2.0
+    dev: false
+
+  /@turf/meta/6.5.0:
+    resolution: {integrity: sha512-RrArvtsV0vdsCBegoBtOalgdSOfkBrTJ07VkpiCnq/491W67hnMWmDu7e6Ztw0C3WldRYTXkg3SumfdzZxLBHA==}
+    dependencies:
+      '@turf/helpers': 6.5.0
+    dev: false
+
+  /@turf/nearest-point-on-line/6.5.0:
+    resolution: {integrity: sha512-WthrvddddvmymnC+Vf7BrkHGbDOUu6Z3/6bFYUGv1kxw8tiZ6n83/VG6kHz4poHOfS0RaNflzXSkmCi64fLBlg==}
+    dependencies:
+      '@turf/bearing': 6.5.0
+      '@turf/destination': 6.5.0
+      '@turf/distance': 6.5.0
+      '@turf/helpers': 6.5.0
+      '@turf/invariant': 6.5.0
+      '@turf/line-intersect': 6.5.0
+      '@turf/meta': 6.5.0
+    dev: false
+
+  /@turf/square/6.5.0:
+    resolution: {integrity: sha512-BM2UyWDmiuHCadVhHXKIx5CQQbNCpOxB6S/aCNOCLbhCeypKX5Q0Aosc5YcmCJgkwO5BERCC6Ee7NMbNB2vHmQ==}
+    dependencies:
+      '@turf/distance': 6.5.0
+      '@turf/helpers': 6.5.0
+    dev: false
+
+  /@turf/truncate/6.5.0:
+    resolution: {integrity: sha512-pFxg71pLk+eJj134Z9yUoRhIi8vqnnKvCYwdT4x/DQl/19RVdq1tV3yqOT3gcTQNfniteylL5qV1uTBDV5sgrg==}
+    dependencies:
+      '@turf/helpers': 6.5.0
+      '@turf/meta': 6.5.0
+    dev: false
+
   /@tweenjs/tween.js/18.6.4:
     resolution: {integrity: sha512-lB9lMjuqjtuJrx7/kOkqQBtllspPIN+96OvTCeJ2j5FEzinoAXTdAMFnDAQT1KVPRlnYfBrqxtqP66vDM40xxQ==}
 
@@ -7717,6 +7876,10 @@ packages:
   /@types/geojson/7946.0.10:
     resolution: {integrity: sha512-Nmh0K3iWQJzniTuPRcJn5hxXkfB1T1pgB89SBig5PlJQU5yocazeu4jATJlaA0GYFKWMqDdvYemoSnF2pXgLVA==}
     dev: true
+
+  /@types/geojson/7946.0.8:
+    resolution: {integrity: sha512-1rkryxURpr6aWP7R786/UQOkJ3PcpQiWkAXBmdWc7ryFWqN6a4xfK7BtjXvFBKO9LjQ+MWQSWxYeZX1OApnArA==}
+    dev: false
 
   /@types/glob/7.2.0:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
@@ -8653,7 +8816,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.4.0-beta.3
+      vite: 4.4.0-beta.3_sass@1.63.6
       vue: 3.3.4
 
   /@vitejs/plugin-vue/4.2.3_vite@4.3.9+vue@3.2.47:
@@ -8674,7 +8837,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.3.9
+      vite: 4.3.9_sass@1.63.6
       vue: 3.3.4
     dev: true
 
@@ -17465,6 +17628,16 @@ packages:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
     engines: {node: '>=6.9.0'}
 
+  /geojson-rbush/3.2.0:
+    resolution: {integrity: sha512-oVltQTXolxvsz1sZnutlSuLDEcQAKYC/uXt9zDzJJ6bu0W+baTI8LZBaTup5afzibEH4N3jlq2p+a152wlBJ7w==}
+    dependencies:
+      '@turf/bbox': 6.5.0
+      '@turf/helpers': 6.5.0
+      '@turf/meta': 6.5.0
+      '@types/geojson': 7946.0.8
+      rbush: 3.0.1
+    dev: false
+
   /geotiff/2.0.7:
     resolution: {integrity: sha512-FKvFTNowMU5K6lHYY2f83d4lS2rsCNdpUC28AX61x9ZzzqPNaWFElWv93xj0eJFaNyOYA63ic5OzJ88dHpoA5Q==}
     engines: {node: '>=10.19'}
@@ -20517,6 +20690,14 @@ packages:
     dependencies:
       flush-write-stream: 1.1.1
 
+  /leaflet.markercluster/1.5.3_leaflet@1.9.4:
+    resolution: {integrity: sha512-vPTw/Bndq7eQHjLBVlWpnGeLa3t+3zGiuM7fJwCkiMFq+nmRuG3RI3f7f4N4TDX7T4NpbAXpR2+NTRSEGfCSeA==}
+    peerDependencies:
+      leaflet: ^1.3.1
+    dependencies:
+      leaflet: 1.9.4
+    dev: false
+
   /leaflet/1.9.4:
     resolution: {integrity: sha512-nxS1ynzJOmOlHp+iL3FyWqK89GtNL8U8rvlMOsQdTTssxZwCXh8N2NB3GDQOL+YR3XnWyZAxwQixURb+FA74PA==}
     dev: false
@@ -21754,7 +21935,6 @@ packages:
 
   /mitt/3.0.0:
     resolution: {integrity: sha512-7dX2/10ITVyqh4aOSVI9gdape+t9l2/8QxHrFmUXu4EEUpdlxl6RudZUPZoc+zuY2hk1j7XxVroIVIan/pD/SQ==}
-    dev: false
 
   /mixin-deep/1.3.2:
     resolution: {integrity: sha512-WRoDn//mXBiJ1H40rqa3vH0toePwSsGb45iInWlTySa+Uu4k3tYUSxa2v1KqAiLtvlrSzaExqS1gtk96A9zvEA==}
@@ -23273,6 +23453,12 @@ packages:
       - typescript
     dev: true
 
+  /polygon-clipping/0.15.3:
+    resolution: {integrity: sha512-ho0Xx5DLkgxRx/+n4O74XyJ67DcyN3Tu9bGYKsnTukGAW6ssnuak6Mwcyb1wHy9MZc9xsUWqIoiazkZB5weECg==}
+    dependencies:
+      splaytree: 3.1.2
+    dev: false
+
   /pop-iterate/1.0.1:
     resolution: {integrity: sha512-HRCx4+KJE30JhX84wBN4+vja9bNfysxg1y28l0DuJmkoaICiv2ZSilKddbS48pq50P8d2erAhqDLbp47yv3MbQ==}
     dev: true
@@ -24173,6 +24359,10 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
+  /quickselect/1.1.1:
+    resolution: {integrity: sha512-qN0Gqdw4c4KGPsBOQafj6yj/PA6c/L63f6CaZ/DCF/xF4Esu3jVmKLUDYxghFx8Kb/O7y9tI7x2RjTSXwdK1iQ==}
+    dev: false
+
   /quickselect/2.0.0:
     resolution: {integrity: sha512-RKJ22hX8mHe3Y6wH/N3wCM6BWtjaxIyyUIkpHOvfFnxdI4yD4tBXEBKSbriGujF6jnSVkJrffuo6vxACiSSxIw==}
 
@@ -24207,6 +24397,12 @@ packages:
       iconv-lite: 0.4.24
       unpipe: 1.0.0
     dev: true
+
+  /rbush/2.0.2:
+    resolution: {integrity: sha512-XBOuALcTm+O/H8G90b6pzu6nX6v2zCKiFG4BJho8a+bY6AER6t8uQUZdi5bomQc0AprCWhEGa7ncAbbRap0bRA==}
+    dependencies:
+      quickselect: 1.1.1
+    dev: false
 
   /rbush/3.0.1:
     resolution: {integrity: sha512-XRaVO0YecOpEuIvbhbpTrZgoiI6xBlz6hnlr6EHhd+0x9ase6EmeN+hdwwUaJvLcsFFQ8iWVF1GAK1yB0BWi0w==}
@@ -26392,6 +26588,10 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /splaytree/3.1.2:
+    resolution: {integrity: sha512-4OM2BJgC5UzrhVnnJA4BkHKGtjXNzzUfpQjCO8I05xYPsfS/VuQDwjCGGMi8rYQilHEV4j8NBqTFbls/PZEE7A==}
+    dev: false
 
   /split-on-first/1.1.0:
     resolution: {integrity: sha512-43ZssAJaMusuKWL8sKUBQXHWOpq8d6CfN/u1p4gUzfJkM05C8rxTmYrkIPTXapZpORA6LkkzcUulJ8FqA7Uudw==}
@@ -29030,7 +29230,6 @@ packages:
       sass: 1.63.6
     optionalDependencies:
       fsevents: 2.3.2
-    dev: true
 
   /vitepress-plugin-pagefind/0.2.4_vitepress@1.0.0-beta.5:
     resolution: {integrity: sha512-+GtPZcc4lLzf84bzuBR1LdQDqGUak75X7yUgC+IqX3hfwCo3i7GbvGhj6lY13MKrz1vfXh3vhqRXKgtiYW//PA==}

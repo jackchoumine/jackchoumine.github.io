@@ -1,5 +1,7 @@
 # node 学习记录
 
+### [pnpm 的使用](./how-to-use-pnpm.md)
+
 ### [如何在本地测试 npm 包？](./如何在本地测试npm包.md)
 
 ### [node 学习笔记之 CommonJS 规范](./node学习笔记之CommonJS规范.md)
