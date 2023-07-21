@@ -197,7 +197,7 @@ tailwind 是一套以原子化 CSS为基础的设计系统（design system）. �
 \r
 2. 能轻易避免冲突，样式冲突往往难以定位\r
 \r
-3. 开发体验好，使用 scss 、less 等预处理，能提高开发效率和体`,cover:""}},{route:"/vue3/vue代码优化方案",meta:{title:"vue代码优化方案",date:"2023-06-14 16:13:06",tag:[],description:` js 按需加载
+3. 开发体验好，使用 scss 、less 等预处理，能提高开发效率和体`,cover:""}},{route:"/vue3/vue代码优化方案",meta:{title:"vue代码优化方案",date:"2023-07-21 17:51:46",tag:[],description:` js 按需加载
 webpack、vite 等打包工具往往会把单页应用打包成一个 js 文件，浏览器请求这个 js 文件，然后再执行 js 动态生产页面内容，如果 js 文件很大，势必影响加载速度。
 `,cover:""}},{route:"/vue3/vue项目使用apache部署解决404问题",meta:{title:"vue项目路由在history模式下，部署在apache上，刷新浏览器，出现404，如何修改？",date:"2023-06-14 16:13:06",tag:[],description:`\r
 方案一：\r
