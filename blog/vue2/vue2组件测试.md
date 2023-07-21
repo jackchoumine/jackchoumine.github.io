@@ -750,6 +750,10 @@ it('test stop', () => {
 
 [Unit Testing Vue Lifecycle Methods](https://grozav.com/unit-testing-vue-lifecycle-methods/)
 
-```
+[](https://mayashavin.com/articles/testing-components-with-vitest)
 
-```
+[](https://blog.logrocket.com/guide-vitest-automated-testing-vue-components/)
+
+[](https://vueschool.io/lessons/learn-how-to-test-vuejs-lifecycle-methods)
+
+[](https://blog.canopas.com/vue-3-component-testing-with-jest-8b80a8a8946b)
