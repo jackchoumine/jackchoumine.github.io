@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-20 19:28:34
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-20 20:57:08
+ * @LastEditTime: 2023-07-21 10:04:43
  * @Description :
  */
 import { shallowMount } from '@vue/test-utils'
@@ -51,5 +51,13 @@ describe('ContractList.vue', () => {
       // console.log(wrapper.props())
       expect(wrapper.props()).toEqual(richFriends[index])
     })
+  })
+  it('should contain contract-list class in root ele', () => {
+    const wrapper = shallowMount(ContractList, {
+      propsData: {
+        persons: richFriends,
+      },
+    })
+    expect(wrapper.classes()).toContain('contract-list')
   })
 })

@@ -523,3 +523,22 @@ describe('ContractList.vue', () => {
 ![](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/no-prop.png)
 
 > 多传递 prop 是一个陷阱，需要格外小心。
+
+5. 测试 class
+
+`classes` 返回组件根元素的 class，是一个数组。
+
+可使用`toContain`断言某个 class 是否存在。
+
+```js
+it('should contain contract-list class in root ele', () => {
+  const wrapper = shallowMount(ContractList, {
+    propsData: {
+      persons: richFriends,
+    },
+  })
+  expect(wrapper.classes()).toContain('contract-list')
+})
+```
+
+> toContain 可用于数组和字符串。
