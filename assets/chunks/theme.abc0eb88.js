@@ -152,7 +152,7 @@ gh-pages 是 github `,cover:""}},{route:"/vue2/vue-状态管理（一）",meta:{
 - vue 组件的三大核心：
   - 属性（props、data）;
   - 事件`,cover:""}},{route:"/vue2/vue2响应式系统核心原理实现",meta:{title:"vue2响应式核心原理实现",date:"2023-06-23 09:40:53",tag:[],description:`vue 的核心功能就是实现了数据到模板的响应式系统----修改数据，vue 自动执行副作用（更新 DOM、执行监听器等），从而让开发者从手动处理 DOM 更新的繁琐中解脱出来。
-今天就来实现一个响应式`,cover:"https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/e6c9d24egy1h4a2hzckb8j20ma052dgd.2kdcch4bl6k0.webp"}},{route:"/vue2/vue2组件测试",meta:{title:"vue2组件测试",date:"2023-07-20 13:01:14",tag:[],description:` 前端测试
+今天就来实现一个响应式`,cover:"https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/e6c9d24egy1h4a2hzckb8j20ma052dgd.2kdcch4bl6k0.webp"}},{route:"/vue2/vue2组件测试",meta:{title:"vue2组件测试",date:"2023-07-21 04:57:37",tag:[],description:` 前端测试
 软件测试：检查软件是否按照预期工作的过程。
 测试分类：
 从是否需要手动测试来分：
