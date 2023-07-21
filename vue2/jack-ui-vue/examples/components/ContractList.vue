@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-20 19:28:10
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-20 20:40:44
+ * @LastEditTime: 2023-07-21 10:31:29
  * @Description : 
 -->
 <script>
@@ -19,14 +19,17 @@ export default {
     },
   },
   data() {
-    return {}
+    return {
+      bgColor: 'green',
+    }
   },
 }
 </script>
 
 <template>
-  <section class="contract-list">
+  <section class="contract-list" :style="{ color: 'red', 'background-color': bgColor }">
     <ContractItem
+      style="margin-bottom: 20px"
       v-for="item in persons"
       :key="item.img"
       :name="item.name"

@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-20 19:28:34
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-21 10:04:43
+ * @LastEditTime: 2023-07-21 10:35:36
  * @Description :
  */
 import { shallowMount } from '@vue/test-utils'
@@ -59,5 +59,22 @@ describe('ContractList.vue', () => {
       },
     })
     expect(wrapper.classes()).toContain('contract-list')
+  })
+  it('test inline style', () => {
+    const wrapper = shallowMount(ContractList, {
+      propsData: {
+        persons: richFriends,
+      },
+    })
+    // expect(wrapper.attributes('style')).toBe('color: red;')
+    expect(wrapper.element.style.color).toBe('red')
+    // console.log(
+    //   wrapper.findComponent(ContractItem).element.style['margin-bottom'],
+    //   'zqj log'
+    // )
+    // expect(wrapper.find(ContractItem).element.style['margin-bottom']).toBe('20px')
+    expect(wrapper.findComponent(ContractItem).element.style['margin-bottom']).toBe(
+      '20px'
+    )
   })
 })

@@ -542,3 +542,56 @@ it('should contain contract-list class in root ele', () => {
 ```
 
 > toContain 可用于数组和字符串。
+
+### 测试样式
+
+静态的样式不需要测试，因为它们不会改变，但是动态的样式需要测试。
+
+样式往往需要手动测试。
+
+1. 测试内联样式
+
+直接获取 DOM 元素的 style 属性，然后断言。
+
+每个包装器都包含一个 element 属性，它是对包装器包含的 DOM **根节点**的引用。
+
+```js
+it('test inline style', () => {
+  const wrapper = shallowMount(ContractList, {
+    propsData: {
+      persons: richFriends,
+    },
+  })
+  // expect(wrapper.attributes('style')).toBe('color: red;')
+  expect(wrapper.element.style.color).toBe('red')
+})
+```
+
+> attributes('style') 返回的是字符串，element.style 返回的是对象。
+
+测试非根元素的内联样式，需要使用 find 或者 findComponent 方法。
+
+```js
+it('test inline style', () => {
+  const wrapper = shallowMount(ContractList, {
+    propsData: {
+      persons: richFriends,
+    },
+  })
+  expect(wrapper.find('h1').element.style.color).toBe('red')
+})
+```
+
+### 何时测试组件的输出
+
+测试代码应该遵循使用最小的代码来测试最小的功能的原则，即**测试代码应该尽可能简单**，再能覆盖所有功能的情况，用例要最少。
+
+> 额外的测试代码会增加和源代码的耦合，增加维护成本。修改一处源代码，可能需要修改多处测试代码。这很需要经验和对源代码的理解。
+
+测试组件的输出的原则：
+
+- 仅测试动态输出，不测试静态输出；
+
+比如，索引为 2 的组件，有一个为`item-2`的 class，就应该测试。
+
+- 仅测试组件契约部分的输出。
