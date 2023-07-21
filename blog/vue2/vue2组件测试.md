@@ -595,3 +595,161 @@ it('test inline style', () => {
 比如，索引为 2 的组件，有一个为`item-2`的 class，就应该测试。
 
 - 仅测试组件契约部分的输出。
+
+## 测试组件的方法
+
+方法包含为 Vue 组件添加功能的逻辑，并且这些逻辑需要被测试。测试自包含的方法并不复杂。但是现实世界的方法通常具有依赖项，而测试有依赖的方法，会引入一个更复杂的环境。
+
+> 私有方法
+
+在组件内部使用的方法，不应该被测试，因为它们不是组件的公共 API。
+
+如下的 onClick 在组件内部调用，就是私有方法，因为单机组件内部的按钮才调用。
+
+```html
+<template>
+  <button @click="onClick">按钮</button>
+</template>
+<script>
+  export default {
+    methods:{
+      onClick(){
+        console.log('click')
+      }
+    }
+  }
+</script>
+```
+
+私有方法是实现细节的，不测试。
+
+### 测试公有方法
+
+暴露给组件外部的方法，是组件的 API （组件契约），需要测试。
+
+测试方法：调用方法，然后断言方法的返回值或者副作用是否符合预期。
+
+```js
+import { shallowMount } from '@vue/test-utils'
+
+const Demo = {
+  template: '<div>{{count}}</div>',
+  data: () => ({
+    count: 0,
+  }),
+  methods: {
+    publicMethod() {
+      this.count += 1
+    },
+  },
+}
+describe('Demo', () => {
+  it('test public method', () => {
+    const wrapper = shallowMount(Demo)
+    wrapper.vm.publicMethod()
+    expect(wrapper.vm.count).toBe(1)
+    wrapper.vm.publicMethod()
+    wrapper.vm.publicMethod()
+    expect(wrapper.vm.count).toBe(3)
+  })
+})
+```
+
+> 测试方法的复杂性在于方法有依赖，比如定时器、网络请求等，需要模拟这些依赖。
+
+### 测试定时器
+
+定时器函数是实时运行的，这对于速度敏感的单元测试来说不是好消息，如果一个定时器函数需要 10 秒才能运行，那么测试就需要 10 秒才能完成，这太慢了。需要模拟这 10 秒的等待。
+
+jest 有假定时器，它可以模拟定时器函数的行为，而不是等待实际的时间。
+
+用 runTimersToTime 推进假时间。
+
+```js
+it('test timer', () => {
+  let count = 0
+  jest.useFakeTimers()
+  setInterval(() => {
+    count += 1
+  }, 1000)
+  jest.advanceTimersByTime(1000)
+  expect(count).toBe(1)
+  jest.advanceTimersByTime(3000)
+  expect(count).toBe(4)
+})
+```
+
+上面的 Demo 组件加上一个 start ，每秒钟加 1。
+
+```js
+import { shallowMount } from '@vue/test-utils'
+
+const Demo = {
+  template: '<div>{{count}}</div>',
+  data: () => ({
+    count: 0,
+    timer: null,
+  }),
+  methods: {
+    start() {
+      this.timer = setInterval(() => {
+        this.count += 1
+      }, 1000)
+    },
+  },
+}
+describe('Demo', () => {
+  it('test public method', () => {
+    const wrapper = shallowMount(Demo)
+    wrapper.vm.publicMethod()
+    expect(wrapper.vm.count).toBe(1)
+    wrapper.vm.publicMethod()
+    wrapper.vm.publicMethod()
+    expect(wrapper.vm.count).toBe(3)
+  })
+  it('test start', () => {
+    const wrapper = shallowMount(Demo)
+    jest.useFakeTimers()
+    wrapper.vm.start()
+    jest.advanceTimersByTime(1000)
+    expect(wrapper.vm.count).toBe(1)
+    jest.advanceTimersByTime(2000)
+    expect(wrapper.vm.count).toBe(3)
+    jest.advanceTimersByTime(7000)
+    expect(wrapper.vm.count).toBe(10)
+  })
+})
+```
+
+希望有一个 stop，停止定时器，测试用例：
+
+```js
+it('test stop', () => {
+  const wrapper = shallowMount(Demo)
+  jest.useFakeTimers()
+  wrapper.vm.start()
+  jest.advanceTimersByTime(1000)
+  expect(wrapper.vm.count).toBe(1)
+  wrapper.vm.stop()
+  wrapper.vm.start() // 重新开始，再推进 3 秒
+  jest.advanceTimersByTime(3000)
+  expect(wrapper.vm.count).toBe(4)
+})
+```
+
+```js
+{
+  // 其他代码
+  stop() {
+    clearInterval(this.timer)
+  },
+},
+```
+
+## 参考
+
+[Unit Testing Vue Lifecycle Methods](https://grozav.com/unit-testing-vue-lifecycle-methods/)
+
+```
+
+```
