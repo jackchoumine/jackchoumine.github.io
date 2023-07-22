@@ -2,10 +2,9 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-21 10:47:25
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-22 09:39:59
- * @Description : 测试共有方法
+ * @LastEditTime: 2023-07-23 00:55:57
+ * @Description : 测试公有方法
  */
-
 import { shallowMount } from '@vue/test-utils'
 
 const Demo = {
