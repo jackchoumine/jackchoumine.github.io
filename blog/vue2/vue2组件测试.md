@@ -661,7 +661,11 @@ describe('Demo', () => {
 
 定时器函数是实时运行的，这对于速度敏感的单元测试来说不是好消息，如果一个定时器函数需要 10 秒才能运行，那么测试就需要 10 秒才能完成，这太慢了。需要模拟这 10 秒的等待。
 
+替换测试中现有的函数而创建的函数称为模拟函数。
+
 jest 有假定时器，它可以模拟定时器函数的行为，而不是等待实际的时间。
+
+> jest 对象是 Jest 在运行测试时添加的全局对象。jest 对象包括许多测试实用方法，如你在本章使用的假定时器。
 
 用 runTimersToTime 推进假时间。
 
@@ -737,6 +741,8 @@ it('test stop', () => {
 })
 ```
 
+Demo 组件：
+
 ```js
 {
   // 其他代码
@@ -744,6 +750,68 @@ it('test stop', () => {
     clearInterval(this.timer)
   },
 },
+```
+
+> 这个测试套件有多个测试用例，每个测试用例都需要使用假定时器，两个测试用例都需要使用假定时器，可以将`jest.useFakeTimers()`放在`describe`的 `beforeEach`里执行，**确保每次测试之前都复位**。
+
+完成的代码
+
+```js
+import { shallowMount } from '@vue/test-utils'
+
+const Demo = {
+  template: '<div>{{count}}</div>',
+  data: () => ({
+    count: 0,
+    timer: null,
+  }),
+  methods: {
+    publicMethod() {
+      this.count += 1
+    },
+    start() {
+      this.timer = setInterval(() => {
+        this.count += 1
+      }, 1000)
+    },
+    stop() {
+      clearInterval(this.timer)
+    },
+  },
+}
+describe('Demo', () => {
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
+  it('test public method', () => {
+    const wrapper = shallowMount(Demo)
+    wrapper.vm.publicMethod()
+    expect(wrapper.vm.count).toBe(1)
+    wrapper.vm.publicMethod()
+    wrapper.vm.publicMethod()
+    expect(wrapper.vm.count).toBe(3)
+  })
+  it('test start', () => {
+    const wrapper = shallowMount(Demo)
+    wrapper.vm.start()
+    jest.advanceTimersByTime(1000)
+    expect(wrapper.vm.count).toBe(1)
+    jest.advanceTimersByTime(2000)
+    expect(wrapper.vm.count).toBe(3)
+    jest.advanceTimersByTime(7000)
+    expect(wrapper.vm.count).toBe(10)
+  })
+  it('test stop', () => {
+    const wrapper = shallowMount(Demo)
+    wrapper.vm.start()
+    jest.advanceTimersByTime(1000)
+    expect(wrapper.vm.count).toBe(1)
+    wrapper.vm.stop()
+    wrapper.vm.start()
+    jest.advanceTimersByTime(3000)
+    expect(wrapper.vm.count).toBe(4)
+  })
+})
 ```
 
 ## 参考

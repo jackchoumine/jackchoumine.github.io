@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-21 10:47:25
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-21 12:53:21
+ * @LastEditTime: 2023-07-22 09:39:59
  * @Description : 测试共有方法
  */
 
@@ -29,6 +29,9 @@ const Demo = {
   },
 }
 describe('Demo', () => {
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
   it('test public method', () => {
     const wrapper = shallowMount(Demo)
     wrapper.vm.publicMethod()
@@ -39,7 +42,6 @@ describe('Demo', () => {
   })
   it('test start', () => {
     const wrapper = shallowMount(Demo)
-    jest.useFakeTimers()
     wrapper.vm.start()
     jest.advanceTimersByTime(1000)
     expect(wrapper.vm.count).toBe(1)
@@ -50,7 +52,6 @@ describe('Demo', () => {
   })
   it('test stop', () => {
     const wrapper = shallowMount(Demo)
-    jest.useFakeTimers()
     wrapper.vm.start()
     jest.advanceTimersByTime(1000)
     expect(wrapper.vm.count).toBe(1)
