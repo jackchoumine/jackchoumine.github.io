@@ -901,8 +901,6 @@ it('better test finish', () => {
 
 > 无法 mock setInterval 可能是版本问题。[jest-using-jest-usefaketimers-not-working](https://stackoverflow.com/questions/68552571/attempting-to-mock-setinterval-in-jest-using-jest-usefaketimers-not-working)
 
-### 测试生命周期钩子中调用的函数
-
 ### 测试 Vue 原型上的属性
 
 开发中常常会在 Vue 的原型上添加属性和方法，比如 axios，希望测试这些属性和方法。就可以在挂载组件时，模拟原型的属性。
@@ -946,9 +944,54 @@ expect(fnMock).toHaveBeenCalledTimes(2)
 
 > 在底层实现中，jest.spyOn 和 jest.useFakeTimers 都使用了 jest.fn()。
 
+```js
+const VueDemo = {
+  template: '<div>{{count}}</div>',
+  data: () => ({}),
+  methods: {},
+  mounted() {
+    this.$bar.start()
+  },
+}
+```
+
+`this.$bar.start`是原型的方法，组件挂载时调用，要如何测试呢？
+
+希望测试原型上的属性和方法，引入 Vue 的原型，就让测试变得负责了，而是希望在 VueDemo 组件挂载时，模拟出原型的属性和方法。
+
+shallowMount 函数的第二个参数的选项`mocks`提供了这个功能。
+
+```js
+describe('mock ', () => {
+  it('calls $bar.start on mounted', () => {
+    const $bar = {
+      start: jest.fn(),
+      finish: () => {},
+    }
+    shallowMount(VueDemo, { mocks: { $bar } })
+    expect($bar.start).toHaveBeenCalled()
+    expect($bar.start).toHaveBeenCalledTimes(1)
+  })
+})
+```
+
+> 在 VueDemo 挂载时，调用了 $bar.start 用例通过测试。
+
+### 测试生命周期钩子中调用的函数
+
+没有找到官方的资料，哎，只能自己摸索了。
+
+[HOW TO MOCK LIFECYCLE HOOKS WITH VUE-TEST-UTILS-VUE.JS](https://www.appsloveworld.com/vuejs/100/8/how-to-mock-lifecycle-hooks-with-vue-test-utils)
+
+[Unable to mock lifecycle hooks ](https://github.com/vuejs/vue-test-utils/issues/166)
+
+[Add lifecycle hooks mocking](https://github.com/vuejs/vue-test-utils/pull/167)
+
 ## 参考
 
 [Jest 单元测试环境搭建](https://www.aligoogle.net/pages/343eae/#%E4%B8%80-%E4%BE%9D%E8%B5%96%E8%AF%B4%E6%98%8E)
+
+[Vue.js unit test cases with vue-test-utils and Jest](https://blog.octo.com/vue-js-unit-test-cases-with-vue-test-utils-and-jest/)
 
 [Unit Testing Vue Lifecycle Methods](https://grozav.com/unit-testing-vue-lifecycle-methods/)
 
@@ -960,6 +1003,6 @@ expect(fnMock).toHaveBeenCalledTimes(2)
 
 [](https://blog.canopas.com/vue-3-component-testing-with-jest-8b80a8a8946b)
 
-```
+[Guide to Unit Testing Vue Components](https://testdriven.io/blog/vue-unit-testing/)
 
-```
+[All Vue Content](https://fjolt.com/category/vue)
