@@ -211,6 +211,39 @@ const HelloTwo = Vue.component('hello-two', resolve => {
 </script>
 ```
 
+或者这样写：
+
+```js
+import AsyncError from './ErrorComponent.vue'
+import AsyncLoading from './LoadingComponent.vue'
+export default {
+  name: 'TestAsyncComponent',
+  components: {
+    // HelloComponent: () => import('./AsyncComponent.vue')
+    HelloComponent: () => ({
+      component: import(/* webpackChunkName: 'AsyncComponent' */ './AsyncComponent.vue'),
+      loading: AsyncLoading,
+      error: AsyncError,
+      delay: 500 /* 500 毫秒后 还没加载到 component 显示 loading 组件*/,
+      timeout: 3000 // 3秒后显示 error 组件
+    })
+  },
+  data() {
+    return {
+      show: false
+    }
+  },
+  created() {
+    console.log('hello async')
+  },
+  methods: {
+    loadComponent() {
+      this.show = true
+    }
+  }
+}
+```
+
 > 总结：异步组件往往和条件渲染一起使用。
 
 以上是 vue2 提供的异步组件使用方式，vue3 提供了一些方式。

@@ -64,6 +64,8 @@ index.js 用于导出组件：
 import JButton from './JButton.vue'
 
 JButton.install = Vue => {
+  if (JButton.installed) return Vue
+  JButton.installed = true
   Vue.component(JButton.name, JButton)
   return Vue
 }
@@ -74,6 +76,18 @@ export default JButton
 > 为何要添加`install`方法？
 
 能组件能通过`Vue.use`实现全局注册，从而实现按需引入部分组件。
+
+> 返回 Vue 的作用是什么？
+
+为了链式调用，比如：
+
+```js
+Vue.use(JToggle).use(JButton)
+```
+
+> 为何要添加`JToggle.installed`？
+
+防止重复注册。函数是特殊的对象，可在函数内部给函数添加属性。
 
 `JButton.vue`
 
@@ -91,15 +105,9 @@ export default JButton
 </script>
 ```
 
-在`components/index.js`内导出组件：
-
-```js
-export { default as JButton } from './button'
-```
-
 测试组件：
 
-main.js 中引入组件：
+`examples/main.js` 中引入组件：
 
 ```js
 import { JButton } from '../components'
@@ -131,7 +139,7 @@ Vue.use(JButton)
 
 在`JButton.vue`的根元素添加`j-button`的类。
 
-在`main.js`引入样式，验证是否生效。
+在`examples/main.js`引入样式，验证是否生效。
 
 ```js
 import '../components/button/button.scss'
@@ -139,7 +147,7 @@ import '../components/button/button.scss'
 
 > 为何不在组件的 style 内编写样式？
 
-希望能样式单独打包，在组件按需引入是，也能按需引入样式。
+希望能样式单独打包，在组件按需引入时，也能按需引入样式。
 
 ## 再编写一个 toggle 组件
 
@@ -254,6 +262,8 @@ index.js 导出组件
 import JToggle from './JToggle.vue'
 
 JToggle.install = Vue => {
+  if (JToggle.installed) return Vue
+  JToggle.installed = true
   Vue.component(JToggle.name, JToggle)
   return Vue
 }
@@ -261,13 +271,53 @@ JToggle.install = Vue => {
 export default JToggle
 ```
 
-在`components/index.js`在导出组件：
+在`components/index.js`在导出所有组件：
 
 ```js
-import JButton from './button'
-import JToggle from './toggle'
+import JButton from './Button'
+import JToggle from './Toggle'
+
+const components = [JButton, JToggle]
+
+const install = Vue => {
+  if (install.installed) return Vue
+
+  components.forEach(com => {
+    Vue.use(com)
+  })
+  // 或者
+  // components.forEach(component => {
+  //  Vue.component(component.name, component)
+  // })
+  install.installed = true
+  return Vue
+}
+
+const jackUI = {
+  install,
+}
 
 export { JButton, JToggle }
+export default jackUI
+```
+
+几个关键点：
+
+> 怎样实现按需加载？
+
+命名导出组件：
+
+```js
+export { JButton, JToggle }
+```
+
+> 如何实现全局引入的方式？
+
+导入一个对象，对象内有 install 方法，install 方法内注册组件。
+
+```js
+export jackUI from 'jack-ui-vue'
+Vue.use(jackUI)
 ```
 
 在 main.js 中引入组件：
@@ -499,3 +549,11 @@ import HelloWorld from './HelloWorld.vue'
 > 就近放置测试文件
 
 将单元测试放置在尽可能接近被测代码的位置，会更容易被其他开发人员找到。
+
+## 参考
+
+[手把手教你开发 vue 组件库](https://mp.weixin.qq.com/s/7piPzoSoaWMI88JwqG2lkw)
+
+[打造自己的专属 vue 组件库](https://zhuanlan.zhihu.com/p/149978785)
+
+[build library with Vue CLI](https://github.com/LinusBorg/talks/blob/master/2019-02-15%20Vue.js%20Amsterdam/Building%20Components%20with%20Vue%20CLI%203.pdf)
