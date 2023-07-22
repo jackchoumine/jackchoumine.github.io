@@ -2,12 +2,12 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-21 10:47:25
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-23 00:55:57
+ * @LastEditTime: 2023-07-23 00:57:23
  * @Description : 测试公有方法
  */
 import { shallowMount } from '@vue/test-utils'
 
-const Demo = {
+const CounterDemo = {
   template: '<div>{{count}}</div>',
   data: () => ({
     count: 0,
@@ -27,12 +27,12 @@ const Demo = {
     },
   },
 }
-describe('Demo', () => {
+describe('CounterDemo', () => {
   beforeEach(() => {
     jest.useFakeTimers()
   })
   it('test public method', () => {
-    const wrapper = shallowMount(Demo)
+    const wrapper = shallowMount(CounterDemo)
     wrapper.vm.publicMethod()
     expect(wrapper.vm.count).toBe(1)
     wrapper.vm.publicMethod()
@@ -40,7 +40,7 @@ describe('Demo', () => {
     expect(wrapper.vm.count).toBe(3)
   })
   it('test start', () => {
-    const wrapper = shallowMount(Demo)
+    const wrapper = shallowMount(CounterDemo)
     wrapper.vm.start()
     jest.advanceTimersByTime(1000)
     expect(wrapper.vm.count).toBe(1)
@@ -50,7 +50,7 @@ describe('Demo', () => {
     expect(wrapper.vm.count).toBe(10)
   })
   it('test stop', () => {
-    const wrapper = shallowMount(Demo)
+    const wrapper = shallowMount(CounterDemo)
     wrapper.vm.start()
     jest.advanceTimersByTime(1000)
     expect(wrapper.vm.count).toBe(1)
