@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-21 10:47:25
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-22 11:34:21
+ * @LastEditTime: 2023-07-22 17:53:27
  * @Description : 测试共有方法
  */
 
@@ -85,5 +85,24 @@ describe('Demo', () => {
     expect(wrapper.vm.count).toBe(3)
     wrapper.vm.finish()
     expect(wrapper.vm.count).toBe(0)
+
+    const mock = function (...rest) {
+      mock.calls.push(rest)
+    }
+    mock.calls = []
+    mock('a', 'b')
+    mock('c', 'd')
+    expect(mock.calls).toEqual([
+      ['a', 'b'],
+      ['c', 'd'],
+    ])
+    const fnMock = jest.fn()
+    fnMock('a', 'b')
+    fnMock('c', 'd')
+    expect(fnMock.mock.calls).toEqual([
+      ['a', 'b'],
+      ['c', 'd'],
+    ])
+    expect(fnMock).toHaveBeenCalledTimes(2)
   })
 })

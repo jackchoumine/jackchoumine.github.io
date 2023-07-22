@@ -901,6 +901,51 @@ it('better test finish', () => {
 
 > 无法 mock setInterval 可能是版本问题。[jest-using-jest-usefaketimers-not-working](https://stackoverflow.com/questions/68552571/attempting-to-mock-setinterval-in-jest-using-jest-usefaketimers-not-working)
 
+### 测试生命周期钩子中调用的函数
+
+### 测试 Vue 原型上的属性
+
+开发中常常会在 Vue 的原型上添加属性和方法，比如 axios，希望测试这些属性和方法。就可以在挂载组件时，模拟原型的属性。
+
+```js
+shallowMount(VueComponent,{
+  mocks:{
+    $bar:{
+      start(){}
+    }
+  }
+})
+```
+
+下面就是测试 `$bar.start` 是否被调用。
+
+需要测试函数是否被调用，那么可使用能记录自身调用信息的模拟函数。
+
+```js
+const mock = function(...rest){
+  mock.calls.push(rest)
+}
+mock.calls = []
+mock(1)
+mock(2,3)
+mock.calls // [[1],[2,3]]
+```
+
+jest 提供了更加强大的模拟函数。
+
+```js
+const fnMock = jest.fn()
+fnMock('a', 'b')
+fnMock('c', 'd')
+expect(fnMock.mock.calls).toEqual([
+  ['a', 'b'],
+  ['c', 'd'],
+])
+expect(fnMock).toHaveBeenCalledTimes(2)
+```
+
+> 在底层实现中，jest.spyOn 和 jest.useFakeTimers 都使用了 jest.fn()。
+
 ## 参考
 
 [Jest 单元测试环境搭建](https://www.aligoogle.net/pages/343eae/#%E4%B8%80-%E4%BE%9D%E8%B5%96%E8%AF%B4%E6%98%8E)
@@ -914,3 +959,7 @@ it('better test finish', () => {
 [](https://vueschool.io/lessons/learn-how-to-test-vuejs-lifecycle-methods)
 
 [](https://blog.canopas.com/vue-3-component-testing-with-jest-8b80a8a8946b)
+
+```
+
+```
