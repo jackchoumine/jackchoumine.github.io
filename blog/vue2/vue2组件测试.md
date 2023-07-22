@@ -661,7 +661,11 @@ describe('Demo', () => {
 
 定时器函数是实时运行的，这对于速度敏感的单元测试来说不是好消息，如果一个定时器函数需要 10 秒才能运行，那么测试就需要 10 秒才能完成，这太慢了。需要模拟这 10 秒的等待。
 
+替换测试中现有的函数而创建的函数称为模拟函数。
+
 jest 有假定时器，它可以模拟定时器函数的行为，而不是等待实际的时间。
+
+> jest 对象是 Jest 在运行测试时添加的全局对象。jest 对象包括许多测试实用方法，如你在本章使用的假定时器。
 
 用 runTimersToTime 推进假时间。
 
@@ -737,6 +741,8 @@ it('test stop', () => {
 })
 ```
 
+Demo 组件：
+
 ```js
 {
   // 其他代码
@@ -746,10 +752,257 @@ it('test stop', () => {
 },
 ```
 
+> 这个测试套件有多个测试用例，每个测试用例都需要使用假定时器，两个测试用例都需要使用假定时器，可以将`jest.useFakeTimers()`放在`describe`的 `beforeEach`里执行，**确保每次测试之前都复位**。
+
+完整的代码
+
+```js
+import { shallowMount } from '@vue/test-utils'
+
+const Demo = {
+  template: '<div>{{count}}</div>',
+  data: () => ({
+    count: 0,
+    timer: null,
+  }),
+  methods: {
+    publicMethod() {
+      this.count += 1
+    },
+    start() {
+      this.timer = setInterval(() => {
+        this.count += 1
+      }, 1000)
+    },
+    stop() {
+      clearInterval(this.timer)
+    },
+  },
+}
+describe('Demo', () => {
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
+  it('test public method', () => {
+    const wrapper = shallowMount(Demo)
+    wrapper.vm.publicMethod()
+    expect(wrapper.vm.count).toBe(1)
+    wrapper.vm.publicMethod()
+    wrapper.vm.publicMethod()
+    expect(wrapper.vm.count).toBe(3)
+  })
+  it('test start', () => {
+    const wrapper = shallowMount(Demo)
+    wrapper.vm.start()
+    jest.advanceTimersByTime(1000)
+    expect(wrapper.vm.count).toBe(1)
+    jest.advanceTimersByTime(2000)
+    expect(wrapper.vm.count).toBe(3)
+    jest.advanceTimersByTime(7000)
+    expect(wrapper.vm.count).toBe(10)
+  })
+  it('test stop', () => {
+    const wrapper = shallowMount(Demo)
+    wrapper.vm.start()
+    jest.advanceTimersByTime(1000)
+    expect(wrapper.vm.count).toBe(1)
+    wrapper.vm.stop()
+    wrapper.vm.start()
+    jest.advanceTimersByTime(3000)
+    expect(wrapper.vm.count).toBe(4)
+  })
+})
+```
+
+> 把挂载组件的代码放在 beforeEach 里，可以避免重复代码，这里就不改了。
+
+### 测试函数是否执行
+
+希望添加一个 finish 函数，来重置 count，停止定时器。
+
+```js
+{
+  finish(){
+    this.count = 0
+    this.stop()
+  }
+}
+```
+
+stop 方法，调用了`clearInterval`，接受一个参数，如何测试使用了某个参数调用了某个函数呢？
+
+`sypOn` 可以监视函数的调用情况。
+
+`setInterval.mockReturnValue('mockID')`，设置`setInterval`的返回值为`mockID`。
+
+`toHaveBeenCalled`断言函数是否被调用。
+`toHaveBeenCalledWith` 断言函数是否被调用，并且使用了指定的参数。
+
+```js
+it('test finish', () => {
+  jest.spyOn(window, 'clearInterval')
+  const timer = 10
+  setInterval.mockReturnValue(timer)
+  const wrapper = shallowMount(Demo)
+  wrapper.vm.start()
+  wrapper.vm.finish()
+  expect(window.clearInterval).toHaveBeenCalled() // 断言函数是否被调用
+  expect(window.clearInterval).toHaveBeenCalledTimes(1) // 断言函数被调用的次数
+  expect(window.clearInterval).toHaveBeenCalledWith(timer) // 断言函数被调用，并且使用了指定的参数
+})
+```
+
+Demo
+
+```js
+const Demo = {
+  template: '<div>{{count}}</div>',
+  data: () => ({
+    count: 0,
+    timer: null,
+  }),
+  methods: {
+    publicMethod() {
+      this.count += 1
+    },
+    start() {
+      this.timer = setInterval(() => {
+        this.count += 1
+      }, 1000)
+    },
+    stop() {
+      clearInterval(this.timer)
+      this.timer = null
+    },
+    finish() {
+      this.count = 0
+      this.stop()
+    },
+  },
+}
+```
+
+> 测试 clearInterval 被调用的方式，是在控制 finish 的具体实现了，意味着对 finish 的实现做了假设，如果 finish 的实现改变了，测试用例也要改变，测试代码很容易变得脆弱。
+
+> 测试中假设越多，测试代码越脆弱。要保持测试代码的健壮性，需要尽可能少的假设。
+
+改进测试 finish 的方法，不假设具体的实现，测试 finish 的副作用。
+
+```js
+it('better test finish', () => {
+  const wrapper = shallowMount(Demo)
+  wrapper.vm.start()
+  jest.advanceTimersByTime(3000)
+  expect(wrapper.vm.count).toBe(3)
+  wrapper.vm.finish()
+  expect(wrapper.vm.count).toBe(0)
+})
+```
+
+> 无法 mock setInterval 可能是版本问题。[jest-using-jest-usefaketimers-not-working](https://stackoverflow.com/questions/68552571/attempting-to-mock-setinterval-in-jest-using-jest-usefaketimers-not-working)
+
+### 测试 Vue 原型上的属性
+
+开发中常常会在 Vue 的原型上添加属性和方法，比如 axios，希望测试这些属性和方法。就可以在挂载组件时，模拟原型的属性。
+
+```js
+shallowMount(VueComponent,{
+  mocks:{
+    $bar:{
+      start(){}
+    }
+  }
+})
+```
+
+下面就是测试 `$bar.start` 是否被调用。
+
+需要测试函数是否被调用，那么可使用能记录自身调用信息的模拟函数。
+
+```js
+const mock = function(...rest){
+  mock.calls.push(rest)
+}
+mock.calls = []
+mock(1)
+mock(2,3)
+mock.calls // [[1],[2,3]]
+```
+
+jest 提供了更加强大的模拟函数。
+
+```js
+const fnMock = jest.fn()
+fnMock('a', 'b')
+fnMock('c', 'd')
+expect(fnMock.mock.calls).toEqual([
+  ['a', 'b'],
+  ['c', 'd'],
+])
+expect(fnMock).toHaveBeenCalledTimes(2)
+```
+
+> 在底层实现中，jest.spyOn 和 jest.useFakeTimers 都使用了 jest.fn()。
+
+```js
+const VueDemo = {
+  template: '<div>{{count}}</div>',
+  data: () => ({}),
+  methods: {},
+  mounted() {
+    this.$bar.start()
+  },
+}
+```
+
+`this.$bar.start`是原型的方法，组件挂载时调用，要如何测试呢？
+
+希望测试原型上的属性和方法，引入 Vue 的原型，就让测试变得负责了，而是希望在 VueDemo 组件挂载时，模拟出原型的属性和方法。
+
+shallowMount 函数的第二个参数的选项`mocks`提供了这个功能。
+
+```js
+describe('mock ', () => {
+  it('calls $bar.start on mounted', () => {
+    const $bar = {
+      start: jest.fn(),
+      finish: () => {},
+    }
+    shallowMount(VueDemo, { mocks: { $bar } })
+    expect($bar.start).toHaveBeenCalled()
+    expect($bar.start).toHaveBeenCalledTimes(1)
+  })
+})
+```
+
+> 在 VueDemo 挂载时，调用了 $bar.start 用例通过测试。
+
+### 测试生命周期钩子中调用的函数
+
+没有找到官方的资料，哎，只能自己摸索了。
+
+[HOW TO MOCK LIFECYCLE HOOKS WITH VUE-TEST-UTILS-VUE.JS](https://www.appsloveworld.com/vuejs/100/8/how-to-mock-lifecycle-hooks-with-vue-test-utils)
+
+[Unable to mock lifecycle hooks ](https://github.com/vuejs/vue-test-utils/issues/166)
+
+[Add lifecycle hooks mocking](https://github.com/vuejs/vue-test-utils/pull/167)
+
 ## 参考
+
+[Jest 单元测试环境搭建](https://www.aligoogle.net/pages/343eae/#%E4%B8%80-%E4%BE%9D%E8%B5%96%E8%AF%B4%E6%98%8E)
+
+[Vue.js unit test cases with vue-test-utils and Jest](https://blog.octo.com/vue-js-unit-test-cases-with-vue-test-utils-and-jest/)
 
 [Unit Testing Vue Lifecycle Methods](https://grozav.com/unit-testing-vue-lifecycle-methods/)
 
-```
+[](https://mayashavin.com/articles/testing-components-with-vitest)
 
-```
+[](https://blog.logrocket.com/guide-vitest-automated-testing-vue-components/)
+
+[](https://vueschool.io/lessons/learn-how-to-test-vuejs-lifecycle-methods)
+
+[](https://blog.canopas.com/vue-3-component-testing-with-jest-8b80a8a8946b)
+
+[Guide to Unit Testing Vue Components](https://testdriven.io/blog/vue-unit-testing/)
+
+[All Vue Content](https://fjolt.com/category/vue)
