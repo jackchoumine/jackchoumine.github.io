@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-21 10:47:25
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-22 11:21:53
+ * @LastEditTime: 2023-07-22 11:34:21
  * @Description : 测试共有方法
  */
 
@@ -25,9 +25,10 @@ const Demo = {
     },
     stop() {
       clearInterval(this.timer)
+      this.timer = null
     },
     finish() {
-      this.count = 10
+      this.count = 0
       this.stop()
     },
   },
@@ -76,5 +77,13 @@ describe('Demo', () => {
     expect(window.clearInterval).toHaveBeenCalled()
     expect(window.clearInterval).toHaveBeenCalledTimes(1)
     expect(window.clearInterval).toHaveBeenCalledWith(timer)
+  })
+  it('better test finish', () => {
+    const wrapper = shallowMount(Demo)
+    wrapper.vm.start()
+    jest.advanceTimersByTime(3000)
+    expect(wrapper.vm.count).toBe(3)
+    wrapper.vm.finish()
+    expect(wrapper.vm.count).toBe(0)
   })
 })

@@ -870,13 +870,31 @@ const Demo = {
     },
     stop() {
       clearInterval(this.timer)
+      this.timer = null
     },
     finish() {
-      this.count = 10
+      this.count = 0
       this.stop()
     },
   },
 }
+```
+
+> 测试 clearInterval 被调用的方式，是在控制 finish 的具体实现了，意味着对 finish 的实现做了假设，如果 finish 的实现改变了，测试用例也要改变，测试代码很容易变得脆弱。
+
+> 测试中假设越多，测试代码越脆弱。要保持测试代码的健壮性，需要尽可能少的假设。
+
+改进测试 finish 的方法，不假设具体的实现，测试 finish 的副作用。
+
+```js
+it('better test finish', () => {
+  const wrapper = shallowMount(Demo)
+  wrapper.vm.start()
+  jest.advanceTimersByTime(3000)
+  expect(wrapper.vm.count).toBe(3)
+  wrapper.vm.finish()
+  expect(wrapper.vm.count).toBe(0)
+})
 ```
 
 > 无法 mock setInterval 可能是版本问题。[jest-using-jest-usefaketimers-not-working](https://stackoverflow.com/questions/68552571/attempting-to-mock-setinterval-in-jest-using-jest-usefaketimers-not-working)
