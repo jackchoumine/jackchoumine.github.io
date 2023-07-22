@@ -981,19 +981,103 @@ describe('mock ', () => {
 
 没有找到官方的资料，哎，只能自己摸索了。
 
-[HOW TO MOCK LIFECYCLE HOOKS WITH VUE-TEST-UTILS-VUE.JS](https://www.appsloveworld.com/vuejs/100/8/how-to-mock-lifecycle-hooks-with-vue-test-utils)
+有一组件如下：
+
+```js
+const CounterDemo = {
+  template: '<div>{{count}}</div>',
+  data: () => ({
+    count: 0,
+    timer: null,
+  }),
+  mounted() {
+    this.start()
+  },
+  destroyed() {
+    this.stop()
+  },
+  methods: {
+    start() {
+      this.timer = setInterval(() => {
+        this.count += 1
+      }, 1000)
+    },
+    stop() {
+      clearInterval(this.timer)
+    },
+  },
+}
+```
+
+测试组件**挂载时**是否执行了`start`
+
+```js
+it('test call start when mounted', () => {
+  // Matcher error: received value must be a mock or spy function ❌
+  jest.spyOn(CounterDemo.methods, 'start')
+  const wrapper = shallowMount(CounterDemo)
+  expect(wrapper.vm.start).toHaveBeenCalledTimes(1)
+})
+```
+
+> 测试代码报错。
+
+搜索到这种解决方案：
+
+```js
+describe('CounterDemo', () => {
+  let wrapper = null
+  beforeEach(() => {
+    wrapper = shallowMount(CounterDemo, {
+      methods: {
+        mounted: CounterDemo.mounted,
+      },
+    })
+  })
+  it('test call start when mounted', () => {
+    jest.spyOn(wrapper.vm, 'start')
+    wrapper.vm.mounted()
+    expect(wrapper.vm.start).toHaveBeenCalledTimes(1)
+  })
+})
+```
+
+不行，因为传递 methods，替换组件内部的用法不再支持了。
+
+> 上面的代码主动调用 mounted，在测试 Vue，而不是组件生命周期的里的方法。
+
+测试组件**销毁时**是否执行了`stop`：
+
+```js
+import { shallowMount } from '@vue/test-utils'
+
+describe('CounterDemo', () => {
+  it('测试 destroy 时的函数调用', () => {
+    const wrapper = shallowMount(CounterDemo)
+    expect(wrapper.vm.timer).not.toBe(null)
+    jest.spyOn(wrapper.vm, 'stop')
+    wrapper.destroy()
+    expect(wrapper.vm.stop).toHaveBeenCalled()
+    expect(wrapper.vm.stop).toHaveBeenCalledTimes(1)
+  })
+})
+```
+
+相关问题:
+
+[How to mock lifecycle hooks with vue-test-utils](https://stackoverflow.com/questions/51797466/how-to-mock-lifecycle-hooks-with-vue-test-utils)
 
 [Unable to mock lifecycle hooks ](https://github.com/vuejs/vue-test-utils/issues/166)
 
 [Add lifecycle hooks mocking](https://github.com/vuejs/vue-test-utils/pull/167)
+
+[Unit Testing Vue Lifecycle Methods](https://grozav.com/unit-testing-vue-lifecycle-methods/)
 
 ## 参考
 
 [Jest 单元测试环境搭建](https://www.aligoogle.net/pages/343eae/#%E4%B8%80-%E4%BE%9D%E8%B5%96%E8%AF%B4%E6%98%8E)
 
 [Vue.js unit test cases with vue-test-utils and Jest](https://blog.octo.com/vue-js-unit-test-cases-with-vue-test-utils-and-jest/)
-
-[Unit Testing Vue Lifecycle Methods](https://grozav.com/unit-testing-vue-lifecycle-methods/)
 
 [](https://mayashavin.com/articles/testing-components-with-vitest)
 
