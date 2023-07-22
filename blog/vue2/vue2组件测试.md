@@ -754,7 +754,7 @@ Demo 组件：
 
 > 这个测试套件有多个测试用例，每个测试用例都需要使用假定时器，两个测试用例都需要使用假定时器，可以将`jest.useFakeTimers()`放在`describe`的 `beforeEach`里执行，**确保每次测试之前都复位**。
 
-完成的代码
+完整的代码
 
 ```js
 import { shallowMount } from '@vue/test-utils'
@@ -814,7 +814,76 @@ describe('Demo', () => {
 })
 ```
 
+### 测试函数的是否执行
+
+希望添加一个 finish 函数，来重置 count，停止定时器。
+
+```js
+{
+  finish(){
+    this.count = 0
+    this.stop()
+  }
+}
+```
+
+stop 方法，调用了`clearInterval`，接受一个参数，如何测试使用了某个参数调用了某个函数呢？
+
+`sypOn` 可以监视函数的调用情况。
+
+`setInterval.mockReturnValue('mockID')`，设置`setInterval`的返回值为`mockID`。
+
+`toHaveBeenCalled`断言函数是否被调用。
+`toHaveBeenCalledWith` 断言函数是否被调用，并且使用了指定的参数。
+
+```js
+it('test finish', () => {
+  jest.spyOn(window, 'clearInterval')
+  const timer = 10
+  setInterval.mockReturnValue(timer)
+  const wrapper = shallowMount(Demo)
+  wrapper.vm.start()
+  wrapper.vm.finish()
+  expect(window.clearInterval).toHaveBeenCalled() // 断言函数是否被调用
+  expect(window.clearInterval).toHaveBeenCalledTimes(1) // 断言函数被调用的次数
+  expect(window.clearInterval).toHaveBeenCalledWith(timer) // 断言函数被调用，并且使用了指定的参数
+})
+```
+
+Demo
+
+```js
+const Demo = {
+  template: '<div>{{count}}</div>',
+  data: () => ({
+    count: 0,
+    timer: null,
+  }),
+  methods: {
+    publicMethod() {
+      this.count += 1
+    },
+    start() {
+      this.timer = setInterval(() => {
+        this.count += 1
+      }, 1000)
+    },
+    stop() {
+      clearInterval(this.timer)
+    },
+    finish() {
+      this.count = 10
+      this.stop()
+    },
+  },
+}
+```
+
+> 无法 mock setInterval 可能是版本问题。[jest-using-jest-usefaketimers-not-working](https://stackoverflow.com/questions/68552571/attempting-to-mock-setinterval-in-jest-using-jest-usefaketimers-not-working)
+
 ## 参考
+
+[Jest 单元测试环境搭建](https://www.aligoogle.net/pages/343eae/#%E4%B8%80-%E4%BE%9D%E8%B5%96%E8%AF%B4%E6%98%8E)
 
 [Unit Testing Vue Lifecycle Methods](https://grozav.com/unit-testing-vue-lifecycle-methods/)
 
