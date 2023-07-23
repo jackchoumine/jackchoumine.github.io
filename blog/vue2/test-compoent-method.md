@@ -1,12 +1,14 @@
 # 测试 vue 组件的方法
 
+[[toc]]
+
 方法包含组件的逻辑，并且这些逻辑需要被测试。测试组件包含的方法并不复杂。但是现实世界的方法通常具有依赖项，而测试**有依赖的**方法，会引入一个更复杂的环境，需要**模拟**这些复杂的依赖。
 
 > 私有方法
 
 在组件内部使用的方法，不应该被测试，因为它们不是组件的公共 API。
 
-如下的 onClick 在组件内部调用，就是私有方法，因为单机组件内部的按钮才调用。
+如下的 onClick 在组件内部调用，就是私有方法，因为点击组件内部的按钮才调用。
 
 ```html
 <template>
@@ -56,6 +58,7 @@ const Demo = {
 describe('Demo', () => {
   it('test public method', () => {
     const wrapper = shallowMount(Demo)
+    // 调用 publicMethod
     wrapper.vm.publicMethod()
     expect(wrapper.vm.count).toBe(1)
     wrapper.vm.publicMethod()
@@ -82,11 +85,12 @@ Jest 有假定时器，它可以模拟定时器函数的行为，而不是等待
 ```js
 it('test timer', () => {
   let count = 0
+  // 使用假定时器
   jest.useFakeTimers()
   setInterval(() => {
     count += 1
   }, 1000)
-  // 时间推进1秒，setInterval 回调执行一次
+  // 时间推进 1 秒，setInterval 的回调执行一次
   jest.advanceTimersByTime(1000)
   expect(count).toBe(1)
   jest.advanceTimersByTime(3000)
@@ -385,7 +389,7 @@ const VueDemo = {
 
 > `this.$bar.start` 是原型的方法，组件挂载时调用，要如何测试呢？
 
-希望测试原型上的属性和方法，引入 Vue 的原型，就让测试变得复杂了，不希望引入负责的环境，而是希望在 VueDemo 组件挂载时，模拟出原型的属性和方法。
+希望测试原型上的属性和方法，引入 Vue 的原型，就让测试变得复杂了，不希望引入复杂的依赖，而是希望在 VueDemo 组件挂载时，**模拟出原型的属性和方法**。
 
 shallowMount 函数的第二个参数的选项 `mocks` 提供了这个功能。
 
@@ -509,7 +513,7 @@ describe('CounterDemo', () => {
 
 [Unit Testing Vue Lifecycle Methods](https://grozav.com/unit-testing-vue-lifecycle-methods/)
 
-### jest 测试异步函数
+### 测试异步函数
 
 异步代码是指在未来某个时间点执行的代码，比如定时器、网络请求等。
 
@@ -546,7 +550,7 @@ it('async function', (done) => {
 
 > 先输出 `finish` ，再输出 `finish setTimeout callback` ，花了 2.7 秒 。
 
-> 使用假定时器推进时间，不要测试代码真的等待 1 秒钟，这样会增加测试时间。如果测试需要的时间超过 5 秒，测试可能会失败。
+> 使用假定时器推进时间，不要让测试代码真的等待 1 秒钟，这样会增加测试时间。如果测试需要的时间超过 5 秒，测试可能会失败。
 
 ```js
 it('async callback function', done => {
@@ -807,7 +811,7 @@ describe('MockModule.vue', () => {
 * 数据库连接；
 * 使用文件系统。
 
-## 总结
+## 小结
 
 * 只测试组件的共有方法：调用共有方法，断言输出。
 * 使用 Jest 假定时器来测试定时器函数。
