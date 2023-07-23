@@ -1,4 +1,8 @@
 {
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
   "stylelint.validate": ["css", "scss", "less", "scss", "vue", "sass"],
   "liveSassCompile.settings.formats": [
     {
@@ -10,9 +14,13 @@
       "savePath": "~/css"
     }
   ],
+  "markdownFormatter.formatOpt": {
+    "indent_size": 2
+  },
   "[markdown]": {
     "editor.formatOnSave": true,
-    "editor.wordWrap": "on",
+    "editor.defaultFormatter": "mervin.markdown-formatter",
+    // 快速补全
     "editor.quickSuggestions": {
       "other": true,
       "comments": true,
@@ -50,9 +58,9 @@
   ],
   // 这些文件将不会显示在工作空间中
   "files.exclude": {
-    // "**/*.js": {
-    //   "when": "$(basename).ts" //ts编译后生成的js文件将不会显示在工作空中
-    // },
-    // "**/node_modules": true
+    "**/*.js": {
+      "when": "$(basename).ts" //ts编译后生成的js文件将不会显示在工作空中
+    },
+    "**/node_modules": true
   }
 }
