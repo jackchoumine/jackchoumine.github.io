@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-23 03:23:18
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-23 18:16:42
+ * @LastEditTime: 2023-07-23 18:21:36
  * @Description : eslint配置
  */
 module.exports = {
@@ -22,6 +22,7 @@ module.exports = {
     quotes: [1, 'single'], //单引号
     'prettier/prettier': 'off',
     'no-unused-vars': 0,
+    'no-undef': 0,
   },
   overrides: [
     {
