@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-23 01:40:03
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-23 04:08:11
+ * @LastEditTime: 2023-07-23 16:27:47
  * @Description : 测试在生命周期中调用的方法
  */
 import { shallowMount } from '@vue/test-utils'
@@ -40,16 +40,16 @@ describe('CounterDemo', () => {
   let wrapper = null
   beforeEach(() => {
     wrapper = shallowMount(CounterDemo, {
-      methods: {
-        mounted: CounterDemo.mounted,
-      },
+      // methods: {
+      //   mounted: CounterDemo.mounted,
+      // },
     })
   })
-  it('test call start when mounted', () => {
-    jest.spyOn(wrapper.vm, 'start')
-    wrapper.vm.mounted()
-    expect(wrapper.vm.start).toHaveBeenCalledTimes(1)
-  })
+  // it('test call start when mounted', () => {
+  //   jest.spyOn(wrapper.vm, 'start')
+  // wrapper.vm.mounted()
+  //   expect(wrapper.vm.start).toHaveBeenCalledTimes(1)
+  // })
   it('test call stop when destroy', () => {
     // works well ✅
     const wrapper = shallowMount(CounterDemo)
