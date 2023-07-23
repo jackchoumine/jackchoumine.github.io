@@ -12,11 +12,11 @@
 
 从哪儿获得灵感或需求？
 
-- 从自己的项目中获得
+* 从自己的项目中获得
 
 平时在开发公司业务项目时，会遇到一些问题，这些问题可能是一些通用的问题，可以抽象出来，形成一个库。方便管理和使用，同时减少重复开发和重复代码。
 
-- 从开源社区中获得
+* 从开源社区中获得
 
 在开发过程中，会遇到一些优秀的库，但是这些库可能并不能完全满足我们的需求或者使用不方便，这时候我们可以在这些库的基础上进行**二次开发**，形成一个新的库。
 
@@ -26,11 +26,11 @@
 
 ## 库的目标是什么？
 
-- 为什么要编写这个库？
+* 为什么要编写这个库？
 
 > 学习编写 JS 库。
 
-- 这个库的目标是什么？
+* 这个库的目标是什么？
 
 > 实现一个**深复制库**，能满足不同的使用方式：script 引入、npm 下载和 ESM 引入。
 
@@ -38,9 +38,9 @@
 
 ## 库的设计是什么？
 
-- 库的名称 `@jack/utils`
+* 库的名称 `@jack/utils`
 
-使用 ESM 模块编写，再使用`rollup`打包，输出`umd`模块、`CJS`模块和`ESM`模块。
+使用 ESM 模块编写，再使用 `rollup` 打包，输出 `umd` 模块、 `CJS` 模块和 `ESM` 模块。
 
 ## 如何实现这个库？
 
@@ -48,15 +48,15 @@
 
 模块的特点
 
-- 独立性 -- 能独立完成某个功能，不受外部环境影响
+* 独立性 -- 能独立完成某个功能，不受外部环境影响
 
-- 完整性 -- 能完整的完成某个功能
+* 完整性 -- 能完整的完成某个功能
 
-- 可复用性 -- 能在不同的项目中使用
+* 可复用性 -- 能在不同的项目中使用
 
-- 可依赖 -- 能依赖其他模块
+* 可依赖 -- 能依赖其他模块
 
-- 被依赖 -- 能被其他模块依赖
+* 被依赖 -- 能被其他模块依赖
 
 > 模块是一个独立的空间，模块内部的变量、函数、类等都是私有的，不会污染全局作用域，同时模块内部的变量、函数、类等可以通过**导出**的方式暴露给外部使用。能引用其他模块，也能被其他模块引用。
 
@@ -69,10 +69,11 @@ js 常用得模块化方案，根据**使用方式**看，主要有三种
 <script src="yyy.js"></script>
 ```
 
-使用`IIFE`模块，即**立即调用函数表达式**，把库的接口挂载到全局对象(通常是 window)上，供外部使用
+使用 `IIFE` 模块，即**立即调用函数表达式**，把库的接口挂载到全局对象(通常是 window)上，供外部使用
 
 ```js
-;(function (window) {
+;
+(function(window) {
   function xxx() {
     // ...
   }
@@ -90,7 +91,7 @@ js 常用得模块化方案，根据**使用方式**看，主要有三种
 
 2. npm 安装 -- cmj 或者 cjs 模块
 
-开发者使用`npm`等依赖管理工具安装库，`package.json`对库的依赖和版本进行说明，然后使用`require`引入，这种方式不需要手动管理依赖关系，但要求库遵循`commonjs`或者`cmj`规范编写，这种库不能直接在浏览器中使用，需要使用`rollup`、`webpack`等工具转换成浏览器可用的代码。
+开发者使用 `npm` 等依赖管理工具安装库， `package.json` 对库的依赖和版本进行说明，然后使用 `require` 引入，这种方式不需要手动管理依赖关系，但要求库遵循 `commonjs` 或者 `cmj` 规范编写，这种库不能直接在浏览器中使用，需要使用 `rollup` 、 `webpack` 等工具转换成浏览器可用的代码。
 
 导出：
 
@@ -110,22 +111,22 @@ const yyy = require('xxx') // xxx 是库的名称 也可以是相对路径
 cjs 的定义如下：
 
 ```js
-define(function (require, exports, module) {
+define(function(require, exports, module) {
   // 模块代码
 })
 ```
 
-> define 包裹函数系统自动生成的，不需要我们手动添加，但是我们需要手动添加`module.exports`，这样才能导出模块。
+> define 包裹函数系统自动生成的，不需要我们手动添加，但是我们需要手动添加 `module.exports` ，这样才能导出模块。
 
 3. rollup、webpack 等工具打包 -- ESM 模块
 
-ESM 是 ES6 的模块化规范，使用`import`和`export`导入导出模块，这种库可以直接在浏览器中使用。
+ESM 是 ES6 的模块化规范，使用 `import` 和 `export` 导入导出模块，这种库可以直接在浏览器中使用。
 
 ```html
 <script type="module" src="xxx.js"></script>
 ```
 
-使用`ESM`规范
+使用 `ESM` 规范
 
 导出
 
@@ -143,26 +144,28 @@ export function xxx() {
 ```js
 import xxx from 'xxx'
 // 或者
-import { xxx } from 'xxx'
+import {
+  xxx
+} from 'xxx'
 ```
 
 打包工具目还是前端开发中必不可少的，使用 ESM，能充分使用这些工具的功能，比如摇树优化、代码压缩等，从而减少打包体积。
 
-加载一个库时，这些工具会自动解析`package.json`中的`type`和`module`字段，type 字段为`module`， 表明是`ESM`规范的库，`module`字段指定 ESM 的入口，type 为 `commonjs`，表示是 cjs 模块， main 字段指定了`CJS`规范的库的入口文件。打包工具会根据这些信息，加载相关的文件。
+加载一个库时，这些工具会自动解析 `package.json` 中的 `type` 和 `module` 字段，type 字段为 `module` ， 表明是 `ESM` 规范的库， `module` 字段指定 ESM 的入口，type 为 `commonjs` ，表示是 cjs 模块， main 字段指定了 `CJS` 规范的库的入口文件。打包工具会根据这些信息，加载相关的文件。
 
-> 由于历史原因，早些时候一些库使用`jsnext`指定`ESM`规范的库的入口文件，这个字段已经被`module`字段取代。
+> 由于历史原因，早些时候一些库使用 `jsnext` 指定 `ESM` 规范的库的入口文件，这个字段已经被 `module` 字段取代。
 
 > [mdn 上关系 ESM 的更多信息](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Modules)
 
-为了满足不同的使用方式，需要借助一些工具，把库打包成不同的模块化规范，比如`rollup`、`webpack`等。
+为了满足不同的使用方式，需要借助一些工具，把库打包成不同的模块化规范，比如 `rollup` 、 `webpack` 等。
 
 > 总结如下：
 
-- IIFE 模块 -- 适用于浏览器环境，需要手动管理依赖关系，不推荐使用。
+* IIFE 模块 -- 适用于浏览器环境，需要手动管理依赖关系，不推荐使用。
 
-- cjs 模块 -- 适用于 node 环境，需要使用`rollup`、`webpack`等工具打包成浏览器可用的代码。
+* cjs 模块 -- 适用于 node 环境，需要使用`rollup`、`webpack`等工具打包成浏览器可用的代码。
 
-- ESM 模块 -- 适用于浏览器环境，可以直接使用，老的浏览器不支持 ESM，可用`rollup`、`webpack`等工具转换。
+* ESM 模块 -- 适用于浏览器环境，可以直接使用，老的浏览器不支持 ESM，可用`rollup`、`webpack`等工具转换。
 
 > 库需要提供不同的模块化规范，才能满足不同的使用场景。
 
@@ -207,10 +210,12 @@ if (process.env.NODE_ENV === "production") {
 └── package.json
 ```
 
-`clone.js`
+ `clone.js`
 
 ```js
-import { type } from './type.js'
+import {
+  type
+} from './type.js'
 /**
  * 深度复制
  * @param {any} source
@@ -258,19 +263,23 @@ function type(value) {
   return typeStr.slice(8, -1).toLowerCase()
 }
 
-export { type }
+export {
+  type
+}
 ```
 
-`index.js`
+ `index.js`
 
 ```js
 export * from './clone'
 ```
 
-`build/rollup.config.js`
+ `build/rollup.config.js`
 
 ```js
-import { terser } from 'rollup-plugin-terser'
+import {
+  terser
+} from 'rollup-plugin-terser'
 
 export default {
   input: 'index.js',
@@ -282,7 +291,7 @@ export default {
 }
 ```
 
-`build/rollup.config.es.js`
+ `build/rollup.config.es.js`
 
 ```js
 export default {
@@ -294,7 +303,7 @@ export default {
 }
 ```
 
-`build/rollup.config.umd.js`
+ `build/rollup.config.umd.js`
 
 ```js
 export default {
@@ -308,7 +317,7 @@ export default {
 }
 ```
 
-`package.json`
+ `package.json`
 
 ```json
 {
@@ -336,17 +345,17 @@ export default {
 
 以上就是打包一个 js 库的基本配置了。
 
-- 选择合适的工具链
+* 选择合适的工具链
 
-- 选择合适的语言
+* 选择合适的语言
 
-- 选择合适的工具
+* 选择合适的工具
 
-- 选择合适的框架
+* 选择合适的框架
 
-- 选择合适的依赖
+* 选择合适的依赖
 
-- 选择合适的测试工具
+* 选择合适的测试工具
 
 > 需要保留原始目录结构吗？
 
@@ -368,9 +377,9 @@ export default {
 
 原则：
 
-- 当开发者使用你的库时，开发者能自行选择兼容的老版本浏览器；
+* 当开发者使用你的库时，开发者能自行选择兼容的老版本浏览器；
 
-- 输出多个产出，支持不同的浏览器。
+* 输出多个产出，支持不同的浏览器。
 
 > 如何兼容老版本浏览器呢？
 
@@ -410,11 +419,11 @@ es5，兼容老板的 UMD 版本。
 
 良好的 changelog 记录也是必需的。
 
-### 使用`type`或者`exports`指定库使用的模块规范
+### 使用 `type` 或者 `exports` 指定库使用的模块规范
 
-- type 字段用于定义 package.json 文件和该文件所在目录中`.js`文件和无拓展名文件的处理方式。
+* type 字段用于定义 package.json 文件和该文件所在目录中`.js`文件和无拓展名文件的处理方式。
 
-值为`module`则当作 ES 模块处理；值为'commonjs'或者没有，则被当作 cjs 模块处理。
+值为 `module` 则当作 ES 模块处理；值为'commonjs'或者没有，则被当作 cjs 模块处理。
 
 > node 需要 14.17 开始才支持 ESM，声明 node 版本。
 
@@ -427,17 +436,17 @@ es5，兼容老板的 UMD 版本。
 }
 ```
 
-无论 package.json 中的`type`字段为何值，`.mjs` 的文件都按照 ES 模块来处理，`.cjs` 的文件都按照 cjs 模块来处理。
+无论 package.json 中的 `type` 字段为何值， `.mjs` 的文件都按照 ES 模块来处理， `.cjs` 的文件都按照 cjs 模块来处理。
 
 node 官方建议包的开发者明确指定 package.json 中 type 字段的值。
 
-- 关于 exports 字段
+* 关于 exports 字段
 
 尽管指定 exports 增加了复杂性，但是它还是比较有用的：
 
 1. 定义了可从库中导入的 API
 
-没有在 exports 中列出的，开发者不可以`import`或者`require`。
+没有在 exports 中列出的，开发者不可以 `import` 或者 `require` 。
 
 2. 指定了导入方式
 
@@ -460,19 +469,19 @@ node 官方建议包的开发者明确指定 package.json 中 type 字段的值�
 }
 ```
 
-- `.` 标识默认入口
+* `.` 标识默认入口
 
-- 入口的识别是从上到下的，找到匹配的入口就立即停止，入口的顺序很重要
+* 入口的识别是从上到下的，找到匹配的入口就立即停止，入口的顺序很重要
 
-- types 用于知道类型，帮助 ts 获得类型提示，放在第一位，指向的文件应和`types`字段的值一致。
+* types 用于知道类型，帮助 ts 获得类型提示，放在第一位，指向的文件应和`types`字段的值一致。
 
-- module 是非官方字段，被 webpack 和 rollup 支持，放在`import`和`require`之前，指定 ESM 产出
+* module 是非官方字段，被 webpack 和 rollup 支持，放在`import`和`require`之前，指定 ESM 产出
 
-- import 使用 import 语法导入你的库使用起作用
+* import 使用 import 语法导入你的库使用起作用
 
-- require 使用 require 语法导入你的库时起作用
+* require 使用 require 语法导入你的库时起作用
 
-- default 最后的备用，前面的匹配都失败了，它会启用
+* default 最后的备用，前面的匹配都失败了，它会启用
 
 > 当一个打包工具或者运行时支持 exports 字段的时候，那么 package.json 中的顶级字段 main、types、module 还有 browser 将被忽略，被 exports 取代。但是，对于尚不支持 exports 字段的工具或运行时来说，设置这些字段仍然很重要。
 
@@ -539,7 +548,7 @@ files 字段指定哪些文件包含在 npm 包中，可有效限制包的大小
 
 可使用 glob 语法指定文件。
 
-使用`npm publish --dry-run` 可帮助你列出包含的文件。
+使用 `npm publish --dry-run` 可帮助你列出包含的文件。
 
 ### sideEffects 字段指定是否有副作用或者有副作用的文件
 
@@ -563,7 +572,7 @@ files 字段指定哪些文件包含在 npm 包中，可有效限制包的大小
 }
 ```
 
-除了`sideEffects.js`有副作用，其他都是无副作用的。
+除了 `sideEffects.js` 有副作用，其他都是无副作用的。
 
 [更多参考文章](https://github.com/rollup/rollup/issues/1293)
 
@@ -591,8 +600,8 @@ function setExample() {
 }
 
 export {
- myVar,
- setExample
+  myVar,
+  setExample
 }
 ```
 
@@ -608,7 +617,7 @@ export {
 
 放在开发依赖还是生产依赖？
 
-都不是，放在`peerDependencies`，这样可以避免重复安装。
+都不是，放在 `peerDependencies` ，这样可以避免重复安装。
 
 ### license --- 应该使用哪个开源许可证？
 
@@ -618,17 +627,17 @@ export {
 
 ### 其他常用字段
 
-- `keywords`：指定关键字，方便搜索
-- `description`：指定描述
-- `repository`：指定代码仓库地址
-- `private`：指定是否私有
-- `publishConfig`：指定发布配置
-- `engines`：指定运行环境
-- `author`：指定作者
-- `homepage`：指定项目主页
-- `bugs`：指定 bug 反馈地址
-- `contributors`：指定贡献者
-- `funding`：指定赞助地址
+* `keywords`：指定关键字，方便搜索
+* `description`：指定描述
+* `repository`：指定代码仓库地址
+* `private`：指定是否私有
+* `publishConfig`：指定发布配置
+* `engines`：指定运行环境
+* `author`：指定作者
+* `homepage`：指定项目主页
+* `bugs`：指定 bug 反馈地址
+* `contributors`：指定贡献者
+* `funding`：指定赞助地址
 
 > `publishConfig` 用于指定发布配置
 
@@ -644,13 +653,13 @@ export {
 
 > `private` vs `publishConfig.access`
 
-如果你的包是私有的，设置`private`为`true`，如果你的包是公开的，设置`publishConfig.access`为`public`。
+如果你的包是私有的，设置 `private` 为 `true` ，如果你的包是公开的，设置 `publishConfig.access` 为 `public` 。
 
 private 为 false，将无法**公开**发布到 npm。
 
 > `engines` vs `enginesStrict`
 
-`engines`指定运行环境，可指定 node 和 npm 版本，不满足，允许安装，但是会有警告。
+`engines` 指定运行环境，可指定 node 和 npm 版本，不满足，允许安装，但是会有警告。
 
 ```json
 {
@@ -661,7 +670,7 @@ private 为 false，将无法**公开**发布到 npm。
 }
 ```
 
-`enginesStrict`指定运行环境是否严格匹配，不满足，不允许安装。
+`enginesStrict` 指定运行环境是否严格匹配，不满足，不允许安装。
 
 已经废弃。
 
@@ -688,7 +697,7 @@ npm version [<newversion> | major | minor | patch | premajor | preminor | prepat
 npm version prerelease --preid=alpha
 ```
 
-执行了 npm version 之后，脚本会自动修改版本号，并在 git 中创建提交和标签，如果想要禁用该行为，可以传入`--no-git-tag-version` 来阻止。
+执行了 npm version 之后，脚本会自动修改版本号，并在 git 中创建提交和标签，如果想要禁用该行为，可以传入 `--no-git-tag-version` 来阻止。
 
 ### 打 tag
 
@@ -706,7 +715,7 @@ tag 会在 npm 上显示，用户可以根据 tag 安装不同版本。
 npm install vue@v2-latest # 指定 tag 安装
 ```
 
-使用`npm view <package-name> dist-tags`查看所有 tag。
+使用 `npm view <package-name> dist-tags` 查看所有 tag。
 
 ### 移除 tag
 
@@ -737,3 +746,5 @@ changlog 的非常重要。
 [如何创建可进行摇树优化的库](https://blog.theodo.com/2021/04/library-tree-shaking/)
 
 [ESModule 与 CommonJS 的异同点是什么？](https://mp.weixin.qq.com/s/MqoIa80IpvRDfOA2EahBdQ)
+
+[制作一个同时支持 ESM, CJS, Browser 的 Package](https://juejin.cn/post/7129335434588454919)
