@@ -1,5 +1,7 @@
 # vue 2 学习总结
 
+### [vue2项目中遇到的问题](./some-issues.md)
+
 ### [如何使用 gh-pages 部署 vue 应用？](./vue-pro-deploy-gh-pages.md)
 
 ### [vue2 响应式系统核心原理实现](./vue2响应式系统核心原理实现.md)
