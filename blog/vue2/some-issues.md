@@ -23,13 +23,14 @@ Either disable config file checking with requireConfigFile: false, or configure 
 ```js
 {
   // root: true,
-  "root": "./"
+  // "root": "./"
+  "root": false
 }
 ```
 
 > babel.config.js 必须在项目根目录。.babelrc、.babelrc.js/json 才可以在任意目录。
 
-> eslintrc.js 可以在任意目录，会从根目录开始查找，root 用于指定在根目录找到后是否往下查找。
+> eslintrc.js 可以在任意目录，会从根目录开始查找，root 的值只能是true or false，用于指定在根目录找到后是否往下查找。
 
 > 在一个目录里打开多个有 eslint 配置的项目，很可能出现这个问题。
 
@@ -41,6 +42,6 @@ Either disable config file checking with requireConfigFile: false, or configure 
 
 参考：
 
-* [eslint 报错：Parsing error: No Babel config file detected?](https://www.cnblogs.com/hmy-666/p/16441069.html)
+* [eslint 报错：Parsing error: No Babel config file detected?--博客园文章](https://www.cnblogs.com/hmy-666/p/16441069.html)
 
-* [eslint 报错：Parsing error: No Babel config file detected?](https://segmentfault.com/q/1010000042063266)
+* [eslint 报错：Parsing error: No Babel config file detected?--思否问题](https://segmentfault.com/q/1010000042063266)
