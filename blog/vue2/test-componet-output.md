@@ -1,0 +1,348 @@
+## 测试 vue 组件输出
+
+希望开发一个类似如下的通讯录组件：
+
+![](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/contract-list.png)
+
+每个卡片是一个人的信息，包括姓名、电话、职位、头像、社交账号。
+
+对组件进行测试，需要测试组件的输出，即组件的 DOM 结构。
+
+1. 渲染文本
+
+测试渲染文本，通常需要测试两种情况：
+
+* 渲染文本是否包含某些文字，即测试内容；
+
+ `text()`
+
+```js
+toMatch(msg)
+toBe(msg)
+toEqual(msg)
+toContain(msg)
+```
+
+测试用例
+
+ `ContractItem.spec.js`
+
+```js
+describe('ContractItem.vue', () => {
+  it('测试渲染文本', () => {
+    const propsData = {
+      name: '马云',
+      city: '杭州',
+      img: 'https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/ma-yun.png',
+      phone: '123456789',
+      position: 'CEO',
+      company: '阿里巴巴',
+      twitter: 'https://twitter.com/jack-ma',
+    }
+    const wrapper = shallowMount(ContractItem, {
+      propsData,
+    })
+
+    expect(wrapper.text()).toMatch(propsData.name)
+    expect(wrapper.text()).toMatch(propsData.city)
+    expect(wrapper.text()).toMatch(propsData.phone)
+    expect(wrapper.text()).toMatch(propsData.position)
+    // expect(wrapper.text()).toContain(value)
+  })
+})
+```
+
+* 渲染文本是否正确德渲染在某些 DOM 内部，即测试位置。
+
+需要查找 DOM，使用 `find` 方法，返回第一个匹配的节点。
+
+```js
+expect(wrapper.find('h1').text()).toMatch(msg)
+```
+
+希望名字渲染类为 header 的 div 中，测试用例：
+
+```js
+  it('测试 name 的位置', () => {
+    const propsData = {
+      name: '马云',
+      city: '杭州',
+      img: 'https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/ma-yun.png',
+      phone: '123456789',
+      position: 'CEO',
+      company: '阿里巴巴',
+      twitter: 'https://twitter.com/jack-ma',
+    }
+    const wrapper = shallowMount(ContractItem, {
+      propsData,
+    })
+    expect(wrapper.find('.header').text()).toMatch(propsData.name)
+  })
+```
+
+在个用例中用到了前一个用力 propsData，可以将其提取出来，放在 describe 中。
+
+```js
+describe('ContractItem.vue', () => {
+  const propsData = {
+    name: '马云',
+    city: '杭州',
+    img: 'https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/ma-yun.png',
+    phone: '123456789',
+    position: 'CEO',
+    company: '阿里巴巴',
+    twitter: 'https://twitter.com/jack-ma',
+  }
+  it('测试渲染文本', () => {
+    const wrapper = shallowMount(ContractItem, {
+      propsData,
+    })
+
+    expect(wrapper.text()).toMatch(propsData.name)
+    expect(wrapper.text()).toMatch(propsData.city)
+    expect(wrapper.text()).toMatch(propsData.phone)
+    expect(wrapper.text()).toMatch(propsData.position)
+    // expect(wrapper.text()).toContain(value)
+  })
+  it('测试 name 的位置', () => {
+    const wrapper = shallowMount(ContractItem, {
+      propsData,
+    })
+    expect(wrapper.find('.header').text()).toMatch(propsData.name)
+  })
+})
+```
+
+2. DOM 属性
+
+`attributes()` 方法返回一个对象，包含 DOM 元素的所有属性。
+
+```js
+expect(wrapper.attributes('id')).toBe('app')
+```
+
+希望 `props.twitter` 设置到 a 标签的 href 属性上， `props.img` 设置到 img 的 src 上。
+
+```js
+  it('props.twitter should be a href', () => {
+    const wrapper = shallowMount(ContractItem, {
+      propsData,
+    })
+    expect(wrapper.find('a').attributes('href')).toBe(propsData.twitter)
+  })
+  it('props.img should be img src', () => {
+    const wrapper = shallowMount(ContractItem, {
+      propsData,
+    })
+    expect(wrapper.find('.header').find('img').attributes('src')).toBe(propsData.img)
+  })
+```
+
+3. 测试组件的数量
+
+`findAll` 在渲染输出中搜索与选择器匹配的节点，并返回一个包含匹配节点的包装器的类数组对象。
+
+`findAllComponents` 获取渲染的子组件。
+
+ `ContractList.spec.js`
+
+```js
+expect(wrapper.findAll('li').length).toBe(3)
+expect(wrapper.findAll('li')).toHaveLength(10)
+```
+
+```js
+import {
+  shallowMount
+} from '@vue/test-utils'
+import ContractList from './ContractList.vue'
+import ContractItem from './ContractItem.vue'
+
+describe('ContractList.vue', () => {
+  const richFriends = [{
+      name: '马爸爸',
+      city: '杭州',
+      img: 'https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/ma-yun.png',
+      phone: '123456789',
+      position: 'CEO',
+      company: '阿里巴巴',
+      twitter: 'https://twitter.com/jack-ma',
+    },
+    {
+      name: '麻花藤',
+      city: '深圳',
+      img: 'https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/pony-ma.png',
+      phone: '99988123',
+      position: 'CTO',
+      company: '腾讯',
+      twitter: 'https://twitter.com/pony-ma',
+    },
+  ]
+  it("ContractItem's size", () => {
+    const wrapper = shallowMount(ContractList, {
+      propsData: {
+        persons: richFriends,
+      },
+    })
+    expect(wrapper.findAllComponents(ContractItem)).toHaveLength(richFriends.length)
+  })
+})
+```
+
+> 让断言失败时，输出更多信息的技巧
+
+用例失败时，希望输出的信息足够具体，便于排查问题，如何让断言失败时，输出更多信息？
+
+少用 Boolean 断言，因为 Boolean 断言失败时，输出的信息只有一个 true 或者 false。
+
+> 用 toBeTruthy() 代替 toBe(true)
+
+> 模拟最小环境的原则
+
+通常在测试环境中，你需要将模拟数据传递给组件或函数。而在生产环境中，这个数据可能是具有许多属性的庞大对象。庞大对象使得测试更复杂难读，你应始终传递测试所需的最少数据。
+
+4. 测试 props
+
+希望 ContractList 里的 ContractItem 都正确渲染 props。
+
+`props` 是包装器的一个方法，返回一个对象，包含组件的 props。
+
+```js
+  it('测试 props', () => {
+    const wrapper = shallowMount(ContractList, {
+      propsData: {
+        persons: richFriends,
+      },
+    })
+    const items = wrapper.findAllComponents(ContractItem)
+    items.wrappers.forEach((wrapper, index) => {
+      expect(wrapper.props()).toEqual(richFriends[index])
+    })
+  })
+```
+
+如果 props 多传一个字段，但是组件上不用呢？
+
+```js
+describe('ContractList.vue', () => {
+  const richFriends = [{
+      name: '马爸爸',
+      city: '杭州',
+      img: 'https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/ma-yun.png',
+      phone: '123456789',
+      position: 'CEO',
+      company: '阿里巴巴',
+      twitter: 'https://twitter.com/jack-ma',
+      fortune: '400亿美元', // 多余的字段
+    },
+    {
+      name: '麻花藤',
+      city: '深圳',
+      img: 'https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/pony-ma.png',
+      phone: '99988123',
+      position: 'CTO',
+      company: '腾讯',
+      twitter: 'https://twitter.com/pony-ma',
+      fortune: '600亿美元',
+    },
+  ]
+  it('测试 props', () => {
+    const wrapper = shallowMount(ContractList, {
+      propsData: {
+        persons: richFriends,
+      },
+    })
+    const items = wrapper.findAllComponents(ContractItem)
+    items.wrappers.forEach((wrapper, index) => {
+      // console.log(wrapper.props())
+      expect(wrapper.props()).toEqual(richFriends[index])
+    })
+  })
+})
+```
+
+增加一个 fortune 字段，但是组件上没有用到，测试用例不通过，如何修改断言让它通过呢？
+
+> 最好别这样做，否则人家不知道的组件 props 到底是什么。
+
+传递为声明的 prop，会怎样？
+
+删除 `ContractItem` 的 `city` ，而仍然传递 `city` ，看看效果。
+
+`it('测试 props')` 用例失败，提示 props 缺少 city。
+
+![](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/no-prop.png)
+
+> 多传递 prop 是一个陷阱，需要格外小心。
+
+5. 测试 class
+
+`classes` 返回组件根元素的 class，是一个数组。
+
+可使用 `toContain` 断言某个 class 是否存在。
+
+```js
+it('should contain contract-list class in root ele', () => {
+  const wrapper = shallowMount(ContractList, {
+    propsData: {
+      persons: richFriends,
+    },
+  })
+  expect(wrapper.classes()).toContain('contract-list')
+})
+```
+
+> toContain 可用于数组和字符串。
+
+### 测试样式
+
+静态的样式不需要测试，因为它们不会改变，但是动态的样式需要测试。
+
+样式往往需要手动测试。
+
+1. 测试内联样式
+
+直接获取 DOM 元素的 style 属性，然后断言。
+
+每个包装器都包含一个 element 属性，它是对包装器包含的 DOM **根节点**的引用。
+
+```js
+it('test inline style', () => {
+  const wrapper = shallowMount(ContractList, {
+    propsData: {
+      persons: richFriends,
+    },
+  })
+  // expect(wrapper.attributes('style')).toBe('color: red;')
+  expect(wrapper.element.style.color).toBe('red')
+})
+```
+
+> attributes('style') 返回的是字符串，element.style 返回的是对象。
+
+测试非根元素的内联样式，需要使用 find 或者 findComponent 方法。
+
+```js
+it('test inline style', () => {
+  const wrapper = shallowMount(ContractList, {
+    propsData: {
+      persons: richFriends,
+    },
+  })
+  expect(wrapper.find('h1').element.style.color).toBe('red')
+})
+```
+
+### 何时测试组件的输出
+
+测试代码应该遵循使用最小的代码来测试最小的功能的原则，即**测试代码应该尽可能简单**，再能覆盖所有功能的情况，用例要最少。
+
+> 额外的测试代码会增加和源代码的耦合，增加维护成本。修改一处源代码，可能需要修改多处测试代码。这很需要经验和对源代码的理解。
+
+测试组件的输出的原则：
+
+* 仅测试动态输出，不测试静态输出；
+
+比如，索引为 2 的组件，有一个为 `item-2` 的 class，就应该测试。
+
+* 仅测试组件契约部分的输出。

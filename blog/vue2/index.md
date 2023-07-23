@@ -1,6 +1,12 @@
 # vue 2 学习总结
 
-### [vue2项目中遇到的问题](./some-issues.md)
+### [测试 vue 组件的方法](./test-componet-output.md)
+
+### [测试 vue 组件的输出](./test-componet-output.md)
+
+### [vue 应用测试简介](./test-vue-intro.md)
+
+### [vue2 项目中遇到的问题](./some-issues.md)
 
 ### [如何使用 gh-pages 部署 vue 应用？](./vue-pro-deploy-gh-pages.md)
 
