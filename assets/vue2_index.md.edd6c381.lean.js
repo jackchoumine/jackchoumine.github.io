@@ -1,0 +1,1 @@
+import{_ as e,o as a,c as r,R as h}from"./chunks/framework.bf742a9e.js";const f=JSON.parse('{"title":"vue 2 学习总结","description":"","frontmatter":{},"headers":[],"relativePath":"vue2/index.md","filePath":"vue2/index.md"}'),t={name:"vue2/index.md"},o=h("",15),u=[o];function d(l,n,i,s,m,v){return a(),r("div",null,u)}const b=e(t,[["render",d]]);export{f as __pageData,b as default};
