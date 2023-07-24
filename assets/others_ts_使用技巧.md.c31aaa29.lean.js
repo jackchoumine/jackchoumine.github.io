@@ -1,1 +1,0 @@
-import{_ as s,o as n,c as a,a as l}from"./app.dd3991ed.js";const A=JSON.parse('{"title":"TS 使用技巧","description":"","frontmatter":{},"headers":[],"relativePath":"others/ts/使用技巧.md"}'),p={name:"others/ts/使用技巧.md"},o=l("",40),e=[o];function t(r,c,y,D,F,C){return n(),a("div",null,e)}const b=s(p,[["render",t]]);export{A as __pageData,b as default};
