@@ -212,6 +212,8 @@ describe('ParentModal.vue', () => {
 
 <!-- BUG -->
 
+> 可以测试 closeModal 事件的副作用，比如弹窗不显示。
+
 ## 测试表单元素
 
 有一个组件 `FormDemo.vue` ，包含一个输入框和一个按钮，点击按钮，触发 `submit` 事件。
