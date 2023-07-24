@@ -15,7 +15,7 @@ vue 组件中，事件分为两种，一种是原生事件，一种是自定义�
 
 ## 测试原生事件
 
-`ModalDemo.vue`:
+`ModalDemo.vue` :
 
 ```html
 <template>
@@ -26,22 +26,26 @@ vue 组件中，事件分为两种，一种是原生事件，一种是自定义�
 </template>
 
 <script>
-export default {
-  name: 'ModalDemo',
-  props:['onClose'],
-}
+  export default {
+    name: 'ModalDemo',
+    props: ['onClose'],
+  }
 </script>
 ```
+
+只测试组件契约，先不管具体实现。
 
 测试用例
 
 ```js
-import { shallowMount } from '@vue/test-utils'
+import {
+  shallowMount
+} from '@vue/test-utils'
 import ModalDemo from './ModalDemo.vue'
 describe('ModalDemo.vue', () => {
   let wrapper = null
   beforeEach(() => {
-    const onClose = ()=>{}
+    const onClose = () => {}
     // const onClose = jest.fn()
     wrapper = shallowMount(ModalDemo, {
       propsData: {
@@ -57,11 +61,94 @@ describe('ModalDemo.vue', () => {
 })
 ```
 
-测试用例检查按钮被点击后，`props.onClose` 方法是否被调用。
+测试用例检查按钮被点击后， `props.onClose` 方法是否被调用。
 
-在Vue Test Utils中，每个**包装器**都有一个`trigger`方法，用于在包装元素上触发一个合成事件。
+在 Vue Test Utils 中，每个**包装器**都有一个 `trigger` 方法，用于在包装元素上触发一个合成事件。
 
-> 合成事件是在JavaScript中创建的事件。实际上，合成事件的处理方式与浏览器分发事件的方式相同。区别在于原生事件通过JavaScript事件循环异步调用事件处理程序，合成事件则是同步调用事件处理程序。
+> 合成事件是在 JavaScript 中创建的事件。实际上，合成事件的处理方式与浏览器分发事件的方式相同。区别在于原生事件通过 JavaScript 事件循环异步调用事件处理程序，合成事件则是同步调用事件处理程序。
 
 > onClose 传递一个模拟函数，传递真实的函数，会导致测试失败，这点有点奇怪。
 
+## 测试自定义事件
+
+自定义事件，对子组件来说，是输出事件，对父组件来说，是输入。
+
+组件触发的自定义事件，自定义事件是组件的契约的一部分，所以需要测试。
+
+测试方法：vue-test-utils 提供了一个 `emitted` 方法，返回一个**二维数组**，包含事件抛出数据。
+
+单击关闭按钮，触发 `close-modal` 事件。
+
+```js
+it('test custom event', () => {
+  wrapper.find('.btn-close').trigger('click')
+  expect(wrapper.emitted('close-modal')).toHaveLength(1)
+})
+```
+
+测试失败，因为组件没触发 `close-modal` 事件，需要在组件中添加代码。
+
+```html
+<template>
+  <div>
+    <button @click="closeModal" class="btn-close">关闭</button>
+    <slot />
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'ModalDemo',
+    props: ['onClose'],
+    methods: {
+      closeModal() {
+        this.$emit('close-modal', 'hello', 'modal')
+        this.onClose && this.onClose()
+      }
+    }
+  }
+</script>
+```
+
+测试通过。
+
+测试 `emitted` 返回的数据，测试用例：
+
+```js
+it('test custom event payload', () => {
+  wrapper.find('.btn-close').trigger('click')
+  expect(wrapper.emitted('close-modal')).toHaveLength(1)
+  expect(wrapper.emitted('close-modal')[0]).toEqual(['hello', 'modal'])
+})
+```
+
+在 closeModal 里触发两个事件，测试用例：
+
+```js
+it('test custom event payload 2', () => {
+  wrapper.find('.btn-close').trigger('click')
+  expect(wrapper.emitted('close-modal')).toHaveLength(1)
+  expect(wrapper.emitted('close-modal')[0]).toEqual(['hello', 'modal'])
+  expect(wrapper.emitted('my-event')).toBeUndefined()
+})
+```
+
+> 把用例的名字吧，改成 `test custom event payload 2` ，只希望单独运行这个用例，名字不能重复。
+
+> 组件还没触发 `my-event` ，emitted 的值是 `undefined` 。
+
+现在触发 `my-event` 事件:
+
+```js
+closeModal() {
+  this.$emit('close-modal', 'hello', 'modal')
+  this.$emit('my-event')
+  this.onClose && this.onClose()
+}
+```
+
+修改断言，让测试通过。
+
+```js
+expect(wrapper.emitted('my-event')[0]).toEqual([])
+```
