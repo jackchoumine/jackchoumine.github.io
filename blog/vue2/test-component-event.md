@@ -11,7 +11,7 @@ vue 组件中，事件分为两种，一种是原生事件，一种是自定义�
 弹窗主要功能：
 
 1. 点击关闭按钮，执行 props.onClose 关闭弹窗
-2. 点击 subscribe 按钮，执行提交订阅表单
+2. 点击关闭按钮，触发自定义事件 `close-modal`
 
 ## 测试原生事件
 
@@ -151,4 +151,94 @@ closeModal() {
 
 ```js
 expect(wrapper.emitted('my-event')[0]).toEqual([])
+```
+
+上面测试了组件作为输出，对于父组件来说，是输入，也需要测试。
+
+```HTML
+<script>
+  import ModalDemo from './ModalDemo.vue';
+  export default {
+    name: 'ParentModal',
+    methods: {
+      onCloseModal() {
+        console.log('onCloseModal');
+      }
+    },
+    components: {
+      ModalDemo
+    }
+  }
+</script>
+
+<template>
+  <ModalDemo @close-modal="onCloseModal" />
+</template>
+```
+
+测试方法，让ModalDemo触发 `close-modal` ，测试父组件的 `onCloseModal` 是否被调用。
+
+```js
+import {
+  shallowMount
+} from '@vue/test-utils'
+import ParentModal from './ParentModal.vue'
+import ModalDemo from './ModalDemo.vue'
+describe('ParentModal.vue', () => {
+  let wrapper = null
+  // let onCloseModal = jest.fn()
+  beforeEach(() => {
+    wrapper = shallowMount(ParentModal, {
+      // mocks: {
+      //   methods: {
+      //     onCloseModal, //: jest.fn(),
+      //   },
+      // },
+    })
+  })
+  it('test close-modal event handler', () => {
+    jest.spyOn(wrapper.vm, 'onCloseModal')
+    wrapper.find(ModalDemo).vm.$emit('close-modal')
+    expect(wrapper.vm.onCloseModal).toHaveBeenCalledTimes(1)
+  })
+})
+```
+
+> 测试报错： `expect(jest.fn()).toHaveBeenCalledTimes(expected)`
+
+> 原因是 expect 只接受模拟函数，不接受真实函数，不知道如何解决。
+
+以后再看了。
+
+<!-- BUG -->
+
+## 测试表单元素
+
+有一个组件 `FormDemo.vue` ，包含一个输入框和一个按钮，点击按钮，触发 `submit` 事件。
+
+```html
+<template>
+  <div class="form-demo">
+    <form @submit="submitForm">
+      <button>提交</button>
+    </form>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'FormDemo',
+    data() {
+      return {
+        // data
+      }
+    },
+    methods: {
+      // methods
+      submitForm() {
+        this.$emit('form-submit')
+      }
+    },
+  }
+</script>
 ```

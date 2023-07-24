@@ -32,7 +32,7 @@ describe('ContractList.vue', () => {
       // fortune: '600亿美元',
     },
   ]
-  it("ContractItem's size", () => {
+  it('ContractItem\'s size', () => {
     const wrapper = shallowMount(ContractList, {
       propsData: {
         persons: richFriends,
