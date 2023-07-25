@@ -2,7 +2,7 @@
  * @Date        : 2022-08-08 15:54:09
  * @Author      : ZhouQijun
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-01-30 10:03:09
+ * @LastEditTime: 2023-07-25 13:27:37
  * @Description : vite 配置
  */
 // @ts-nocheck
@@ -18,6 +18,7 @@ import {
 } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
+import vueDevTools from 'vite-plugin-vue-devtools'
 
 // import basicSsl from '@vitejs/plugin-basic-ssl'
 // import fs from 'fs'
@@ -46,6 +47,7 @@ export default defineConfig({
         },
       },
     }),
+    vueDevTools(),
     vueJsx(),
     AutoImport({
       include: [
