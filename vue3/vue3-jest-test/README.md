@@ -7,10 +7,15 @@ vue3 + jest 测试学习。
 ### 触发事件
 
 ```js
-import { mount } from '@vue/test-utils'
+import {
+  mount
+} from '@vue/test-utils'
 const App = {
   data() {
-    return { msg: 'hello', innerCount: 0 }
+    return {
+      msg: 'hello',
+      innerCount: 0
+    }
   },
   methods: {
     add() {
@@ -53,7 +58,7 @@ function onClick() {
 }
 ```
 
-测试`my-click`：
+测试 `my-click` ：
 
 ```js
 it('测试自定义事件', () => {
@@ -72,13 +77,18 @@ it('测试自定义事件', () => {
 ### 使用工厂函数返回组件挂载
 
 ```js
-import { mount } from '@vue/test-utils'
+import {
+  mount
+} from '@vue/test-utils'
 const App = {
   props: {
     count: Number,
   },
   data() {
-    return { msg: 'hello', innerCount: 0 }
+    return {
+      msg: 'hello',
+      innerCount: 0
+    }
   },
   methods: {
     add() {
@@ -95,7 +105,10 @@ const App = {
 }
 
 // NOTE 提取工厂函数
-function factory({ props, data }) {
+function factory({
+  props,
+  data
+}) {
   // const app =  createApp()
   // app.mount()
   return mount(App, {
@@ -111,8 +124,12 @@ describe('App', () => {
     const odd = 3
     const hello = 'hi'
     const wrapper = factory({
-      props: { count: odd },
-      data: { msg: hello },
+      props: {
+        count: odd
+      },
+      data: {
+        msg: hello
+      },
     })
     // NOTE 输出一个对象
     // console.log(wrapper.vm)
@@ -122,7 +139,11 @@ describe('App', () => {
   // NOTE xit 跳过这个测试
   it('should render with even', () => {
     const evenNumber = 4
-    const wrapper = factory({ props: { count: evenNumber } })
+    const wrapper = factory({
+      props: {
+        count: evenNumber
+      }
+    })
     expect(wrapper.html()).toContain(`count:${evenNumber}. count is even`)
   })
 })
@@ -141,19 +162,31 @@ describe('App', () => {
 </template>
 
 <script>
-  import { computed } from 'vue'
-  import { useStore } from 'vuex'
+  import {
+    computed
+  } from 'vue'
+  import {
+    useStore
+  } from 'vuex'
   export default {
     name: 'Counter',
-    setup(props, { emit, attrs, slots }) {
+    setup(props, {
+      emit,
+      attrs,
+      slots
+    }) {
       const store = useStore()
       const count = computed(() => {
         return store.state.count
       })
+
       function add() {
         store.commit('add')
       }
-      return { count, add }
+      return {
+        count,
+        add
+      }
     },
   }
 </script>
@@ -162,14 +195,20 @@ describe('App', () => {
 如何在测试代码不引入全局的 store，但是保证代码能测试呢？即如何在测试代码中模拟 store。
 
 ```js
-import { mount } from '@vue/test-utils'
+import {
+  mount
+} from '@vue/test-utils'
 import Counter from './Counter.vue'
-import { createStore } from 'vuex'
+import {
+  createStore
+} from 'vuex'
 
 function createLocalStore() {
   const store = createStore({
     state() {
-      return { count: 0 }
+      return {
+        count: 0
+      }
     },
     mutations: {
       add(state) {
@@ -179,6 +218,7 @@ function createLocalStore() {
   })
   return store
 }
+
 function factory() {
   const store = createLocalStore()
   return mount(Counter, {
@@ -234,10 +274,12 @@ describe('Counter', () => {
 </script>
 ```
 
-使用`mocks`模拟
+使用 `mocks` 模拟
 
 ```js
-import { mount } from '@vue/test-utils'
+import {
+  mount
+} from '@vue/test-utils'
 import Counter from './Counter.vue'
 
 function factory() {
@@ -274,19 +316,31 @@ describe('Counter', () => {
 </template>
 
 <script>
-  import { computed, defineComponent, inject } from 'vue'
+  import {
+    computed,
+    defineComponent,
+    inject
+  } from 'vue'
 
   export default defineComponent({
     name: 'DemoProvide',
-    setup(props, { emit, attrs, slots }) {
+    setup(props, {
+      emit,
+      attrs,
+      slots
+    }) {
       const store = inject('store')
       const count = computed(() => {
         return store.state.count
       })
+
       function add() {
         store.commit('add')
       }
-      return { count, add }
+      return {
+        count,
+        add
+      }
     },
   })
 </script>
@@ -295,14 +349,20 @@ describe('Counter', () => {
 在 mount 中提供 provide:
 
 ```js
-import { mount } from '@vue/test-utils'
+import {
+  mount
+} from '@vue/test-utils'
 import DemoProvide from './DemoProvide.vue'
-import { createStore } from 'vuex'
+import {
+  createStore
+} from 'vuex'
 
 function createLocalStore() {
   const store = createStore({
     state() {
-      return { count: 0 }
+      return {
+        count: 0
+      }
     },
     mutations: {
       add(state) {
@@ -312,6 +372,7 @@ function createLocalStore() {
   })
   return store
 }
+
 function factory() {
   const store = createLocalStore()
   return mount(DemoProvide, {
@@ -341,12 +402,18 @@ describe('DemoProvide', () => {
 可这样组织测试代码：
 
 ```js
-import { mount } from '@vue/test-utils'
+import {
+  mount
+} from '@vue/test-utils'
 import DemoProvide2 from './DemoProvide.vue'
-import { reactive } from 'vue'
+import {
+  reactive
+} from 'vue'
 
 function factory() {
-  const state = reactive({ count: 0 })
+  const state = reactive({
+    count: 0
+  })
   return mount(DemoProvide2, {
     global: {
       provide: {
@@ -384,7 +451,10 @@ describe('DemoProvide2', () => {
   export default {
     name: 'Condition',
     data() {
-      return { admin: true, dev: false }
+      return {
+        admin: true,
+        dev: false
+      }
     },
   }
 </script>
@@ -393,7 +463,9 @@ describe('DemoProvide2', () => {
 测试代码
 
 ```js
-import { shallowMount } from '@vue/test-utils'
+import {
+  shallowMount
+} from '@vue/test-utils'
 import Condition from './Condition.vue'
 
 describe('Condition.vue', () => {
@@ -420,7 +492,9 @@ describe('Condition.vue', () => {
   it('dev 可见', () => {
     const wrapper = shallowMount(Condition, {
       data() {
-        return { dev: true }
+        return {
+          dev: true
+        }
       },
     })
     expect(wrapper.find('#dev').exists()).toBe(true)
@@ -437,7 +511,7 @@ describe('Condition.vue', () => {
 
 ### 测试 http 请求
 
-比如在`onMounted`里自动执行 http 请求。
+比如在 `onMounted` 里自动执行 http 请求。
 
 ```html
 <template>
@@ -445,12 +519,20 @@ describe('Condition.vue', () => {
 </template>
 
 <script>
-  import { ref, onMounted, defineComponent } from 'vue'
+  import {
+    ref,
+    onMounted,
+    defineComponent
+  } from 'vue'
   import axios from 'axios'
 
   export default defineComponent({
     name: 'HttpTest',
-    setup(props, { emit, attrs, slots }) {
+    setup(props, {
+      emit,
+      attrs,
+      slots
+    }) {
       onMounted(() => {
         axios.get('/')
       })
@@ -462,12 +544,14 @@ describe('Condition.vue', () => {
 </script>
 ```
 
-如何测试在 onMounted 是时执行了`axios.get`呢？
+如何测试在 onMounted 是时执行了 `axios.get` 呢？
 
 jest 提供了模拟函数和模拟模块的功能：
 
 ```js
-import { mount } from '@vue/test-utils'
+import {
+  mount
+} from '@vue/test-utils'
 import HttpTest from './HttpTest.vue'
 
 function factory() {
@@ -479,7 +563,9 @@ let mockGet = '' //jest.fn()
 
 // NOTE 模拟 axios 模块
 jest.mock('axios', () => {
-  return { get: () => mockGet() }
+  return {
+    get: () => mockGet()
+  }
 })
 describe('HttpTest', () => {
   // 每个 it 都会执行
@@ -497,9 +583,9 @@ describe('HttpTest', () => {
 
 `toHaveBeenCalled` 断言函数是否被调用。
 
-`toHaveBeenCalledTimes(1)`断言函数被调用的次数。
+`toHaveBeenCalledTimes(1)` 断言函数被调用的次数。
 
-`beforeEach` 钩子函数在每个`it`用例浅都会执行。
+`beforeEach` 钩子函数在每个 `it` 用例浅都会执行。
 
 ### 指定子组件
 
@@ -513,21 +599,32 @@ describe('HttpTest', () => {
 </template>
 
 <script>
-  import { ref, onMounted, defineComponent } from 'vue'
+  import {
+    ref,
+    onMounted,
+    defineComponent
+  } from 'vue'
   export default defineComponent({
     name: 'HttpTest',
-    setup(props, { emit, attrs, slots }) {
+    setup(props, {
+      emit,
+      attrs,
+      slots
+    }) {
       return {}
     },
   })
 </script>
 ```
 
-使用全局属性`stubs`模拟子组件。
+使用全局属性 `stubs` 模拟子组件。
 
 ```js
-import { shallowMount } from '@vue/test-utils'
+import {
+  shallowMount
+} from '@vue/test-utils'
 import HttpTest from './HttpTest.vue'
+
 function factory() {
   return shallowMount(HttpTest, {
     global: {
@@ -560,3 +657,9 @@ describe('HttpTest', () => {
 ## 参考
 
 [youtube vue3 测试教程](https://youtube.com/playlist?list=PLC2LZCNWKL9ahK1IoODqYxKu5aA9T5IOA)
+
+[Testing with Jest and React Testing Library](https://robertmarshall.dev/blog/testing-with-jest-and-react-testing-library/)
+
+[A guide to module mocking with Jest](https://www.emgoto.com/mocking-with-jest/)
+
+[How to mock imported functions with Jest](https://dev.to/dstrekelj/how-to-mock-imported-functions-with-jest-3pfl)
