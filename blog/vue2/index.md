@@ -1,6 +1,8 @@
 # vue 2 学习总结
 
-### [测试 vue 组件的方法](./test-compoent-method.md)
+### [测试 vue 组件的事件](./test-component-event.md)
+
+### [测试 vue 组件的方法](./test-component-method.md)
 
 ### [测试 vue 组件的输出](./test-componet-output.md)
 

@@ -1,6 +1,6 @@
 # 测试组件的事件
 
-vue 组件中，事件分为两种，一种是原生事件，一种是自定义事件。
+vue 组件中，事件分为两种：原生事件和自定义事件。
 
 表单元素的测试也是本篇文章的重点。
 
@@ -318,8 +318,224 @@ it('test input field', async () => {
 
 > 把输入框接收的值，显示在 p 里，测试双向绑定是否生效。
 
-> setValue 用于设置表单值，能触发双向绑定，直接设置input的value是不行的。
+> setValue 用于设置表单值，能触发双向绑定，直接设置 input 的 value 是不行的。
 
 > 测试 p 标签，因为 vue 更新页面是异步的，使用 $nextTick 等待 DOM 更新，否则测试会失败。
 
 ### 测试单选框
+
+添加测试用例
+
+```js
+it('test radio field true', async () => {
+  const radio = wrapper.find('input[type="true"]')
+  radio.setChecked()
+  expect(wrapper.vm.join).toBe('true')
+  await wrapper.vm.$nextTick()
+  expect(wrapper.find('span').text()).toBe('true')
+})
+it('test radio field false', async () => {
+  const radio = wrapper.find('input[value="false"]')
+  radio.setChecked()
+  expect(wrapper.vm.join).toBe('false')
+  await wrapper.vm.$nextTick()
+  expect(wrapper.find('span').text()).toBe('false')
+})
+```
+
+> radio.setChecked() 设置单选框的值，能触发双向绑定。
+
+重构组件，让用例通过
+
+```html
+<template>
+  <div class="form-demo">
+    <form @submit="submitForm">
+      <input v-model="email" type="email" />
+      <br />
+      <input type="radio" id="one" value="true" v-model="join" />
+      <label for="one">参加</label>
+      <input type="radio" id="two" value="false" v-model="join" />
+      <label for="two">不参加</label>
+      <br />
+      <button type="submit">提交</button>
+    </form>
+    <p>{{ email }}</p>
+    <span>{{ join }}</span>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'FormDemo',
+    data() {
+      return {
+        email: '',
+        join: '',
+      }
+    },
+    methods: {
+      // methods
+      submitForm() {
+        this.$emit('form-submit')
+      }
+    },
+  }
+</script>
+```
+
+## 测试表单提交
+
+希望点击提交按钮后，提交表单到后端。
+
+组件代码：
+
+```js
+{
+  methods: {
+    submitForm() {
+      // $http 原型上的方法
+      this.$http.post('test', {
+        email: this.email,
+        join: this.join,
+      })
+      this.$emit('form-submit', {
+        email: this.email,
+        join: this.join,
+      })
+    }
+  }
+}
+```
+
+测试用例：
+
+```js
+import {
+  shallowMount
+} from '@vue/test-utils'
+import FormDemo from './FormDemo.vue'
+
+describe('FormDemo.vue', () => {
+  let wrapper = null
+  const $http = {
+    post: jest.fn(() => Promise.resolve({
+      data: 'ok'
+    })),
+  }
+  beforeEach(() => {
+    wrapper = shallowMount(FormDemo, {
+      mocks: {
+        $http,
+      },
+    })
+  })
+
+  it('test http post', () => {
+    // 设置表单值
+    const input = wrapper.find('input')
+    const email = 'hello@163.com'
+    input.setValue(email)
+    const radio = wrapper.find('input[value="false"]')
+    radio.setChecked()
+
+    wrapper.find('button').trigger('submit')
+    expect($http.post).toHaveBeenCalled()
+    const data = expect.objectContaining({
+      email,
+      join: false,
+    })
+    expect($http.post).toHaveBeenCalledWith('test', data)
+  })
+})
+```
+
+> jest.objectContaining 用来匹配对象中的属性，不关心其他属性。允许有其他属性，测试更加健壮。
+
+### 测试接口返回值
+
+接口成功后，通过触发 `success` 事件，把接口返回值抛出来。
+
+测试用例：
+
+```js
+import {
+  shallowMount
+} from '@vue/test-utils'
+import FormDemo from './FormDemo.vue'
+import flushPromises from 'flush-promises'
+
+describe('FormDemo.vue', () => {
+  const res = {
+    code: 0
+  }
+  let wrapper = null
+  const $http = {
+    post: jest.fn(() => Promise.resolve(res)),
+  }
+  beforeEach(() => {
+    wrapper = shallowMount(FormDemo, {
+      mocks: {
+        $http,
+      },
+    })
+  })
+
+  it('test http post response', async () => {
+    wrapper.find('button').trigger('submit')
+    await flushPromises()
+    expect(wrapper.emitted('success')[0][0]).toEqual(res)
+  })
+})
+```
+
+> 因为包含异步代码，所以需要使用 `flushPromises` 库，等待异步代码执行完毕。
+
+重构组件，让测试用例通过：
+
+```js
+async submitForm() {
+  const res = await this.$http.post('test', {
+    email: this.email,
+    join: this.join === 'true'
+  })
+  this.$emit('form-submit')
+  this.$emit('success', res)
+}
+```
+
+> 注意，重构后 form-submit 事件在接口返回后触发，也要使用 `flushPromises` ，才能保证以前的测试用例通过。
+
+## jsdom 的局限性
+
+jsdom 在 node 环境中实现了大部分 web api，但是有两个大部分没有实现：
+
+布局和导航。
+
+布局是关于计算元素位置的。如 `Element.getBoundingClientRect` 这样的 DOM 方法将不会按预期运行
+
+jsdom 中没有页面的概念，因此你无法创建请求并导航到其他页面上。
+
+但是以上情况不值得投入编写单元测试的时间。
+
+## 问题
+
+如果请求接口使用 `fetch` ，如何模拟呢？
+
+组件的自定义事件触发，父组件的事件监听器执行，如何测试？
+
+## 小结
+
+测试的组件虽然没有样式，但是组件核心逻辑都测试了。
+
+* 学习了如何测试**原生事件**，使用`trigger`触发原生事件，然后断言事件带来的结果是否符合预期，比如调用函数、元素隐藏、触发自定义事件等。
+
+* 学习了如何测试**自定义事件**，使用`emitted`方法，断言事件是否被触发，以及抛出的数据是否符合预期。
+
+* 学习了如何测试表单元素，使用`setValue`和`setChecked`方法，然后断言组件属性或者页面的变化。
+
+* 学习了如何测试 http 接口。
+
+* 使用`jest.objectContaining`断言对象，测试代码更加健壮。
+
+* jsdom 没有实现页面导航和布局，但是不影响单元测试。

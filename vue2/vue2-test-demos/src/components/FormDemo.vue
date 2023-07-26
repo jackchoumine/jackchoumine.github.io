@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-24 20:11:02
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-25 16:16:03
+ * @LastEditTime: 2023-07-26 22:59:47
  * @Description : 
 -->
 <template>
@@ -33,8 +33,13 @@ export default {
   },
   methods: {
     // methods
-    submitForm() {
+    async submitForm() {
+      const res = await this.$http.post('test', {
+        email: this.email,
+        join: this.join === 'true'
+      })
       this.$emit('form-submit')
+      this.$emit('success', res)
     }
   },
 }
