@@ -176,7 +176,7 @@ expect(wrapper.emitted('my-event')[0]).toEqual([])
 </template>
 ```
 
-测试方法，让ModalDemo触发 `close-modal` ，测试父组件的 `onCloseModal` 是否被调用。
+测试方法，让 ModalDemo 触发 `close-modal` ，测试父组件的 `onCloseModal` 是否被调用。
 
 ```js
 import {
@@ -244,3 +244,82 @@ describe('ParentModal.vue', () => {
   }
 </script>
 ```
+
+测试 `form-submit` 事件。
+
+```js
+import {
+  shallowMount
+} from '@vue/test-utils'
+import FormDemo from './FormDemo.vue'
+describe('FormDemo.vue', () => {
+  let wrapper = null
+  beforeEach(() => {
+    wrapper = shallowMount(FormDemo, {})
+  })
+  it('test custom form-submit event', () => {
+    wrapper.find('form').trigger('submit')
+    expect(wrapper.emitted('form-submit')[0]).toEqual([])
+  })
+})
+```
+
+> 如果测试 button 的点击事件，测试无法通过。测试 button 的 submit 事件，测试也能通过。
+
+```js
+wrapper.find('button').trigger('submit')
+```
+
+表单元素有很多，只测试输入框和单选框。
+
+### 测试输入框
+
+```js
+it('test input field', async () => {
+  const input = wrapper.find('input')
+  const email = 'hello@163.com'
+  input.setValue(email)
+  expect(wrapper.vm.email).toBe(email)
+  await wrapper.vm.$nextTick()
+  expect(wrapper.find('p').text()).toBe(email)
+})
+```
+
+重构 FormDemo.vue
+
+```html
+<template>
+  <div class="form-demo">
+    <form @submit="submitForm">
+      <input v-model="email" type="email" />
+      <button>提交</button>
+    </form>
+    <p>{{ email }}</p>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'FormDemo',
+    data() {
+      return {
+        email: ''
+      }
+    },
+    methods: {
+      // methods
+      submitForm() {
+        this.$emit('form-submit')
+      }
+    },
+  }
+</script>
+```
+
+> 把输入框接收的值，显示在 p 里，测试双向绑定是否生效。
+
+> setValue 用于设置表单值，能触发双向绑定，直接设置input的value是不行的。
+
+> 测试 p 标签，因为 vue 更新页面是异步的，使用 $nextTick 等待 DOM 更新，否则测试会失败。
+
+### 测试单选框

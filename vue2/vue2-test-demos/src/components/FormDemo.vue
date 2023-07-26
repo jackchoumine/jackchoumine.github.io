@@ -2,30 +2,40 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-24 20:11:02
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-24 20:13:50
+ * @LastEditTime: 2023-07-25 16:16:03
  * @Description : 
 -->
 <template>
   <div class="form-demo">
     <form @submit="submitForm">
-      <button>提交</button>
+      <input v-model="email" type="email" />
+      <br />
+      <input type="radio" id="one" value="true" v-model="join" />
+      <label for="one">参加</label>
+      <input type="radio" id="two" value="false" v-model="join" />
+      <label for="two">不参加</label>
+      <br />
+      <button type="submit">提交</button>
     </form>
+    <p>{{ email }}</p>
+    <span>{{ join }}</span>
   </div>
 </template>
 
 <script>
 export default {
-    name: 'FormDemo',
-    data() {
-        return {
-            // data
-        }
-    },
-    methods: {
-        // methods
-        submitForm() {
-            this.$emit('form-submit')
-        }
-    },
+  name: 'FormDemo',
+  data() {
+    return {
+      email: '',
+      join: '',
+    }
+  },
+  methods: {
+    // methods
+    submitForm() {
+      this.$emit('form-submit')
+    }
+  },
 }
 </script>
