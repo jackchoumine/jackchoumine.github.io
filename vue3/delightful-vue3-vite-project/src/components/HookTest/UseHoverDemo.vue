@@ -2,18 +2,24 @@
  * @Author      : ZhouQiJun
  * @Date        : 2022-12-28 11:18:42
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-02-13 09:25:07
+ * @LastEditTime: 2023-07-27 01:24:49
  * @Description : 
 -->
 <script setup lang="ts">
 import { useHover } from '@/hooks'
 
 const div1 = ref()
-const isHover1 = useHover(div1)
+const { isHover: isHover1, setHoverEle: setHoverEle1 } = useHover()
 const div2 = ref()
-const isHover2 = useHover(div2)
+const { isHover: isHover2, setHoverEle: setHoverEle2 } = useHover()
 const div3 = ref()
-const isHover3 = useHover(div3)
+const { isHover: isHover3, setHoverEle: setHoverEle3 } = useHover()
+
+onMounted(() => {
+  setHoverEle1(div1)
+  setHoverEle2(div2)
+  setHoverEle3(div3)
+})
 </script>
 
 <template>

@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2022-12-26 17:59:30
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-05-06 01:16:09
+ * @LastEditTime: 2023-07-27 01:13:13
  * @Description : 导出 hooks
  */
 export { default as useLocalStorage } from './useLocalStorage.js'
@@ -17,8 +17,9 @@ export { useTitle } from './useTitle'
 export { useVModel } from './useVModel'
 export { useVisibilityChange /*, VisibilityChange */ } from './useVisibilityChange'
 export type { VisibilityChange } from './useVisibilityChange'
-export { default as useHover } from './useHover'
+export * from './useHover'
 export { default as useGlobalProps } from './useGlobalProps'
 export { useDebounceRef } from './useDebounceRef'
 export { useEventBus } from './useEventBus'
 export { useEvent } from './useEvent'
+export * from './useDragEle'

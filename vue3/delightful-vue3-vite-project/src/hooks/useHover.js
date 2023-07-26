@@ -1,3 +1,10 @@
+/*
+ * @Author      : ZhouQiJun
+ * @Date        : 2023-02-12 18:41:36
+ * @LastEditors : ZhouQiJun
+ * @LastEditTime: 2023-07-27 01:14:33
+ * @Description :
+ */
 import hoverIntent from 'hoverintent'
 import { onMounted, ref } from 'vue'
 
@@ -6,11 +13,11 @@ const options = {
   out: () => undefined,
 }
 
-function useHover(target, inAndOut = options, opts = undefined) {
+function useHover(inAndOut = options, opts = undefined, target = undefined) {
   const isHover = ref(false)
 
   onMounted(() => {
-    detectHover(target)
+    target && detectHover(target)
   })
 
   function detectHover(target) {
@@ -44,7 +51,7 @@ function useHover(target, inAndOut = options, opts = undefined) {
     }
   }
 
-  return isHover
+  return { isHover, setHoverEle: detectHover }
 }
 
-export default useHover
+export { useHover }

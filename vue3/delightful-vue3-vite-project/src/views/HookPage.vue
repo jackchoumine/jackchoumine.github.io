@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2022-12-26 17:59:30
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-02-13 09:24:59
+ * @LastEditTime: 2023-07-27 01:16:51
  * @Description : 
 -->
 <script setup lang="ts" name="HookPage">
@@ -13,6 +13,7 @@ import {
   PopperButton,
   PopperButtonHook,
   testNameExport,
+  PopupContainer
 } from '@/components'
 
 const myInput = ref('hello')
@@ -20,6 +21,14 @@ const myInput = ref('hello')
 
 <template>
   <div class="page">
+    <PopupContainer>
+      <template #header>
+        <div style="width: 200px;height: 20px; background-color: beige;">hello</div>
+      </template>
+      <template #default>
+        <div>Popup content</div>
+      </template>
+    </PopupContainer>
     <HookDemo />
     <MyInput v-model="myInput" />
     <p>{{ myInput }}</p>

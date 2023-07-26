@@ -2,7 +2,7 @@
  * @Description : 导出组件
  * @Date        : 2022-10-15 19:51:59 +0800
  * @Author      : JackChou
- * @LastEditTime: 2023-06-27 02:27:30
+ * @LastEditTime: 2023-07-27 00:01:15
  * @LastEditors : ZhouQiJun
  */
 export { default as HelloWorld } from './HelloWorld.vue'
@@ -19,6 +19,7 @@ export { default as PopperButtonHook } from './HookComponent/PopperButtonHook.vu
 export { default as HookDemo } from './HookTest/HookDemo.vue'
 export { AntDesignDemos } from './AntDesignVue'
 export * from './HelloSlotted'
+export { default as PopupContainer } from './PopupContainer.vue'
 export { default as MyInput } from './MyInput/MyInput.vue'
 export { default as TestLit } from './TestLit/TestLit.vue'
 export { RecursionComponentDemos } from './RecursionComponent'
