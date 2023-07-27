@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-04-17 19:40:50
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-27 15:12:44
+ * @LastEditTime: 2023-07-27 15:57:34
  * @Description : 组件弹出层
 -->
 <script lang="ts" setup>
@@ -34,16 +34,26 @@ const props = defineProps({
     default: false,
   },
 })
-const { dragging, setDragEle, setPositionEle } = useDraggable({ enable: props.draggable })
+const { dragging, setDragEle, setPositionEle } = useDraggable(
+  computed(() => props.draggable)
+)
 
-const innerTop = ref(props.top)
-const innerRight = ref(props.right)
-const innerBottom = ref(props.bottom)
-const innerLeft = ref(props.left)
+const innerTop = computed(() => {
+  return dragging.value ? 'auto' : props.top
+})
+const innerRight = computed(() => {
+  return dragging.value ? 'auto' : props.right
+})
+const innerBottom = computed(() => {
+  return dragging.value ? 'auto' : props.bottom
+})
+const innerLeft = computed(() => {
+  return dragging.value ? 'auto' : props.left
+})
 const innerZIndex = ref(props.zIndex)
 
 const transitionValue = computed(() => {
-  return dragging ? 'all 0 ease' : 'all 1s ease'
+  return dragging.value ? 'all 0 ease' : 'all 1s ease'
 })
 
 const useSelect = ref('auto')
@@ -73,9 +83,9 @@ const cursor = ref('default')
   left: v-bind(innerLeft);
   z-index: v-bind(innerZIndex);
   background-color: white;
-  transition: v-bind(transitionValue);
+  transition: v-bind(transitionvalue);
   border-radius: 0.25rem;
-  user-select: v-bind(useSelect);
+  user-select: v-bind(useselect);
 
   .header {
     //   // width: 100%;

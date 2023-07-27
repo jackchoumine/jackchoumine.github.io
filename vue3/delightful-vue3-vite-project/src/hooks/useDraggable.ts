@@ -2,29 +2,38 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-26 19:01:00
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-27 15:11:44
+ * @LastEditTime: 2023-07-27 16:00:52
  * @Description : 拖拽元素 hook
  */
 import type { VNodeRef } from 'vue'
+import { MaybeRef } from 'vue'
 
 import { useHover } from './useHover'
 
+export interface DraggableOptions {
+  dragTips?: string
+  dragZIndex?: number
+}
+
 /**
  * 拖拽元素 hook
+ * @param enable 是否启用拖拽功能，默认为 true, 可通过 ref 动态控制
  * @param options
  * @param options.dragTips 鼠标移动到可拖拽元素上时的提示
  * @param options.dragZIndex 拖拽时的 z-index，默认为 10，可根据实际情况调整，防止被其他元素遮挡
- * @param options.enable 是否启用拖拽功能，默认为 true
  */
-function useDraggable({
-  dragTips = '长按鼠标，可拖拽',
-  dragZIndex = 10,
-  enable = true,
-} = {}) {
+function useDraggable(
+  enable: MaybeRef<boolean> = ref(true),
+  options: DraggableOptions = {
+    dragTips: '长按鼠标，可拖拽',
+    dragZIndex: 10,
+  }
+) {
+  const title = computed(() => (unref(enable) ? options.dragTips : ''))
   const { setHoverTarget } = useHover({
     in: dragTarget => {
       if (!dragTarget) return
-      dragTarget.title = dragTips
+      dragTarget.title = title.value
     },
   })
   const position = reactive({ left: 'auto', top: 'auto' })
@@ -45,7 +54,13 @@ function useDraggable({
   let bindEvent = false
   watchEffect(
     () => {
-      if (!enable) return
+      if (!unref(enable)) {
+        if (bindEvent) {
+          dragEle.value.removeEventListener('mousedown', onMousedown)
+          bindEvent = false
+        }
+        return
+      }
       if (!dragEle.value || bindEvent) return
       if (!positionEle.value) positionEle.value = dragEle.value
       setHoverTarget(dragEle.value)
@@ -119,7 +134,7 @@ function useDraggable({
     dragging.value = true
     positionEle.value.style.left = _left
     positionEle.value.style.top = _top
-    positionEle.value.style.zIndex = dragZIndex
+    positionEle.value.style.zIndex = options.dragZIndex
   }
   function disableDrag() {
     return false
