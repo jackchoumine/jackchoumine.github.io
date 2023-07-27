@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-04-17 19:40:50
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-27 15:00:10
+ * @LastEditTime: 2023-07-27 15:12:44
  * @Description : 组件弹出层
 -->
 <script lang="ts" setup>
@@ -29,8 +29,12 @@ const props = defineProps({
     type: [String, Number],
     default: 'auto',
   },
+  draggable: {
+    type: Boolean,
+    default: false,
+  },
 })
-const { dragging, setDragEle, setPositionEle } = useDraggable()
+const { dragging, setDragEle, setPositionEle } = useDraggable({ enable: props.draggable })
 
 const innerTop = ref(props.top)
 const innerRight = ref(props.right)
