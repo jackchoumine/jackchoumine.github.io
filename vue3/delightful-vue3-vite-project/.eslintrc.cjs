@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-01-11 20:20:20
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-04-08 21:29:38
+ * @LastEditTime: 2023-07-27 11:19:58
  * @Description : stylelint 配置
  */
 require('@rushstack/eslint-patch/modern-module-resolution')
@@ -60,5 +60,6 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 1,
     'vue/no-setup-props-destructure': 0,
     'vue/no-multiple-template-root': 0,
+    'declaration-block-no-redundant-longhand-properties': null,
   },
 }

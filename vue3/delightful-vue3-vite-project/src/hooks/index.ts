@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2022-12-26 17:59:30
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-27 08:50:55
+ * @LastEditTime: 2023-07-27 15:01:48
  * @Description : 导出 hooks
  */
 export { default as useLocalStorage } from './useLocalStorage.js'
@@ -21,4 +21,4 @@ export { default as useGlobalProps } from './useGlobalProps'
 export { useDebounceRef } from './useDebounceRef'
 export { useEventBus } from './useEventBus'
 export { useEvent } from './useEvent'
-export * from './useDragEle'
+export * from './useDraggable'

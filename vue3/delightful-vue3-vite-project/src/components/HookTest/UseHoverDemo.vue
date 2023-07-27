@@ -2,31 +2,26 @@
  * @Author      : ZhouQiJun
  * @Date        : 2022-12-28 11:18:42
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-27 01:24:49
+ * @LastEditTime: 2023-07-27 15:01:09
  * @Description : 
 -->
 <script setup lang="ts">
 import { useHover } from '@/hooks'
 
-const div1 = ref()
-const { isHover: isHover1, setHoverEle: setHoverEle1 } = useHover()
-const div2 = ref()
-const { isHover: isHover2, setHoverEle: setHoverEle2 } = useHover()
-const div3 = ref()
-const { isHover: isHover3, setHoverEle: setHoverEle3 } = useHover()
-
-onMounted(() => {
-  setHoverEle1(div1)
-  setHoverEle2(div2)
-  setHoverEle3(div3)
+const { isHover: isHover1, setHoverTarget: setHoverEle1 } = useHover({
+  in: ele => {
+    ele.title = 'in'
+  },
 })
+const { isHover: isHover2, setHoverTarget: setHoverEle2 } = useHover()
+const { isHover: isHover3, setHoverTarget: setHoverEle3 } = useHover()
 </script>
 
 <template>
   <div class="test-use-hover">
-    <div class="items one" ref="div1">{{ isHover1 ? '是' : '否' }}</div>
-    <div class="items two" ref="div2">{{ isHover2 ? '是' : '否' }}</div>
-    <div class="items three" ref="div3">{{ isHover3 ? '是' : '否' }}</div>
+    <div class="items one" :ref="setHoverEle1">{{ isHover1 ? '是' : '否' }}</div>
+    <div class="items two" :ref="setHoverEle2">{{ isHover2 ? '是' : '否' }}</div>
+    <div class="items three" :ref="setHoverEle3">{{ isHover3 ? '是' : '否' }}</div>
   </div>
 </template>
 

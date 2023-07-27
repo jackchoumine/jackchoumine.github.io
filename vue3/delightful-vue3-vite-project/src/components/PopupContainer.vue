@@ -2,11 +2,11 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-04-17 19:40:50
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-26 18:27:44
+ * @LastEditTime: 2023-07-27 15:00:10
  * @Description : 组件弹出层
 -->
 <script lang="ts" setup>
-import { useHover } from '@/hooks'
+import { useDraggable } from '@/hooks'
 
 const props = defineProps({
   top: {
@@ -30,16 +30,7 @@ const props = defineProps({
     default: 'auto',
   },
 })
-// 鼠标输入时，提示可拖拽
-const headerContainer = ref<HTMLDivElement>(null)
-useHover(headerContainer, {
-  in: () => {
-    headerContainer.value.title = '鼠标长按，可拖拽'
-  },
-  out: () => {
-    headerContainer.value.title = ''
-  },
-})
+const { dragging, setDragEle, setPositionEle } = useDraggable()
 
 const innerTop = ref(props.top)
 const innerRight = ref(props.right)
@@ -47,77 +38,18 @@ const innerBottom = ref(props.bottom)
 const innerLeft = ref(props.left)
 const innerZIndex = ref(props.zIndex)
 
-const popupContainer = ref<HTMLDivElement>(null)
-const transitionValue = ref('all 1s ease')
-const useSelect = ref('auto')
-const cursor = ref('default')
-
-onBeforeUnmount(() => {
-  document.removeEventListener('mouseup', onMouseup)
+const transitionValue = computed(() => {
+  return dragging ? 'all 0 ease' : 'all 1s ease'
 })
 
-let shiftX = 0
-let shiftY = 0
-function onMousedown(event) {
-  // 鼠标相对于header的初始便宜位置
-  shiftX = event.clientX - headerContainer.value.getBoundingClientRect().left
-  shiftY = event.clientY - headerContainer.value.getBoundingClientRect().top
-  moveAt(event)
-  // 设置移动样式
-  cursor.value = 'move'
-  useSelect.value = 'none'
-  transitionValue.value = 'all 0 ease'
-  // 鼠标按下，监听鼠标移动事件和鼠标松开事件
-  document.addEventListener('mousemove', onMousemove)
-  headerContainer.value.addEventListener('mouseup', onMouseup)
-}
-
-function onMouseup() {
-  // 鼠标松开时，移除事件，恢复默认值
-  cursor.value = 'default'
-  useSelect.value = 'auto'
-  transitionValue.value = 'all 1s ease'
-  document.removeEventListener('mousemove', onMousemove)
-}
-// 是否拖拽
-let dragged = false
-
-function onMousemove(event) {
-  dragged = true
-  moveAt(event)
-}
-
-function moveAt({ pageX, pageY }) {
-  if (innerTop.value !== 'auto' && !dragged) {
-    innerTop.value = 'auto'
-  }
-  if (innerRight.value !== 'auto' && !dragged) {
-    innerRight.value = 'auto'
-  }
-  if (innerBottom.value !== 'auto' && !dragged) {
-    innerBottom.value = 'auto'
-  }
-  if (innerLeft.value !== 'auto' && !dragged) {
-    innerLeft.value = 'auto'
-  }
-  innerLeft.value = `${pageX - shiftX}px`
-  innerTop.value = `${pageY - shiftY}px`
-}
-
-// 禁止原生拖拽，防止和自定义拖拽冲突
-function onDragstart() {
-  return false
-}
+const useSelect = ref('auto')
+const cursor = ref('default')
 </script>
 
 <template>
   <teleport to="body">
-    <div ref="popupContainer" class="popup-container">
-      <div
-        ref="headerContainer"
-        class="header"
-        @dragstart="onDragstart"
-        @mousedown="onMousedown">
+    <div :ref="setPositionEle" class="popup-container">
+      <div :ref="setDragEle" class="header">
         <slot name="header" />
       </div>
       <!-- <div class="body"> -->
