@@ -2,13 +2,13 @@
  * @Date        : 2022-11-10 11:35:34
  * @Author      : ZhouQiJun
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-06-20 00:25:13
+ * @LastEditTime: 2023-07-27 09:04:05
  * @Description : 
 -->
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 
-import { useVisibilityChange } from '@/hooks'
+import { useTabChange } from '@/hooks'
 import { useCartStore } from '@/stores'
 
 // import VideoPlayer from '../VideoPlayer/VideoPlayer.vue'
@@ -41,7 +41,7 @@ const { addCart, removeCart /* items, totalBooks */ } = useCartStore()
 // }
 
 const audio = ref(null)
-useVisibilityChange(hidden => {
+useTabChange(hidden => {
   if (hidden) {
     audio.value?.pause()
   }
@@ -54,11 +54,8 @@ useVisibilityChange(hidden => {
     <UseDebounceRefDemo />
     <h4>useHover</h4>
     <UseHoverDemo />
-    <h4>useVisibilityChange</h4>
-    <audio
-      ref="audio"
-      controls
-      src="https://mdn.github.io/webaudio-examples/audio-basics/outfoxing.mp3"></audio>
+    <h4>useTabChange</h4>
+    <audio ref="audio" controls src="https://mdn.github.io/webaudio-examples/audio-basics/outfoxing.mp3"></audio>
     <h3>组合函数例子</h3>
     <SimpleCounter />
     <SimpleCounter3 />
