@@ -1,8 +1,9 @@
+/* eslint-disable quotes */
 /*
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-20 19:28:34
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-23 19:19:28
+ * @LastEditTime: 2023-07-30 12:12:58
  * @Description :
  */
 import { shallowMount } from '@vue/test-utils'
@@ -32,20 +33,23 @@ describe('ContractList.vue', () => {
       // fortune: '600亿美元',
     },
   ]
-  it('ContractItem\'s size', () => {
-    const wrapper = shallowMount(ContractList, {
-      propsData: {
-        persons: richFriends,
-      },
+  function createWrapper(
+    propsData = {
+      persons: richFriends,
+    }
+  ) {
+    return shallowMount(ContractList, {
+      propsData,
     })
+  }
+  let wrapper = null
+  beforeEach(() => {
+    wrapper = createWrapper()
+  })
+  it("ContractItem's size", () => {
     expect(wrapper.findAllComponents(ContractItem)).toHaveLength(richFriends.length)
   })
   it('测试 props', () => {
-    const wrapper = shallowMount(ContractList, {
-      propsData: {
-        persons: richFriends,
-      },
-    })
     const items = wrapper.findAllComponents(ContractItem)
     items.wrappers.forEach((wrapper, index) => {
       // console.log(wrapper.props())
@@ -53,19 +57,9 @@ describe('ContractList.vue', () => {
     })
   })
   it('should contain contract-list class in root ele', () => {
-    const wrapper = shallowMount(ContractList, {
-      propsData: {
-        persons: richFriends,
-      },
-    })
     expect(wrapper.classes()).toContain('contract-list')
   })
   it('test inline style', () => {
-    const wrapper = shallowMount(ContractList, {
-      propsData: {
-        persons: richFriends,
-      },
-    })
     // expect(wrapper.attributes('style')).toBe('color: red;')
     expect(wrapper.element.style.color).toBe('red')
     // console.log(
