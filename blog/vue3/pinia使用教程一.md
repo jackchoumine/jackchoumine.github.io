@@ -628,7 +628,13 @@ const createTestStore = (id = 'useTestStore', type) => {
 
 在 5 个组件之间共享 3 个左右的状态最好。5 和 3 是经验得到的结论，总之不应大范围使用 hook 共享状态。
 
-## 总结
+## 参考
+
+[Pinia: How to reset stores created with function/setup syntax](https://dev.to/the_one/pinia-how-to-reset-stores-created-with-functionsetup-syntax-1b74)
+
+[Vue 3 + Pinia - User Registration and Login Example & Tutorial](https://jasonwatmore.com/post/2022/07/25/vue-3-pinia-user-registration-and-login-example-tutorial)
+
+## 小结
 
 pinia 和组合式 API 结合得非常好，项目里推荐使用这种方式。
 
