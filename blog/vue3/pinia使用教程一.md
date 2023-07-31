@@ -310,7 +310,7 @@ export const useTodosStore = defineStore('todos', () => {
 
 > 实际， `defineStore` 的第二个参数，就是一个普通的组合式函数。
 
-> **注意：**，第二个参数虽然是一个函数，都是无法传递参数给它。如果需要传递参数，可使用工厂函数传递新的id和参数。
+> **注意：**，第二个参数虽然是一个函数，都是无法传递参数给它。如果需要传递参数，可使用工厂函数传递新的 id 和参数。
 
 学习使用 hook 管理全局状态时，有如下 useCart 例子，用于记录购物车的商品信息。
 
@@ -519,7 +519,7 @@ useCart 把状态放在 hook 外部（变成全局变量），当和 pinia 结�
 
 这个特点非常棒，意味着不是用于**共享全局状态**的 hook，不做任何改动也能方便地通过 pinia 实现共享全局状态。pinia 和 hook 和结合，没有侵入性。
 
-> 一个 store 只会注册一次, `CartDemo.vue` 再次挂载，不会再次注册。要是二个参数是一个 hooks, hooks 内的初始化操作不会再次执行，这个行为和 hooks 的行为不同，更可能导致 bug。
+> 一个 store 只会注册一次, `CartDemo.vue` 再次挂载，不会再次注册。要是二个参数是一个 hooks, hooks 内的初始化操作不会再次执行，这个行为和 hooks 的行为不同，很可能导致 bug。
 
 比如下面的代码：
 
@@ -582,7 +582,7 @@ export {
 
 > 使用一个工厂函数，组件每次挂载，都会执行工厂函数，返回一个新的 store。
 
-```ts 
+```ts
 const createTestStore = (id = 'useTestStore', type) => {
   return defineStore(id, () => {
 
@@ -604,9 +604,9 @@ const createTestStore = (id = 'useTestStore', type) => {
   } = createTestStore('newID', 'store')
 ```
 
-> 每次组价挂载，给它传递一个新的id，就新建一个全新的 store。
+> 每次组价挂载，给它传递一个新的 id，就新建一个全新的 store。
 
-> 这种方案，也不好，要是组件挂载多次，就会创建多个 store，这个 store 也不会被销毁，但是可以手动销毁的API。下个版本，会解决这个问题。
+> 这种方案，也不好，要是组件挂载多次，就会创建多个 store，这个 store 也不会被销毁，但是可以手动销毁的 API。下个版本，会解决这个问题。
 
 参考：
 
