@@ -612,6 +612,8 @@ const createTestStore = (id = 'useTestStore', type) => {
 
 [Passing arguments to useStore()](https://github.com/vuejs/pinia/discussions/826)
 
+[How to pass an argument to Pinia store?](https://stackoverflow.com/questions/71583063/how-to-pass-an-argument-to-pinia-store)
+
 [Add ability to destroy stores](https://github.com/vuejs/pinia/issues/557)
 
 ## 使用 hook 管理全局状态和 pinia 有何优缺点？
