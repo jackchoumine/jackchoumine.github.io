@@ -13,9 +13,13 @@ npm i pinia
 main.js
 
 ```js
-import { createApp } from 'vue'
+import {
+  createApp
+} from 'vue'
 import App from './App.vue'
-import { createPinia } from 'pinia'
+import {
+  createPinia
+} from 'pinia'
 
 const app = createApp(App)
 
@@ -28,10 +32,12 @@ app.mount('#app')
 ## 创建 store
 
 ```js
-import { defineStore } from 'pinia'
+import {
+  defineStore
+} from 'pinia'
 
 // 定义并导出容器
-// 参数1：容器名字
+// 参数1：store id
 // 参数2：选项对象
 export const useCounter = defineStore('counter', {
   /**
@@ -66,6 +72,7 @@ export const useCounter = defineStore('counter', {
 2. getters 使用了 this，需要手动声明返回值类型；
 3. actions 使用 this 访问状态和 getters。`actions`可以是异步的，不再有 mutations；
 4. getters 和 actions 不使用箭头函数，否则 this 会指向 window，而不是 state。
+5. 每个 store **只注册一次**。
 
 ## 使用 store
 
@@ -88,43 +95,56 @@ export const useCounter = defineStore('counter', {
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
+  import {
+    storeToRefs
+  } from 'pinia'
 
-import { useCounter, useTodosStore } from '@/stores'
+  import {
+    useCounter,
+    useTodosStore
+  } from '@/stores'
 
-const { finishedTodos, todos } = storeToRefs(useTodosStore())
+  const {
+    finishedTodos,
+    todos
+  } = storeToRefs(useTodosStore())
 
-// NOTE 不要直接解构，会失去响应式
-// const { count } = counter
-const { count, age, books, booksStr } = useCounter()
-// const { count, age, books, booksStr } = storeToRefs(counter)
+  // NOTE 不要直接解构，会失去响应式
+  // const { count } = counter
+  const {
+    count,
+    age,
+    books,
+    booksStr
+  } = useCounter()
+  // const { count, age, books, booksStr } = storeToRefs(counter)
 
-// NOTE 状态修改
-// 方式1：最简单
-function add() {
-  ++counter.count
-}
+  // NOTE 状态修改
+  // 方式1：最简单
+  function add() {
+    ++counter.count
+  }
 
-// 方式2：修改多个数据，使用 $patch 接收函数批量更新
-function changeMulti2() {
-  counter.$patch(counter => {
-    counter.count += 10
-    counter.books.push('angular')
-  })
-}
+  // 方式2：修改多个数据，使用 $patch 接收函数批量更新
+  function changeMulti2() {
+    counter.$patch(counter => {
+      counter.count += 10
+      counter.books.push('angular')
+    })
+  }
 
-// 方式3：修改多个数据，使用 $patch 批量修改
-function changeMulti() {
-  counter.$patch({
-    count: counter.count + 1,
-    age: counter.age + 10,
-  })
-}
+  // 方式3：修改多个数据，使用 $patch 批量修改
+  function changeMulti() {
+    counter.$patch({
+      count: counter.count + 1,
+      age: counter.age + 10,
+    })
+  }
 
-// 方式4：封装 actions，适合复杂操作
-function changeByAction() {
-  counter.complexChange(10)
-}
+  // 方式4：封装 actions，适合复杂操作
+  function changeByAction() {
+    counter.complexChange(10)
+  }
 </script>
 ```
 
@@ -157,21 +177,23 @@ watch(
   <p>{{ counter.count }}</p>
 </template>
 <script setup lang="ts">
-import { useCounter } from '@/stores'
-const counter = useCounter()
+  import {
+    useCounter
+  } from '@/stores'
+  const counter = useCounter()
 
-// 接解构，会失去响应式
-// const { count, age, books, booksStr } = useCounter()
+  // 接解构，会失去响应式
+  // const { count, age, books, booksStr } = useCounter()
 
-// NOTE 状态修改
-// 方式1：最简单
-function add() {
-  ++counter.count
-}
-// 方式2：封装 actions，适合复杂操作
-function changeByAction() {
-  counter.complexChange(10)
-}
+  // NOTE 状态修改
+  // 方式1：最简单
+  function add() {
+    ++counter.count
+  }
+  // 方式2：封装 actions，适合复杂操作
+  function changeByAction() {
+    counter.complexChange(10)
+  }
 </script>
 ```
 
@@ -183,26 +205,33 @@ function changeByAction() {
 </template>
 
 <script setup lang="ts">
-import { useCounter } from '@/stores'
-const counter = useCounter()
+  import {
+    useCounter
+  } from '@/stores'
+  const counter = useCounter()
 
-const { count, age, books, booksStr } = storeToRefs(counter)
+  const {
+    count,
+    age,
+    books,
+    booksStr
+  } = storeToRefs(counter)
 
-// 方式3：修改多个数据，使用 $patch 接收函数批量修改
-function changeMulti2() {
-  counter.$patch(counter => {
-    counter.count += 10
-    counter.books.push('angular')
-  })
-}
+  // 方式3：修改多个数据，使用 $patch 接收函数批量修改
+  function changeMulti2() {
+    counter.$patch(counter => {
+      counter.count += 10
+      counter.books.push('angular')
+    })
+  }
 
-// 方式4：修改多个数据，使用 $patch 接收对象批量修改
-function changeMulti() {
-  counter.$patch({
-    count: counter.count + 1,
-    age: counter.age + 10,
-  })
-}
+  // 方式4：修改多个数据，使用 $patch 接收对象批量修改
+  function changeMulti() {
+    counter.$patch({
+      count: counter.count + 1,
+      age: counter.age + 10,
+    })
+  }
 </script>
 ```
 
@@ -229,19 +258,28 @@ function changeMulti2() {
 }
 ```
 
-## 使用组合式 api 创建 store
+## 使用组合式 api 创建 store -- setup store
 
 上面的 useCounter 使用选项式 api 创建，pinia 也支持组合式 api, 这和 vue3 的组合式函数非常贴近，使用上更加简单。
 
-`defineStore`的第二个参数，可接收一个函数，该函数内部可使用`ref`、`computed`和`watch`等 vue 的组合式函数。
+`defineStore` 的第二个参数，可接收一个函数，该函数内部可使用 `ref` 、 `computed` 和 `watch` 等 vue 的组合式函数。
 
 ```js
-import { defineStore } from 'pinia'
+import {
+  defineStore
+} from 'pinia'
 
 export const useTodosStore = defineStore('todos', () => {
-  const todos = reactive([
-    { id: '1', finished: true, content: 'coding' },
-    { id: '2', finished: false, content: 'eating' },
+  const todos = reactive([{
+      id: '1',
+      finished: true,
+      content: 'coding'
+    },
+    {
+      id: '2',
+      finished: false,
+      content: 'eating'
+    },
   ])
   const finishedTodos = computed(() => {
     console.log('computed')
@@ -255,16 +293,24 @@ export const useTodosStore = defineStore('todos', () => {
   watch(todos, newTodos => {
     console.log(newTodos, 'newTodos')
   })
+
   function remove(id) {
     const index = todos.findIndex(todo => todo.id === id)
     todos.splice(index, 1)
   }
 
-  return { todos, finish, remove, finishedTodos }
+  return {
+    todos,
+    finish,
+    remove,
+    finishedTodos
+  }
 })
 ```
 
-> 实际，`defineStore`的第二个参数，就是一个普通的组合式函数。
+> 实际， `defineStore` 的第二个参数，就是一个普通的组合式函数。
+
+> **注意：**，第二个参数虽然是一个函数，都是无法传递参数给它。如果需要传递参数，可使用工厂函数传递新的id和参数。
 
 学习使用 hook 管理全局状态时，有如下 useCart 例子，用于记录购物车的商品信息。
 
@@ -312,14 +358,28 @@ export default function useCart() {
 
 ```html
 <script setup lang="ts">
-import useCart from './useCart'
+  import useCart from './useCart'
 
-const books = ref([
-  { id: 1, name: 'vue', price: 12 },
-  { id: 2, name: 'react', price: 20 },
-  { id: 3, name: 'angular', price: 21 },
-])
-const { addCart, removeCart } = useCart()
+  const books = ref([{
+      id: 1,
+      name: 'vue',
+      price: 12
+    },
+    {
+      id: 2,
+      name: 'react',
+      price: 20
+    },
+    {
+      id: 3,
+      name: 'angular',
+      price: 21
+    },
+  ])
+  const {
+    addCart,
+    removeCart
+  } = useCart()
 </script>
 
 <template>
@@ -341,14 +401,17 @@ const { addCart, removeCart } = useCart()
 
 ```html
 <script lang="ts" setup>
-import useCart from './useCart'
+  import useCart from './useCart'
 
-const { items, totalBooks } = useCart()
-const totalPrice = computed(() => {
-  return items.value.reduce((total, item) => {
-    return total + item.price * item.number
-  }, 0)
-})
+  const {
+    items,
+    totalBooks
+  } = useCart()
+  const totalPrice = computed(() => {
+    return items.value.reduce((total, item) => {
+      return total + item.price * item.number
+    }, 0)
+  })
 </script>
 
 <template>
@@ -383,15 +446,31 @@ export const useCartStore = defineStore('cart', useCart)
 
 ```html
 <script setup lang="ts">
-// import useCart from './useCart'
-import { useCartStore } from '@/stores'
-const books = ref([
-  { id: 1, name: 'vue', price: 12 },
-  { id: 2, name: 'react', price: 20 },
-  { id: 3, name: 'angular', price: 21 },
-])
-const { addCart, removeCart  } = useCartStore()
-// const { addCart, removeCart } = useCart()
+  // import useCart from './useCart'
+  import {
+    useCartStore
+  } from '@/stores'
+  const books = ref([{
+      id: 1,
+      name: 'vue',
+      price: 12
+    },
+    {
+      id: 2,
+      name: 'react',
+      price: 20
+    },
+    {
+      id: 3,
+      name: 'angular',
+      price: 21
+    },
+  ])
+  const {
+    addCart,
+    removeCart
+  } = useCartStore()
+  // const { addCart, removeCart } = useCart()
 </script>
 ```
 
@@ -399,17 +478,21 @@ const { addCart, removeCart  } = useCartStore()
 
 > 从 store 里获取商品
 
+ `CartDemo.vue`
+
 ```html
 <script lang="ts" setup>
-import { useCartStore } from '@/stores'
+  import {
+    useCartStore
+  } from '@/stores'
 
-const userCart = useCartStore()
+  const userCart = useCartStore()
 
-const totalPrice = computed(() => {
-  return userCart.items.reduce((total, item) => {
-    return total + item.price * item.number
-  }, 0)
-})
+  const totalPrice = computed(() => {
+    return userCart.items.reduce((total, item) => {
+      return total + item.price * item.number
+    }, 0)
+  })
 </script>
 
 <template>
@@ -435,6 +518,101 @@ useCart 把状态放在 hook 外部（变成全局变量），当和 pinia 结�
 > 可以。
 
 这个特点非常棒，意味着不是用于**共享全局状态**的 hook，不做任何改动也能方便地通过 pinia 实现共享全局状态。pinia 和 hook 和结合，没有侵入性。
+
+> 一个 store 只会注册一次, `CartDemo.vue` 再次挂载，不会再次注册。要是二个参数是一个 hooks, hooks 内的初始化操作不会再次执行，这个行为和 hooks 的行为不同，更可能导致 bug。
+
+比如下面的代码：
+
+```ts
+function useTestHooks(type='hook') {
+  const { adcd } = useUser() // 组件初始时，获取用户行政区
+  console.log('useTestHooks', 'zqj log ',type)
+  return {
+    adcd,
+  }
+}
+export {
+  useTestHooks
+}
+```
+
+下面的 useTestHooks 函数，**每次组件挂载前**，都会执行。
+
+```HTML
+<script setup lang="ts">
+  import {
+    useTestHooks
+  } from '@/hooks'
+  const {
+    adcd
+  } = useTestHooks()
+</script>
+```
+
+当把 useTestHooks 和 `setup store` 结合时，只会执行一次。
+
+```ts
+  import {
+    useTestHooks
+  } from '@/hooks';
+  const useTestStore = defineStore('testStore', useTestHooks)
+  export {
+    useTestStore
+  }
+```
+
+在组件中使用 `TestStore.vue` ：
+
+```html
+<script setup lang="ts">
+  import {
+    useTestStore
+  } from '@/stores'
+  const {
+    adcd
+  } = useTestStore()
+</script>
+```
+
+> TestStore.vue 第一次挂载，执行 useTestStore，注册 id 为 `testStore` 的 store，后续组件更新，不会再次执行 useTestStore，adcd 就不会更新。
+
+> 也不能传递 type 参数。
+
+### 如何解决上面的问题
+
+> 使用一个工厂函数，组件每次挂载，都会执行工厂函数，返回一个新的 store。
+
+```ts 
+const createTestStore = (id = 'useTestStore', type) => {
+  return defineStore(id, () => {
+
+    return useTestHooks(type)
+
+  })()
+}
+
+```
+
+在组件中使用：
+
+```ts
+  import {
+    createTestStore
+  } from '@/stores'
+  const {
+    adcd
+  } = createTestStore('newID', 'store')
+```
+
+> 每次组价挂载，给它传递一个新的id，就新建一个全新的 store。
+
+> 这种方案，也不好，要是组件挂载多次，就会创建多个 store，这个 store 也不会被销毁，但是可以手动销毁的API。下个版本，会解决这个问题。
+
+参考：
+
+[Passing arguments to useStore()](https://github.com/vuejs/pinia/discussions/826)
+
+[Add ability to destroy stores](https://github.com/vuejs/pinia/issues/557)
 
 ## 使用 hook 管理全局状态和 pinia 有何优缺点？
 
