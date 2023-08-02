@@ -1,5 +1,7 @@
 # vue 2 学习总结
 
+### [快照测试](./test-snapshot.md)
+
 ### [测试 Vuex](./test-vuex.md)
 
 ### [更好地组织测试代码](./test-better-to-organize-code.md)
