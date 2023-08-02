@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StaticComponent 快照测试 1`] = `
+<div>
+  <h1>
+    StaticComponent
+  </h1>
+   
+  <p>
+    StaticComponent
+  </p>
+</div>
+`;
