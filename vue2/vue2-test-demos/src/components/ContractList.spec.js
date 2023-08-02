@@ -3,13 +3,15 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-20 19:28:34
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-30 12:12:58
+ * @LastEditTime: 2023-08-03 00:14:34
  * @Description :
  */
-import { shallowMount } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import ContractList from './ContractList.vue'
 import ContractItem from './ContractItem.vue'
-
+import Vuex from 'vuex'
+const localVue = createLocalVue()
+localVue.use(Vuex)
 describe('ContractList.vue', () => {
   const richFriends = [
     {
@@ -33,22 +35,44 @@ describe('ContractList.vue', () => {
       // fortune: '600亿美元',
     },
   ]
-  function createWrapper(
-    propsData = {
+  /**
+   * 
+   propsData = {
       persons: richFriends,
     }
-  ) {
+   */
+  function createWrapper({ store } = {}) {
     return shallowMount(ContractList, {
-      propsData,
+      // propsData,
+      localVue,
+      store,
     })
   }
   let wrapper = null
+  let storeConfig = null
+  let store = null
   beforeEach(() => {
-    wrapper = createWrapper()
+    storeConfig = {
+      getters: {
+        persons: jest.fn(() => richFriends),
+      },
+      actions: {
+        fetchPersons: jest.fn(),
+      },
+    }
+    store = new Vuex.Store(storeConfig)
+    wrapper = createWrapper({ store })
   })
   it("ContractItem's size", () => {
+    // 这样不行
+    // storeConfig.getters.persons.mockReturnValue(richFriends)
     expect(wrapper.findAllComponents(ContractItem)).toHaveLength(richFriends.length)
   })
+  // it("ContractItem's actions", () => {
+  //   // 这样不行
+  //   // storeConfig.getters.persons.mockReturnValue(richFriends)
+  //   expect(wrapper.findAllComponents(ContractItem)).toHaveLength(richFriends.length)
+  // })
   it('测试 props', () => {
     const items = wrapper.findAllComponents(ContractItem)
     items.wrappers.forEach((wrapper, index) => {

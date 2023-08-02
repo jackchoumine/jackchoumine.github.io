@@ -1,5 +1,9 @@
 # vue 2 学习总结
 
+### [测试 Vuex](./test-vuex.md)
+
+### [更好地组织测试代码](./test-better-to-organize-code.md)
+
 ### [测试 vue 组件的事件](./test-component-event.md)
 
 ### [测试 vue 组件的方法](./test-component-method.md)
