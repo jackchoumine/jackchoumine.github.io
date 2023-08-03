@@ -70,13 +70,41 @@
 1. 用户操作，比如点击按钮，输入文字等；
 2. props；
 3. 组件事件；
-4. vuex store 中的数据。
+4. vuex store 中的数据；
+5. inject 注入的数据。
 
 常见的输出：
 
 1. 触发的事件；
 2. 外部调用的方法，即公有方法；
 3. 渲染结果。
+
+## Jest 测试框架简介
+
+测试文件：以 .spec.js 或者 .test.js 结尾。
+
+Jest 在查找项目中测试文件时使用默认的 glob 匹配模式。对于 non-glob 模式而言，这意味着 Jest 匹配**tests**目录中的.js 和.jsx 文件，以及扩展名为 .spec.js 或 .test.js 的所有文件。
+
+> globs 是文件匹配模式。Jest 使用 Node glob 模块匹配文件。你可以在如下链接页面的 glob primer 部分中阅读到更多关于 globs 的内容，[glob-primer](www.npmjs.com/package/glob#glob-primer)。
+
+### Jest 编译单文件组件
+
+Jest 只能识别 cjs 的代码，需要将单文件组件转化成 cjs 的代码，jest 才能对其进行测试。
+
+需要两个依赖：babel-jest vue-jest
+
+配置：
+
+```json
+{
+  "jest": {
+    "transform": {
+      "^.+\\.js$": "babel-jest",
+      "^.+\\.vue$": "vue-jest"
+    }
+  }
+}
+```
 
 ## 第一个测试
 
@@ -135,25 +163,34 @@ import HelloWorld from './HelloWorld.vue'
 
 ### 避免误报
 
-误报：测试始终通过，但是实际上程序有 bug。
+测试中，需要避免误报。测试之所以通过，是因为源代码正常工作，而不是因为编写始终能通过的测试。
 
-> 测试通过，是因为源代码按照预期工作，而不是编写始终通过测试的测试代码。
-
-异步代码经常出现误报，因为测试代码没有等待异步代码执行完毕，就开始断言。
+常见的误报测试是使用**异步代码**。
 
 ```js
-test('始终通过的测试', () => {
-  // TODO 如何编写 runner
-  // runner.start()
-  // setTimeout(() => {
-  //   expect(runner.finished).toBe(true)
-  // }, 1000)
+test('sets finished to true after 100ms', () => {
+  runner.start()
+  setTimeout(() => {
+    expect(runner.finished).toBe(true) // 100ms 后 finished 为true
+  }, 100)
 })
 ```
+
+> 避免误报的最好方法是使用 TDD。
+
+红色阶段是编写一个**因正确原因**而失败的测试。这里的关键词是“因正确原因”，即确定程序失败的边界条件。
+
+测试驱动开发（TDD）是一种在编写源代码之前先编写测试代码的工作流程，即在编写组件代码之前，需要先编写能够确保组件正常运行的测试代码。
+
+“红、绿、重构” 是一种很流行的 TDD 方法。红代表编写一个不能通过的测试，绿代表让测试通过，在测试通过后，通过重构增强代码可读性。
+
+以这样的方式开发应用程序会有如下好处。首先，你只编写测试功能的源代码，从而保持较少的源代码量；其次，它可以使你在编写代码之前先考虑组件设计。
 
 ### 如何组织测试代码
 
 `describe` 函数用于组织测试代码，describe 用于定义一组测试用例，每个测试用例都是一个 `test` 函数。
+
+describe 函数将多个单元测试用例定义为一个测试套件。当你在命令行运行测试时，Jest 会格式化输出，以便你了解哪些测试套件通过，哪些测试套件失败。
 
 ```js
 describe('HelloWorld.vue', () => {
@@ -186,6 +223,18 @@ describe('HelloWorld.vue', () => {
 
 > 测试代码和源代码挨近，方便他人查看。
 
+> 不要嵌套使用 describe，会让测试代码难以理解。
+
+`test` 表示一个测试用例。
+
+两个参数：
+
+第一个参数是一个 `字符串` ，在同一个测试套件中，需要唯一，用于标识测试报告中的测试，用来对你的测试做讲要的说明，方便你的阅读测试报告。
+
+第二个参数是包含测试代码的函数。
+
+> `it` 是它的别名 `xit` 表示跳过这个测试用例，在跳过某些正在或者不想要测试的用例时特别有用。
+
 ### 挂载组件
 
 vue 单文件组件经过编译后，是一个**有渲染函数的对象**，要测试组组件是否正确，需要开启渲染过程，这个过程称为挂载。
@@ -211,10 +260,159 @@ vm.$mount() // 挂载组件
 expect(vm.$el.textContent).toMatch(msg)
 ```
 
+## 组件挂载
+
+Vue 组件想要渲染到页面上，需要一个**挂载**的动作，或者说触发组件渲染到页面上的动作叫挂载。
+
+### Vue2 组件挂载的方式：
+
+1. 在组件选项中指定 el。
+
+2. 使用 Vue 构造器动态挂载。
+
+ `new Vue(componentOptions).$mount(el)`
+
+ `new Vue.extend(componentOptions).$mount(el)`
+
+Vue.extend 接收一个组件选项，然后返回一个构造器。
+
+> 使用 Vue.extend 手动挂载组件，也是 vue2 中实现弹窗的方式，即新建一个和 body 同级的 div，然后把组件挂载到这个 div，从而让组件的渲染结果脱离组件的嵌套关系。
+
+```js
+import Vue from 'vue'
+const App = {
+  props: {
+    count: Number,
+  },
+  data() {
+    return {
+      msg: 'hello',
+      innerCount: 0
+    }
+  },
+  methods: {
+    add() {
+      this.innerCount += 1
+    },
+  },
+
+  template: /*html*/ `
+  <div v-if="count % 2 === 0">count:{{count}}. count is even.</div>
+  <div v-else>count:{{count}}. count is odd.</div>
+  <button @click="add">{{innerCount}}</button>
+  `,
+}
+
+describe('App', () => {
+  it('挂载App', () => {
+    const Ctor = new Vue.extend(App)
+    const app = new Ctor()
+    app.$mount()
+  })
+})
+```
+
+### Vue3 的挂载方式：
+
+1. createApp
+
+```js
+const app = createApp(App)
+app.mount('#app')
+```
+
+使用 createApp 挂载一个弹窗。
+
+```html
+<template>
+  <div class="modal-container">
+    我是弹窗组件
+    <button type="button" @click="close">点击我关闭</button>
+  </div>
+</template>
+
+<script>
+  import {
+    ref,
+    onMounted,
+    reactive,
+    watch,
+    computed,
+    defineComponent
+  } from 'vue'
+  export default defineComponent({
+    name: 'Modal',
+    components: {},
+    setup(props, {
+      emit,
+      attrs,
+      slots
+    }) {
+      onMounted(() => {
+        console.log('onMounted')
+      })
+
+      function close() {
+        const modal = document.querySelector('.modal')
+        document.body.removeChild(modal)
+      }
+      return {
+        close
+      }
+    },
+  })
+</script>
+
+<style>
+  .modal {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 200px;
+    z-index: 1000;
+    background-color: #ccc;
+  }
+
+  .modal-container {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    background-color: red;
+  }
+</style>
+```
+
+在某个组件内执行 mountModal 挂载显示弹窗。
+
+```js
+function mountModal() {
+  const div = document.createElement('div')
+  div.className = 'modal'
+  document.body.appendChild(div)
+  const modal = createApp(Modal)
+  modal.mount(div)
+}
+```
+
+[参考问题](https://forum.vuejs.org/t/vue-extend-equivalent-in-vue-3/123148)
+
+2. 瞬移组件 Teleport
+
+```html
+<template>
+  <Teleport to="modal-container">
+    <p>通过to属性指定挂载的DOM</p>
+  </Teleport>
+</template>
+```
+
 > jest 在 jsdom 环境中运行，jsdom 是一个模拟浏览器环境的库，它提供了一些浏览器环境的全局变量，比如 window、document 等。
 > 所以能直接挂载组件。
-
-jsdom 实现了**大多数 DOM API**，它完全是由运行在 DOM 中的 JavaScript 编写。使用 jsdom 替代真正的浏览器可以使测试运行变得更快。
 
 ### vue-test-utils
 
