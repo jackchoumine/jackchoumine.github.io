@@ -42,6 +42,7 @@ import {
   shallowMount
 } from '@vue/test-utils'
 import ModalDemo from './ModalDemo.vue'
+
 describe('ModalDemo.vue', () => {
   let wrapper = null
   beforeEach(() => {
@@ -55,7 +56,9 @@ describe('ModalDemo.vue', () => {
   })
   it('test native event click', () => {
     jest.spyOn(wrapper.vm, 'onClose')
+
     wrapper.find('.btn-close').trigger('click')
+
     expect(wrapper.vm.onClose).toHaveBeenCalledTimes(1)
   })
 })
@@ -278,9 +281,10 @@ wrapper.find('button').trigger('submit')
 it('test input field', async () => {
   const input = wrapper.find('input')
   const email = 'hello@163.com'
-  input.setValue(email)
+  // 内部调用 Vue.nextTick 所以返回 promise
+  await input.setValue(email)
+
   expect(wrapper.vm.email).toBe(email)
-  await wrapper.vm.$nextTick()
   expect(wrapper.find('p').text()).toBe(email)
 })
 ```
@@ -320,6 +324,8 @@ it('test input field', async () => {
 
 > setValue 用于设置表单值，能触发双向绑定，直接设置 input 的 value 是不行的。
 
+> setValue 返回 promise，需要使用 await 等待。
+
 > 测试 p 标签，因为 vue 更新页面是异步的，使用 $nextTick 等待 DOM 更新，否则测试会失败。
 
 ### 测试单选框
@@ -329,21 +335,25 @@ it('test input field', async () => {
 ```js
 it('test radio field true', async () => {
   const radio = wrapper.find('input[type="true"]')
+
   radio.setChecked()
-  expect(wrapper.vm.join).toBe('true')
+
   await wrapper.vm.$nextTick()
+
+  expect(wrapper.vm.join).toBe('true')
   expect(wrapper.find('span').text()).toBe('true')
 })
 it('test radio field false', async () => {
   const radio = wrapper.find('input[value="false"]')
-  radio.setChecked()
+
+  await radio.setChecked()
+
   expect(wrapper.vm.join).toBe('false')
-  await wrapper.vm.$nextTick()
   expect(wrapper.find('span').text()).toBe('false')
 })
 ```
 
-> radio.setChecked() 设置单选框的值，能触发双向绑定。
+> radio.setChecked() 设置单选框的值，能触发双向绑定，返回 promise。
 
 重构组件，让用例通过
 
@@ -433,18 +443,19 @@ describe('FormDemo.vue', () => {
 
   it('test http post', () => {
     // 设置表单值
-    const input = wrapper.find('input')
-    const email = 'hello@163.com'
-    input.setValue(email)
-    const radio = wrapper.find('input[value="false"]')
-    radio.setChecked()
-
-    wrapper.find('button').trigger('submit')
-    expect($http.post).toHaveBeenCalled()
     const data = expect.objectContaining({
       email,
       join: false,
     })
+    const email = 'hello@163.com'
+    const input = wrapper.find('input')
+    const radio = wrapper.find('input[value="false"]')
+
+    input.setValue(email)
+    radio.setChecked()
+    wrapper.find('button').trigger('submit')
+
+    expect($http.post).toHaveBeenCalled()
     expect($http.post).toHaveBeenCalledWith('test', data)
   })
 })
@@ -484,6 +495,7 @@ describe('FormDemo.vue', () => {
   it('test http post response', async () => {
     wrapper.find('button').trigger('submit')
     await flushPromises()
+
     expect(wrapper.emitted('success')[0][0]).toEqual(res)
   })
 })

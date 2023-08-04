@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-26 21:37:02
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-26 22:56:46
+ * @LastEditTime: 2023-08-04 17:25:10
  * @Description : 测试表单
  */
 import { shallowMount } from '@vue/test-utils'
@@ -31,16 +31,18 @@ describe('FormDemo.vue', () => {
   it('test input field', async () => {
     const input = wrapper.find('input')
     const email = 'hello@163.com'
-    input.setValue(email)
+
+    await input.setValue(email)
+
     expect(wrapper.vm.email).toBe(email)
-    await wrapper.vm.$nextTick()
     expect(wrapper.find('p').text()).toBe(email)
   })
   it('test radio field', async () => {
     const radio = wrapper.find('input[value="true"]')
-    radio.setChecked()
+
+    await radio.setChecked()
+
     expect(wrapper.vm.join).toBe('true')
-    await wrapper.vm.$nextTick()
     expect(wrapper.find('span').text()).toBe('true')
   })
   it('test radio field false', async () => {

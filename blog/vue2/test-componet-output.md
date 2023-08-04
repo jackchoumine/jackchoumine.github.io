@@ -8,15 +8,17 @@
 
 每个卡片是一个人的信息，包括姓名、电话、职位、头像、社交账号。
 
-对组件进行测试，需要测试组件的输出，即组件的 DOM 结构。
+对组件进行测试，**提供输入，这里是props**，**测试输出**，这里是 DOM 结构。
 
 ## 测试渲染文本
 
 测试渲染文本，通常需要测试两种情况：
 
-* 渲染文本是否包含某些文字，即测试内容；
+* 渲染文本**是否包含某些文字**，即**测试内容**；
 
- `text()`
+`text()` --- 包装器方法，返回节点的文本内容。
+
+然后使用以下匹配器进行断言：
 
 ```js
 toMatch(msg)
@@ -54,7 +56,11 @@ describe('ContractItem.vue', () => {
 })
 ```
 
-* 渲染文本是否正确德渲染在某些 DOM 内部，即测试位置。
+> shallowMount、mount 的第二个参数是一个对象 propsData，用于传递 props。
+
+> wrapper 的 [setProps](https://v1.test-utils.vuejs.org/api/wrapper-array/#setprops) 也能指定 props。
+
+* 渲染文本是否正确地渲染在某些 DOM 内部，即**测试位置**。
 
 需要查找 DOM，使用 `find` 方法，返回第一个匹配的节点。
 
@@ -78,6 +84,7 @@ expect(wrapper.find('h1').text()).toMatch(msg)
     const wrapper = shallowMount(ContractItem, {
       propsData,
     })
+
     expect(wrapper.find('.header').text()).toMatch(propsData.name)
   })
 ```
@@ -110,6 +117,7 @@ describe('ContractItem.vue', () => {
     const wrapper = shallowMount(ContractItem, {
       propsData,
     })
+
     expect(wrapper.find('.header').text()).toMatch(propsData.name)
   })
 })
@@ -216,7 +224,9 @@ describe('ContractList.vue', () => {
         persons: richFriends,
       },
     })
+
     const items = wrapper.findAllComponents(ContractItem)
+
     items.wrappers.forEach((wrapper, index) => {
       expect(wrapper.props()).toEqual(richFriends[index])
     })
@@ -277,7 +287,92 @@ describe('ContractList.vue', () => {
 
 > 多传递 prop 是一个陷阱，需要格外小心。
 
-##  测试 class
+## 测试计算属性
+
+有一个组件 `NumberRenderer.vue` ，传递 `props.even` 为true，渲染 `2,4,6` ，否则渲染 `1,3,5` ，默认为 false，用例 `NumberRenderer.spec.js` 如下：
+
+```js
+describe('NumberRenderer', () => {
+  it('when no props,should render 1,3,5', () => {
+    const wrapper = shallowMount(NumberRenderer)
+
+    expect(wrapper.text()).toMatch('1,3,5')
+  })
+  it('when props.even is true,should render 2,4,6', () => {
+    const wrapper = shallowMount(NumberRenderer, {
+      propsData: {
+        even: true,
+      },
+    })
+
+    expect(wrapper.text()).toMatch('2,4,6')
+  })
+})
+```
+
+组件 `NumberRenderer.vue` 如下：
+
+```HTML
+<template>
+  <span>{{ numbers }}</span>
+</template>
+
+<script>
+  export default {
+    name: 'NumberRenderer',
+    props: {
+      even: {
+        type: Boolean,
+        required: false
+      }
+    },
+    computed: {
+      numbers() {
+        let i = 0
+        const evens = []
+        const odds = []
+        while (i <= 6) {
+          if (i % 2 === 0) {
+            evens.push(i)
+          } else {
+            odds.push(i)
+          }
+          i++
+        }
+        return this.even ? evens.join(',') : odds.join(',')
+      }
+    }
+  };
+</script>
+```
+
+测试 `props.even` 为 false 的情况，用例如下：
+
+```js
+it('when props.even is false,should render 1,3,5', () => {
+  const localThis = {
+    even: false
+  }
+
+  expect(NumberRenderer.computed.numbers.call(localThis)).toMatch('1,3,5')
+})
+```
+
+> 没有挂载组件，直接测试计算属性。 使用 `call` 方法，传递一个对象，作为 `this` ，这样就可以测试计算属性了。
+
+> call vs shallowMount 
+
+使用 call:
+
+1. 组件中有耗时的操作，比如在 `mounted` 钩子中发起网络请求，或者在 `created` 钩子中执行复杂的计算。
+2. 移除一些值，只测试计算属性和它的依赖。
+
+使用 shallowMount:
+
+1. 测试组件的渲染结果。
+2. 测试组件的交互行为。
+
+## 测试 class
 
 `classes` 返回组件根元素的 class，是一个数组。
 
@@ -290,6 +385,7 @@ it('should contain contract-list class in root ele', () => {
       persons: richFriends,
     },
   })
+
   expect(wrapper.classes()).toContain('contract-list')
 })
 ```

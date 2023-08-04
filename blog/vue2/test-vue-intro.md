@@ -201,14 +201,8 @@ describe('HelloWorld.vue', () => {
         msg
       },
     })
+
     expect(wrapper.text()).toMatch(msg)
-  })
-  test('始终通过的测试', () => {
-    // TODO 如何编写 runner
-    // runner.start()
-    // setTimeout(() => {
-    //   expect(runner.finished).toBe(true)
-    // }, 1000)
   })
 })
 ```
@@ -217,7 +211,7 @@ describe('HelloWorld.vue', () => {
 
 一个文件可写多个 describe，describe 可嵌套，
 
-> 推荐的做法是一个文件只写一个 describe，describe 不嵌套。
+> 推荐的做法是一个文件只写一个 describe。
 
 否则会降低测试代码的可读性和新加的测试用例的不知道放在哪个 describe 里面。
 
@@ -235,36 +229,25 @@ describe('HelloWorld.vue', () => {
 
 > `it` 是它的别名 `xit` 表示跳过这个测试用例，在跳过某些正在或者不想要测试的用例时特别有用。
 
-### 挂载组件
+> `test.only` 表示只运行这个测试用例，其他测试用例都会被跳过。
 
-vue 单文件组件经过编译后，是一个**有渲染函数的对象**，要测试组组件是否正确，需要开启渲染过程，这个过程称为挂载。
+> 三步法写测试用例
 
-```js
-new Vue({
-  render: h => h(App),
-}).$mount('#app')
-```
+1. 准备测试数据，是测试就绪，这里是渲染组件。
+2. 执行某些操作，这里是获取组件的文本内容。
+3. 断言，这里是断言组件的文本内容和测试数据是否一致。
 
-使用 `new` 新建一个 vue 实例，然后调用 `$mount` 方法，传入一个 DOM 元素，vue 会将组件渲染到这个 DOM 元素中。
+以上三步的代码使用空行分隔，这样可以让测试代码更加清晰可读。
 
-希望挂载组件，就需要将**组件对象**转成构造函数，组件对象无法直接挂载。
+> 编程的经验法则之一：代码排版反映思路。
 
-```js
-const Ctor = Vue.extend(HelloWorld) // 使用 Vue.extend 将组件对象转成构造函数
-const vm = new Ctor({
-  propsData: {
-    msg
-  },
-})
-vm.$mount() // 挂载组件
-expect(vm.$el.textContent).toMatch(msg)
-```
+代码越是美观合理，说明写下这段代码的时候，思路越是清晰，这样的代码也更容易被其他人理解，反之亦然。
 
 ## 组件挂载
 
 Vue 组件想要渲染到页面上，需要一个**挂载**的动作，或者说触发组件渲染到页面上的动作叫挂载。
 
-### Vue2 组件挂载的方式：
+### Vue2 组件挂载的方式
 
 1. 在组件选项中指定 el。
 
@@ -312,7 +295,7 @@ describe('App', () => {
 })
 ```
 
-### Vue3 的挂载方式：
+### Vue3 的挂载方式
 
 1. createApp
 
@@ -416,7 +399,7 @@ function mountModal() {
 
 ### vue-test-utils
 
-手动挂载组件，代码量较多，[vue-test-utils](https://v1.test-utils.vuejs.org/zh/) 提供了一些 API，方便测试 vue 组件。
+手动挂载组件，代码量较多，[vue-test-utils](https://v1.test-utils.vuejs.org/zh/) 提供了一些方便的API帮我们做这些事情。
 
 mount 方法，该方法在接收一个组件后，会将其挂载并返回一个包含被挂载组件实例（vm）的**包装器对象**。
 
@@ -435,7 +418,13 @@ mount 返回的包装器不仅包含 Vue 实例，还包括一些辅助方法，
 7. trigger 方法：触发指定的事件。
 8. vm 属性：返回包装器的 Vue 实例。
 
-shallowMount 方法，该方法与 mount 方法类似，但是它不会渲染组件的子组件。
+> mount vs shallowMount
+
+另一个挂载方法， `shallowMount` ，该方法与 mount 方法类似，但是它不会渲染组件的子组件，而是使用 `vuecomponent-stub` 代替。
+
+它隔离了组件与其子组件的关系，排除了复杂的依赖关系，使得测试更加专注于当前组件。
+
+mount 会渲染子组件，更加贴近真实环境，但是会增加测试的复杂度。
 
 ## 如何调试测试用例
 

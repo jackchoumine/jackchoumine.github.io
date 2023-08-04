@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-24 17:53:11
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-24 20:05:27
+ * @LastEditTime: 2023-08-04 15:04:36
  * @Description : 测试 ModalDemo.vue
  */
 import { shallowMount } from '@vue/test-utils'
@@ -18,7 +18,7 @@ describe('ModalDemo.vue', () => {
       },
     })
   })
-  it('test native event click', () => {
+  it.only('test native event click', () => {
     jest.spyOn(wrapper.vm, 'onClose')
     wrapper.find('.btn-close').trigger('click')
     expect(wrapper.vm.onClose).toHaveBeenCalledTimes(1)
