@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-24 17:53:11
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-04 15:04:36
+ * @LastEditTime: 2023-08-05 16:28:40
  * @Description : 测试 ModalDemo.vue
  */
 import { shallowMount } from '@vue/test-utils'
@@ -18,15 +18,30 @@ describe('ModalDemo.vue', () => {
       },
     })
   })
-  it.only('test native event click', () => {
+  it('test native event click', () => {
     jest.spyOn(wrapper.vm, 'onClose')
+
     wrapper.find('.btn-close').trigger('click')
+
     expect(wrapper.vm.onClose).toHaveBeenCalledTimes(1)
   })
   it('test custom event', () => {
-    wrapper.find('.btn-close').trigger('click')
+    // wrapper.find('.btn-close').trigger('click')
+    wrapper.vm.closeModal()
+
+    console.log(wrapper.emitted(), 'zqj log')
     console.log(wrapper.emitted('close-modal'), 'zqj log')
+
     expect(wrapper.emitted('close-modal')).toHaveLength(1)
+    expect(wrapper.emitted()['close-modal']).toHaveLength(1)
+  })
+  it('test custom event  by call', () => {
+    const events = {}
+    const $emit = (event, ...args) => (events[event] = args)
+
+    ModalDemo.methods.closeModal.call({ $emit })
+
+    expect(events['close-modal']).toHaveLength(2)
   })
   it('test custom event payload', () => {
     wrapper.find('.btn-close').trigger('click')

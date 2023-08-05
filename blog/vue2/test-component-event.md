@@ -85,7 +85,39 @@ describe('ModalDemo.vue', () => {
 ```js
 it('test custom event', () => {
   wrapper.find('.btn-close').trigger('click')
+
   expect(wrapper.emitted('close-modal')).toHaveLength(1)
+})
+```
+
+> wrapper.emitted 函数返回一个对象，key 是事件名称，value 是一个数组，数组元素是事件抛出的数据。
+
+上面的测试用例断言还可以写成：
+
+```js
+expect(wrapper.emitted()['close-modal']).toHaveLength(1)
+```
+
+上面的用例是找到组件中的按钮，触发一个原生事件，测试原生事件的处理器是否触发一个自定义事件。还可以直接通过组件实例调用方法，触发自定义事件。
+
+```js
+wrapper.vm.closeModal()
+```
+
+> 直接调用，简便得多，不需要找到按钮，也不需要触发原生事件。
+
+测试自定义事件的第三种方法，使用 `call` 模拟 `this.$emit` ，使用 `events` 模拟 `wrapper.emitted` 的返回值。
+
+```js
+it('test custom event  by call', () => {
+  const events = {}
+  const $emit = (event, ...args) => (events[event] = args)
+
+  ModalDemo.methods.closeModal.call({
+    $emit
+  })
+  //  事件排除 两个数据 'hello' 'modal'
+  expect(events['close-modal']).toHaveLength(2)
 })
 ```
 
@@ -115,11 +147,12 @@ it('test custom event', () => {
 
 测试通过。
 
-测试 `emitted` 返回的数据，测试用例：
+测试事件抛出的数据，就是测试 `emitted` 返回的数据，测试用例：
 
 ```js
 it('test custom event payload', () => {
   wrapper.find('.btn-close').trigger('click')
+
   expect(wrapper.emitted('close-modal')).toHaveLength(1)
   expect(wrapper.emitted('close-modal')[0]).toEqual(['hello', 'modal'])
 })
@@ -130,6 +163,7 @@ it('test custom event payload', () => {
 ```js
 it('test custom event payload 2', () => {
   wrapper.find('.btn-close').trigger('click')
+
   expect(wrapper.emitted('close-modal')).toHaveLength(1)
   expect(wrapper.emitted('close-modal')[0]).toEqual(['hello', 'modal'])
   expect(wrapper.emitted('my-event')).toBeUndefined()
@@ -542,11 +576,13 @@ jsdom 中没有页面的概念，因此你无法创建请求并导航到其他�
 
 * 学习了如何测试**原生事件**，使用`trigger`触发原生事件，然后断言事件带来的结果是否符合预期，比如调用函数、元素隐藏、触发自定义事件等。
 
-* 学习了如何测试**自定义事件**，使用`emitted`方法，断言事件是否被触发，以及抛出的数据是否符合预期。
+* 学习了三种测试**自定义事件**的方法。
 
-* 学习了如何测试表单元素，使用`setValue`和`setChecked`方法，然后断言组件属性或者页面的变化。
+* 学习了如何测试表单元素，使用`setValue`和`setChecked`方法，实现双向绑定，然后断言组件属性或者页面的变化。
 
-* 学习了如何测试 http 接口。
+* 学习了如何模拟，以测试 http 接口。
+
+* `trigger`、`setValue`、`setChecked`方法都是异步的，需要使用`await`等待DOM更新，再断言。
 
 * 使用`jest.objectContaining`断言对象，测试代码更加健壮。
 

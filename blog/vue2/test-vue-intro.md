@@ -442,10 +442,13 @@ mount 会渲染子组件，更加贴近真实环境，但是会增加测试的�
 "test:debug": "node --inspect-brk node_modules/.bin/vue-cli-service test:unit",
 ```
 
+没成功，你可以试试。
+
 <!-- TODO 没成功 https://weread.qq.com/web/reader/d013215071ff30aad01f5e4kd9d320f022ed9d4f495e456  -->
 
 3. 在 vscode 中调试
 
+配置没成功，你可以试试。
 <!-- TODO 还没找到配置方法 -->
 
 ## 参考
@@ -465,3 +468,12 @@ mount 会渲染子组件，更加贴近真实环境，但是会增加测试的�
 [Guide to Unit Testing Vue Components](https://testdriven.io/blog/vue-unit-testing/)
 
 [All Vue Content](https://fjolt.com/category/vue)
+
+## 小结
+
+* 介绍了前端测试的分类，单元测试能帮助我们编写高质量的代码。
+* 组件测试的要点：给组件输入，测试输出。
+* Jest 测试框架简介。
+* 三步法写测试用例。
+* vue 组件渲染的几种方式。
+* 如何调试测试用例。
