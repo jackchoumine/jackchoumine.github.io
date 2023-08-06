@@ -440,11 +440,12 @@ mount 返回的包装器不仅包含 Vue 实例，还包括一些辅助方法，
 1. text 方法：返回包装器的文本内容。
 2. html 方法：返回包装器的 HTML 内容。
 3. find 方法：返回包含指定选择器的第一个 DOM 元素的包装器。
-4. findAll 方法：返回包含指定选择器的所有 DOM 元素的包装器。
-5. setData 方法：设置组件的 data 属性。
-6. setProps 方法：设置组件的 props 属性。
-7. trigger 方法：触发指定的事件。
-8. vm 属性：返回包装器的 Vue 实例。
+4. exists 方法：返回一个布尔值，指示包装器是否包含一个或多个匹配的元素。
+5. findAll 方法：返回包含指定选择器的所有 DOM 元素的包装器。
+6. setData 方法：设置组件的 data 属性。
+7. setProps 方法：设置组件的 props 属性。
+8. trigger 方法：触发指定的事件。
+9. vm 属性：返回包装器的 Vue 实例。
 
 > mount vs shallowMount
 
