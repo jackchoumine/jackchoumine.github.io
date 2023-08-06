@@ -37,6 +37,28 @@
 
 快照测试会给运行中的应用程序拍一张图片，并将其与以前保存的图片进行比较。如果图像不同，则测试失败。这种测试方法对确保应用程序代码变更后是否仍然可以正确渲染很有帮助。
 
+按照是否测试实现来分类：
+
+1. 白盒测试
+
+测试代码的实现，比如测试一个函数，需要知道函数的实现细节和依赖关系，然后编写测试代码。往往是开发人员编写的测试代码。
+
+编写白盒测试，为了隔离复杂的依赖，通常会使用各种模拟手段，来模拟依赖的行为，比如模拟网络请求、用户操作和 pinia 等。
+
+> 不仅测试做了什么，还要测试怎么做到的。
+
+> 白盒测试用例往往比较脆弱，一旦代码实现发生变化，测试用例很可能就会失败。
+
+2. 黑盒测试
+
+不关心代码的实现，只关心代码的输入和输出，比如测试一个函数，只需要知道函数的输入和输出，然后编写测试代码。往往是测试人员编写的测试代码。
+
+要求少用模拟，你不知道内部的依赖关系，也难以模拟。
+
+> 测试做了什么，而不是测试怎么做的。
+
+> 黑盒测试用例往往比较稳定，一旦代码实现发生变化，测试用例不会失败。
+
 各种测试在前端测试中的占比
 
 ![](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/front-end-test.png)
@@ -86,6 +108,12 @@
 Jest 在查找项目中测试文件时使用默认的 glob 匹配模式。对于 non-glob 模式而言，这意味着 Jest 匹配**tests**目录中的.js 和.jsx 文件，以及扩展名为 .spec.js 或 .test.js 的所有文件。
 
 > globs 是文件匹配模式。Jest 使用 Node glob 模块匹配文件。你可以在如下链接页面的 glob primer 部分中阅读到更多关于 globs 的内容，[glob-primer](www.npmjs.com/package/glob#glob-primer)。
+
+### 其他测试框架
+
+[vitest](https://vitest.dev/)
+
+[peeky](https://peeky.dev/)
 
 ### Jest 编译单文件组件
 
@@ -399,7 +427,7 @@ function mountModal() {
 
 ### vue-test-utils
 
-手动挂载组件，代码量较多，[vue-test-utils](https://v1.test-utils.vuejs.org/zh/) 提供了一些方便的API帮我们做这些事情。
+手动挂载组件，代码量较多，[vue-test-utils](https://v1.test-utils.vuejs.org/zh/) 提供了一些方便的 API 帮我们做这些事情。
 
 mount 方法，该方法在接收一个组件后，会将其挂载并返回一个包含被挂载组件实例（vm）的**包装器对象**。
 
@@ -426,6 +454,21 @@ mount 返回的包装器不仅包含 Vue 实例，还包括一些辅助方法，
 
 mount 会渲染子组件，更加贴近真实环境，但是会增加测试的复杂度。
 
+> 一种不渲染子组件的方 --- stubs 模拟子组件。
+
+```js
+mount(ParentCom, {
+  stubs: {
+    Child: true
+    Child2: `<span>我是子组件</span>`
+  }
+})
+```
+
+使用 stubs 对象模拟子组件，可以使用布尔值或者字符串模拟子组件。
+
+这些子组件不会真而渲染，但是它们会存在你的包装器中，你可以使用 find 方法找到它们。
+
 ## 如何调试测试用例
 
 1. 使用 vscode 扩展
@@ -449,9 +492,12 @@ mount 会渲染子组件，更加贴近真实环境，但是会增加测试的�
 3. 在 vscode 中调试
 
 配置没成功，你可以试试。
+
 <!-- TODO 还没找到配置方法 -->
 
 ## 参考
+
+[vue 官方对测试的建议](https://cn.vuejs.org/guide/scaling-up/testing.html)
 
 [Jest 单元测试环境搭建](https://www.aligoogle.net/pages/343eae/#%E4%B8%80-%E4%BE%9D%E8%B5%96%E8%AF%B4%E6%98%8E)
 
@@ -475,5 +521,6 @@ mount 会渲染子组件，更加贴近真实环境，但是会增加测试的�
 * 组件测试的要点：给组件输入，测试输出。
 * Jest 测试框架简介。
 * 三步法写测试用例。
-* vue 组件渲染的几种方式。
-* 如何调试测试用例。
+* vue 组件渲染的三种方式：shallowMount、mount、Teleport.to 和手动挂载。
+* 不渲染子组件的几种方式：stubs 配置、shallowMount。
+* 调试测试用例的三种方式：vscode 插件、chrome、vscode。
