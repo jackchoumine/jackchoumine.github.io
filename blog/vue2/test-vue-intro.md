@@ -470,6 +470,12 @@ mount(ParentCom, {
 
 这些子组件不会真而渲染，但是它们会存在你的包装器中，你可以使用 find 方法找到它们。
 
+### 挂载选项
+
+挂载时可以传递一些组件选项，比如 propsData、data、mocks 等，这些选项会覆盖组件的默认选项。
+
+[Mounting Options](https://v1.test-utils.vuejs.org/api/options.html#mounting-options)
+
 ## 如何调试测试用例
 
 1. 使用 vscode 扩展
@@ -515,6 +521,8 @@ mount(ParentCom, {
 [Guide to Unit Testing Vue Components](https://testdriven.io/blog/vue-unit-testing/)
 
 [All Vue Content](https://fjolt.com/category/vue)
+
+[Vue NYC - Component Tests with Vue.js - Matt O'Connell---技术演讲](https://www.youtube.com/watch?v=OIpfWTThrK8)
 
 ## 小结
 
