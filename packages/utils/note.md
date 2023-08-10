@@ -739,6 +739,8 @@ changlog 的非常重要。
 
 [打包 JavaScript 库的现代化指南](https://github.com/frehner/modern-guide-to-packaging-js-library/blob/main/README-zh_CN.md)
 
+[使用 tsdx 发布一个npm package](https://www.leighhalliday.com/publish-npm-package)
+
 [How to publish to npm in 2023](https://blog.taskli.st/posts/how-to-publish-to-npm-in-2023)
 
 [Best practices for creating a modern npm package](https://snyk.io/blog/best-practices-create-modern-npm-package/)
