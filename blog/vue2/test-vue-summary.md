@@ -250,6 +250,93 @@ it('classes()', () => {
 
 ### 测试插槽
 
+有一组件 `TestSlots` 如下：
+
+```html
+<template>
+  <div>
+    <h1>TestSlots</h1>
+    <slot name="header"></slot>
+    <slot :jack="jack"></slot>
+    <slot name="footer" :age="jack.age"></slot>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'TestSlots',
+    data: () => {
+      return {
+        jack: {
+          name: 'slot',
+          age: 19
+        }
+      }
+    }
+  }
+</script>
+```
+
+`HelloSlot.vue` ：
+
+```html
+<template>
+  <footer>this is footer</footer>
+</template>
+
+<script>
+  export default {
+    name: 'HelloSlot'
+  }
+</script>
+```
+
+测试用例：
+
+```JS
+import {
+  shallowMount
+} from '@vue/test-utils'
+import TestSlots from './TestSlots.vue'
+import {
+  h
+} from 'vue'
+import HelloSlot from './HelloSlot.vue'
+describe('TestSlots.vue', () => {
+  it('test slots', () => {
+    const wrapper = shallowMount(TestSlots, {
+      slots: {
+        header: '<div>header</div>',
+        footer: '<HelloSlot />',
+      },
+      scopedSlots: {
+        default: props => {
+          return h(
+            'p', {
+              attrs: {
+                'data-p': 'p',
+              },
+            },
+            `${props.jack.name}, this is default scopedSlot`
+          )
+          // return <p>{props.jack.name}, this is default scopedSlot</p>
+        },
+      },
+      stubs: {
+        HelloSlot,
+      },
+    })
+
+    expect(wrapper.find('div').text()).toMatch('header')
+    expect(wrapper.findComponent(HelloSlot).exists()).toBe(true)
+    expect(wrapper.find('[data-p=p]').text()).toMatch('slot, this is default scopedSlot')
+  })
+})
+```
+
+> 测试插槽，使用 `slots` 、 `scopedSlots` 、 `stubs` 。
+> 然后断言视图是否渲染正确。
+
 ## 测试用户交互
 
 ### 测试原生事件
