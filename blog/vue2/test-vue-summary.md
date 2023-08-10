@@ -339,11 +339,35 @@ describe('TestSlots.vue', () => {
 
 ## 测试用户交互
 
+测试用户交互的关键是模拟用户交互， vue-test-utils 提供了一系列方法模拟用户交互。
+
+`trigger` 触发事件， `setValue` 设置表单值， `setChecked` 设置 checkbox 选中状态， `setChecked` 设置 radio 选中状态， `setSelected` 设置 select 选中状态。
+
 ### 测试原生事件
+
+使用 `trigger` 触发原生事件，比如 `trigger('click')` ，返回断言视图是否正确或者是否触发自定义事件等。 
+
+trigger 方法的第二个参数是 `事件对象` ，可以模拟点击位置等。
+
+事件对象的属性有：
+
+```JS
+wrapper.find('button').trigger('submit', {
+  customKeyInEvent: 'hello',
+  pageX: 100,
+  pageY: 200,
+})
+```
 
 ### 测试用户输入
 
+使用 `setValue` 设置表单值， `setChecked` 设置 checkbox 选中状态， `setChecked` 设置 radio 选中状态， `setSelected` 设置 select 选中状态。
+
 ### 测试自定义事件
+
+`trigger` 也可以触发自定义事件， `trigger('custom-event')` 。
+
+emitted 方法返回一个对象，key 触发的事件，value 是一个数组，数组的每一项是事件的参数。
 
 ## 测试异步代码
 

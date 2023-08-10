@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-26 21:37:02
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-04 17:25:10
+ * @LastEditTime: 2023-08-10 17:21:25
  * @Description : 测试表单
  */
 import { shallowMount } from '@vue/test-utils'
@@ -60,7 +60,11 @@ describe('FormDemo.vue', () => {
     const radio = wrapper.find('input[value="false"]')
     radio.setChecked()
 
-    wrapper.find('button').trigger('submit')
+    wrapper.find('button').trigger('submit', {
+      customKeyInEvent: 'hello',
+      pageX: 100,
+      pageY: 200,
+    })
     expect($http.post).toHaveBeenCalled()
     const data = expect.objectContaining({
       email,

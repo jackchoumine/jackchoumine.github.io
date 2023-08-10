@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-24 20:11:02
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-26 22:59:47
+ * @LastEditTime: 2023-08-10 17:22:32
  * @Description : 
 -->
 <template>
@@ -33,7 +33,8 @@ export default {
   },
   methods: {
     // methods
-    async submitForm() {
+    async submitForm(event) {
+      console.log(event,'zqj log')
       const res = await this.$http.post('test', {
         email: this.email,
         join: this.join === 'true'
