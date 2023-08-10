@@ -354,87 +354,49 @@ jest 测试代码是同步的， 在断言之前需要等待异步代码之前�
 
 ### vue 异步更新 DOM
 
-当一个响应式数据变化后， 要断言这个变化， 需要等待 DOM 更新后才能断言。 可使用 `
-vm.$nextTick` 、
-`
-Vue.nextTick` ，
-更加简洁明了的方式是 `
-await `
+当一个响应式数据变化后， 要断言这个变化， 需要等待 DOM 更新后才能断言。 可使用 `vm.$nextTick` 、 `Vue.nextTick` ，更加简洁明了的方式是 `await` 更新状态的方法， 比如 `await input.setValue('update input')` 。
 
-那个更新状态的方法， 比如 `
-await input.setValue('update input')` 。
+可以被 `await ` 的方法有：
 
-可以被 `
-await `
-
-的方法有：
-
-  *
-  setProps *
-  setDate *
-  trigger *
-  setValue *
-  setChecked *
-  setSelected
+* setProps
+* setDate
+* trigger
+* setValue
+* setChecked
+* setSelected
 
 ### 外部函数的异步调用
 
-常见是的 http 调用， 比如 fetch、 axios、 vuex 的 action 等。 这种情况下， 需要使用 `
-mock`
+常见是的 http 调用， 比如 fetch、 axios、 vuex 的 action 等。 这种情况下， 需要使用 `mock`
 
-模拟外部调用， 而不是真的让异步调用执行， 比如 `
-jest.mock('axios')` 。
+模拟外部调用， 而不是真的让异步调用执行， 比如 `jest.mock('axios')` 。
 
-使用 `
-flush - promises`
+使用 `flush - promises` 包， flushPromises 会刷新所有处于 pending 状态或 resolved 状态的 Promise。
 
-包， flushPromises 会刷新所有处于 pending 状态或 resolved 状态的 Promise。
+有组件 `Foo.vue` :
 
-有组件 `
-Foo.vue` :
+```html
+<template>
+  <button @click="fetchResults">{{ value }}</button>
+</template>
 
-  `
-`
-`
-html
-  <
-  template >
-  <
-  button @click = "fetchResults" > {
-
-    {
-      value
-    }
-
-  } < /button> < /
-  template >
-
-  <
-  script >
+<script>
   import axios from 'axios'
 
-export default {
-
-  data() {
-
-    return {
-      value: null
+  export default {
+    data() {
+      return {
+        value: null
+      }
+    },
+    methods: {
+      async fetchResults() {
+        const response = await axios.get('mock/service')
+        this.value = response.data
+      }
     }
-
-  }, 
-
-  methods: {
-
-    async fetchResults() {
-      const response = await axios.get('mock/service')
-      this.value = response.data
-    }
-
   }
-
-} <
-/script>
-
+</script>
 ```
 
 测试代码：
