@@ -349,9 +349,8 @@ describe('TestSlots.vue', () => {
 
 jest 测试代码是同步的， 在断言之前需要等待异步代码之前完， vue 组件中的异步代码有两种：
 
-  *
-  vue 异步更新 DOM； *
-  外部函数的异步调用， 比如 setTimeout、 fetch 等。
+1. vue 异步更新 DOM，比如 setValue 更新表单值
+2. 外部函数的异步调用，比如 http 调用
 
 ### vue 异步更新 DOM
 
