@@ -1,6 +1,6 @@
 # vue 2 学习总结
 
-### [vue2组件测试总结](./test-vue-summary.md.md)
+### [vue2组件测试总结](./test-vue-summary.md)
 
 ### [快照测试](./test-snapshot.md)
 
