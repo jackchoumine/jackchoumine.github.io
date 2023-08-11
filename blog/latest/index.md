@@ -1,5 +1,7 @@
 # 最新文章
 
+### [vue2 组件测试总结](../vue2/test-vue-summary.md)
+
 ### [如何优雅地封装 axios?](../web/js/封装axios.md)
 
 ### [vue 指令总结](../vue3/指令.md)
