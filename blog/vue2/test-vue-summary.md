@@ -10,15 +10,15 @@
 
 单元测试：检测函数、类或者模块的输入是否生产预期的输出和副作用。
 
-组件测试：检测组件是否渲染正确，用户交互是否正确，异步代码是否正确，是特殊的单元测试。
+组件测试：检测组件是否渲染正确，用户交互是否正确，异步代码是否正确执行，是特殊的单元测试。
 
-集成测试：检测多个组件是否正确协同工作。
+集成测试：检测多个组件是否正确地协同工作。
 
-端到端测试：检测整个应用是否正确工作，要在模拟用户使用软件的实际方式(实际的环境、实际的交互、实际的数据)，检测应用的功能是否符合预期，会涉及到数据库和后端。
+端到端测试：检测整个应用是否正确工作，要按照用户使用软件的**实际方式**(实际的环境、实际的交互、实际的数据)，检测应用的功能是否符合预期，会涉及到数据库和后端。
 
 > 不追求 100%覆盖率
 
-对 UI 组件的测试，不追求 100% 的覆盖率，否则会导致测试代码的维护成本过高，而且测试代码的维护成本往往比实现代码的维护成本高。
+对 UI 组件的测试，不追求 100% 的覆盖率，否则会导致测试代码的维护成本过高(测试代码的维护成本往往比实现代码的维护成本高)。
 
 > 测试中的模拟
 
@@ -28,12 +28,13 @@
 
 从粒度的角度来看，组件测试位于单元测试之上，可以被认为是集成测试的一种形式。Vue 应用中大部分内容都应该由组件测试来覆盖。
 
-组件测试主要需要关心组件的**公开接口**而不是内部实现细节。对于大部分的组件来说，公开接口包括触发的**事件**、**prop** 和**插槽**。当进行测试时，测试**组件做了什么**，而不是测试它是怎么做到的。测试实现，会让测试用例和实现细节耦合，当实现发生变化时，测试用例就很可能失败。
+组件测试主要需要关心组件的**公开接口**而不是内部实现细节。对于大部分的组件来说，公开接口包括触发的**事件**、**prop** 和**插槽**。当进行测试时，测试**组件做了什么**，而不是测试它怎么做的。测试实现，会让测试用例和实现细节耦合，当实现发生变化时，测试用例就很可能失败。
 
 > 推荐的做法
 
 * 测试视图：根据 props 和插槽，测试组件**渲染输出**是否正确。
 * 测试交互：测试用户交互是否正确。
+* 公开方法：测试公开的方法是否正确执行。
 
 ## 测试渲染输出
 
@@ -369,6 +370,325 @@ wrapper.find('button').trigger('submit', {
 
 emitted 方法返回一个对象，key 触发的事件，value 是一个数组，数组的每一项是事件的参数。
 
+## 测试公共方法
+
+有时候组件会暴露一些公共方法供外部调用，会改变组件的状态，进而影响视图，需要测试这些方法。
+
+测试方案：监听某个方法，然后断言是否执行，执行次数和参数。
+
+有一组件如下：
+
+```JS
+const Demo = {
+  template: '<div>{{count}}</div>',
+  data: () => ({
+    count: 0,
+    timer: null,
+  }),
+  methods: {
+    publicMethod() {
+      this.count += 1
+    },
+    start() {
+      this.timer = setInterval(() => {
+        this.count += 1
+      }, 1000)
+      console.log(this.timer, 'zqj log')
+    },
+    stop() {
+      clearInterval(this.timer)
+      this.timer = null
+    },
+    finish() {
+      this.count = 0
+      this.stop()
+    },
+  },
+}
+```
+
+测试用例：
+
+```JS
+import {
+  shallowMount
+} from '@vue/test-utils'
+describe('Demo', () => {
+  beforeEach(() => {
+    jest.useFakeTimers('legacy')
+  })
+  it('test public method', () => {
+    const wrapper = shallowMount(Demo)
+
+    wrapper.vm.publicMethod()
+
+    expect(wrapper.vm.count).toBe(1)
+
+    wrapper.vm.publicMethod()
+    wrapper.vm.publicMethod()
+
+    expect(wrapper.vm.count).toBe(3)
+  })
+  it('test start', () => {
+    const wrapper = shallowMount(Demo)
+    wrapper.vm.start()
+
+    jest.advanceTimersByTime(1000)
+    expect(wrapper.vm.count).toBe(1)
+
+    jest.advanceTimersByTime(2000)
+    expect(wrapper.vm.count).toBe(3)
+
+    jest.advanceTimersByTime(7000)
+    expect(wrapper.vm.count).toBe(10)
+  })
+  it('test stop', () => {
+    const wrapper = shallowMount(Demo)
+
+    wrapper.vm.start()
+    jest.advanceTimersByTime(1000)
+
+    expect(wrapper.vm.count).toBe(1)
+
+    wrapper.vm.stop()
+
+    // 重新开始计时
+    wrapper.vm.start()
+    jest.advanceTimersByTime(3000)
+
+    expect(wrapper.vm.count).toBe(4)
+  })
+
+  it('test finish', () => {
+    jest.spyOn(global, 'clearInterval')
+    // TODO 无法 mock setInterval 可能是版本问题
+    // https://stackoverflow.com/questions/68552571/attempting-to-mock-setinterval-in-jest-using-jest-usefaketimers-not-working
+    const timer = 10
+    const wrapper = shallowMount(Demo)
+    wrapper.vm.start()
+    jest.advanceTimersByTime(10_000)
+    setInterval.mockReturnValue(timer)
+
+    wrapper.vm.finish()
+
+    // console.log(wrapper.vm.timer, wrapper.vm.count)
+
+    expect(global.clearInterval).toHaveBeenCalled()
+    expect(global.clearInterval).toHaveBeenCalledTimes(1)
+    // expect(global.clearInterval).toHaveBeenCalledWith(timer)
+  })
+
+  it('better test finish', () => {
+    const wrapper = shallowMount(Demo)
+    wrapper.vm.start()
+    jest.advanceTimersByTime(3000)
+
+    expect(wrapper.vm.count).toBe(3)
+
+    wrapper.vm.finish()
+
+    expect(wrapper.vm.count).toBe(0)
+
+    // 手动编写一个能记住调用次数和参数的 mock 函数
+    const mock = function(...rest) {
+      mock.calls.push(rest)
+    }
+    mock.calls = []
+    mock('a', 'b')
+    mock('c', 'd')
+    expect(mock.calls).toEqual([
+      ['a', 'b'],
+      ['c', 'd'],
+    ])
+
+    const fnMock = jest.fn()
+    fnMock('a', 'b')
+    fnMock('c', 'd')
+    expect(fnMock.mock.calls).toEqual([
+      ['a', 'b'],
+      ['c', 'd'],
+    ])
+
+    expect(fnMock).toHaveBeenCalledTimes(2)
+  })
+})
+```
+
+> jest.spyOn 用于监听某个方法， jest.fn 用于创建一个 mock 函数，可以监听函数的调用次数、参数等。
+
+> 不能监听实际的函数，比如 `jest.spyOn(Demo.methods, 'start')` 。
+
+再看一个监听函数执行的例子：
+
+```JS
+const CallVuePrototypePropDemo = {
+  template: '<div>{{count}}</div>',
+  data: () => ({
+    count: 0,
+  }),
+  mounted() {
+    this.$bar.start()
+  },
+}
+```
+
+> this.$bar.start 是 Vue 原型的一个方法。
+
+测试用例：
+
+```JS
+import {
+  shallowMount
+} from '@vue/test-utils'
+describe('CallVuePrototypePropDemo.vue', () => {
+  it('calls $bar.start on mounted', () => {
+    const $bar = {
+      start: jest.fn(),
+    }
+    shallowMount(CallVuePrototypePropDemo, {
+      mocks: {
+        $bar
+      }
+    })
+    expect($bar.start).toHaveBeenCalled()
+    expect($bar.start).toHaveBeenCalledTimes(1)
+  })
+})
+```
+
+> mocks 选项用于注入一个对象，对象的属性会被添加到 Vue 实例上。
+
+> 通过 `jest.fn()` 创建的 mock 函数，可以监听函数的调用次数、参数等。
+
+## 测试生命周期中调用的函数
+
+有一组件 `CounterDemo` ，在 `mounted` 中调用 `start` ，在 `destroyed` 中调用 `stop` 。
+
+```JS
+const CounterDemo = {
+  template: '<div>{{count}}</div>',
+  data: () => ({
+    count: 0,
+    timer: null,
+  }),
+  mounted() {
+    this.start()
+  },
+  destroyed() {
+    this.stop()
+  },
+  methods: {
+    start() {
+      this.timer = setInterval(() => {
+        this.count += 1
+      }, 1000)
+    },
+    stop() {
+      clearInterval(this.timer)
+    },
+  },
+}
+```
+
+> 组件一挂载就执行 mounted，是自动执行的，因此无法监听 start 的执行。往往通过挂载后的组件视图或者状态来断言 start 是否执行。
+
+比如下面的测试用例无法通过：
+
+```JS
+it('test call start when mounted', () => {
+  // NOTE 监听组件的方法无效，是直觉上想到的，但是不行
+  jest.spyOn(CounterDemo.methods, 'start')
+  const wrapper = shallowMount(CounterDemo)
+
+  expect(wrapper.vm.start).toHaveBeenCalledTimes(1)
+})
+```
+
+或者这样，也不行
+
+```JS
+it('test call start when mounted', () => {
+  const wrapper = shallowMount(CounterDemo)
+  jest.spyOn(wrapper.vm, 'start')
+
+  expect(wrapper.vm.start).toHaveBeenCalledTimes(1)
+})
+```
+
+那如何测试 `mounted` 呢？通过断言组件的状态和方法的调用，这样测试 mounted：
+
+```JS
+it('test call start when mounted', () => {
+  jest.useFakeTimers('legacy')
+  const wrapper = shallowMount(CounterDemo)
+
+  // mounted 之后，timer 不为 null
+  expect(wrapper.vm.timer).not.toBeNull()
+
+  // 向前推进 1 秒，count 为 1
+  jest.advanceTimersByTime(1000)
+  expect(wrapper.vm.count).toBe(1)
+
+  // 再向前推进 9 秒，count 为 10
+  jest.advanceTimersByTime(9_000)
+  expect(wrapper.vm.count).toBe(10)
+})
+```
+
+> 如何测试 destroyed, 测试中组件不会自动销毁，需要手动调用 `wrapper.destroy()` 销毁，因此可监听销毁时方法的执行。
+
+```js
+it('test call stop when destroy', () => {
+  const wrapper = shallowMount(CounterDemo)
+  jest.spyOn(wrapper.vm, 'stop')
+
+  wrapper.destroy()
+
+  expect(wrapper.vm.stop).toHaveBeenCalledTimes(1)
+})
+```
+
+`CounterDemo.spec.js` 的完整代码：
+
+```JS
+import {
+  shallowMount
+} from '@vue/test-utils'
+
+describe('CounterDemo', () => {
+  let wrapper = null
+  beforeEach(() => {
+    jest.useFakeTimers('legacy')
+    wrapper = shallowMount(CounterDemo)
+  })
+
+  it('test call start when mounted', () => {
+    expect(wrapper.vm.timer).not.toBeNull()
+
+    jest.advanceTimersByTime(1000)
+    expect(wrapper.vm.count).toBe(1)
+
+    jest.advanceTimersByTime(9_000)
+    expect(wrapper.vm.count).toBe(10)
+  })
+
+  it('test call stop when destroy', () => {
+    // works well ✅
+    jest.spyOn(wrapper.vm, 'stop')
+
+    wrapper.destroy()
+
+    expect(wrapper.vm.stop).toHaveBeenCalledTimes(1)
+  })
+})
+```
+
+> 把组件挂载和定时器的模拟放在 `beforeEach` 中，简化代码。
+
+> 其他生命周期如何测试呢？
+
+还是通过断言组件的状态， `不要测试生命周期的调用，否则就是在测试 vue` 。
+
 ## 测试异步代码
 
 jest 测试代码是同步的， 在断言之前需要等待异步代码之前完， vue 组件中的异步代码有两种：
@@ -505,9 +825,89 @@ Vue 更新组件和完成 Promise 对象的时机不同。
 
 有时候，组件之间会有协同工作，比如一个组件触发事件，另一个组件监听事件，这时候需要测试这种协同工作是否正确。
 
+## 如何更好的组织测试代码
+
+一个测试套件随着用例的增多，会变得越来越难维护。可以使用 `describe` 分组， `beforeEach` 和 `afterEach` ，在用例执行之前和之后执行同一个操作，比如模拟定时器、挂载组件等。善用工厂函数，减少重复代码。
+
+### 测试用例代码三步走
+
+1. 准备测试环境，比如挂载组件、模拟定时器、测试数据等。
+2. 执行相关操作，比如点击按钮、输入表单等。
+3. 断言结果。
+4. 以上代码，使用`空行`分割，保证可读性。
+
+比如：
+
+```js
+it('fetches async when a button is clicked', async () => {
+  // 1. 准备测试环境
+  axios.get.mockResolvedValue({
+    data: 'value'
+  })
+  const wrapper = shallowMount(Foo)
+
+  // 2. 执行相关操作
+  wrapper.find('button').trigger('click')
+  await flushPromises()
+
+  // 3. 断言结果
+  expect(wrapper.text()).toBe('value')
+})
+```
+
+再比如：
+
+```js
+it('test call stop when destroy', () => {
+  // 1. 准备测试环境
+  const wrapper = shallowMount(CounterDemo)
+  jest.spyOn(wrapper.vm, 'stop')
+
+  // 2. 执行相关操作
+  wrapper.destroy()
+
+  // 3. 断言结果
+  expect(wrapper.vm.stop).toHaveBeenCalledTimes(1)
+})
+```
+
+### 使用 describe 分组
+
+对于一般的组件，可把测试分为三类： `渲染输出` 、 `用户交互` 和 `公共方法` ，可使用 describe 对这三类测试分组。
+
+```js
+describe('DemoVue.vue', () => {
+  describe('渲染输出', () => {
+    it('test render', () => {
+      // ...
+    })
+  })
+  describe('用户交互', () => {
+    it('test click', () => {
+      // ...
+    })
+  })
+  describe('公共方法', () => {
+    it('test add', () => {
+      // ...
+    })
+  })
+})
+```
+
+> 对于生命周期钩子函数，可放在渲染输出来分组里，也可再添加一组。
+
+> store 和 router 的测试，也可使用 describe 分组。
+
+### 测试代码应该放在哪儿
+
+同一放在 `tests/units` 下或者就近放在被测试代码的旁边，比如 `component/HelloSlot.vue` 、 `component/HelloSlot.spec.js` ，在编辑器中使挨着的，方便查看。
+
 ## 参考
 
 [一个关于如何测试 vue 组件的技术演讲--YouTube](https://www.youtube.com/watch?v=OIpfWTThrK8)
+
+[vue 文档关于如何测试](https://cn.vuejs.org/guide/scaling-up/testing.html)
 
 ## 小结
 

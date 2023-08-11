@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-23 01:40:03
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-23 16:27:47
+ * @LastEditTime: 2023-08-11 10:30:04
  * @Description : 测试在生命周期中调用的方法
  */
 import { shallowMount } from '@vue/test-utils'
@@ -31,30 +31,26 @@ const CounterDemo = {
   },
 }
 describe('CounterDemo', () => {
-  // it('test call start when mounted', () => {
-  //   // Matcher error: received value must be a mock or spy function ❌
-  //   jest.spyOn(CounterDemo.methods, 'start')
-  //   const wrapper = shallowMount(CounterDemo)
-  //   expect(wrapper.vm.start).toHaveBeenCalledTimes(1)
-  // })
   let wrapper = null
   beforeEach(() => {
-    wrapper = shallowMount(CounterDemo, {
-      // methods: {
-      //   mounted: CounterDemo.mounted,
-      // },
-    })
+    jest.useFakeTimers('legacy')
+    wrapper = shallowMount(CounterDemo)
   })
-  // it('test call start when mounted', () => {
-  //   jest.spyOn(wrapper.vm, 'start')
-  // wrapper.vm.mounted()
-  //   expect(wrapper.vm.start).toHaveBeenCalledTimes(1)
-  // })
+  it('test call start when mounted', () => {
+    expect(wrapper.vm.timer).not.toBeNull()
+
+    jest.advanceTimersByTime(1000)
+    expect(wrapper.vm.count).toBe(1)
+
+    jest.advanceTimersByTime(9_000)
+    expect(wrapper.vm.count).toBe(10)
+  })
   it('test call stop when destroy', () => {
     // works well ✅
-    const wrapper = shallowMount(CounterDemo)
     jest.spyOn(wrapper.vm, 'stop')
+
     wrapper.destroy()
+
     expect(wrapper.vm.stop).toHaveBeenCalledTimes(1)
   })
 })
