@@ -613,10 +613,10 @@ micromatch@^4.0.4:
     braces "^3.0.2"
     picomatch "^2.3.1"
 
-mitt@^3.0.0, mitt@~3.0.0:
-  version "3.0.0"
-  resolved "https://registry.npmjs.org/mitt/-/mitt-3.0.0.tgz"
-  integrity sha512-7dX2/10ITVyqh4aOSVI9gdape+t9l2/8QxHrFmUXu4EEUpdlxl6RudZUPZoc+zuY2hk1j7XxVroIVIan/pD/SQ==
+mitt@^3.0.0, mitt@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/mitt/-/mitt-3.0.1.tgz"
+  integrity sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==
 
 nanoid@^3.3.6:
   version "3.3.6"
@@ -773,10 +773,10 @@ vite@^4.0.0, vite@^4.1.4:
   optionalDependencies:
     fsevents "~2.3.2"
 
-vitepress-plugin-pagefind@~0.2.4:
-  version "0.2.4"
-  resolved "https://registry.npmjs.org/vitepress-plugin-pagefind/-/vitepress-plugin-pagefind-0.2.4.tgz"
-  integrity sha512-+GtPZcc4lLzf84bzuBR1LdQDqGUak75X7yUgC+IqX3hfwCo3i7GbvGhj6lY13MKrz1vfXh3vhqRXKgtiYW//PA==
+vitepress-plugin-pagefind@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.npmjs.org/vitepress-plugin-pagefind/-/vitepress-plugin-pagefind-0.2.6.tgz"
+  integrity sha512-M3pJ/ILzfZzPFwjfj3pm+1LQ5Of6dH4x+/Czkcg2tgY5C8oi0MRVnpgqOppYk8NFDm07HyDQn3h7fWmhTClEiw==
   dependencies:
     "@vue/shared" "^3.2.45"
     "@vueuse/core" "^9.6.0"

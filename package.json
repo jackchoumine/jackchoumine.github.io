@@ -10,7 +10,7 @@
     "docs-preview": "vitepress preview blog"
   },
   "devDependencies": {
-    "mitt": "~3.0.0",
+    "mitt": "^3.0.1",
     "only-allow": "~1.1.1",
     "vitepress": "~1.0.0-alpha.25"
   },
@@ -26,6 +26,6 @@
   },
   "homepage": "https://github.com/jackchoumine/jack-front#readme",
   "dependencies": {
-    "vitepress-plugin-pagefind": "~0.2.4"
+    "vitepress-plugin-pagefind": "^0.2.6"
   }
 }
