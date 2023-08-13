@@ -73,7 +73,7 @@ npm run test
 
 `coverage` 目录下，生成了各种格式的测试覆盖率报告，有 html 格式的，可以直接在浏览器中打开查看。
 
-> 推荐使用 vscode 扩展 ---- `liver Server` 打开 html 查看。
+> 推荐使用 vscode 扩展 ---- `liver Server` 打开 html，可以实时查看哪些哪些代码没有覆盖到。
 
 ![jest测试覆盖率报告](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/WX20230812-184731@2x.png)
 
