@@ -130,7 +130,206 @@ describe('sum', () => {
 "module": "ES2015" // 修改为 ES2015 希望转换成 ES6 的代码
 ```
 
+## 搭建 react 测试环境
+
+```BASH
+npm i -D webpack webpack-cli webpack-dev-server html-webpack-plugin ts-loader
+
+# React 以及业务
+npm i react@"<18" react-dom@"<18" axios antd classnames
+npm i -D @types/react@"<18" @types/react-dom@"<18"
+npm i -D sass sass-loader style-loader css-loader # 使用 sass
+```
+
+> antd 5 以后，不再使用 less，而是 css-in-js，我想使用 sass，所以安装了 sass 相关的依赖。
+
+添加启动脚本 `package.json`
+
+```json
+{
+  "scripts": {
+    "start": "webpack serve",
+  }
+}
+```
+
+添加 `webpack.config.js` :
+
+```js
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+module.exports = {
+  mode: 'development',
+  entry: {
+    index: './src/main.tsx',
+  },
+  module: {
+    rules: [
+      // 解析 TypeScript
+      {
+        test: /\.(tsx?|jsx?)$/,
+        use: 'ts-loader',
+        exclude: /(node_modules|tests)/,
+      },
+      // 解析 CSS
+      {
+        test: /\.css$/i,
+        use: [{
+          loader: 'style-loader'
+        }, {
+          loader: 'css-loader'
+        }],
+      },
+      // 解析 scss
+      {
+        test: /\.scss$/i,
+        use: [{
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader',
+            // NOTE 不配置
+            // options: {
+            //   modules: {
+            //     mode: resourcePath => {
+            //       if (/pure.css$/i.test(resourcePath)) {
+            //         return 'pure'
+            //       }
+            //       if (/global.css$/i.test(resourcePath)) {
+            //         return 'global'
+            //       }
+            //       return 'local'
+            //     },
+            //   },
+            // },
+          },
+          {
+            loader: 'sass-loader'
+          },
+        ],
+      },
+    ],
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js', '.scss', '.css'],
+    // 设置别名
+    alias: {
+      utils: path.join(__dirname, 'src/utils/'),
+      components: path.join(__dirname, 'src/components/'),
+      assets: path.join(__dirname, 'src/assets/'),
+      apis: path.join(__dirname, 'src/apis/'),
+      hooks: path.join(__dirname, 'src/hooks/'),
+      store: path.join(__dirname, 'src/store/'),
+    },
+  },
+  devtool: 'inline-source-map',
+  // 3000 端口打开网页
+  devServer: {
+    static: './dist',
+    port: 3000,
+    hot: true,
+    open: true,
+  },
+  // 默认输出
+  output: {
+    filename: 'index.js',
+    path: path.resolve(__dirname, 'dist'),
+    clean: true,
+  },
+  // 指定模板 html
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+    }),
+  ],
+}
+```
+
+添加 `src/main.tsx` :
+
+```tsx
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+import 'assets/main.scss'
+
+ReactDOM.render(<App />, document.querySelector('#root'))
+```
+
+添加 `src/App.tsx` :
+
+```tsx
+import React from 'react'
+import { Button } from 'antd'
+import classnames from 'classnames'
+import { sum } from 'utils'
+
+const App = () => {
+  const h1ClassNames = classnames('h1-title hello')
+  const result = sum(1, 2)
+  return (
+    <div>
+      <h1 className={h1ClassNames}>Hello,{result}</h1>
+      <Button>点我</Button>
+    </div>
+  )
+}
+
+export default App
+```
+
+添加 `assets/main.scss` :
+
+```scss
+// src/assets/main.scss
+body {
+  background-color: antiquewhite;
+  .h1-title {
+    font-size: 40px;
+    margin: 0;
+  }
+}
+```
+
+添加 `public/index.html` :
+
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>React App</title>
+</head>
+
+<body>
+  <div id="root"></div>
+</body>
+
+</html>
+```
+
+`tsconfig.json` 添加路径映射
+
+```json
+{
+  "moduleResolution": "NodeNext",
+  "baseUrl": "./src",
+  "paths": {
+    "utils/*": ["utils/*"],
+    "assets/*": ["assets/*"],
+    "components/*": ["components/*"],
+    "apis/*": ["apis/*"],
+    "hooks/*": ["hooks/*"],
+    "store/*": ["store/*"]
+  },
+}
+```
+
+执行 `npm start` 启动项目，能启动成功，说明环境搭建成功。
+
 ## 小结
 
-* 搭建 jest  + ts 测试环境；
+* 搭建 jest  + ts + react 测试环境；
 * 编写了第一个测试用例。
