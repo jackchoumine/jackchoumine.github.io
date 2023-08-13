@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack serve",
+    "local-server": "json-server --watch db.json --port 3001",
     "test": "jest"
   },
   "keywords": [],
@@ -19,6 +20,7 @@
     "html-webpack-plugin": "~5.5.3",
     "jest": "~27.5.1",
     "jest-transform-stub": "~2.0.0",
+    "json-server": "~0.17.3",
     "sass": "~1.65.1",
     "sass-loader": "~13.3.2",
     "style-loader": "~3.3.3",
