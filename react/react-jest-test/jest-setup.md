@@ -4,11 +4,26 @@
 
 ```BASH
 npm init -y
+```
+
+> 添加 `src/.npmrc`
+
+```bash
+# save-exact 的优先级更加高
+# save-exact=true
+# 相似版本
+save-prefix=~
+registry=https://registry.npmmirror.com/
+```
+
+> 指定项目的 `npmrc` 只是个人习惯，不是必须的。
+
+```BASH
 npm i -D jest@27.5.1
 npx jest --init # 初始化 jest 配置
 ```
 
-我的选项：
+我的 jest 选项：
 
 ```BASH
 ✔ Would you like to use Typescript for the configuration file? … no
@@ -66,7 +81,56 @@ npm run test
 
 `npm run test` 会运行所有测试，但是我们可能只想运行当前文件的测试，或者只想运行当前光标所在的测试，可安装 vscode 插件 `Jest Runner` ，得到更好的测试体验。
 
+## 配置 ts
+
+```BASH
+npm i -D typescript@">=3.8 <5.0" ts-jest@27.1.5 @types/jest@27.5.2
+```
+
+> 指定版本安装，避免安装最新版本，导致兼容性问题。
+
+修改 `sum.js` 为 `sum.ts` :
+
+```ts
+// src/utils/sum.ts
+function sum(a: number, b: number) {
+  return a + b
+}
+
+export { sum }
+```
+
+修改 `sum.test.js` 为 `sum.test.ts` :
+
+```ts
+// src/utils/sum.test.ts
+import { sum } from './sum'
+
+describe('sum', () => {
+  it('可以做加法', () => {
+    expect(sum(1, 1)).toEqual(2)
+  })
+})
+```
+
+修改 `jest.config.js` :
+
+```js
+{
+  // 配置 ts 转化器
+  "preset": "ts-jest",
+}
+```
+
+执行 `npm run test` 检查环境是否配置成功。
+
+> 修改 `tsconfig.json` ，可选的
+
+```json
+"module": "ES2015" // 修改为 ES2015 希望转换成 ES6 的代码
+```
+
 ## 小结
 
-* 搭建 jest 测试环境；
+* 搭建 jest  + ts 测试环境；
 * 编写了第一个测试用例。

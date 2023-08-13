@@ -2,10 +2,10 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-12 18:23:07
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-12 18:37:50
+ * @LastEditTime: 2023-08-12 19:37:43
  * @Description :
  */
-const sum = require('./sum')
+import { sum } from './sum'
 
 describe('sum', () => {
   it('可以做加法', () => {
