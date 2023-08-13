@@ -663,3 +663,18 @@ describe('HttpTest', () => {
 [A guide to module mocking with Jest](https://www.emgoto.com/mocking-with-jest/)
 
 [How to mock imported functions with Jest](https://dev.to/dstrekelj/how-to-mock-imported-functions-with-jest-3pfl)
+
+## jest 命令行
+
+```bash
+jest ---watch # 监听文件变化，只运行变化的文件中的用例 必须使用 git 管理文件
+jest --watchAll # 监听文件变化，运行所有用例
+jest --coverage # 生成测试覆盖率报告
+jest --coverage --watchAll # 生成测试覆盖率报告，监听文件变化
+# 在命令行按`w` 可选择模式 
+# a watchAll 模式
+# o watch 模式
+# f 只运行失败的用例
+# t 按测试用例名运行用例
+# p 按文件名运行用例
+```
