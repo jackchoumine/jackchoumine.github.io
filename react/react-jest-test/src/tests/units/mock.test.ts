@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-14 01:06:16
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-14 01:59:07
+ * @LastEditTime: 2023-08-14 02:49:17
  * @Description :
  */
 import { runCallBack } from './mock'
@@ -17,6 +17,8 @@ jest.mock('axios')
 // https://www.csrhymes.com/2022/03/09/mocking-axios-with-jest-and-typescript.html
 const mockedAxios = axios as jest.Mocked<typeof axios>
 
+// NOTE 导入模拟模块中的真实函数
+// const {getRealFunction} = jest.requireActual('axios')
 describe('学习各种mock', () => {
   describe('mock 函数', () => {
     let func: any
@@ -73,7 +75,7 @@ describe('学习各种mock', () => {
   describe('mock 模块', () => {
     it('mock axios resolve', async () => {
       const data = {
-        id: 120,
+        id: 121,
       }
       // NOTE mockResolvedValueOnce 只能监听一次
       // 固定的返回值，多次调用都是这个返回值
