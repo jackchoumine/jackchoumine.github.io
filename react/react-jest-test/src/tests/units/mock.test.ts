@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-14 01:06:16
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-14 02:49:17
+ * @LastEditTime: 2023-08-14 02:52:14
  * @Description :
  */
 import { runCallBack } from './mock'
@@ -17,6 +17,9 @@ jest.mock('axios')
 // https://www.csrhymes.com/2022/03/09/mocking-axios-with-jest-and-typescript.html
 const mockedAxios = axios as jest.Mocked<typeof axios>
 
+// mock reference
+// https://jestjs.io/docs/mock-functions#mock-return-values
+// jest 对象
 // NOTE 导入模拟模块中的真实函数
 // const {getRealFunction} = jest.requireActual('axios')
 describe('学习各种mock', () => {
