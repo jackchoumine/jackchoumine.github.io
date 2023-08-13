@@ -329,7 +329,78 @@ body {
 
 执行 `npm start` 启动项目，能启动成功，说明环境搭建成功。
 
+## 测试一个 react 组件
+
+新建组件
+```tsx 
+// src/components/HelloJest.tsx
+import React from 'react'
+
+function HelloJest({ name = 'Hello Jest' }: { name?: string } = {}) {
+  return <div className='hello-jest'>{name}!</div>
+}
+
+export { HelloJest }
+
+```
+测试用例：
+```tsx
+// src/components/HelloJest.test.tsx
+import { render, screen } from '@testing-library/react'
+import React from 'react'
+import { HelloJest } from './HelloJest'
+
+describe('HelloJest.tsx', () => {
+  it('可以正常展示', () => {
+    render(<HelloJest />)
+
+    const helloJest = screen.getByText(/Hello Jest/i)
+
+    expect(helloJest).toBeDefined()
+  })
+})
+```
+
+运行测试，通过。
+
+给 HelloJest 添加样式：
+
+```scss
+// src/components/HelloJest.scss
+.hello-jest {
+  color: red;
+  background-color: cornsilk;
+}
+```
+
+引入
+
+```tsx
+// src/components/HelloJest.tsx
+import './HelloJest.scss'
+```
+
+运行测试，报错，提示识别不到 scss。
+
+安装转换器
+
+```bash
+npm i -D jest-transform-stub
+```
+
+配置 `jest.config.js` 的 transform:
+
+```js
+{
+  transform: {
+    '.+\\.(css|style|less|sass|scss|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub',
+  }
+},
+```
+
+在运行测试，不再报错。
+
 ## 小结
 
-* 搭建 jest  + ts + react 测试环境；
+* 搭建 jest  + ts + react + sass 测试环境；
 * 编写了第一个测试用例。
