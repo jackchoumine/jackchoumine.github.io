@@ -68,7 +68,7 @@ describe('ModalDemo.vue', () => {
 
 在 Vue Test Utils 中，每个**包装器**都有一个 `trigger` 方法，用于在包装元素上触发一个合成事件。
 
-> 合成事件是在 JavaScript 中创建的事件。实际上，合成事件的处理方式与浏览器分发事件的方式相同。区别在于原生事件通过 JavaScript 事件循环异步调用事件处理程序，合成事件则是同步调用事件处理程序。
+> 合成事件是在 JavaScript 中创建的事件。实际上，合成事件的处理方式与浏览器分发事件的方式相同。区别在于原生事件通过 JavaScript **事件循环**异步调用事件处理程序，合成事件则是同步调用事件处理程序。
 
 > onClose 传递一个模拟函数，传递真实的函数，会导致测试失败，这点有点奇怪。
 
@@ -76,9 +76,11 @@ describe('ModalDemo.vue', () => {
 
 自定义事件，对子组件来说，是输出事件，对父组件来说，是输入。
 
-组件触发的自定义事件，自定义事件是组件的契约的一部分，所以需要测试。
+### 三种方法测试自定义事件
 
-测试方法：vue-test-utils 提供了一个 `emitted` 方法，返回一个**二维数组**，包含事件抛出数据。
+1. 模拟用户交互，使用用原生事件触发自定义事件
+
+vue-test-utils 提供了一个 `emitted` 方法，可获取到组件上触发的自定义事件。
 
 单击关闭按钮，触发 `close-modal` 事件。
 
@@ -98,7 +100,7 @@ it('test custom event', () => {
 expect(wrapper.emitted()['close-modal']).toHaveLength(1)
 ```
 
-上面的用例是找到组件中的按钮，触发一个原生事件，测试原生事件的处理器是否触发一个自定义事件。还可以直接通过组件实例调用方法，触发自定义事件。
+2. 直接通过组件实例调用方法，触发自定义事件
 
 ```js
 wrapper.vm.closeModal()
@@ -106,7 +108,7 @@ wrapper.vm.closeModal()
 
 > 直接调用，简便得多，不需要找到按钮，也不需要触发原生事件。
 
-测试自定义事件的第三种方法，使用 `call` 模拟 `this.$emit` ，使用 `events` 模拟 `wrapper.emitted` 的返回值。
+3. 使用 `call` 模拟 `this.$emit` ，使用 `events` 模拟 `wrapper.emitted` 的返回值。
 
 ```js
 it('test custom event  by call', () => {
@@ -171,8 +173,6 @@ it('test custom event payload 2', () => {
 ```
 
 > 把用例的名字吧，改成 `test custom event payload 2` ，只希望单独运行这个用例，名字不能重复。
-
-> 组件还没触发 `my-event` ，emitted 的值是 `undefined` 。
 
 现在触发 `my-event` 事件:
 
@@ -582,7 +582,7 @@ jsdom 中没有页面的概念，因此你无法创建请求并导航到其他�
 
 * 学习了如何模拟，以测试 http 接口。
 
-* `trigger`、`setValue`、`setChecked`方法都是异步的，需要使用`await`等待DOM更新，再断言。
+* `trigger`、`setValue`、`setChecked`方法都是异步的，需要使用`await`等待 DOM 更新，再断言。
 
 * 使用`jest.objectContaining`断言对象，测试代码更加健壮。
 
