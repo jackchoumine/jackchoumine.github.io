@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack serve",
     "local-server": "json-server --watch db.json --port 3001",
-    "test": "jest --watch"
+    "test:w": "jest --watch",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",

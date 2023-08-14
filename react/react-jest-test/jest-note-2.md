@@ -202,6 +202,25 @@ describe('storage', () => {
 
 ![](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/WX20230813-170138@2x.png)
 
+> 粉红色表示未覆盖的语句，黄色表示未覆盖的分支。
+> 行号旁边的 nx，表示这行代码执行过几次。
+> 是否生成测试报告和统计哪些文件的覆盖率，可从 `jest.config.js` 配置：
+
+```JS
+{
+  collectCoverage: true, // 是否生成测试报告
+  collectCoverageFrom: [ // 统计哪些文件的覆盖率
+    './src/**/*.{js,jsx,ts,tsx}',
+    '!./src/apis/**',
+    '!./src/**/*/index.{ts,tsx,js,jsx}',
+    '!./src/**/*.d.ts',
+    '!./src/App.tsx',
+    '!./src/main.tsx',
+    '!**/node_modules/**',
+  ],
+}
+```
+
 报告显示，几个异常分支没有覆盖到，我们来补充测试用例，再嵌套一个 `describe('设置错误的 type')` ：
 
 ```JS
