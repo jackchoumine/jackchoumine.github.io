@@ -275,11 +275,11 @@ describe('ContractList.vue', () => {
 
 增加一个 fortune 字段，但是组件上没有用到，测试用例不通过，如何修改断言让它通过呢？
 
-> 最好别这样做，否则人家不知道的组件 props 到底是什么。
+> 最好别这样做，否则你的队友不知道组件 props 到底是什么。
 
-传递为声明的 prop，会怎样？
+传递未声明的 prop，会怎样？
 
-删除 `ContractItem` 的 `city` ，而仍然传递 `city` ，看看效果。
+删除 `ContractItem` 的 `city` ，而仍然传递 `city` ，运行测试。
 
 `it('测试 props')` 用例失败，提示 props 缺少 city。
 
