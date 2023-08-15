@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-13 13:15:58
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-13 16:36:40
+ * @LastEditTime: 2023-08-15 11:40:11
  * @Description : localStorage 和 sessionStorage 的封装
  */
 const KEY_NAME = 'my-app-' as const
@@ -10,6 +10,7 @@ const KEY_NAME = 'my-app-' as const
 type StorageType = 'local' | 'session'
 
 function set<V = unknown>(key: string, value: V, type: StorageType = 'session') {
+  if (!key || typeof key !== 'string') throw new Error('必须有一个字符串参数 key')
   const jsonValue = JSON.stringify(value)
   if (type === 'local') {
     localStorage.setItem(key, jsonValue)
@@ -32,20 +33,22 @@ function set<V = unknown>(key: string, value: V, type: StorageType = 'session') 
   // 3， 函数
 }
 
-function get(key: string, type: StorageType = 'session') {
+function get<V = string | null | unknown>(key: string, type: StorageType = 'session'): V {
+  if (!key || typeof key !== 'string') throw new Error('必须有一个字符串参数 key')
+
   if (type === 'local') {
     try {
       let value = JSON.parse(localStorage.getItem(key)!)
       return value
     } catch (error) {
-      return localStorage.getItem(key)
+      return localStorage.getItem(key) as any
     }
   } else if (type === 'session') {
     try {
       let value = JSON.parse(sessionStorage.getItem(key)!)
       return value
     } catch (error) {
-      return sessionStorage.getItem(key)
+      return sessionStorage.getItem(key) as any
     }
   } else {
     throw new Error('不支持的存储类型')
@@ -63,6 +66,7 @@ function clear(type: StorageType = 'session') {
 }
 
 function remove(key: string, type: StorageType = 'session') {
+  if (!key || typeof key !== 'string') throw new Error('必须有一个字符串参数 key')
   if (type === 'local') {
     localStorage.removeItem(key)
   } else if (type === 'session') {
