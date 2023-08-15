@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-16 01:27:18
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-16 02:41:59
+ * @LastEditTime: 2023-08-16 02:50:23
  * @Description :
  */
 import exportObj, { sum } from './mockExportObj'
@@ -36,6 +36,14 @@ describe('mock 模块默认对象', () => {
 
     // 直接断言执行次数，不用 jest.spyOn
     expect(sum).toHaveBeenCalledTimes(1)
+  })
+  it('重写命名导出', () => {
+    // @ts-ignore
+    sum.mockImplementation((a, b) => a / b)
+
+    expect(sum(4, 2)).toBe(2)
+    expect(sum).toHaveBeenCalledTimes(1)
+    expect(sum).toHaveBeenCalledWith(4, 2)
   })
   it('重写模块中的某个函数', () => {
     jest.spyOn(exportObj, 'say')
