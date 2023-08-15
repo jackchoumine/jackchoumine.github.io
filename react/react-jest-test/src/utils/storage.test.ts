@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-12 18:23:07
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-13 17:13:03
+ * @LastEditTime: 2023-08-15 11:51:38
  * @Description :
  */
 import { storage } from './storage'
@@ -143,6 +143,25 @@ describe('storage', () => {
     })
     it('storage.clear throw', () => {
       expect(() => storage.clear('errorType' as any)).toThrowError()
+    })
+  })
+  describe('没有提供 key', () => {
+    it('storage.set() throw', () => {
+      expect(() => storage.set('', 'value')).toThrowError()
+      expect(() => storage.set(undefined as any, 'value')).toThrowError()
+      expect(() => storage.set(null as any, 'value')).toThrowError()
+    })
+    it('storage.get() throw', () => {
+      expect(() => storage.get('', 'session')).toThrowError()
+      expect(() => storage.get(undefined as any, 'session')).toThrowError()
+      expect(() => storage.get(null as any, 'session')).toThrowError()
+      expect(() => storage.get(1 as any, 'session')).toThrowError()
+    })
+    it('storage.remove() throw', () => {
+      expect(() => storage.remove('', 'session')).toThrowError()
+      expect(() => storage.remove(undefined as any, 'session')).toThrowError()
+      expect(() => storage.remove(null as any, 'session')).toThrowError()
+      expect(() => storage.remove(1 as any, 'session')).toThrowError()
     })
   })
 })
