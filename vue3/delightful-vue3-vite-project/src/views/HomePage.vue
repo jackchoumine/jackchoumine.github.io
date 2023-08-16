@@ -1,8 +1,8 @@
 <!--
   * @Date        : 2022-08-08 14:23:25
   * @Author      : ZhouQijun
-  * @LastEditors : JackChou
-  * @LastEditTime: 2023-02-01 21:41:53 +0800
+ * @LastEditors : ZhouQiJun
+ * @LastEditTime: 2023-08-16 19:14:48
   * @Description : 
 -->
 <script setup lang="tsx">
@@ -35,8 +35,8 @@ onMounted(() => {
 })
 setTimeout(() => {
   console.log(helloWorld.value)
-  console.log(helloWorld.value.exposeVar)
-  console.log(helloWorld.value.count)
+  // console.log(helloWorld.value.exposeVar)
+  // console.log(helloWorld.value.count)
   // helloWorld.value.modalIsOpen = true
 }, 2000)
 function onClick(params) {

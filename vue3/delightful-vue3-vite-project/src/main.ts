@@ -2,7 +2,7 @@
  * @Date        : 2022-08-08 14:23:25
  * @Author      : ZhouQijun
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-06-14 20:50:50
+ * @LastEditTime: 2023-08-16 19:12:33
  * @Description :
  */
 // import { default as jackComponents }from '@jack/components'
@@ -54,6 +54,8 @@ import router from './routers'
 import piniaStore from './stores'
 
 import './assets/styles/global.scss'
+
+console.log(piniaStore, 'zqj log')
 
 customElements.define('count-to', CountTo as unknown as CustomElementConstructor)
 customElements.define('line-chart', ELineChart as unknown as CustomElementConstructor)
