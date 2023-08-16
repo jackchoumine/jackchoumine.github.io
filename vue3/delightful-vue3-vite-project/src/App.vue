@@ -2,16 +2,20 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-03-13 20:21:08
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-05-06 01:19:37
+ * @LastEditTime: 2023-08-16 20:43:42
  * @Description : 
 -->
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 
+import { DialogContainer } from '@/components/PiniaDemos'
 import { useEvent, useEventBus } from '@/hooks'
+import { useTodosStore } from '@/stores'
 
 import { generateRoutes } from './routers'
 import { USER_KEY } from './utils/injectionKey'
+
+const todosStore = useTodosStore()
 
 // const { emit } = useEventBus()
 const { on } = useEvent()
@@ -24,6 +28,10 @@ on('ant-btn-mounted', (name: string) => {
 </script>
 
 <template>
+  <DialogContainer
+    :dialogs="todosStore.dialog.items"
+    :front-dialog="todosStore.dialog.frontDialog"
+    :z-index="todosStore.dialog.zIndex" />
   <header>
     <QTabs no-caps class="bg-primary text-white shadow-2">
       <QRouteTab
@@ -47,7 +55,7 @@ header {
   min-width: 100%;
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   header {
     display: flex;
     place-items: center;

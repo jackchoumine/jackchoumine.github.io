@@ -2,11 +2,13 @@
  * @Description : 导出全局状态
  * @Date        : 2023-01-05 01:19:05 +0800
  * @Author      : JackChou
- * @LastEditTime: 2023-06-20 01:37:10
+ * @LastEditTime: 2023-08-16 19:33:51
  * @LastEditors : ZhouQiJun
  */
 import type { PiniaPluginContext } from 'pinia'
 import { createPinia } from 'pinia'
+
+import dialogPlugin from './plugin_dialog'
 
 export { useCounter } from './counter'
 export { useTodosStore } from './todos'
@@ -88,6 +90,6 @@ function piniaPlugin3({ store }) {
   )
 }
 // 将该插件交给 Pinia
-piniaStore.use(piniaPlugin).use(piniaPlugin2).use(piniaPlugin3)
+piniaStore.use(piniaPlugin).use(piniaPlugin2).use(piniaPlugin3).use(dialogPlugin())
 
 export default piniaStore

@@ -6,7 +6,13 @@
  * @LastEditors : ZhouQiJun
 -->
 <script setup lang="ts">
-import { CounterDemo, PetsDemo, SignupDemo, TodosDemo } from '@/components/PiniaDemos'
+import {
+  CounterDemo,
+  DialogDemo,
+  PetsDemo,
+  SignupDemo,
+  TodosDemo,
+} from '@/components/PiniaDemos'
 </script>
 
 <template>
@@ -18,6 +24,7 @@ import { CounterDemo, PetsDemo, SignupDemo, TodosDemo } from '@/components/Pinia
     <!-- <PetsDemo /> -->
     <hr />
     <SignupDemo />
+    <DialogDemo />
   </div>
 </template>
 
