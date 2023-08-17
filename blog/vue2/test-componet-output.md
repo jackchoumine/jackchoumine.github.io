@@ -148,7 +148,7 @@ expect(wrapper.attributes('id')).toBe('app')
   })
 ```
 
-## 测试组件的数量
+## 测试子组件的数量
 
 `findAll` 在渲染输出中搜索与选择器匹配的节点，并返回一个包含匹配节点的包装器的类数组对象。
 
@@ -205,11 +205,15 @@ describe('ContractList.vue', () => {
 
 少用 Boolean 断言，因为 Boolean 断言失败时，输出的信息只有一个 true 或者 false。
 
-> 用 toBeTruthy() 代替 toBe(true)
+> 用 toBeTruthy() 代替 toBe(true)，或者使用其他非 Boolean 断言。
+
+比如 `except(wrapper.attributes().href===someValue).toBe(true)` , 当测试用例失败时，无法查看 href 的具体值，对排查问题不友好。改成这个断言，失败时会有更加的具体的信息。
+
+ `except(wrapper.attributes().href).toBe(someValue)`
 
 > 模拟最小环境的原则
 
-通常在测试环境中，你需要将模拟数据传递给组件或函数。而在生产环境中，这个数据可能是具有许多属性的庞大对象。庞大对象使得测试更复杂难读，你应始终传递测试所需的最少数据。
+通常在测试环境中，需要将**模拟数据**传递给组件或函数。而在生产环境中，这个数据可能是具有许多属性的庞大对象。庞大对象使得测试更复杂难读，你应始终传递测试所需的最少数据。
 
 ## 测试 props
 
@@ -431,6 +435,8 @@ it('test inline style', () => {
 })
 ```
 
+> **只有**元素**有内联样式**，使用 `dom.style` 才能获取到 DOM 的样式属性，否则所有样式属性值为 `''` 。
+
 ## 何时测试组件的输出
 
 测试代码应该遵循使用最小的代码来测试最小的功能的原则，即**测试代码应该尽可能简单**，再能覆盖所有功能的情况，用例要最少。
@@ -443,6 +449,18 @@ it('test inline style', () => {
 
 比如，索引为 2 的组件，有一个为 `item-2` 的 class，就应该测试。
 
-* 仅测试组件契约部分的输出。
+* 仅测试组件契约部分的输出
+
+测试内容是契约的一部分，那么牺牲代码的耦合性也是值得的。
 
 ## 小结
+
+1. vue-test-uitls 提供的方法，text、attributes、props、class 等可测试组件渲染文本、DOM 属性，props 和样式。
+
+2. find 和 findAll 用于查找元素。
+
+3. findComponent 和 findAllComponents 用于查找子组件。
+
+4. 测试最小原则：仅测试动态内容和组件契约的输出，以减少代码耦合度和工作量。
+
+5. 尽可能避免使用 toBe(Boolean)断言，因为它在测试失败时，无法给出明确的错误信息。
