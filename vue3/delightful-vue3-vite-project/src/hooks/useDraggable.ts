@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-26 19:01:00
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-27 16:00:52
+ * @LastEditTime: 2023-08-17 11:14:28
  * @Description : 拖拽元素 hook
  */
 import type { VNodeRef } from 'vue'
@@ -102,15 +102,15 @@ function useDraggable(
     if (bottom !== 'auto') positionEle.value.style.bottom = 'auto'
 
     moveAt(event)
-    // 禁用原生的拖拽事件
+    // NOTE 禁用原生的拖拽事件
     dragEle.value.addEventListener('dragstart', disableDrag)
+    // NOTE 拖拽时禁止选中文本
+    document.body.style.userSelect = 'none'
 
     dragEleInitCursor = dragEle.value.style.cursor
     dragEle.value.style.cursor = 'move'
     initTransition = transition
     positionEle.value.style.transition = 'all 0 ease'
-
-    document.body.style.userSelect = 'none'
   }
   function onMove(event) {
     moveAt(event)
@@ -118,11 +118,11 @@ function useDraggable(
   function onMouseup() {
     document.removeEventListener('mousemove', onMove)
     dragEle.value.removeEventListener('dragstart', disableDrag)
+    document.body.style.userSelect = ''
 
     positionEle.value.style.transition = initTransition
     dragEle.value.style.cursor = dragEleInitCursor
 
-    document.body.style.userSelect = ''
     dragging.value = false
   }
 

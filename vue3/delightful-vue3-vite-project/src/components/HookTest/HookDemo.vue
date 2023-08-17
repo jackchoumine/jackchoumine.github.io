@@ -2,7 +2,7 @@
  * @Date        : 2022-11-10 11:35:34
  * @Author      : ZhouQiJun
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-27 09:04:05
+ * @LastEditTime: 2023-08-17 11:10:44
  * @Description : 
 -->
 <script setup lang="ts">
@@ -55,8 +55,16 @@ useTabChange(hidden => {
     <h4>useHover</h4>
     <UseHoverDemo />
     <h4>useTabChange</h4>
-    <audio ref="audio" controls src="https://mdn.github.io/webaudio-examples/audio-basics/outfoxing.mp3"></audio>
+    <audio
+      ref="audio"
+      controls
+      src="https://mdn.github.io/webaudio-examples/audio-basics/outfoxing.mp3"></audio>
     <h3>组合函数例子</h3>
+    <img
+      src="https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/front-end-test.png"
+      alt=""
+      width="200"
+      height="200" />
     <SimpleCounter />
     <SimpleCounter3 />
     <h3>在条件语句下使用组合函数</h3>
