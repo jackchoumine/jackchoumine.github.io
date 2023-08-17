@@ -2,13 +2,14 @@
  * @Description : 
  * @Date        : 2023-01-05 01:33:43 +0800
  * @Author      : JackChou
- * @LastEditTime: 2023-06-19 23:42:05
+ * @LastEditTime: 2023-08-17 10:21:03
  * @LastEditors : ZhouQiJun
 -->
 <script setup lang="ts">
 import {
   CounterDemo,
   DialogDemo,
+  NativeDialog,
   PetsDemo,
   SignupDemo,
   TodosDemo,
@@ -25,6 +26,7 @@ import {
     <hr />
     <SignupDemo />
     <DialogDemo />
+    <NativeDialog />
   </div>
 </template>
 
