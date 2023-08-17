@@ -2,7 +2,7 @@
  * @Date        : 2022-11-04 10:05:28
  * @Author      : ZhouQiJun
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-05-25 14:19:00
+ * @LastEditTime: 2023-08-18 01:57:44
  * @Description : 监听 reactive
 -->
 <template>
@@ -41,9 +41,9 @@ watch(
   () => person,
   newPerson => {
     console.log('watch reactive ()=> person ', newPerson)
-    alert(
-      `person.name = ${person.name};person.age = ${person.age};person.deep.city = ${person.deep.city}`
-    )
+    // alert(
+    //   `person.name = ${person.name};person.age = ${person.age};person.deep.city = ${person.deep.city}`
+    // )
   }
   //   // {
   //   //   deep: true,
@@ -55,10 +55,10 @@ watch(
 watch(
   () => ({ ...person }),
   newPerson => {
-    console.log('watch reactive ()=> ({ ...person })', newPerson)
-    alert(
-      `person.name = ${newPerson.name};person.age = ${newPerson.age};person.deep.city = ${newPerson.deep.city}`
-    )
+    // console.log('watch reactive ()=> ({ ...person })', newPerson)
+    // alert(
+    //   `person.name = ${newPerson.name};person.age = ${newPerson.age};person.deep.city = ${newPerson.deep.city}`
+    // )
   }
   // {
   //   deep: true,
@@ -78,12 +78,12 @@ watch(
 // 监听整个 reactive ok
 // reactive,所有属性都是响应式的，嵌套属性修改依然可监听到。不需要 deep
 // shallowReactive, 只有第一层属性是响应式的，嵌套属性修 vue 检测不到，即是添加 {deep: true} 也不行
-watch(person, newPerson => {
-  console.log(newPerson, 'watch(person, zqj log')
-  alert(
-    `person.name = ${person.name};person.age = ${person.age};person.deep.city = ${person.deep.city}`
-  )
-})
+// watch(person, newPerson => {
+//   console.log(newPerson, 'watch(person, zqj log')
+//   // alert(
+//   //   `person.name = ${person.name};person.age = ${person.age};person.deep.city = ${person.deep.city}`
+//   // )
+// })
 //  NOTE 这样监听不到
 // watch(person.name, name => {
 //   alert(
@@ -103,6 +103,48 @@ watch(person, newPerson => {
 // 使用函数返回整个 reactive  watch(()=>({..person}))
 // 监听 reactive 的单个属性，使用函数返回，监听多个属性，使用数组
 // watch(person.age) watch([()=>person.age,()=>person.name])
+console.log('-------->', 'zqj log')
+watchEffect(onCleanup => {
+  const refPerson = toRefs(person)
+  console.log(refPerson, 'zqj log toRefs')
+  onCleanup(() => {
+    console.log('onCleanup', 'zqj log')
+  })
+})
+watchEffect(
+  () => {
+    const refPerson = toRefs(person)
+    console.log(refPerson, 'zqj log toRefs  deep: true')
+  },
+  {
+    deep: true,
+  }
+)
+watchEffect(() => {
+  console.log(person, 'zqj log')
+})
+watchEffect(
+  () => {
+    console.log(person, 'zqj log deep: true')
+  },
+  {
+    deep: true,
+  }
+)
+watchEffect(() => {
+  const city = person.deep.city
+  console.log(city, 'zqj log')
+})
+setTimeout(() => {
+  console.log('2秒后，person.deep.city = "Beijing"')
+  person.deep.city = 'Beijing'
+}, 2000)
+setTimeout(() => {
+  console.log('4秒后，person.deep = {city:"Beijing"}')
+  person.deep = {
+    city: 'ChengDu',
+  }
+}, 4000)
 </script>
 
 <style lang="scss"></style>

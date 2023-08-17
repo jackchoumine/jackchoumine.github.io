@@ -2,7 +2,7 @@
  * @Date        : 2022-11-04 09:38:33
  * @Author      : ZhouQiJun
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-05-25 14:27:43
+ * @LastEditTime: 2023-08-18 01:23:51
  * @Description : 简单组合监听
 -->
 <template>
@@ -35,7 +35,7 @@ function changePerson() {
 watch(
   () => name.value,
   value => {
-    alert(`新name: ${value}`)
+    alert(`() => name.value, 新name: ${value}`)
   }
 )
 //   watch(age, value => {
@@ -45,7 +45,7 @@ watch(
 watch(
   () => [name, age],
   ([name, age]) => {
-    alert(`name: ${name.value}, age: ${age.value}`)
+    alert(`() => [name, age], name: ${name.value}, age: ${age.value}`)
   }
 )
 // ok
@@ -54,11 +54,11 @@ watch(
 //   })
 // NOTE
 // ()=> name.value 实际上是计算属性，不要这么监听
-watch([() => name.value, age], ([newName, newAge], [oldName, oldAge]) => {
+watch([name, age], ([newName, newAge], [oldName, oldAge]) => {
   console.log('watch ref')
   console.log(newName, newAge)
   console.log(oldName, oldAge)
-  alert(`name: ${newName}, age: ${newAge}`)
+  alert(`[name, age] name: ${newName}, age: ${newAge}`)
 })
 // NOTE最佳实践
 // 监听单个 ref 直接写，监听多个 ref，使用数组

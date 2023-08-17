@@ -1,5 +1,7 @@
 # vue3 学习总结
 
+### [vue3 watch 和 watchEffect 最佳实践](./vue3-watch-best-practice.md)
+
 ### [vue3 组件测试](./vue3组件测试.md)
 
 ### [一些杂问题](./一些杂问题.md)

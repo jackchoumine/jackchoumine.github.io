@@ -2,7 +2,7 @@
  * @Date        : 2022-10-17 09:27:13
  * @Author      : ZhouQiJun
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-04-09 16:26:53
+ * @LastEditTime: 2023-08-17 22:21:40
  * @Description : 
 -->
 <script>
@@ -75,7 +75,7 @@ export default {
     <br />
     <button v-auth="'li'">无权限删除</button>
     <br />
-    <button @click="openModal">Open Modal</button>
+    <button @click.stop="openModal">Open Modal</button>
     <br />
     <ElButton type="primary" v-auth="'hello'">el按钮</ElButton>
     <Modal :isOpen="modalIsOpen" @close-modal="onModalClose"> My Modal !!!! </Modal>

@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-02-13 09:04:55
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-02-16 09:11:43
+ * @LastEditTime: 2023-08-18 02:45:54
  * @Description : 封装 http 请求
  */
 import type { AxiosRequestConfig, AxiosInstance, AxiosError } from 'axios'
@@ -45,9 +45,13 @@ http.interceptors.response.use(
   }
 )
 
-async function get<R = any>(url: string, params?: Record<string, unknown>) {
+async function get<R = any>(
+  url: string,
+  params?: Record<string, unknown>,
+  restParams = {}
+) {
   try {
-    const data = await http.get<void, R>(url, { params })
+    const data = await http.get<void, R>(url, { params, ...restParams })
     return Promise.resolve([null, data] as [null, R])
   } catch (err) {
     return Promise.resolve([err, null] as [AxiosError, null])

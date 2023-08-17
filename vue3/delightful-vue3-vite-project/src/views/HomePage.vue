@@ -2,7 +2,7 @@
   * @Date        : 2022-08-08 14:23:25
   * @Author      : ZhouQijun
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-16 19:14:48
+ * @LastEditTime: 2023-08-17 22:08:56
   * @Description : 
 -->
 <script setup lang="tsx">
@@ -45,7 +45,8 @@ function onClick(params) {
 </script>
 
 <template>
-  <div class="page" v-water-maker="{ text: '水印' }">
+  <!-- v-water-maker="{ text: '水印' }" -->
+  <div class="page">
     <h4>全局属性</h4>
     <h3>provide inject</h3>
     <p>userName:{{ user?.name }}</p>

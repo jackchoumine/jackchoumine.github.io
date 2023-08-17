@@ -5,8 +5,8 @@
  * @Description: 封装 axios，取消请求：只允许最新的请求发送，老的请求都取消
  * @Date: 2021-07-02 19:19:37 +0800
  * @Author: JackChou
- * @LastEditTime: 2022-11-19 13:03:21 +0800
- * @LastEditors : JackChou
+ * @LastEditTime: 2023-08-18 02:48:54
+ * @LastEditors : ZhouQiJun
  */
 
 import axios from 'axios'
@@ -20,7 +20,7 @@ const message = ({ data }) => {
 }
 
 // { key:[] }
-const refeatRequestsMap = {}
+const repeatRequestsMap = {}
 
 const http = axios.create({
   // timeout: 1000 * 4,
@@ -41,20 +41,20 @@ function addPendingRequest(config) {
   config.signal.addEventListener('abort', () => {
     Promise.reject(new Error('abort'))
   })
-  if (!refeatRequestsMap[requestKey]) {
-    refeatRequestsMap[requestKey] = []
+  if (!repeatRequestsMap[requestKey]) {
+    repeatRequestsMap[requestKey] = []
   }
   // NOTE 在线才记录重复，离线时允许用户多次尝试
-  window.navigator.onLine && refeatRequestsMap[requestKey].push(controller)
+  window.navigator.onLine && repeatRequestsMap[requestKey].push(controller)
   return config
 }
 
 function cancelRepeatRequest(config) {
   const requestKey = generateReqKey(config)
-  const needCancel = refeatRequestsMap[requestKey]?.length >= 2
+  const needCancel = repeatRequestsMap[requestKey]?.length >= 2
   if (needCancel) {
     // 不改变原数组
-    refeatRequestsMap[requestKey].slice(1).forEach(controller => {
+    repeatRequestsMap[requestKey].slice(1).forEach(controller => {
       controller.abort()
     })
   }
@@ -63,8 +63,8 @@ function cancelRepeatRequest(config) {
 function resetSuccessRequest(config) {
   console.log('resetSuccessRequest')
   const requestKey = generateReqKey(config)
-  console.log(`${requestKey} 数量：${refeatRequestsMap[requestKey].length}`)
-  refeatRequestsMap[requestKey] = []
+  console.log(`${requestKey} 数量：${repeatRequestsMap[requestKey].length}`)
+  repeatRequestsMap[requestKey] = []
   return config
 }
 
