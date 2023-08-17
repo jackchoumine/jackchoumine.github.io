@@ -203,6 +203,7 @@ watchEffect(() => {
   const refPerson = toRefs(person)
   console.log(refPerson, 'zqj log toRefs')
 })
+
 watchEffect(
   () => {
     const refPerson = toRefs(person)
@@ -211,9 +212,11 @@ watchEffect(
     deep: true,
   }
 )
+
 watchEffect(() => {
   console.log(person, 'zqj log')
 })
+
 watchEffect(
   () => {
     console.log(person, 'zqj log deep: true')
@@ -221,13 +224,16 @@ watchEffect(
     deep: true,
   }
 )
+
 watchEffect(() => {
   const city = person.deep.city
   console.log(city, 'zqj log')
 })
+
 setTimeout(() => {
   person.deep.city = 'Beijing'
 }, 2000)
+
 setTimeout(() => {
   person.deep = {
     city: 'ChengDu',
@@ -283,14 +289,10 @@ watchEffect(() => {
 })
 watchEffect(
   () => {
-
     const refPerson = toRefs(person)
     console.log(refPerson, 'zqj log toRefs  deep: true')
-
   }, {
-
     deep: true,
-
   }
 )
 ```
@@ -330,7 +332,8 @@ const postID = ref(1)
 const post = ref()
 
 const stopWatchEffect = watchEffect(async () => {
-  const [error, data] = await http.get(`http://localhost:3001/posts/${postID.value}`) !error && (post.value = data)
+  const [error, data] = await http.get(`http://localhost:3001/posts/${postID.value}`);
+  !error && (post.value = data)
 })
 
 setTimeout(() => {
@@ -344,7 +347,7 @@ setTimeout(() => {
 }, 3000)
 ```
 
-> 同步的 watch 和 watchEffect，vue 会自动停止监听，异步地执行watch 和 watchEffect 才需要开发者手动停止。
+> 同步的 watch 和 watchEffect，vue 会自动停止监听，异步地执行 watch 和 watchEffect 才需要开发者手动停止。
 
 2. cleanUp 的回调可清除副作用
 
@@ -362,20 +365,15 @@ async function callback(newID, oldID, cleanUp) {
   let lastController
   console.log('callback ')
   cleanUp(() => {
-
     console.log('cleanUp 回调会在 callback 之前执行 ', '可以在此取消正在进行的请求')
     lastController?.abort()
-
   })
   lastController = new AbortController()
-  const [error, data] = await http.get(`http://localhost:3001/posts/${newID}`,
-
-    {}, {
-      signal: lastController.signal,
-    }
-
-  )
-  lastController = null!error && (post.value = data)
+  const [error, data] = await http.get(`http://localhost:3001/posts/${newID}`, {}, {
+    signal: lastController.signal,
+  })
+  lastController = null;
+  !error && (post.value = data)
 }
 setTimeout(function() {
   postID.value = 2
@@ -419,6 +417,6 @@ setTimeout(function() {
 ## 小结
 
 1. 优先使用 ref：心智负担小，监听和重置都很方便，一眼能看出时响应式变量；
-2. watchEffect和watch 的 cleanUp 回调里可清除副作用；
+2. watchEffect 和 watch 的 cleanUp 回调里可清除副作用；
 3. 惰性执行副作用和获取旧值，必须使用 watch;
 4. 当需要执行**深层监听**和**依赖源较多**的**立即执行**的副作用，watchEffect 更好；
