@@ -2,14 +2,14 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-16 19:21:09
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-16 21:01:50
+ * @LastEditTime: 2023-08-17 16:00:14
  * @Description : 管理弹窗的 pinia 插件
  */
 import type { PiniaPlugin, PiniaPluginContext } from 'pinia'
 import type { ShallowReactive } from 'vue'
 
 type DialogOptions = {
-  id?: string | number | Symbol
+  id?: string | number | symbol
   title?: string
   content?: string
   props: Record<string, any>
@@ -18,7 +18,7 @@ type DialogOptions = {
 
 export type Dialog = {
   items: ShallowReactive<DialogOptions>[]
-  frontDialog: null | string | number | Symbol // 靠近用户的弹窗
+  frontDialog: string | number | symbol | null // 靠近用户的弹窗
   zIndex: number
   onClose: (id) => void
   open: (options: DialogOptions) => void
