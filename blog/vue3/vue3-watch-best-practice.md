@@ -1,6 +1,10 @@
 # vue3 watch 最佳实践
 
-项目中在监听数据变化，有时候不生效，又去翻阅文档，现在总结一下比较好的做法。
+项目中在监听数据变化，有时候不生效，又去翻阅文档，watch 和 watchEffect 如何选择才比较好？
+
+这些问题，都挺关键的，现在总结一下比较好的做法。
+
+[[toc]]
 
 ## watch
 
@@ -162,22 +166,20 @@ watch(
 watch 的第三个参数，是一个配置对象
 
 ```js
-watch(reactiveVariable, effectFn, {
-
+watch(reactiveVariable, effectCallback, {
   deep: true, // 监听深层属性
-  immediate: true， // 立即执行 effectFn
-  flush: 'post', // vue 组件更新后执行 effectFn，默认 vue 组件更新之前执行 effectFn
-
+  immediate: true， // 立即执行 effectCallback
+  flush: 'post', // vue 组件更新后执行 effectFn，默认 vue 组件更新之前执行 effectCallback
 })
 ```
 
 > flush?: 'pre' | 'post' | 'sync'; 
 
-> 何时使用 `{flush:'post'}` ？希望在 `effectFn` 中获取到新的 DOM 时，比如 effectFn 中涉及 DOM 的操作。
+> 何时使用 `{flush:'post'}` ？希望在 `effectCallback` 中获取到新的 DOM 时，比如 effectCallback 中涉及 DOM 的操作。
 
 ## watchEffect
 
-侦听器的回调使用与源完全相同的响应式状态是很常见的，此时可使用 watchEffect：
+侦听器的回调使用与依赖源完全相同的响应式状态是很常见的，此时可使用 watchEffect：
 
 ```js
 watchEffect(async () => {
@@ -188,7 +190,32 @@ watchEffect(async () => {
 })
 ```
 
-watchEffect 不会深度监听
+watchEffect 立即执行的特点相当于立即执行的 `watch` 。
+
+```js
+watch(todoId, async (newTodoId) => {
+  // totoId.value 和 newTodoId 是相同的
+  const response = await fetch(
+    `https://jsonplaceholder.typicode.com/todos/${newTodoId}`
+  )
+  data.value = await response.json()
+}, {
+  immediate: true
+})
+```
+
+> 侦听器是如何两次使用 todoId 的，一次是作为源，另一次是在回调中，可使用 `watchEffect` 简化：
+
+```js
+watchEffect(async () => {
+  const response = await fetch(
+    `https://jsonplaceholder.typicode.com/todos/${todoId.value}`
+  )
+  data.value = await response.json()
+})
+```
+
+> watchEffect 不会深度监听
 
 ```js
 const person = reactive({
@@ -237,30 +264,6 @@ setTimeout(() => {
 
 > 四个 watchEffect 的回调都会立即执行，两秒后，只有第三个 watchEffect 的回调执行。
 
-watchEffect 立即执行的特点相当于立即执行的 `watch` 。
-
-```js
-watch(todoId, async () => {
-  const response = await fetch(
-    `https://jsonplaceholder.typicode.com/todos/${todoId.value}`
-  )
-  data.value = await response.json()
-}, {
-  immediate: true
-})
-```
-
-> 侦听器是如何两次使用 todoId 的，一次是作为源，另一次是在回调中，可使用 `watchEffect` 简化：
-
-```js
-watchEffect(async () => {
-  const response = await fetch(
-    `https://jsonplaceholder.typicode.com/todos/${todoId.value}`
-  )
-  data.value = await response.json()
-})
-```
-
 > 注意，watchEffect 不支持深度监听，需要深度监听，使用 `toRefs` 。
 
 2 秒后，只有
@@ -283,19 +286,15 @@ watchEffect(() => {
 })
 watchEffect(
   () => {
-
     const refPerson = toRefs(person)
     console.log(refPerson, 'zqj log toRefs  deep: true')
-
   }, {
-
     deep: true,
-
   }
 )
 ```
 
-> watchEffect 的第二个参数 `{flush:'pre'|'post'|'sync'}` , 用来改变回调执行时机 ，默认是 `{flush:'pre'}` ，vue 组件更新执行执行。
+> watchEffect 的第二个参数 `{flush:'pre'|'post'|'sync'}` , 用来改变回调执行时机 ，默认是 `{flush:'pre'}` ，vue 组件更新前执行。
 
 `watchPostEffect(callback)` 是 `watchEffect(callback,{post:true})` 的别名。
 
@@ -362,19 +361,14 @@ async function callback(newID, oldID, cleanUp) {
   let lastController
   console.log('callback ')
   cleanUp(() => {
-
     console.log('cleanUp 回调会在 callback 之前执行 ', '可以在此取消正在进行的请求')
     lastController?.abort()
 
   })
   lastController = new AbortController()
-  const [error, data] = await http.get(`http://localhost:3001/posts/${newID}`,
-
-    {}, {
-      signal: lastController.signal,
-    }
-
-  )
+  const [error, data] = await http.get(`http://localhost:3001/posts/${newID}`, {}, {
+    signal: lastController.signal,
+  })
   lastController = null!error && (post.value = data)
 }
 setTimeout(function() {
