@@ -347,6 +347,28 @@ setTimeout(() => {
 
 2. cleanUp 的回调可清除副作用
 
+用法:
+
+```js
+watchEffect((cleanUp) => {
+  // cleanUp 回调会在 callback 之前执行
+  cleanUp(() => {
+    // 可以在此取消正在进行的请求
+  })
+  // callback
+})
+
+watch(deps, (newDeps, old, cleanUp) => {
+  // cleanUp 回调会在 callback 之前执行
+  cleanUp(() => {
+    // 可以在此取消正在进行的请求
+  })
+  // callback
+})
+```
+
+以 watch 为例，看看 cleanUp 如何取消请求：
+
 ```js
 import http from '@jack/http'
 
