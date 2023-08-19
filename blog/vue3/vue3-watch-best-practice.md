@@ -416,11 +416,13 @@ setTimeout(function() {
 }, 10)
 ```
 
-在 9 毫秒修改依赖，postID 为 1 的 http, 还没返回，被在 `cleanUp` 回调中取消。
+在 9 毫秒后修改依赖，postID 为 1 的 http 还没返回，被 `cleanUp` 的回调取消。
 
 同理，postID 为 3 时，会取消 postID 为 2 的请求。
 
 ![](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/WX20230818-031317@2x.png)
+
+> 如果网速极快，也许无法取消 http，可在 chrome 浏览器中开启网络模拟，让网速慢下来。
 
 3. 都可进行调试
 
