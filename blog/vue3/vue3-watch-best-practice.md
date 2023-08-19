@@ -204,7 +204,7 @@ watch(todoId, async (newTodoId) => {
 })
 ```
 
-> 侦听器是如何两次使用 todoId 的，一次是作为源，另一次是在回调中，可使用 `watchEffect` 简化：
+> 侦听器是如何两次使用 todoId ?  一次是作为依赖源，另一次是在回调中，可使用 `watchEffect` 简化：
 
 ```js
 watchEffect(async () => {
@@ -357,21 +357,25 @@ setTimeout(() => {
 用法:
 
 ```js
-watchEffect((cleanUp) => {
-  // cleanUp 回调会在 callback 之前执行
-  cleanUp(() => {
-    // 可以在此取消正在进行的请求
-  })
-  // callback
-})
+watchEffect()
 
-watch(deps, (newDeps, old, cleanUp) => {
+function callback(cleanUp) => {
   // cleanUp 回调会在 callback 之前执行
   cleanUp(() => {
-    // 可以在此取消正在进行的请求
+    // 可以在此清除副作用
   })
-  // callback
-})
+  // do some effect
+}
+
+watch(deps, callback2)
+
+function callback2(newDeps, old, cleanUp) {
+  // cleanUp 回调会在 callback 之前执行
+  cleanUp(() => {
+    // 可以在此清除副作用
+  })
+  // do some effect
+}
 ```
 
 以 watch 为例，看看 cleanUp 如何取消请求：
