@@ -6,11 +6,11 @@ js 函数的测试，是最简单的测试，只需要调用函数，然后断�
 
 > 常见的对 storage 的封装
 
-```js
+```ts
 // src/utils/storage.js
 type StorageType = 'local' | 'session'
 
-function set < V = unknown > (key: string, value: V, type: StorageType = 'session') {
+function set<V = unknown>(key: string, value: V, type: StorageType = 'session') {
   const jsonValue = JSON.stringify(value)
   if (type === 'local') {
     localStorage.setItem(key, jsonValue)
