@@ -189,7 +189,7 @@ module.exports = {
           },
           {
             loader: 'css-loader',
-            // NOTE 不配置
+            // NOTE 不配置 options
             // options: {
             //   modules: {
             //     mode: resourcePath => {
@@ -332,7 +332,8 @@ body {
 ## 测试一个 react 组件
 
 新建组件
-```tsx 
+
+```tsx
 // src/components/HelloJest.tsx
 import React from 'react'
 
@@ -343,7 +344,9 @@ function HelloJest({ name = 'Hello Jest' }: { name?: string } = {}) {
 export { HelloJest }
 
 ```
+
 测试用例：
+
 ```tsx
 // src/components/HelloJest.test.tsx
 import { render, screen } from '@testing-library/react'
@@ -352,10 +355,11 @@ import { HelloJest } from './HelloJest'
 
 describe('HelloJest.tsx', () => {
   it('可以正常展示', () => {
+    // given
     render(<HelloJest />)
-
+    // when
     const helloJest = screen.getByText(/Hello Jest/i)
-
+    // then
     expect(helloJest).toBeDefined()
   })
 })
@@ -402,5 +406,5 @@ npm i -D jest-transform-stub
 
 ## 小结
 
-* 搭建 jest  + ts + react + sass 测试环境；
+* 搭建 jest + ts + react + sass 测试环境；
 * 编写了第一个测试用例。
