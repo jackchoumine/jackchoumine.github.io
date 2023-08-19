@@ -199,7 +199,7 @@ import HelloWorld from './HelloWorld.vue'
 test('sets finished to true after 100ms', () => {
   runner.start()
   setTimeout(() => {
-    expect(runner.finished).toBe(true) // 100ms 后 finished 为true
+    expect(runner.finished).toBe(true) // 100ms 后 finished 为 true
   }, 100)
 })
 ```
@@ -259,11 +259,11 @@ describe('HelloWorld.vue', () => {
 
 > `test.only` 表示只运行这个测试用例，其他测试用例都会被跳过。
 
-> 三步法写测试用例
+> 三步法(3A法则)写测试用例
 
-1. 准备测试数据，是测试就绪，这里是渲染组件。
-2. 执行某些操作，这里是获取组件的文本内容。
-3. 断言，这里是断言组件的文本内容和测试数据是否一致。
+1. 准备测试环境(数据、模拟的函数、模拟模块、挂载组件等，是测试的必要条件)(Arrange)，让测试就绪，这里是渲染组件。
+2. 采取行动(Action)，执行某些操作，比如用户输入、查找渲染结果等，这里是获取组件的文本内容。
+3. 断言(Assert)，判断上述行动是否符合预期，这里是断言组件的文本内容和测试数据是否一致，。
 
 以上三步的代码使用空行分隔，这样可以让测试代码更加清晰可读。
 
@@ -529,7 +529,7 @@ mount(ParentCom, {
 * 介绍了前端测试的分类，单元测试能帮助我们编写高质量的代码。
 * 组件测试的要点：给组件输入，测试输出。
 * Jest 测试框架简介。
-* 三步法写测试用例。
+* 3A法则写测试用例。
 * vue 组件渲染的三种方式：shallowMount、mount、Teleport.to 和手动挂载。
 * 不渲染子组件的几种方式：stubs 配置、shallowMount。
 * 调试测试用例的三种方式：vscode 插件、chrome、vscode。
