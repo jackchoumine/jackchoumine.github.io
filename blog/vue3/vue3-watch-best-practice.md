@@ -357,7 +357,7 @@ setTimeout(() => {
 用法:
 
 ```js
-watchEffect()
+watchEffect(callback)
 
 function callback(cleanUp) => {
   // cleanUp 回调会在 callback 之前执行
