@@ -406,7 +406,8 @@ async function callback(newID, oldID, cleanUp) {
   const [error, data] = await http.get(`http://localhost:3001/posts/${newID}`, {}, {
     signal: lastController.signal,
   })
-  lastController = null!error && (post.value = data)
+  lastController = null;
+  !error && (post.value = data)
 }
 setTimeout(function() {
   postID.value = 2
