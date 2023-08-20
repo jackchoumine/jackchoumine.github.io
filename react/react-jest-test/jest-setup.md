@@ -355,11 +355,11 @@ import { HelloJest } from './HelloJest'
 
 describe('HelloJest.tsx', () => {
   it('可以正常展示', () => {
-    // given
+    // 准备测试环境
     render(<HelloJest />)
-    // when
+    // 执行动作
     const helloJest = screen.getByText(/Hello Jest/i)
-    // then
+    // 断言
     expect(helloJest).toBeDefined()
   })
 })
@@ -404,7 +404,107 @@ npm i -D jest-transform-stub
 
 在运行测试，不再报错。
 
+上面的例子测试渲染输出，再写一个测试用户交互的例子
+
+测试用例：
+
+```tsx
+// MyInput.test.tsx
+import { render, screen, fireEvent } from '@testing-library/react'
+import React from 'react'
+import { MyInput } from './MyInput'
+
+describe('MyInput.tsx', () => {
+  it('测试用户输入', async () => {
+    const { getByText } = render(<MyInput />)
+    const name = 'jack'
+    const input = screen.getByPlaceholderText('请输入名字')
+
+    fireEvent.change(input, {
+      target: {
+        value: name,
+      },
+    })
+    const span = getByText(name, {
+      selector: 'span',
+    })
+
+    expect(span).not.toBeNull()
+  })
+})
+```
+
+`MyInput.tsx` :
+
+```tsx
+import React, { useState } from 'react'
+
+function MyInput() {
+  const [name, setName] = useState('')
+  return (
+    <div>
+      <input
+        value={name}
+        placeholder='请输入名字'
+        onChange={e => setName(e.target.value)}
+      />
+      <p>
+        this is my name: <span>{name}</span>
+      </p>
+    </div>
+  )
+}
+
+export { MyInput }
+```
+
+> 通过 `fireEvent` 来模拟用户交互，使用 `userEvent` 模拟用户交互，会更好一些，之后都使用它来测试用户行为；
+> render 函数返回的对象中，包含查询 DOM 的方法。
+
 ## 小结
 
 * 搭建 jest + ts + react + sass 测试环境；
-* 编写了第一个测试用例。
+* 编写了第一个测试用例；
+* 依赖版本
+
+```json
+{
+  "name": "react-jest-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack serve",
+    "local-server": "json-server --watch db.json --port 3001",
+    "test:w": "jest --watch",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@testing-library/react": "~12.1.5",
+    "@types/jest": "~27.5.2",
+    "@types/react": "~17.0.64",
+    "@types/react-dom": "~17.0.20",
+    "css-loader": "~6.8.1",
+    "html-webpack-plugin": "~5.5.3",
+    "jest": "~27.5.1",
+    "jest-transform-stub": "~2.0.0",
+    "json-server": "~0.17.3",
+    "sass": "~1.65.1",
+    "sass-loader": "~13.3.2",
+    "style-loader": "~3.3.3",
+    "ts-jest": "~27.1.5",
+    "ts-loader": "~9.4.4",
+    "typescript": "~4.9.5",
+    "webpack": "~5.88.2",
+    "webpack-cli": "~5.1.4",
+    "webpack-dev-server": "~4.15.1"
+  },
+  "dependencies": {
+    "antd": "~5.8.3",
+    "axios": "~1.4.0",
+    "classnames": "~2.3.2",
+    "react": "~17.0.2",
+    "react-dom": "~17.0.2"
+  }
+}
+```
