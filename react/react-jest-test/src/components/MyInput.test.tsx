@@ -2,25 +2,21 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-19 19:04:14
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-20 14:55:12
+ * @LastEditTime: 2023-08-20 16:19:43
  * @Description :
  */
-import { render, screen, fireEvent } from '@testing-library/react'
-// import useEvent from '@testing-library/user-event'
-import React from 'react'
+import { render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import React, { ReactElement } from 'react'
 import { MyInput } from './MyInput'
 
 describe('MyInput.tsx', () => {
   it('测试用户输入', async () => {
-    const { getByText } = render(<MyInput />)
+    const { getByText, getByPlaceholderText, user } = setup(<MyInput />)
     const name = 'jack'
-    const input = screen.getByPlaceholderText('请输入名字')
+    const input = getByPlaceholderText('请输入名字')
 
-    fireEvent.change(input, {
-      target: {
-        value: name,
-      },
-    })
+    await user.type(input, name)
     const span = getByText(name, {
       selector: 'span',
     })
@@ -28,3 +24,12 @@ describe('MyInput.tsx', () => {
     expect(span).not.toBeNull()
   })
 })
+
+function setup(component: ReactElement) {
+  //   console.log({ ...render(component) })
+  const result = render(component)
+  return {
+    user: userEvent.setup(),
+    ...result,
+  }
+}
