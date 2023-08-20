@@ -22,7 +22,7 @@
     "jest": "~27.5.1",
     "jest-transform-stub": "~2.0.0",
     "json-server": "~0.17.3",
-    "sass": "~1.65.1",
+    "sass": "~1.66.1",
     "sass-loader": "~13.3.2",
     "style-loader": "~3.3.3",
     "ts-jest": "~27.1.5",
@@ -33,7 +33,7 @@
     "webpack-dev-server": "~4.15.1"
   },
   "dependencies": {
-    "antd": "~5.8.3",
+    "antd": "~5.8.4",
     "axios": "~1.4.0",
     "classnames": "~2.3.2",
     "react": "~17.0.2",
