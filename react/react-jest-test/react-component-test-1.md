@@ -154,11 +154,13 @@ function setup(component: ReactElement) {
 
 ### `userEvent` 和 `fireEvent` 有什么不同？
 
-`user-event` 是 testing-library 的一个配套库，用于模拟用户交互。
+`@testing-library/user-event` 是一个构建在 fireEvent 之上的包，但它提供了几种更接近用户交互的方法。
 
-fireEvent 是触发 DOM 事件，而 `userEvent` 模拟用户交互，更加语义化，推荐使用它来测试组件的交互行为。
+比如用户输入，实际每个字符触发 keyDown、keyPress 和 keyUp 事件，user-event 就能简单地模拟了这些交互，而 fireEvent 做不到这么简化。
 
 [userEvent differences from fireEvent](https://testing-library.com/docs/user-event/intro/#differences-from-fireevent)
+
+> 优先使用 userEvent，如果 userEvent 实在无法实现再使用 fireEvent，比如触发 input 事件，却不想触发 `focus` 和 `change` 事件时。
 
 ### render 返回值是什么？
 
