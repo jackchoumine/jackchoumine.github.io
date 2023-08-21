@@ -1,5 +1,7 @@
 # 最新文章
 
+### [Jest学习](../web/js/Jest-learn.md)
+
 ### [vue3 watch 和 watchEffect 最佳实践](../vue3/vue3-watch-best-practice.md)
 
 ### [vue2 组件测试总结](../vue2/test-vue-summary.md)

@@ -1,4 +1,4 @@
-# jest 测试环境搭建
+#  jest + ts + react + sass 测试环境搭建
 
 ## 配置环境
 
@@ -461,11 +461,7 @@ export { MyInput }
 > 通过 `fireEvent` 来模拟用户交互，使用 `userEvent` 模拟用户交互，会更好一些，之后都使用它来测试用户行为；
 > render 函数返回的对象中，包含查询 DOM 的方法。
 
-## 小结
-
-* 搭建 jest + ts + react + sass 测试环境；
-* 编写了第一个测试用例；
-* 依赖版本
+## 依赖列表
 
 ```json
 {
@@ -508,3 +504,7 @@ export { MyInput }
   }
 }
 ```
+
+## 小结
+
+* 搭建 jest + ts + react + sass 测试环境；

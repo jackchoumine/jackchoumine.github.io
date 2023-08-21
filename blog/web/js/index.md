@@ -1,5 +1,13 @@
 # js 学习
 
+### [Jest 学习笔记（三）-- jest 快速上手](./jest-get-started.md)
+
+### [Jest 学习笔记（三）-- jest + ts + react + sass 测试环境搭建](./jest-setup-2.md)
+
+### [Jest 学习笔记（二）-- jest +  node 和 ESM 环境搭建](./jest-setup-1.md)
+
+### [Jest 学习笔记（一）-- 前端学习测试的好处](./jest-note-1.md)
+
 ### [http content-disposition 头](./http-content-disposition.md)
 
 ### [如何检测一个元素是否在视窗中](../../vue3/如何检测一个元素是否在视窗中.md)
