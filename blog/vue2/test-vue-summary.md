@@ -598,7 +598,7 @@ const CounterDemo = {
 
 ```JS
 it('test call start when mounted', () => {
-  // NOTE 监听组件的方法无效，是直觉上想到的，但是不行
+  // NOTE 监听组件的方法，是直觉上想到的，但是不行
   jest.spyOn(CounterDemo.methods, 'start')
   const wrapper = shallowMount(CounterDemo)
 
@@ -693,14 +693,14 @@ describe('CounterDemo', () => {
 
 ## 测试异步代码
 
-jest 测试代码是同步的， 在断言之前需要等待异步代码之前完， vue 组件中的异步代码有两种：
+jest 测试代码是同步的， 在断言之前需要等待异步代码执行完， vue 组件中的异步代码有两种：
 
 1. vue 异步更新 DOM，比如 setValue 更新表单值
 2. 外部函数的异步调用，比如 http 调用
 
 ### vue 异步更新 DOM
 
-当一个响应式数据变化后， 要断言这个变化， 需要等待 DOM 更新后才能断言。 可使用 `vm.$nextTick` 、 `Vue.nextTick` ，更加简洁明了的方式是 `await` 更新状态的方法， 比如 `await input.setValue('update input')` 。
+当一个响应式数据变化后， 要断言视图是否正确， 需要等待 DOM 更新后才能断言。 可使用 `vm.$nextTick` 、 `Vue.nextTick` ，更加简洁明了的方式是 `await` 更新状态的方法， 比如 `await input.setValue('update input')` 。
 
 可以被 `await ` 的方法有：
 
@@ -829,13 +829,17 @@ Vue 更新组件和完成 Promise 对象的时机不同。
 
 ## 如何更好的组织测试代码
 
-一个测试套件随着用例的增多，会变得越来越难维护。可以使用 `describe` 分组， `beforeEach` 和 `afterEach` ，在用例执行之前和之后执行同一个操作，比如模拟定时器、挂载组件等。善用工厂函数，减少重复代码。
+一个测试套件随着用例的增多，会变得越来越难维护。两种方法可更好的组织测试代码：
 
-### 测试用例代码三步走
+1. 使用 `describe` 分组， `beforeEach` 和 `afterEach` ，在用例执行之前和之后执行一些操作，比如模拟定时器、挂载组件等。
 
-1. 准备测试环境，比如挂载组件、模拟定时器、测试数据等。
-2. 执行相关操作，比如点击按钮、输入表单等。
-3. 断言结果。
+2. 善用工厂函数，减少重复代码。
+
+### 编写测试用例的 3A 法则
+
+1. 准备测试环境(Arrange)，比如挂载组件、模拟定时器、测试数据等。
+2. 执行相关操作(Action)，比如点击按钮、输入表单等。
+3. 断言结果(Assert)。
 4. 以上代码，使用`空行`分割，保证可读性。
 
 比如：
@@ -897,7 +901,7 @@ describe('DemoVue.vue', () => {
 })
 ```
 
-> 对于生命周期钩子函数，可放在渲染输出来分组里，也可再添加一组。
+> 对于生命周期钩子函数，可放在渲染输出的分组里，也可再添加一组。
 
 > store 和 router 的测试，也可使用 describe 分组。
 
@@ -909,11 +913,12 @@ describe('DemoVue.vue', () => {
 
 [一个关于如何测试 vue 组件的技术演讲--YouTube](https://www.youtube.com/watch?v=OIpfWTThrK8)
 
-[vue 文档关于如何测试](https://cn.vuejs.org/guide/scaling-up/testing.html)
+[vue 文档中关于如何测试的建议](https://cn.vuejs.org/guide/scaling-up/testing.html)
 
 ## 小结
 
 * 组件测试应该关注组件的公开接口，而不是内部实现细节。
-* 组件测试应重点测试组件的**渲染输出**和**用户交互**。
-* 模拟依赖关系是测试中保证用例健壮的关键。
+* 组件测试应重点测试组件的**渲染输出**、**用户交互**和**公共方法**。
+* 模拟依赖关系是测试中保证用例健壮的关键，但是应该尽量少模拟。
 * 测试异步代码时，需要等待异步代码执行完毕后再断言。
+* 使用jest的钩子函数、遵循3A法则编写用例，可更好的组织测试代码。
