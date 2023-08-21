@@ -249,7 +249,7 @@ it('classes()', () => {
 
 2. 测试内联样式
 
-使用 `attributes('style')` 获取内联样式结合 `toMatch` 匹配某个样式s属性。
+使用 `attributes('style')` 获取内联样式结合 `toMatch` 匹配某个样式属性。
 
 ### 测试插槽
 
@@ -348,7 +348,7 @@ describe('TestSlots.vue', () => {
 
 ### 测试原生事件
 
-使用 `trigger` 触发原生事件，比如 `trigger('click')` ，返回断言视图是否正确或者是否触发自定义事件等。 
+使用 `trigger` 触发原生事件，比如 `trigger('click')` ，返回断言视图是否正确或者是否触发自定义事件等。
 
 trigger 方法的第二个参数是 `事件对象` ，可以模拟点击位置等。
 
