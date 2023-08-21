@@ -370,7 +370,7 @@ wrapper.find('button').trigger('submit', {
 
 `trigger` 也可以触发自定义事件， `trigger('custom-event')` 。
 
-emitted 方法返回一个对象，key 触发的事件，value 是一个数组，数组的每一项是事件的参数。
+emitted 方法返回一个对象，key 是触发的事件名称，value 是一个数组，数组的每一项是事件触发时抛出的数据。
 
 ## 测试公共方法
 
