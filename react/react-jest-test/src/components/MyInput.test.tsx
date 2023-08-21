@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-19 19:04:14
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-21 10:36:27
+ * @LastEditTime: 2023-08-21 17:03:19
  * @Description :
  */
 import { render } from '@testing-library/react'
@@ -29,7 +29,7 @@ describe('MyInput.tsx', () => {
 })
 
 function setup(component: ReactElement) {
-  //   console.log({ ...render(component) })
+  // console.log({ ...render(component) })
   const result = render(component)
   return {
     user: userEvent.setup(),
