@@ -15,7 +15,7 @@ describe('ParentModal.vue', () => {
   })
   it('test close-modal event handler', () => {
     jest.spyOn(wrapper.vm, 'onCloseModal')
-
+    // FIXME 为什么这里不行
     const modalDemo = wrapper.findComponent(ModalDemo).vm
     // modalDemo.$emit('close-modal')
     wrapper.vm.onCloseModal()
