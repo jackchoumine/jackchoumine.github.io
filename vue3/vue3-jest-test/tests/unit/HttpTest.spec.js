@@ -1,9 +1,9 @@
 /*
- * @Description :
+ * @Description : 模拟 axios 请求
  * @Date        : 2022-10-29 20:16:13 +0800
  * @Author      : JackChou
- * @LastEditTime: 2023-01-08 15:40:13 +0800
- * @LastEditors : JackChou
+ * @LastEditTime: 2023-08-22 14:41:51
+ * @LastEditors : ZhouQiJun
  */
 import { shallowMount } from '@vue/test-utils'
 import HttpTest from './HttpTest.vue'
@@ -30,13 +30,6 @@ describe('HttpTest', () => {
   // 每个 it 都会执行
   beforeEach(() => {
     mockGet = jest.fn()
-  })
-
-  it('模拟子组件', () => {
-    console.log(HttpTest)
-    debugger
-    const wrapper = factory()
-    console.log(wrapper.html())
   })
 
   it('测试 http 请求', () => {

@@ -1,12 +1,14 @@
 <template>
-  <button type="button" @click="onClick"></button>
+  <button type="button" @click="onClick">hello http</button>
   <subComponent />
   <HelloWorld />
 </template>
 
 <script>
-import { ref, onMounted, defineComponent } from 'vue'
+import {  onMounted, defineComponent } from 'vue'
+
 import axios from 'axios'
+
 export default defineComponent({
   name: 'HttpTest',
   setup(props, { emit, attrs, slots }) {
