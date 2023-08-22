@@ -371,7 +371,7 @@ const filterTestFn = jest.fn()
 // and `false` for the second call
 filterTestFn.mockReturnValueOnce(true).mockReturnValueOnce(false)
 
-const result = [1 # # # 12].filter(num => filterTestFn(num))
+const result = [1, 12].filter(num => filterTestFn(num))
 
 console.log(result)
 // > [11]
