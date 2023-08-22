@@ -16,8 +16,6 @@
 
 ### [vue 应用测试简介](./test-vue-intro.md)
 
-### [前端测试简介](./front-app-test.md)
-
 ### [vue2 项目中遇到的问题](./some-issues.md)
 
 ### [如何使用 gh-pages 部署 vue 应用？](./vue-pro-deploy-gh-pages.md)

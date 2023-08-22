@@ -8,7 +8,9 @@
 
 jest 提供了丰富的匹配器，用来判断值是否符合预期。
 
-### 引用类型（对象和数组）
+### 对象
+
+> toHaveProperty('name')，判断对象是否有某个属性
 
 > toBe 引用比较 或者 `===`
 
@@ -17,6 +19,8 @@ jest 提供了丰富的匹配器，用来判断值是否符合预期。
 > toBeNull 检查 `null`
 
 > toBeDefined(只要有值，即通过测试)、toBeUndefined 检查 `undefined`
+
+### 数组、set
 
 > toContain 数组、set 严格匹配
 
@@ -56,6 +60,8 @@ describe('函数抛出方法匹配', () => {
   })
 })
 ```
+
+jest 匹配器还有很多，可以参考官方文档：[Expect](https://jestjs.io/docs/expect)。
 
 ### 常用函数钩子
 
