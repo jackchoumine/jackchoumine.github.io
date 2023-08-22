@@ -115,25 +115,6 @@ Jest 在查找项目中测试文件时使用默认的 glob 匹配模式。对于
 
 [peeky](https://peeky.dev/)
 
-### Jest 编译单文件组件
-
-Jest 只能识别 cjs 的代码，需要将单文件组件转化成 cjs 的代码，jest 才能对其进行测试。
-
-需要两个依赖：babel-jest vue-jest
-
-配置：
-
-```json
-{
-  "jest": {
-    "transform": {
-      "^.+\\.js$": "babel-jest",
-      "^.+\\.vue$": "vue-jest"
-    }
-  }
-}
-```
-
 ## 第一个测试
 
 已经存在一个使用 `vue-cli` 创建的项目，希望添加测试。
@@ -143,6 +124,8 @@ Jest 只能识别 cjs 的代码，需要将单文件组件转化成 cjs 的代�
 ```bash
 vue add @vue/cli-plugin-unit-jest
 ```
+
+> 使用 vue-cli 创建的项目，可以使用 `vue add` 命令安装插件，会自动配置测试环境。
 
 2. 编写 HelloWorld.vue 组件：
 
