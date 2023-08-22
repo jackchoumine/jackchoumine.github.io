@@ -70,8 +70,6 @@ describe('ModalDemo.vue', () => {
 
 > 合成事件是在 JavaScript 中创建的事件。实际上，合成事件的处理方式与浏览器分发事件的方式相同。区别在于原生事件通过 JavaScript **事件循环**异步调用事件处理程序，合成事件则是同步调用事件处理程序。
 
-> onClose 传递一个模拟函数，传递真实的函数，会导致测试失败，这点有点奇怪。
-
 ## 测试自定义事件
 
 自定义事件，对子组件来说，是输出事件，对父组件来说，是输入。
@@ -85,12 +83,14 @@ vue-test-utils 提供了一个 `emitted` 方法，可获取到组件上触发的
 单击关闭按钮，触发 `close-modal` 事件。
 
 ```js
-it('test custom event', () => {
-  wrapper.find('.btn-close').trigger('click')
+it('test custom event', async () => {
+  await wrapper.find('.btn-close').trigger('click')
 
   expect(wrapper.emitted('close-modal')).toHaveLength(1)
 })
 ```
+
+> `trigger` 方法返回一个 Promise，所以需要使用 `async` 和 `await` 。 `trigger` 方法的第二个参数是一个对象，可以传递事件的参数。
 
 > wrapper.emitted 函数返回一个对象，key 是事件名称，value 是一个数组，数组元素是事件抛出的数据。
 
@@ -152,8 +152,8 @@ it('test custom event  by call', () => {
 测试事件抛出的数据，就是测试 `emitted` 返回的数据，测试用例：
 
 ```js
-it('test custom event payload', () => {
-  wrapper.find('.btn-close').trigger('click')
+it('test custom event payload', async () => {
+  await wrapper.find('.btn-close').trigger('click')
 
   expect(wrapper.emitted('close-modal')).toHaveLength(1)
   expect(wrapper.emitted('close-modal')[0]).toEqual(['hello', 'modal'])
@@ -163,8 +163,8 @@ it('test custom event payload', () => {
 在 closeModal 里触发两个事件，测试用例：
 
 ```js
-it('test custom event payload 2', () => {
-  wrapper.find('.btn-close').trigger('click')
+it('test custom event payload 2', async () => {
+  await wrapper.find('.btn-close').trigger('click')
 
   expect(wrapper.emitted('close-modal')).toHaveLength(1)
   expect(wrapper.emitted('close-modal')[0]).toEqual(['hello', 'modal'])
@@ -235,7 +235,9 @@ describe('ParentModal.vue', () => {
   })
   it('test close-modal event handler', () => {
     jest.spyOn(wrapper.vm, 'onCloseModal')
+
     wrapper.find(ModalDemo).vm.$emit('close-modal')
+
     expect(wrapper.vm.onCloseModal).toHaveBeenCalledTimes(1)
   })
 })

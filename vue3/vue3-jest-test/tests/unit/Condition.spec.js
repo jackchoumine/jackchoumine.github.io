@@ -2,17 +2,12 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-21 08:47:44
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-10 16:15:38
+ * @LastEditTime: 2023-08-22 14:46:58
  * @Description : 测试元素可见性和存在性
  */
 import { shallowMount } from '@vue/test-utils'
 import Condition from './Condition.vue'
 
-// NOTE 测试条件渲染
-// v-if 使用 exists
-// v-show 使用 isVisible
-// get 元素一定存在
-// find 可能不存在
 describe('Condition.vue', () => {
   it('admin 存在', () => {
     const wrapper = shallowMount(Condition)
