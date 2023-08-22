@@ -68,7 +68,7 @@ describe('ContractItem.vue', () => {
 expect(wrapper.find('h1').text()).toMatch(msg)
 ```
 
-希望名字渲染类为 header 的 div 中，测试用例：
+希望名字渲染在类为 header 的 div 中，测试用例：
 
 ```js
   it('测试 name 的位置', () => {
