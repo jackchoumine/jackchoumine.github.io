@@ -842,21 +842,3 @@ describe('MockModule.vue', () => {
 * shallowMount 的 mocks 选项，可模拟组件实例属性。
 * `jest.mock` 模拟模块。
 * 适度使用 mock。
-
-## 参考
-
-[Jest 单元测试环境搭建](https://www.aligoogle.net/pages/343eae/#%E4%B8%80-%E4%BE%9D%E8%B5%96%E8%AF%B4%E6%98%8E)
-
-[Vue.js unit test cases with vue-test-utils and Jest](https://blog.octo.com/vue-js-unit-test-cases-with-vue-test-utils-and-jest/)
-
-[](https://mayashavin.com/articles/testing-components-with-vitest)
-
-[](https://blog.logrocket.com/guide-vitest-automated-testing-vue-components/)
-
-[](https://vueschool.io/lessons/learn-how-to-test-vuejs-lifecycle-methods)
-
-[](https://blog.canopas.com/vue-3-component-testing-with-jest-8b80a8a8946b)
-
-[Guide to Unit Testing Vue Components](https://testdriven.io/blog/vue-unit-testing/)
-
-[All Vue Content](https://fjolt.com/category/vue)
