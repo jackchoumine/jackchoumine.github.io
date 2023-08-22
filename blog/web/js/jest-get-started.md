@@ -306,8 +306,8 @@ callback 是用户使用这个函数给的具体实现，希望测试 forEach，
 ```js
 describe('forEach', () => {
   test('forEach', () => {
-    const mockCallback = jest.fn(x => # # # + x)
-    forEach([# # # 1], mockCallback)
+    const mockCallback = jest.fn(x => x)
+    forEach([0, 1], mockCallback)
     // 此 mock 函数被调用了两次
     expect(mockCallback.mock.calls.length).toBe(2)
 
