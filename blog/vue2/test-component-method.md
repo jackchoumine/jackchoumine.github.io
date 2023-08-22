@@ -29,13 +29,11 @@
 
 > 在组件生命周期中调用的方法，需要测试吗？
 
-没看到权威的说法，我认为应该测试。
-
-<!-- TODO -->
+不需要，而是测试生命周期的副作用，比如在 mounted 中调用一个 http，测试这个 http 调用对组件视图的影响。
 
 ## 测试公有方法
 
-暴露给组件外部的方法，是组件的 API （组件的契约），需要测试。
+暴露给组件外部的方法，是组件的 API (组件契约一部分)，需要测试。
 
 测试方法：调用方法，然后断言方法的**返回值**或者**副作用**是否符合预期。
 
@@ -74,7 +72,7 @@ describe('Demo', () => {
 
 定时器函数是实时运行的，这对于速度敏感的单元测试来说不是好消息，如果一个定时器函数需要 10 秒才能运行，那么测试就需要 10 秒才能完成，这太慢了。需要模拟这 10 秒的等待。
 
-替换测试中现有的函数而创建的函数称为模拟函数。
+替换测试中出现的函数而创建的函数称为模拟函数。
 
 Jest 有假定时器，它可以模拟定时器函数的行为，而不是等待实际的时间。
 
@@ -131,12 +129,18 @@ describe('Demo', () => {
   it('test start', () => {
     const wrapper = shallowMount(Demo)
     jest.useFakeTimers()
+
     wrapper.vm.start()
     jest.advanceTimersByTime(1000)
+
     expect(wrapper.vm.count).toBe(1)
+
     jest.advanceTimersByTime(2000)
+
     expect(wrapper.vm.count).toBe(3)
+
     jest.advanceTimersByTime(7000)
+
     expect(wrapper.vm.count).toBe(10)
   })
 })
@@ -150,10 +154,14 @@ it('test stop', () => {
   jest.useFakeTimers()
   wrapper.vm.start()
   jest.advanceTimersByTime(1000)
+
   expect(wrapper.vm.count).toBe(1)
+
   wrapper.vm.stop()
+
   wrapper.vm.start() // 重新开始，再推进 3 秒
   jest.advanceTimersByTime(3000)
+
   expect(wrapper.vm.count).toBe(4)
 })
 ```
@@ -272,6 +280,7 @@ it('test finish', () => {
   const wrapper = shallowMount(Demo)
   wrapper.vm.start()
   wrapper.vm.finish()
+
   expect(window.clearInterval).toHaveBeenCalled() // 断言函数是否被调用
   expect(window.clearInterval).toHaveBeenCalledTimes(1) // 断言函数被调用的次数
   expect(window.clearInterval).toHaveBeenCalledWith(timer) // 断言函数被调用，并且使用了指定的参数
@@ -321,8 +330,11 @@ it('better test finish', () => {
   const wrapper = shallowMount(Demo)
   wrapper.vm.start()
   jest.advanceTimersByTime(3000)
+
   expect(wrapper.vm.count).toBe(3)
+
   wrapper.vm.finish()
+
   expect(wrapper.vm.count).toBe(0)
 })
 ```
@@ -405,6 +417,7 @@ describe('mock ', () => {
         $bar
       }
     })
+
     expect($bar.start).toHaveBeenCalled()
     expect($bar.start).toHaveBeenCalledTimes(1)
   })
@@ -415,7 +428,7 @@ describe('mock ', () => {
 
 ## 测试生命周期钩子中调用的函数
 
-没有找到官方的资料，哎，只能自己摸索了。
+> 不要直接测试组件的生命周期钩子中调用的函数，而是测试生命周期钩子的副作用。
 
 有一组件如下：
 
@@ -447,13 +460,12 @@ const CounterDemo = {
 
 测试组件**挂载时**是否执行了 `start`
 
-<!-- TODO -->
-
 ```js
 it('test call start when mounted', () => {
   // Matcher error: received value must be a mock or spy function ❌
   jest.spyOn(CounterDemo.methods, 'start')
   const wrapper = shallowMount(CounterDemo)
+
   expect(wrapper.vm.start).toHaveBeenCalledTimes(1)
 })
 ```
@@ -475,6 +487,7 @@ describe('CounterDemo', () => {
   it('test call start when mounted', () => {
     jest.spyOn(wrapper.vm, 'start')
     wrapper.vm.mounted()
+
     expect(wrapper.vm.start).toHaveBeenCalledTimes(1)
   })
 })
@@ -494,9 +507,13 @@ import {
 describe('CounterDemo', () => {
   it('测试 destroy 时的函数调用', () => {
     const wrapper = shallowMount(CounterDemo)
+
     expect(wrapper.vm.timer).not.toBe(null)
+
     jest.spyOn(wrapper.vm, 'stop')
+
     wrapper.destroy() // 手动销毁组件
+
     expect(wrapper.vm.stop).toHaveBeenCalled()
     expect(wrapper.vm.stop).toHaveBeenCalledTimes(1)
   })
@@ -513,11 +530,13 @@ describe('CounterDemo', () => {
 
 [Unit Testing Vue Lifecycle Methods](https://grozav.com/unit-testing-vue-lifecycle-methods/)
 
-### 测试异步函数
+## 测试异步函数
 
 异步代码是指在未来某个时间点执行的代码，比如定时器、网络请求等。
 
-* 回调函数类型的异步
+###  回调函数类型的异步
+
+想看一个**永远都通过**的测试用例，可以这样写：
 
 ```js
 it('async function', () => {
@@ -531,7 +550,7 @@ it('async function', () => {
 })
 ```
 
-测试代码都执行完毕了，setTimeout 的回调都还没执行，就导致断言不会执行。
+测试代码都执行完毕了，setTimeout 的回调都还没执行，就导致断言不会执行，永远通过。
 
 使用 `done` ，执行异步回调。
 
@@ -570,7 +589,7 @@ it('async callback function', done => {
 
 > 先输出 `finish setTimeout callback` ，再输出 `finish` ，花了 1.74 秒 。
 
-测试异步代码，往往会忘记编写断言，导致测试误报，可使用 `expect.assertions` 指定断言数量。
+测试异步代码，往往会忘记编写断言，导致测试**误报**，可使用 `expect.assertions` 指定断言数量。
 
 ```js
 it('async callback function', (done) => {
@@ -586,24 +605,28 @@ it('async callback function', (done) => {
 })
 ```
 
-* promise 类型的异步
+### promise 类型的异步
 
 ```js
 it('async promise function', done => {
   expect.assertions(1)
   jest.useFakeTimers()
+
   const promise = new Promise((resolve, reject) => {
     setTimeout(() => {
       console.log('finish setTimeout callback')
       resolve(100)
     }, 1000)
   })
+
   jest.advanceTimersByTime(1000)
+
   promise.then(res => {
     console.log('finish promise', res)
     expect(res).toBe(100)
     done()
   })
+
   console.log('finish')
 })
 ```
@@ -627,13 +650,13 @@ it('async promise function', async () => {
 
 > async 和 done 不能同时使用。
 
-### 模拟模块依赖
+## 模拟模块依赖
 
 当一个 JavaScript 文件导入另一个模块时， 被导入的模块将成为一个依赖，比如 axios。 大多数情况下， 在单元测试中有模块依赖是好事， 但是如果该模块依赖有副作用， 比如发送 http 请求， 则可能会导致问题： 测试代码无法控制请求多久返回， 返回的状态也是多变的， 这样的测试代码是不可靠的。
 
 但是这种模块依赖又是源代码里必须有的， 怎么办呢？
 
-> 模块依赖的副作用是不可控的， 测试代码就不可靠， 所以需要模拟模块依赖， 即将依赖替换成一个对象。
+> 模块依赖的副作用是不可控的，会让测试代码不可靠， 所以需要将依赖使用稳定的函数替换掉。
 
 有一个 `MockModule.vue`
 
@@ -756,8 +779,6 @@ await flushPromises 的作用：flush-promises 会刷新所有处于 pending 状
 因为不能直接拿到组件内部的 `getTodoList` ，就不能使用 await 来让异步函数结束，所以需要 `flushPromises` ，不使用会报错。
 
 <!-- 模拟了包含了 getTodoList 的模块，getTodoList -->
-
-> 有点绕。。。。。
 
 修改上面的测试：
 
