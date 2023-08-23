@@ -261,37 +261,73 @@ it 是 test 的别名 xit 表示跳过这个测试用例，在跳过某些正在
 
 ### 回调类型的异步
 
+使用 `done`
+
+有一函数：
+
 ```js
-test('异步函数', done => {
-  fetchData(n => {
-    expect(n).toEqual(30)
+import axios from 'axios'
+
+function asyncApiCallback(callback: any) {
+  axios.get('http://localhost:3001/posts').then(res => callback(res.data))
+}
+```
+
+测试用例：
+
+```js
+it('asyncApiCallback', done => {
+  asyncApiCallback((data: any) => {
+    expect(data).toEqual(dbJson.posts)
+    done()
   })
-  done()
 })
 ```
 
 ### promise 类型的异步
 
+使用 async await
+
+有一函数：
+
 ```js
-test('函数返回 promise', () => {
-  return githubUsers()
-    .then(res => {
-      expect(res).toEqual(23)
-    })
-    .catch(error => {
-      console.log(error)
-    })
+function asyncApiPromise() {
+  return axios.get('https://jsonplaceholder.typicode.com/todos/120').then(res => res.data)
+}
+```
+
+测试用例：
+
+```js
+it('asyncApiPromise async', async () => {
+  const res = await asyncApiPromise()
+  expect(res.id).toEqual(120)
 })
 ```
 
-使用 await
+也可以使用 done
 
 ```js
-test('函数返回 promise', async () => {
-  const res = await githubUsers()
-  expect(res).toEqual(23)
+it('asyncApiPromise', done => {
+  asyncApiPromise().then((data: any) => {
+    expect(data.id).toEqual(120)
+    done()
+  })
 })
 ```
+
+还可以使用 `return` 的方式：
+
+```js
+it('asyncApiPromise2', () => {
+  expect.assertions(1)
+  return asyncApiPromise().then((data: any) => {
+    expect(data.id).toEqual(120)
+  })
+})
+```
+
+> 推荐的实践：回调类型的使用 `done` ，promise 类型的使用 `async await` ， `return` 的方式，且使用 `expect.assertions(1)` 保证有一个断言，防止忘记写断言。
 
 ## 模拟依赖
 

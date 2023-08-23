@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-13 22:58:12
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-14 00:39:25
+ * @LastEditTime: 2023-08-23 10:58:18
  * @Description :
  */
 import {
@@ -29,10 +29,13 @@ describe('async function', () => {
       done()
     })
   })
+  it('asyncApiPromise async', async () => {
+    const res = await asyncApiPromise()
+    expect(res.id).toEqual(120)
+  })
   it('asyncApiPromise2', () => {
     expect.assertions(1)
     return asyncApiPromise().then((data: any) => {
-      // console.log(data, 'zqj log')
       expect(data.id).toEqual(120)
     })
   })
