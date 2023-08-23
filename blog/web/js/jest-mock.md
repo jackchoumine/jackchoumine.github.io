@@ -35,6 +35,32 @@ it('simple jest.fn', () => {
 })
 ```
 
+输出 mockFn 看看：
+
+```js
+[Function: mockConstructor] {
+  _isMockFunction: true,
+  getMockImplementation: [Function(anonymous)],
+  mock: [Getter / Setter],
+  mockClear: [Function(anonymous)],
+  mockReset: [Function(anonymous)],
+  mockRestore: [Function(anonymous)],
+  mockReturnValueOnce: [Function(anonymous)],
+  mockResolvedValueOnce: [Function(anonymous)],
+  mockRejectedValueOnce: [Function(anonymous)],
+  mockReturnValue: [Function(anonymous)],
+  mockResolvedValue: [Function(anonymous)],
+  mockRejectedValue: [Function(anonymous)],
+  mockImplementationOnce: [Function(anonymous)],
+  mockImplementation: [Function(anonymous)],
+  mockReturnThis: [Function(anonymous)],
+  mockName: [Function(anonymous)],
+  getMockName: [Function(anonymous)]
+}
+```
+
+是一个函数，有很多属性。
+
 ### 模拟函数实现
 
 ```js
@@ -212,8 +238,6 @@ console.log(f2.mock, 'zqj log')
 ## jest.mock
 
 ## 参考
-
-[Mock Functions or Spies Demystified - How Does jest.fn() Work?](https://www.pluralsight.com/guides/how-does-jest.fn()-work)
 
 [How to Write Functional Tests in React (Part 1)](https://echobind.com/post/how-to-write-functional-tests-in-react-part-1)
 
