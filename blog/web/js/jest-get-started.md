@@ -327,7 +327,7 @@ it('asyncApiPromise2', () => {
 })
 ```
 
-> 推荐的实践：回调类型的使用 `done` ，promise 类型的使用 `async await` ， `return` 的方式，且使用 `expect.assertions(1)` 保证有一个断言，防止忘记写断言。
+> 推荐的实践：回调类型的使用 `done` ，promise 类型的使用 `async await` ，且使用 `expect.assertions(1)` 保证有一个断言，防止忘记写断言。
 
 ## 模拟依赖
 
@@ -337,7 +337,7 @@ it('asyncApiPromise2', () => {
 
 ```js
 function forEach(items, callback) {
-  for (let index = # # # index < items.length; index++) {
+  for (let index = 0; index < items.length; index++) {
     callback(items[index])
   }
 }
@@ -348,7 +348,7 @@ callback 是用户使用这个函数给的具体实现，希望测试 forEach，
 ```js
 describe('forEach', () => {
   test('forEach', () => {
-    const mockCallback = jest.fn(x => x)
+    const mockCallback = jest.fn(x => 42 + x)
     forEach([0, 1], mockCallback)
     // 此 mock 函数被调用了两次
     expect(mockCallback.mock.calls.length).toBe(2)
@@ -367,7 +367,7 @@ describe('forEach', () => {
 
 > mock 属性
 
-所有 mock 函数都有一个 `.mock` 属性，它保存了关于函数如何被调用、调用时的返回值、this 等信息。
+所有 mock 函数都有一个 `.mock` 属性，它保存了函数调用情况：是否被调用、调用次数、调用参数、返回值、调用顺序和this 等信息。
 
 ```js
 const myMock1 = jest.fn()
@@ -392,6 +392,8 @@ console.log(myMock2.mock.contexts) //  [ { name: 'b' } ]
 3.  `mock.results[0].value` 第一次被调用的返回值
 
 4. `mock.lastCall[0]` 最后一次调用的第一个参数
+
+但是这种用法，挺繁琐，下面是更简单的用法。
 
 > mock 函数返回值
 

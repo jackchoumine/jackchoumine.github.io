@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-14 01:06:16
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-14 02:52:14
+ * @LastEditTime: 2023-08-23 11:15:13
  * @Description :
  */
 import { runCallBack } from './mock'
@@ -39,7 +39,7 @@ describe('学习各种mock', () => {
       // 3. 调用时的参数
       // 4. 调用时的返回值
       // 5. 调用顺序
-      // 6. 调用时的this
+      // 6. 调用时的 this
       expect(func).toBeCalled()
     })
     it('监听函数的执行次数', () => {
