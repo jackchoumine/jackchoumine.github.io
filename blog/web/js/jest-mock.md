@@ -506,7 +506,7 @@ async function mockGlobal() {
 }
 ```
 
-https.ts 模块如下：
+https 模块如下：
 
 ```ts
 // src/https/index.ts
@@ -520,6 +520,8 @@ export { getProfile }
 ```
 
 在 `src/https` 目录下创建 `__mocks__/index.ts`
+
+> 导出同名函数
 
 ```js
 // src/https/__mocks__/index.ts
