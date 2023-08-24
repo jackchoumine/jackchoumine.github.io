@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-20 01:31:00
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-20 01:45:13
+ * @LastEditTime: 2023-08-24 23:58:55
  * @Description :
  */
 import { sayHello } from './sayHello'
@@ -19,7 +19,7 @@ const mockConfig = config as { CAPITALIZE: boolean }
 
 describe('sayHello', () => {
   test('Capitalizes name if config requires that', () => {
-    // NOTE 无法为“CAPITALIZE”赋值，因为它是只读属性。
+    // NOTE 无法为"CAPITALIZE"赋值，因为它是只读属性。
     // NOTE ts 视导入为常量，且对象的属性是只读的
     mockConfig.CAPITALIZE = true
 

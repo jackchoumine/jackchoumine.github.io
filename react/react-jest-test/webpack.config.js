@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-13 11:37:07
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-13 12:50:38
+ * @LastEditTime: 2023-08-25 01:28:56
  * @Description : webpack 配置文件
  */
 const path = require('path')
@@ -56,11 +56,13 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js', '.scss', '.css'],
     // 设置别名
     alias: {
+      '@/*': path.join(__dirname, 'src/*'),
       utils: path.join(__dirname, 'src/utils/'),
       components: path.join(__dirname, 'src/components/'),
       assets: path.join(__dirname, 'src/assets/'),
       apis: path.join(__dirname, 'src/apis/'),
       hooks: path.join(__dirname, 'src/hooks/'),
+      https: path.join(__dirname, 'src/https/'),
       store: path.join(__dirname, 'src/store/'),
     },
   },

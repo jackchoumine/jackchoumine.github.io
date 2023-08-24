@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-16 01:27:18
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-16 02:50:23
+ * @LastEditTime: 2023-08-24 23:40:19
  * @Description :
  */
 import exportObj, { sum } from './mockExportObj'
@@ -22,6 +22,7 @@ jest.mock('./mockExportObj', () => {
     sum: mockSum, //: jest.fn().mockImplementation((a, b) => '' + a + '' + b),
   }
 })
+// console.log(result, 'zqj log')
 describe('mock 模块默认对象', () => {
   it('exportObj.say', () => {
     jest.spyOn(exportObj, 'say')

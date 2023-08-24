@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-20 01:31:00
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-20 02:11:58
+ * @LastEditTime: 2023-08-25 01:03:29
  * @Description :
  */
 import { sayHello } from './sayHello-3'
@@ -15,16 +15,43 @@ jest.mock('./config-default-fn', () => ({
 }))
 const shouldCapitalizeMock = config.default as jest.Mock
 describe('sayHello', () => {
-  test('Capitalizes name if config requires that', () => {
-    shouldCapitalizeMock.mockReturnValue(true)
-
-    expect(sayHello('john')).toBe('Hi, John')
+  test('jest.resetModules', () => {
+    // NOTE jest.doMock 会覆盖 jest.mock
+    // const mockDefault =
+    jest.mock('./config-default-fn', () => ({
+      __esModule: true,
+      default: jest.fn().mockImplementation(() => false),
+    }))
+    expect(sayHello('john')).toBe('Hi, john')
+    jest.resetModules()
   })
+  // test('Capitalizes name if config requires that', () => {
+  //   // shouldCapitalizeMock.mockReturnValue(true)
+  //   jest.unmock('./config-default-fn')
+
+  //   expect(sayHello('john')).toBe('Hi, John')
+  // })
 
   test('does not capitalize name if config does not require that', () => {
-    shouldCapitalizeMock.mockReturnValue(false)
+    shouldCapitalizeMock.mockImplementation(() => false)
 
     expect(sayHello('john')).toBe('Hi, john')
+  })
+  test('jest.resetModules', () => {
+    // NOTE jest.doMock 会覆盖 jest.mock
+    // const mockDefault =
+    jest.mock('./config-default-fn', () => ({
+      __esModule: true,
+      default: jest.fn().mockImplementation(() => false),
+    }))
+    expect(sayHello('john')).toBe('Hi, john')
+    jest.resetModules()
+  })
+
+  test("don't mock", () => {
+    jest.requireActual('./config-default-fn')
+
+    expect(sayHello('john')).toBe('Hi, John')
   })
 })
 // 参考
