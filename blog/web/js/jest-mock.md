@@ -601,6 +601,8 @@ describe('mock axios', () => {
 })
 ```
 
+> 经过这个几个例子，还学习了模拟 http 接口请求。
+
 ### jest.mock 使用小结
 
 1. `jest.mock('path/to/file')`  --- 模拟全局依赖
