@@ -608,7 +608,7 @@ describe('mock axios', () => {
 1. `jest.mock('path/to/file')`  --- 模拟全局依赖
 2. `jest.mock('path/to/file', factory)` --- 在测试文件中模拟模块
 3. `jest.doMock('path/to/file', () => {})` --- 在某个用例里模拟模块，需要手动清除模拟
-4. 模拟的模块在测试文件中不能省略
+4. 模拟的模块在测试文件中不能省略导入语句
 
 ## jest.fn 是如何记住执行情况？ --- jest.fn 的原理
 
