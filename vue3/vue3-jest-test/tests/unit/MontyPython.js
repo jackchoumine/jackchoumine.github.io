@@ -9,4 +9,7 @@ export default class MontyPython {
   callFnWithTheMeaningOfLife(fn) {
     fn(42)
   }
+  getTheMeaningOfLife() {
+    return Math.random() * 100
+  }
 }

@@ -1,5 +1,7 @@
 # js 学习
 
+### [Jest 学习笔记（三）-- jest 中的模拟](./jest-mock.md)
+
 ### [Jest 学习笔记（三）-- jest 快速上手](./jest-get-started.md)
 
 ### [Jest 学习笔记（三）-- jest + ts + react + sass 测试环境搭建](./jest-setup-2.md)

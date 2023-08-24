@@ -2,10 +2,12 @@
  * @Description : 抛出方法匹配
  * @Date        : 2022-06-07 07:02:36 +0800
  * @Author      : JackChou
- * @LastEditTime: 2023-08-13 19:49:42
+ * @LastEditTime: 2023-08-24 09:50:13
  * @LastEditors : ZhouQiJun
  */
 import { fetchData, githubUsers } from '../../src/async.fn.js'
+
+import MontyPython from './MontyPython'
 
 const testFn = () => {
   throw new Error('test')
@@ -80,8 +82,24 @@ describe('函数', () => {
   //   //   })
   // })
 
-  test('函数返回 promise', async () => {
-    const res = await githubUsers()
-    expect(23).toEqual(23)
+  it('callFnWithTheMeaningOfLife should call the provided function with the number 42', () => {
+    const mockFn = jest.fn()
+    const montyPython = new MontyPython()
+
+    montyPython.callFnWithTheMeaningOfLife(mockFn)
+
+    expect(mockFn).toHaveBeenCalledWith(42)
+  })
+  it('getTheMeaningOfLife', () => {
+    const mockRandom = jest.spyOn(Math, 'random')
+    mockRandom.mockReturnValue(10)
+
+    const montyPython = new MontyPython()
+
+    const result = montyPython.getTheMeaningOfLife()
+
+    expect(mockRandom).toHaveBeenCalled()
+    expect(result).toBe(10 * 100)
+    mockRandom.mockRestore()
   })
 })

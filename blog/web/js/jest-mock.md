@@ -8,8 +8,8 @@
 2. 调用次数
 3. 调用时的参数
 4. 调用时的返回值
-6. 调用时的 this
-5. 调用顺序
+5. 调用时的 this
+6. 调用顺序
 
 jest 有三种创建模拟函数的方式：
 
@@ -95,7 +95,70 @@ it('simple jest.fn give implement - 2', () => {
 
 模拟出函数后，就可使用 `toBeCalled` 、 `toBeCalledTimes` 和 `toBeCalledWith` 匹配器断言执行情况。
 
-### jest.fn 实现原理
+上面的三个例子比较简单，下面看看复杂一点的例子。
+
+```js
+// MontyPython.js
+export default class MontyPython {
+  callFnWithTheMeaningOfLife(fn) {
+    fn(42)
+  }
+  getTheMeaningOfLife() {
+    return Math.random() * 100
+  }
+}
+```
+
+需要测试回调 fn 是否被调用，且参数为 42。
+
+```js
+// MontyPython.spec.js
+import MontyPython from './MontyPython'
+it('callFnWithTheMeaningOfLife', () => {
+  const mockFn = jest.fn()
+  const montyPython = new MontyPython()
+
+  montyPython.callFnWithTheMeaningOfLife(mockFn)
+
+  expect(mockFn).toHaveBeenCalledWith(42)
+})
+```
+
+参数是固定的 42，能预测，但是如果参数是随机的，就无法预测了，比如 `getTheMeaningOfLife` , 这时候就需要模替换掉 `Math.random` ，random 是对象上的一个方法，所以需要模拟对象的方法， `jest.spyOn` 出场。
+
+## jest.spyOn
+
+`getTheMeaningOfLife` 的测试用例：
+
+```js
+// MontyPython.spec.js
+it('getTheMeaningOfLife', () => {
+  const mockRandom = jest.spyOn(Math, 'random')
+  mockRandom.mockImplementation(() => 10)
+
+  const montyPython = new MontyPython()
+
+  const result = montyPython.getTheMeaningOfLife()
+
+  expect(mockRandom).toHaveBeenCalled()
+  expect(result).toBe(10 * 100)
+  mockRandom.mockRestore()
+})
+```
+
+> jest.spyOn 会返回一个模拟对象，可以使用 `mockImplementation` 重写函数的实现。
+
+> mockRandom.mockRestore() 会恢复原来的实现。
+
+还可以这样模拟返回值：
+
+```js
+mockRandom.mockReturnValue(10)
+```
+
+## jest.mock
+
+## jest.fn 记住执行情况的原理
 
 模拟出来的函数有一个 `mock` ，一个对象，里面记录着函数的执行情况。
 
@@ -232,10 +295,6 @@ console.log(f2.mock, 'zqj log')
 ```
 
 > 经过测试，符合我们的预期。
-
-## jest.spyOn
-
-## jest.mock
 
 ## 参考
 
