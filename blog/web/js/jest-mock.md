@@ -124,7 +124,7 @@ it('callFnWithTheMeaningOfLife', () => {
 })
 ```
 
-参数是固定的 42，能预测，但是如果参数是随机的，就无法预测了，比如 `getTheMeaningOfLife` , 这时候就需要模替换掉 `Math.random` ，random 是对象上的一个方法，所以需要模拟对象的方法， `jest.spyOn` 出场。
+参数是固定的 42，能预测，但是如果参数或者返回值是随机的，就无法预测了，比如 `getTheMeaningOfLife` , 这时候就需要模替换掉 `Math.random` ，random 是对象上的一个方法，所以需要模拟对象的方法， `jest.spyOn` 出场。
 
 ## jest.spyOn
 
