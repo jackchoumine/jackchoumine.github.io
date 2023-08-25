@@ -436,11 +436,6 @@ describe('mock 模块默认对象', () => {
 })
 ```
 
-### jest.mock 使用小结
-
-1. 第二个参数是一个工厂函数，返回的对象可重写模块的实现；
-2. 正常导入的模块不能省略。
-
 ### 想要在某个用例里模拟呢？
 
 `jest.doMock` 提供了在某个用例里模拟的能力。
@@ -511,7 +506,7 @@ async function mockGlobal() {
 }
 ```
 
-https.ts 模块如下：
+https 模块如下：
 
 ```ts
 // src/https/index.ts
@@ -525,6 +520,8 @@ export { getProfile }
 ```
 
 在 `src/https` 目录下创建 `__mocks__/index.ts`
+
+> 导出同名函数
 
 ```js
 // src/https/__mocks__/index.ts
@@ -606,11 +603,14 @@ describe('mock axios', () => {
 })
 ```
 
+> 经过这个几个例子，还学习了模拟 http 接口请求。
+
 ### jest.mock 使用小结
 
 1. `jest.mock('path/to/file')`  --- 模拟全局依赖
-2. `jest.mock('path/to/file', () => {})` --- 在测试文件中模拟模块
+2. `jest.mock('path/to/file', factory)` --- 在测试文件中模拟模块
 3. `jest.doMock('path/to/file', () => {})` --- 在某个用例里模拟模块，需要手动清除模拟
+4. 模拟的模块在测试文件中不能省略导入语句
 
 ## jest.fn 是如何记住执行情况？ --- jest.fn 的原理
 
