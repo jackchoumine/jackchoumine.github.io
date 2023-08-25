@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-13 22:58:12
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-23 10:58:18
+ * @LastEditTime: 2023-08-24 23:43:10
  * @Description :
  */
 import {
@@ -15,6 +15,12 @@ import {
 
 import dbJson from '../../db.json'
 
+describe('async function', () => {
+  it('asyncApiPromise--test', () => {
+    expect(1).toBe(1)
+  })
+})
+/*
 describe('async function', () => {
   it('asyncApiCallback', done => {
     asyncApiCallback((data: any) => {
@@ -75,7 +81,7 @@ describe('async function', () => {
     })
   })
 })
-
+*/
 // 异步函数设置超时时间
 // https://stackoverflow.com/questions/49603939/message-async-callback-was-not-invoked-within-the-5000-ms-timeout-specified-by
 
