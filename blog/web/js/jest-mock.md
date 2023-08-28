@@ -95,6 +95,19 @@ it('simple jest.fn give implement - 2', () => {
 
 模拟出函数后，就可使用 `toBeCalled` 、 `toBeCalledTimes` 和 `toBeCalledWith` 匹配器断言执行情况。
 
+> 如果不关系某个参数的值，可以使用 `expect.any` 匹配器。
+
+```js
+describe('The mock function', () => {
+  it('should be called', () => {
+    mockFunction(10, 5)
+    expect(mockFunction).toBeCalledWith(expect.anything(), 5)
+  })
+})
+```
+
+> expect.anything() 匹配除了null 和 undefined 之外的任何值。
+
 上面的三个例子比较简单，下面看看复杂一点的例子。
 
 ```js
@@ -603,7 +616,7 @@ describe('mock global', () => {
 
 > jest.mock 不仅可全局模拟项目里的模块，还能模拟 npm 模块。
 
-模拟常见的http库 `axios`
+模拟常见的 http 库 `axios`
 
 ```ts
 // tests/units/mockAxios.ts
@@ -616,7 +629,6 @@ export { getTodoList }
 ```
 
 测试用例：
-  
 
 ```ts
 import axios from 'axios'
@@ -643,7 +655,11 @@ describe('mock axios', () => {
 
 ### 清除模拟
 
-<!-- TODO -->
+使用模拟函数后，需要清除模拟，否则会影响其他用例。
+
+`mockFunction.clearMock()` 、 `jest.clearAllMocks()` 和 `jest.resetAllMocks()` 可清除模拟。
+
+使用下面的配置，可在每个测试用例执行前清除模拟，不用手动清除。
 
 ```js
 module.exports = {
@@ -654,7 +670,7 @@ module.exports = {
 
 ### jest.mock 使用小结
 
-1. `jest.mock('path/to/file')`  --- 模拟全局依赖
+1. `jest.mock('path/to/file')` --- 模拟全局依赖
 2. `jest.mock('path/to/file', factory)` --- 在测试文件中模拟模块
 3. `jest.doMock('path/to/file', () => {})` --- 在某个用例里模拟模块，需要手动清除模拟
 4. 模拟的模块在测试文件中不能省略导入语句
@@ -668,6 +684,18 @@ module.exports = {
 如何模拟 fetch？
 
 <!-- TODO -->
+
+## 再谈模拟 http 接口
+
+<!-- TODO -->
+
+参考：
+
+[javascript-testing-rest-api-mock-service-worker](https://wanago.io/2022/08/01/javascript-testing-rest-api-mock-service-worker/)
+
+## 模拟 websocket
+
+[javascript-testing-mocking-websockets-mock-socket](https://wanago.io/2022/08/08/javascript-testing-mocking-websockets-mock-socket/)
 
 ## jest.fn 的原理
 
