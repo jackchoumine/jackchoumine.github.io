@@ -171,3 +171,7 @@ render 返回一个对象，对象包含一些查询DOM的方法，可直接解�
 render 的第二个参数是一个配置对象，可传递组件的 props、父组件等。
 
 [render-options](https://testing-library.com/docs/react-testing-library/api/#render-options)
+
+## 参考
+
+[基于 Jest 的单元测试](https://sinoui.github.io/sinoui-guide/docs/jest-introduction)
