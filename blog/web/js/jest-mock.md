@@ -497,7 +497,7 @@ function subtract(firstNumber: number, secondNumber: number) {
 export { sum, subtract }
 ```
 
-在模拟 math 模块时，只想模拟 `sum` 函数，不想模拟 `subtract` 函数，怎么办？
+在模拟 math 模块时，只想模拟 `subtract` 函数，不想模拟 `sum` 函数，怎么办？
 
 `jest.requireActual` 可以导入真实的模块，然后模拟部分函数。
 
