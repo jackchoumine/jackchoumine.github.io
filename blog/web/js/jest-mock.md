@@ -480,14 +480,50 @@ test("don't mock", () => {
 
 > jest.unmock 可以终止 `jest.mock` , 几乎不用。
 
-> 想要调用真实的模拟，而不是模拟的模块呢？
+> 如何模拟模块中一部分呢？
+
+有一模块如下：
 
 ```ts
-test("don't mock", () => {
-  jest.requireActual('./config-default-fn')
+// math.ts
+function sum(firstNumber: number, secondNumber: number) {
+  return firstNumber + secondNumber
+}
 
-  // BUG 没有通过断言
-  expect(sayHello('john')).toBe('Hi, John')
+function subtract(firstNumber: number, secondNumber: number) {
+  return firstNumber - secondNumber
+}
+
+export { sum, subtract }
+```
+
+在模拟 math 模块时，只想模拟 `sum` 函数，不想模拟 `subtract` 函数，怎么办？
+
+`jest.requireActual` 可以导入真实的模块，然后模拟部分函数。
+
+```ts
+// math.test.ts
+import * as math from './math'
+
+jest.mock('./math', () => {
+  return {
+    ...jest.requireActual('./math'),
+    subtract: jest.fn(),
+  }
+})
+const mockMath = math as jest.Mocked<typeof math>
+describe('math.ts', () => {
+  it('should add two numbers', () => {
+    expect(math.sum(1, 2)).toBe(3)
+  })
+  it('重新实现 subtract 1', () => {
+    mockMath.subtract.mockReturnValueOnce(1)
+    expect(math.subtract(1, 2)).toBe(1)
+  })
+  it('重新实现 subtract 2', () => {
+    mockMath.subtract.mockImplementationOnce((a, b) => a + b)
+    expect(math.subtract(1, 2)).toBe(3)
+  })
 })
 ```
 
@@ -605,6 +641,17 @@ describe('mock axios', () => {
 
 > 经过这个几个例子，还学习了模拟 http 接口请求。
 
+### 清除模拟
+
+<!-- TODO -->
+
+```js
+module.exports = {
+  // 在某个测试用例执行之前清除模拟
+  clearMocks: true,
+}
+```
+
 ### jest.mock 使用小结
 
 1. `jest.mock('path/to/file')`  --- 模拟全局依赖
@@ -612,7 +659,17 @@ describe('mock axios', () => {
 3. `jest.doMock('path/to/file', () => {})` --- 在某个用例里模拟模块，需要手动清除模拟
 4. 模拟的模块在测试文件中不能省略导入语句
 
-## jest.fn 是如何记住执行情况？ --- jest.fn 的原理
+## 模拟定时器
+
+<!-- TODO -->
+
+## 模拟全局变量
+
+如何模拟 fetch？
+
+<!-- TODO -->
+
+## jest.fn 的原理
 
 模拟出来的函数有一个 `mock` ，一个对象，里面记录着函数的执行情况。
 
