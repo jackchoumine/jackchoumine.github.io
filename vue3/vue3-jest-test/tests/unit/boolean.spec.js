@@ -5,9 +5,9 @@
  * @LastEditTime: 2022-06-09 17:22:09 +0800
  * @LastEditors : JackChou
  */
-test('city database has Vienna', () => {
-  expect('Vienna').toBeTruthy()
-})
+test("city database has Vienna", () => {
+  expect("Vienna").toBeTruthy();
+});
 /*
 describe('describe 1', () => {
   beforeAll(() => {

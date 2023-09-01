@@ -5,22 +5,22 @@
 </template>
 
 <script>
-import {  onMounted, defineComponent } from 'vue'
+import { onMounted, defineComponent } from "vue";
 
-import axios from 'axios'
+import axios from "axios";
 
 export default defineComponent({
-  name: 'HttpTest',
+  name: "HttpTest",
   setup(props, { emit, attrs, slots }) {
     onMounted(() => {
-      axios.get('/')
-    })
+      axios.get("/");
+    });
     function onClick() {
-      emit('my-click', 'hello', 123)
+      emit("my-click", "hello", 123);
     }
     return {
       onClick,
-    }
+    };
   },
-})
+});
 </script>

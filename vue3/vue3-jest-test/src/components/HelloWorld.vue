@@ -6,24 +6,24 @@
 </template>
 
 <script>
-import Modal from './Modal.vue'
-import { createApp } from 'vue'
+import Modal from "./Modal.vue";
+import { createApp } from "vue";
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
   props: {
     msg: String,
   },
   setup() {
     function mountModal() {
-      const div = document.createElement('div')
-      div.className = 'modal'
-      document.body.appendChild(div)
-      const modal = createApp(Modal)
-      modal.mount(div)
+      const div = document.createElement("div");
+      div.className = "modal";
+      document.body.appendChild(div);
+      const modal = createApp(Modal);
+      modal.mount(div);
     }
-    return { mountModal }
+    return { mountModal };
   },
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

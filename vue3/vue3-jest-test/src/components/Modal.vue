@@ -6,21 +6,28 @@
 </template>
 
 <script>
-import { ref, onMounted, reactive, watch, computed, defineComponent } from 'vue'
+import {
+  ref,
+  onMounted,
+  reactive,
+  watch,
+  computed,
+  defineComponent,
+} from "vue";
 export default defineComponent({
-  name: 'Modal',
+  name: "Modal",
   components: {},
   setup(props, { emit, attrs, slots }) {
     onMounted(() => {
-      console.log('onMounted')
-    })
+      console.log("onMounted");
+    });
     function close() {
-      const modal = document.querySelector('.modal')
-      document.body.removeChild(modal)
+      const modal = document.querySelector(".modal");
+      document.body.removeChild(modal);
     }
-    return { close }
+    return { close };
   },
-})
+});
 </script>
 
 <style>

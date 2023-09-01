@@ -5,12 +5,12 @@
  * @LastEditTime: 2022-06-09 17:39:23 +0800
  * @LastEditors : JackChou
  */
-import axios from 'axios'
+import axios from "axios";
 
 class Users {
   static all() {
-    return axios.get('/users.json').then(resp => resp.data)
+    return axios.get("/users.json").then((resp) => resp.data);
   }
 }
 
-export default Users
+export default Users;

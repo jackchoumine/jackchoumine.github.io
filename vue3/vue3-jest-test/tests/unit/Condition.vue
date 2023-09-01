@@ -13,15 +13,16 @@
     type="button"
     id="opacity"
     :style="{ opacity: opacity }"
-    class="opacity-button hello">
+    class="opacity-button hello"
+  >
     opacity
   </button>
 </template>
 <script>
 export default {
-  name: 'Condition',
+  name: "Condition",
   data() {
-    return { admin: true, dev: false, opacity: 0 }
+    return { admin: true, dev: false, opacity: 0 };
   },
-}
+};
 </script>

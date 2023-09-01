@@ -13,9 +13,9 @@
 </template>
 
 <script>
-import { ref, reactive, watch, computed, defineComponent } from 'vue'
+import { ref, reactive, watch, computed, defineComponent } from "vue";
 export default defineComponent({
-  name: 'MyInput',
+  name: "MyInput",
   props: {
     minLength: {
       type: Number,
@@ -23,14 +23,14 @@ export default defineComponent({
     },
   },
   setup(props, { emit, attrs, slots }) {
-    const myInput = ref('')
+    const myInput = ref("");
     const error = computed(() => {
-      if (myInput.value.length < props.minLength) return '名字不得少于3个字'
-      return ''
-    })
-    return { myInput, error }
+      if (myInput.value.length < props.minLength) return "名字不得少于3个字";
+      return "";
+    });
+    return { myInput, error };
   },
-})
+});
 </script>
 
 <style scoped lang="scss"></style>

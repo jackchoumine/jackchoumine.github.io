@@ -17,19 +17,19 @@
 // import { computed } from 'vue'
 // import { useStore } from 'vuex'
 export default {
-  name: 'Counter',
+  name: "Counter",
   components: {},
   computed: {
     postId() {
-      return this.$router.params.postId
+      return this.$router.params.postId;
     },
     count() {
-      return this.$store.state.count
+      return this.$store.state.count;
     },
   },
   methods: {
     add() {
-      this.$store.commit('add')
+      this.$store.commit("add");
     },
   },
   // setup(props, { emit, attrs, slots }) {
@@ -42,7 +42,7 @@ export default {
   //   }
   //   return { count, add }
   // },
-}
+};
 </script>
 
 <style scoped lang="scss"></style>

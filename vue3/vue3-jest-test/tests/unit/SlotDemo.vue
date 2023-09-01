@@ -19,14 +19,14 @@
 </template>
 
 <script>
-import { ref, reactive, watch, computed, defineComponent } from 'vue'
+import { ref, reactive, watch, computed, defineComponent } from "vue";
 export default defineComponent({
-  name: 'SlotDemo',
+  name: "SlotDemo",
   setup(props, { emit, attrs, slots }) {
-    const name = ref('right')
-    return { name }
+    const name = ref("right");
+    return { name };
   },
-})
+});
 </script>
 
 <style scoped lang="scss"></style>

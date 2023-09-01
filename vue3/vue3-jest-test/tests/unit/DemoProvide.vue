@@ -10,20 +10,20 @@
 </template>
 
 <script>
-import { computed, defineComponent, inject } from 'vue'
+import { computed, defineComponent, inject } from "vue";
 
 export default defineComponent({
-  name: 'DemoProvide',
+  name: "DemoProvide",
   setup(props, { emit, attrs, slots }) {
-    const store = inject('store')
+    const store = inject("store");
     const count = computed(() => {
-      return store.state.count
-    })
+      return store.state.count;
+    });
     function add() {
-      store.commit('add')
+      store.commit("add");
     }
-    return { count, add }
+    return { count, add };
   },
-})
+});
 </script>
 <style scoped lang="scss"></style>

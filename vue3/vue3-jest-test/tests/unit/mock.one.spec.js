@@ -78,4 +78,4 @@ describe('forEach', () => {
   })
 })
 */
-it('hello', () => {})
+it("hello", () => {});
