@@ -1,6 +1,8 @@
 # 最新文章
 
-### [Jest学习](../web/js/Jest-learn.md)
+### [要不要写代码注释](../web/js/要不要写代码注释.md)
+
+<!-- ### [Jest学习](../web/js/Jest-learn.md) -->
 
 ### [vue3 watch 和 watchEffect 最佳实践](../vue3/vue3-watch-best-practice.md)
 

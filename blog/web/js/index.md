@@ -1,5 +1,7 @@
 # js 学习
 
+### [要不要写代码注释](./%E8%A6%81%E4%B8%8D%E8%A6%81%E5%86%99%E4%BB%A3%E7%A0%81%E6%B3%A8%E9%87%8A.md)
+
 ### [Jest 学习笔记（三）-- jest 中的模拟](./jest-mock.md)
 
 ### [Jest 学习笔记（三）-- jest 快速上手](./jest-get-started.md)
