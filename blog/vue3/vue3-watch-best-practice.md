@@ -204,7 +204,7 @@ watch(todoId, async (newTodoId) => {
 })
 ```
 
-> 侦听器是如何两次使用 todoId ?  一次是作为依赖源，另一次是在回调中，可使用 `watchEffect` 简化：
+> 侦听器是如何两次使用 todoId ? 一次是作为依赖源，另一次是在回调中，可使用 `watchEffect` 简化：
 
 ```js
 watchEffect(async () => {
@@ -316,7 +316,15 @@ watchEffect(
 
 ## ref vs reactive
 
-> 我倾向于使用 `ref` 和 `shallowRef` ，需要重置值的地方，使用 `.value = newValue` ；
+两者对比
+
+| reactive                     | ref                           |
+| ---------------------------- | ----------------------------- |
+| ✅ script 和 template 无差别 | ❌ script 中需要使用 `.value` |
+| ❌ 只支持对象和数组          | ✅ 任意类型                   |
+| ❌ 传递函数会丢失响应式      | ✅ 传递函数不会丢失响应式     |
+| ✅ 直接返回属性              | ✅ 使用 `.value` 访问属性     |
+| ❌ 解构丢失响应式            | ❌ 解构丢失响应式             |
 
 > ref 会显示得使用 `.value` 返回，会让一眼看出是响应式变量，监听也更加方便；
 
