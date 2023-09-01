@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-09-01 10:31:25
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-09-01 10:42:29
+ * @LastEditTime: 2023-09-01 15:18:21
  * @Description : 
 -->
 <template>
@@ -11,21 +11,31 @@
 </template>
 
 <script>
+export function submitValidator(value) {
+    if (typeof value !== 'number') {
+        throw Error(`Count should be a number. Got: ${count}`)
+    }
+    return true
+}
+
 export default {
+    emits: {
+        submit: submitValidator
+    },
     data() {
         return {
             count: 0
         }
     },
-    methods:{
+    methods: {
         // NOTE 触发自定义事件的方法命名
         // 1. onCustomEvent 和 触发的2023年9月1日 15:12:48保持一致
         // 2. handleCustomEvent
-        submit(){
-            this.$emit('submit',this.count)
+        submit() {
+            this.$emit('submit', this.count)
         },
-        increment(){
-            this.count ++
+        increment() {
+            this.count++
         }
     }
 }
