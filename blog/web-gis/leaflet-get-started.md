@@ -87,7 +87,13 @@ import 'leaflet/dist/leaflet.css'
 
 ## 代码解读
 
-导入 `Map` 和 `TileLayer` 。
+导入 `Map` 和 `TileLayer` ，如果使用 `script` 引入或者不想按需引入，这些方法会放在 `L` 对象上。
+
+```js
+import L from 'leaflet';
+const layer = L.tileLayer()
+const map = L.map()
+```
 
 `new Map` 创建一个地图实例，第一个参数是一个 DOM 元素或者 `CSS选择器` ，用作地图容器。第二个参数是一个配置对象，这里配置了图层、地图的初始中心点和放缩层级。
 
