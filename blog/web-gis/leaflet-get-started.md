@@ -111,3 +111,9 @@ import 'leaflet/dist/leaflet.css'
 6. 周边生态
 
 后续的学习将围绕这些展开。
+
+## 小结
+
+1. 了解了 leaflet 的特点；
+2. 了解了如何使用 leaflet 创建一个简单的地图；
+3. 了解了学习地图库的要点。
