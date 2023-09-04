@@ -1,6 +1,6 @@
-# WEB GIS 学习笔记
+# WEB GIS 介绍
 
-## 介绍
+## GIS 介绍
 
 ### GIS
 
@@ -10,81 +10,79 @@ GIS: 地理信息系统(geographic information system)
 
 ### GIS 的应用
 
-- 行业应用
+* 行业应用
 
 应用于国土资源、城市规划、环境保护、农业、林业、水利、地质、测绘、物流等领域，为这些领域的决策提供空间信息支持。
 
-- 大众应用
+* 大众应用
 
 地图导航、地图搜索、地图标注、地图分享、地图游戏等。
 
-### WEB GIS
+## WEB GIS
 
-GIS 和 WEB 服务相结合，将 GIS 功能发布到 WEB 上，用户可以通过 WEB 浏览器访问 GIS 服务，实现空间数据的共享和交换。
+GIS 和 WEB 服务相结合，将 GIS 功能发布到 WEB 上，用户通过浏览器访问 GIS 服务，实现空间数据的共享和交换。
 
 得益于 WEB 技术的发展，WEB GIS 也在不断发展，从最初的静态地图，到现在的动态地图，WEB GIS 的应用也越来越广泛。
 
-WEB GIS 的项目架构和传统 WEB 项目的架构几乎没有区别，都是前端(表现层)、后端、数据库，只是前端的展示形式不同，即 WEB GIS 的前端展示的是地图，后台需要提供地图服务。
+WEB GIS 的项目架构和传统 WEB 项目的架构几乎没有区别，都是前端(表现层)、后端、数据库三层，只是前端的展示形式不同，即 WEB GIS 的前端加入了地图功能，后端需要提供地图服务。
 
 ### 常用的 WEB GIS 库或者平台
 
-#### [leaflet](https://leafletjs.cn/)
+1.  [leaflet](https://leafletjs.cn/)
 
-1. 优点：轻量、简单、易上手、支持移动端
+轻量、简单、易上手、支持移动端
 
-为何移动端支持友好？
+<!-- 为何移动端支持友好？
 
-使用 img 和 svg 绘图，不使用 canvas，canvas 在移动端的性能不好。
+使用 img 和 svg 绘图，不使用 canvas，canvas 在移动端的性能不好。 -->
 
-#### openLayers
+2. [openLayers](https://openlayers.org/)
 
-1. 优点：功能强大、支持移动端
+功能强大、支持移动端，绘制图形的方式是 canvas，主要用在 pc 上。
 
-绘制图形的方式是 canvas，主要用在 pc 上。
+3. [mapbox](https://www.mapbox.com/)
 
-#### mapbox
+多端支持，渲染的地图精美，付费的。绘制图形的方式是 canvas WEBGL 模式。
 
-多端支持，渲染的地图精美。
+4. [cesium](https://cesium.com/)
 
-绘制图形的方式是 canvas WEBGL 模式。
+3D 地图，WEBGL 模式。
 
-#### cesium
+此外，还有 google earth、arcGis、百度地图和高德地图等地图厂商，也提供了强大的GIS服务，有一定的免费额度。
 
-3D 地图，webgl。
-
-### 传统的 WEB 开发者需要了解的 GIS 知识
+## 传统的 WEB 开发者需要了解的 GIS 知识
 
 GIS 最核心的是空间数据，空间数据的表现形式是**地图**，地图的表现形式是**图层**，图层的表现形式是**要素**，要素的表现形式是**几何图形**。
 
-#### 计算机图形学
+这句话概括了GIS需要学习的内容。
 
-canvas API
+### 计算机图形学
 
-WEBGL
+在浏览器平台上，需要了解这些知识
 
-> 学会使用常用的地图库
+* canvas API
 
-- leaflet --- 轻量的二维地图库，支持移动端
+* WEBGL
 
-- openLayers --- 功能强大的二维地图库，支持移动端
+> 学会使用上述生常用的地图库，使用它们开发项目，有精力再深入
 
-- cesium --- 三维地图库
+### 几何图形 (geometry)
 
-- mapbox --- 二维、三维地图库
+* 常见几何图形
 
-#### 几何图形 (geometry)
+* 几何图形的空间关系
 
-#### 坐标系
+### 坐标系
 
 地球时一个两级扁赤道突的椭球体，为了方便计算，将地球投影到一个平面上，这个平面就是地图，投影的方式有很多种，每种投影方式都有自己的坐标系。
 
-- 地理坐标系 (GCS)
+* 地理坐标系 (GCS)
 
-- 投影坐标系 (PCS)
+* 投影坐标系 (PCS)
 
 投影坐标系 = 地理坐标系 + 投影方法
 
-`(x,y) = F(lng,lat)`
+ `(x,y) = F(lng,lat)`
 
 莫卡托投影： 光源在地球中心，投影到平面上，保证了角度的不变性，但是面积会发生变化。
 
@@ -92,7 +90,7 @@ WEB mercator = WGS84 + 莫卡托投影
 
 ![](https://cdn.jsdelivr.net/gh/jackchoumine/jack-picture@master/xy.png)
 
-投影变换
+投影变换库
 
 [pro4js](https://github.com/proj4js/proj4js)
 
@@ -102,9 +100,9 @@ transform 函数源码学习
 
 > 地图坐标系和屏幕坐标的转化如何转换？
 
-#### 两种数据类型
+### 两种数据类型
 
-- 矢量数据
+* 矢量数据
 
 > 几何图形的表示 geojson
 
@@ -133,7 +131,7 @@ svg、shapeFile(shp)、geojson、kml、gml
 
 [B 站 qgis 软件操作教程](https://www.bilibili.com/video/BV1vg4y1B7Wa/?vd_source=9bbf149e26315d2edf55b034712e09d6)
 
-- 栅格数据
+* 栅格数据
 
 栅格数据放大会失真
 
@@ -141,7 +139,7 @@ svg、shapeFile(shp)、geojson、kml、gml
 
 png jpg bmp tiff（影像图层）
 
-#### FeatureClass & FeatureLayer
+### FeatureClass & FeatureLayer
 
 （矢量）图层（FeatureLayer）：将具有同类特征的要素(Feature)归为一类要素类(FeatureClass)，通过一定的配置(标注、渲染符号等)渲染到地图上。
 
@@ -151,23 +149,23 @@ png jpg bmp tiff（影像图层）
 
 > 矢量图层数据源格式：
 
-- esri shapeFile (.shp) 标准格式
+* esri shapeFile (.shp) 标准格式
 
-- geojson -- 常见于 WEBGIS 数据交换
+* geojson -- 常见于 WEBGIS 数据交换
 
-- esri geoDatabase (.pgdb .fgdb ) -- esri 公司的专有格式
+* esri geoDatabase (.pgdb .fgdb ) -- esri 公司的专有格式
 
-- qgis geoPackage (.gpkg) -- qgis 公司的专有格式
+* qgis geoPackage (.gpkg) -- qgis 公司的专有格式
 
-#### 数据切片
+### 数据切片
 
 矢量切片
 
 栅格切片
 
-#### 渲染方式
+## 渲染方式
 
-前端渲染
+### 客户端渲染
 
 三种渲染方式
 
@@ -183,10 +181,12 @@ png jpg bmp tiff（影像图层）
 
 这些是常见 WEB GIS 库底层渲染原理。
 
-后端渲染
+### 后端渲染
 
-静态切片
+### 静态切片
 
 ## 参考教程
 
-[湖南师范大学 -- GIS 原理及应用 视频课程](https://www.bilibili.com/video/BV1bV4y1M7aV/?spm_id_from=pageDriver&vd_source=9bbf149e26315d2edf55b034712e09d6)
+[湖南师范大学 -- GIS 原理及应用 -- bilibili 视频课程](https://www.bilibili.com/video/BV1bV4y1M7aV/?spm_id_from=pageDriver&vd_source=9bbf149e26315d2edf55b034712e09d6)
+
+[WEB GIS 入门介绍 -- bilibili 视频课程](https://space.bilibili.com/1042945573/channel/collectiondetail?sid=1361242)
