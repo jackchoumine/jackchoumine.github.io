@@ -190,3 +190,5 @@ png jpg bmp tiff（影像图层）
 [湖南师范大学 -- GIS 原理及应用 -- bilibili 视频课程](https://www.bilibili.com/video/BV1bV4y1M7aV/?spm_id_from=pageDriver&vd_source=9bbf149e26315d2edf55b034712e09d6)
 
 [WEB GIS 入门介绍 -- bilibili 视频课程](https://space.bilibili.com/1042945573/channel/collectiondetail?sid=1361242)
+
+[WEBGIS开发教程 -- 讲的很一般](https://lzugis15.gitee.io/lzugis-blogs/)
