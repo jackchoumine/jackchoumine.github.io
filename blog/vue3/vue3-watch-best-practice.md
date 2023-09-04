@@ -13,7 +13,7 @@ watch 的第一个参数是监听的数据源，有四种形式：
 1. ref：`ref`、`computed`;
 2. reactive；
 3. getter: 返回一值的函数；
-4. 以上形式的组成的**数组**。
+4. 以上三种组成的**数组**。
 
 ### 监听 ref 和 shallowRef
 
