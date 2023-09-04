@@ -2,7 +2,7 @@
 
 [leaflet](https://leafletjs.com/)是一个**开源**且对**移动端友好**的地图 js 库，大小仅有 `42kb` ，但是绝大部分地图功能，它都支持。
 
-leaflet 由乌克兰程序员[Volodymyr Agafonkin](https://agafonkin.com/)在 2010 年创建，被世界上诸多公司使用，可以说已经很成熟了，向开源人致敬。
+leaflet 由乌克兰程序员[Volodymyr Agafonkin](https://agafonkin.com/)在 2010 年创建，被世界上诸多公司使用，可以说已经很成熟了，向开源英雄致敬。
 
 它的突出特点有：
 
@@ -33,7 +33,7 @@ leaflet 由乌克兰程序员[Volodymyr Agafonkin](https://agafonkin.com/)在 20
 import 'leaflet/dist/leaflet.css'
 ```
 
-## 一个例子
+## 一个简单的例子
 
  `InitMap.vue`
 
@@ -83,4 +83,16 @@ import 'leaflet/dist/leaflet.css'
 
 渲染结果：
 
-![leaflet-init-demo-00](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/leaflet-init-demo-00.png)
+![定位到贵阳的地图](https://cdn.staticaly.com/gh/jackchoumine/jack-picture@master/leaflet-init-demo-00.png)
+
+## 代码解读
+
+导入 `Map` 和 `TileLayer` 。
+
+`new Map` 创建一个地图实例，第一个参数是一个DOM元素或者选择器，用作地图容器。第二个参数是一个配置对象，这里配置了图层、地图的初始中心点和放缩层级。
+
+配置了地图容器、图层、地图中心点和放缩层级，就能显示一个简单的地图了。
+
+> 中心点使用 `[纬度,经度]` 的方式设置。
+
+> 默认显示了两个地图控件：左上角的放缩空间和右下角的归属控件。
