@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-04-08 21:08:15
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-14 20:17:31
+ * @LastEditTime: 2023-09-04 16:22:48
  * @Description : 初始化地图
 -->
 <script lang="ts" setup>
@@ -11,6 +11,7 @@ import L from 'leaflet'
 import { AntDesignDemos } from '../AntDesignVue'
 
 const mapContainer = ref()
+
 onMounted(() => {
   const map = initMap(mapContainer.value)
   map.on('mousemove', onMouseMove)
@@ -49,8 +50,10 @@ function initMap(
     maxBounds: [
       [27.33, 107.21],
       [26.21, 106.33],
-    ], // 最大边界 使用经纬度标识，设置后地图不可拖出该范围
-    // dragging: false,
+    ],
+    // 最大边界 使用经纬度标识，设置后地图不可拖出该范围
+    // 是否允许拖动
+    dragging: true,
     renderer: L.svg(), // 渲染器 Renderer，根据浏览器环境自动选择
   }) // .setView(coordinates, zoom)
 
@@ -61,29 +64,29 @@ function initMap(
   // }).addTo(map)
   layer.addTo(map)
 
-  const marker = L.marker([26.55, 106.6]).addTo(map)
-  function componentAsContent(VueComponent, props, mountEl = 'div') {
-    const container = document.createElement(mountEl)
-    return layer => {
-      console.log(container)
-      console.log(layer)
-      return createApp(VueComponent, props).mount(container).$el
-    }
-  }
+  // const marker = L.marker([26.55, 106.6]).addTo(map)
+  // function componentAsContent(VueComponent, props, mountEl = 'div') {
+  //   const container = document.createElement(mountEl)
+  //   return layer => {
+  //     console.log(container)
+  //     console.log(layer)
+  //     return createApp(VueComponent, props).mount(container).$el
+  //   }
+  // }
 
-  marker
-    .bindPopup(componentAsContent(AntDesignDemos, { title: '使用vue组件' }), {
-      closeButton: false,
-      autoClose: false,
-    })
-    .openPopup()
+  // marker
+  //   .bindPopup(componentAsContent(AntDesignDemos, { title: '使用vue组件' }), {
+  //     closeButton: false,
+  //     autoClose: false,
+  //   })
+  //   .openPopup()
 
-  L.circle(GuiYangPosition, {
-    color: 'red',
-    fillColor: '#f03',
-    fillOpacity: 0.5,
-    radius: 5000,
-  }).addTo(map)
+  // L.circle(GuiYangPosition, {
+  //   color: 'red',
+  //   fillColor: '#f03',
+  //   fillOpacity: 0.5,
+  //   radius: 5000,
+  // }).addTo(map)
 
   map.on('load', event => {
     console.log('map load', event)
@@ -98,14 +101,14 @@ function initMap(
   return map
 }
 
-const coordinates = reactive({
+const coordinates = ref({
   lat: undefined,
   lng: undefined,
 })
 function onMouseMove(e: L.LeafletMouseEvent) {
   const { lat, lng } = e.latlng
-  coordinates.lat = lat.toFixed(4)
-  coordinates.lng = lng.toFixed(4)
+  coordinates.value.lat = lat.toFixed(4)
+  coordinates.value.lng = lng.toFixed(4)
 }
 </script>
 

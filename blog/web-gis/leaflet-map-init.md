@@ -1,4 +1,4 @@
-# leaflet 学习笔记
+# leaflet 学习笔记(二)--地图初始化
 
 Map 是 leaflet 的核心类，通过它可以在页面上创建并操作地图。
 
@@ -6,20 +6,27 @@ Map 是 leaflet 的核心类，通过它可以在页面上创建并操作地图�
 
 主要 `options` 对象选项
 
-| 分组     | key                | 类型              | 默认值 | 描述                                                             |
-| -------- | ------------------ | ----------------- | ------ | ---------------------------------------------------------------- |
-| 渲染配置 | preferCanvas       | boolean           | false  | 线和面要素的渲染方式，支持 svg 和 canvas 两种，默认为 svg。      |
-| 控件配置 | attributionControl | boolean           | true   | 是否显示 attribution 控件，即图层版权信息。                      |
-| 交互配置 | closePopupOnClick  | boolean           | true   | 点击地图是否关闭 popup。                                         |
-| 控件配置 | zoomControl        | boolean           | true   | 是否添加放缩控件。                                               |
-| 交互配置 | zoomDelta          | number            | 1      | 放缩数量级。                                                     |
-| 交互配置 | trackResize        | boolean           | true   | 地图容器大小变化时地图是否调整。                                 |
-| 交互配置 | boxZoom            | boolean           | true   | 按下 shift, 是否可框选放缩地图，放缩框选的位置。                 |
-| 交互配置 | doubleClickZoom    | boolean \| string | true   | 开启双击放大。 `center` ，取地图中心点放大，true，鼠标位置放大。 |
-| 交互配置 | dragging           | boolean           | true   | 是否可拖拽。                                                     |
-| 初始状态 | dragging           | boolean           | true   | 是否可拖拽。                                                     |
+| 分组     | key                | 类型              | 默认值           | 描述                                                             |
+| -------- | ------------------ | ----------------- | ---------------- | ---------------------------------------------------------------- |
+| 渲染配置 | preferCanvas       | boolean           | false            | 线和面要素的渲染方式，支持 svg 和 canvas 两种，默认为 svg。      |
+| 控件配置 | attributionControl | boolean           | true             | 是否显示 attribution 控件，即图层版权信息。                      |
+| 交互配置 | closePopupOnClick  | boolean           | true             | 点击地图是否关闭 popup。                                         |
+| 控件配置 | zoomControl        | boolean           | true             | 是否添加放缩控件。                                               |
+| 交互配置 | zoomDelta          | number            | 1                | 放缩数量级。                                                     |
+| 交互配置 | trackResize        | boolean           | true             | 地图容器大小变化时地图是否调整。                                 |
+| 交互配置 | boxZoom            | boolean           | true             | 按下 shift, 是否可框选放缩地图，放缩框选的位置。                 |
+| 交互配置 | doubleClickZoom    | boolean \| string | true             | 开启双击放大。 `center` ，取地图中心点放大，true，鼠标位置放大。 |
+| 交互配置 | dragging           | boolean           | true             | 是否可拖拽。                                                     |
+| 初始状态 | crs                | CRS               | EPSG3857 | 投影方式                                       |
+| 初始状态 | center               | LatLng               | undefined | 地图中心                                       |
+| 初始状态 | zoom               | number               | undefined | 放缩级别                                       |
+| 初始状态 | minZoom               | number               | undefined | 最小放缩级别                                       |
+| 初始状态 | maxZoom               | number               | undefined | 最大放缩级别                                       |
+| 初始状态 | layers               |   Layer[]             | [] | 图层                                       |
+| 初始状态 | maxBounds               |   LatLngBounds[]             | null | 最大展示范围                                       |
+| 初始状态 | renderer               |   Renderer             | * | 矢量图形的渲染方式，L. SVG 或者 L. Canvas                                       |
 
-全部配置选项
+## 全部配置选项
 
 ```ts
 interface MapOptions {
@@ -91,6 +98,16 @@ interface MapOptions {
 2. zoomDelta（缩放增量）：它定义了地图缩放级别的增量值。当使用键盘或触摸设备进行缩放时，地图的缩放级别将根据此属性进行调整。例如，将 zoomDelta 设置为 1，则每次按下"+"或"-"键时，缩放级别将增加或减少 1 个级别。这可以用来控制缩放级别变化的速度。
 
 简单地说，zoomSnap 用于限制缩放级别的精确度，而 zoomDelta 用于控制缩放级别的增量变化。通过调整这两个属性，可以更好地控制地图的缩放行为，以满足特定需求和用户体验。
+
+## 初始地图
+
+调用 `Map` 初始化地图
+
+```js
+const map = new Map(mapContainer.value, {
+
+})
+```
 
 ## 事件
 
