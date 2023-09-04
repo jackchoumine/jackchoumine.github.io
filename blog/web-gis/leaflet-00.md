@@ -4,20 +4,20 @@ Map 是 leaflet 的核心类，通过它可以在页面上创建并操作地图�
 
 其初始化方法为: `L.map(<String|HTMLElement> id, <Map options> options?)`
 
-主要`options`对象选项
+主要 `options` 对象选项
 
-| 分组     | key                | 类型              | 默认值 | 描述                                                            |
-| -------- | ------------------ | ----------------- | ------ | --------------------------------------------------------------- |
-| 渲染配置 | preferCanvas       | boolean           | false  | 线和面要素的渲染方式，支持 svg 和 canvas 两种，默认为 svg。     |
-| 控件配置 | attributionControl | boolean           | true   | 是否显示 attribution 控件，即图层版权信息。                     |
-| 交互配置 | closePopupOnClick  | boolean           | true   | 点击地图是否关闭 popup。                                        |
-| 控件配置 | zoomControl        | boolean           | true   | 是否添加放缩控件。                                              |
-| 交互配置 | zoomDelta          | number            | 1      | 放缩数量级。                                                    |
-| 交互配置 | trackResize        | boolean           | true   | 地图容器大小变化时地图是否调整。                                |
-| 交互配置 | boxZoom            | boolean           | true   | 按下 shift, 是否可框选放缩地图，放缩框选的位置。                |
-| 交互配置 | doubleClickZoom    | boolean \| string | true   | 开启双击放大。 `center`，取地图中心点放大，true，鼠标位置放大。 |
-| 交互配置 | dragging           | boolean           | true   | 是否可拖拽。                                                    |
-| 初始状态 | dragging           | boolean           | true   | 是否可拖拽。                                                    |
+| 分组     | key                | 类型              | 默认值 | 描述                                                             |
+| -------- | ------------------ | ----------------- | ------ | ---------------------------------------------------------------- |
+| 渲染配置 | preferCanvas       | boolean           | false  | 线和面要素的渲染方式，支持 svg 和 canvas 两种，默认为 svg。      |
+| 控件配置 | attributionControl | boolean           | true   | 是否显示 attribution 控件，即图层版权信息。                      |
+| 交互配置 | closePopupOnClick  | boolean           | true   | 点击地图是否关闭 popup。                                         |
+| 控件配置 | zoomControl        | boolean           | true   | 是否添加放缩控件。                                               |
+| 交互配置 | zoomDelta          | number            | 1      | 放缩数量级。                                                     |
+| 交互配置 | trackResize        | boolean           | true   | 地图容器大小变化时地图是否调整。                                 |
+| 交互配置 | boxZoom            | boolean           | true   | 按下 shift, 是否可框选放缩地图，放缩框选的位置。                 |
+| 交互配置 | doubleClickZoom    | boolean \| string | true   | 开启双击放大。 `center` ，取地图中心点放大，true，鼠标位置放大。 |
+| 交互配置 | dragging           | boolean           | true   | 是否可拖拽。                                                     |
+| 初始状态 | dragging           | boolean           | true   | 是否可拖拽。                                                     |
 
 全部配置选项
 
@@ -80,7 +80,7 @@ interface MapOptions {
 }
 ```
 
-> `zoomDelta` 只能是整数，`zoomSnap` 可以是小数吗？
+> `zoomDelta` 只能是整数， `zoomSnap` 可以是小数吗？
 
 是的。
 

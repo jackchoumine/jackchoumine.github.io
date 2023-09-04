@@ -16,20 +16,18 @@
 
 ```html
 <template>
-  <div
-    class="leaflet-map w-full h-full absolute bg-transparent"
-    ref="leafletMapContainer"></div>
+  <div class="leaflet-map w-full h-full absolute bg-transparent" ref="leafletMapContainer"></div>
   <div class="a-map w-full h-full absolute" ref="aMapContainer"></div>
 </template>
 
 <style scoped lang="scss">
-.leaflet-map {
-  z-index: 100;
-}
+  .leaflet-map {
+    z-index: 100;
+  }
 
-.a-map {
-  z-index: 90;
-}
+  .a-map {
+    z-index: 90;
+  }
 </style>
 ```
 
@@ -42,12 +40,20 @@
 ### 初始时地图
 
 ```js
-import { Canvas, CircleMarker, Icon, Map, Marker, Polygon, Polyline } from 'leaflet'
+import {
+  Canvas,
+  CircleMarker,
+  Icon,
+  Map,
+  Marker,
+  Polygon,
+  Polyline
+} from 'leaflet'
 
 const aMapContainer = ref()
 const leafletMapContainer = ref()
 
-onMounted(function () {
+onMounted(function() {
   const aMap = initAMap()
   const map = new Map(leafletMapContainer.value, {
     renderer: new Canvas(),
@@ -61,7 +67,10 @@ onMounted(function () {
     aMap.setZoom(zoom)
   })
   map.on('move', event => {
-    const { lng, lat } = map.getCenter()
+    const {
+      lng,
+      lat
+    } = map.getCenter()
     const zoom = map.getZoom()
     aMap.setZoomAndCenter(zoom, [lng, lat])
   })
@@ -116,6 +125,6 @@ function initAMap() {
 
 关键点：
 
-1. leaflet 不提供图层，高德地图有图层；
+1. leaflet 不提供图层，高德地图提供图层；
 2. 设置 leaflet 的地图中心点，高德地图才能监听到事件；
 3. 初始化完成后，监听 leaflet 的 zoom 和 move 事件，把 leaflet 的 zoom 和 center 设置到高德地图上。
