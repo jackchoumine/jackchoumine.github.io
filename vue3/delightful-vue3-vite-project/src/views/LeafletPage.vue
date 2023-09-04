@@ -2,13 +2,14 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-04-08 20:29:05
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-19 20:56:18
+ * @LastEditTime: 2023-09-04 11:51:54
  * @Description : leaflet 学习
 -->
 <script setup>
 import {
   EditFeatures,
   GeoJSON,
+  InitMap0,
   InitMap,
   InitMap2,
   LayerControl,
@@ -59,7 +60,7 @@ const tab = ref('init')
           <QTabPanel name="layer-control"> <LayerControl /> </QTabPanel>
           <QTabPanel name="geo-json"><GeoJSON /> </QTabPanel>
           <QTabPanel name="edit-features"> <EditFeatures /></QTabPanel>
-          <QTabPanel name="event"> </QTabPanel>
+          <QTabPanel name="event"><InitMap0 /> </QTabPanel>
           <QTabPanel name="style-custom"> </QTabPanel>
         </QTabPanels>
       </QCard>
