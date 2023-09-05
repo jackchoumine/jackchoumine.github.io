@@ -1,5 +1,7 @@
 # 最新文章
 
+### [编写可读性代码的艺术](../web/js/the-art-of-readable-code.md)
+
 ### [要不要写代码注释](../web/js/要不要写代码注释.md)
 
 <!-- ### [Jest学习](../web/js/Jest-learn.md) -->
