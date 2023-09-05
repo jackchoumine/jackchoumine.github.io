@@ -99,9 +99,9 @@ interface MapOptions {
 
 简单地说，zoomSnap 用于限制缩放级别的精确度，而 zoomDelta 用于控制缩放级别的增量变化。通过调整这两个属性，可以更好地控制地图的缩放行为，以满足特定需求和用户体验。
 
-## 初始地图
+## 初始化地图
 
-调用 `Map` 初始化地图
+调用 `Map` 类初始化地图
 
 ```js
 const map = new Map(mapContainer.value, {
