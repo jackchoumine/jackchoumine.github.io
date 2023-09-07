@@ -114,13 +114,15 @@ someFunction({
 
 > 我们这个项目还涉及角度的方向，最后几经测试，需要做两件事情：角度转为弧度；三维地图下，旋转方向为逆时针。
 
-> 单位和方向在此是如此重要，要是把它们附加进去，可有效避免这个问题。
+> 把单位加入参数。
 
 ```js
 someFunction({
-  route_cw_clockwise: cw_value // 顺时针的弧度 anticlockwise/counterclockwise 逆时针
+  route_cw: cw_value // 顺时针的弧度 anticlockwise/counterclockwise 逆时针
 })
 ```
+
+> 如果把三位地图下逆时针也加入，参数就长了，选择不加，可通过函数注释的方式告知使用者。
 
 ② 格式
 
