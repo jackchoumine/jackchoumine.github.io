@@ -99,7 +99,7 @@ const euclidean_norm = arr => {
 
 `serverCanStart()` 没有 `canListenOnPort` 具体。
 
-> 名字里名字和形容词越多，会越具体。
+> 技巧：名字里名字和形容词时，会比较具体。感觉不够具体时，不妨加入名字和形容词。
 
 #### 使用前缀或者后缀把重要的信息附加到名字上
 
