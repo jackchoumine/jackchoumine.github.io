@@ -162,6 +162,8 @@ for (let i = 0; i < array.length; i++) {
 
 > i 的作用域很小，即使取名很短，也一眼能看出它的目的。
 
+再看一例：
+
 ```js
 for (i = 0; i < clubs.size(); i++) {
   for (j = 0; j < clubs[i].members.size(); j++) {
@@ -490,7 +492,7 @@ if (!hasValue) {
 
 很多 html 的属性就是这样的。
 
-```html
+```bash
 autofocus
 checked
 disabled
@@ -501,11 +503,36 @@ required
 selected
 ```
 
-#### 参考
+##### 参考
 
 [Naming guidelines for boolean variables](https://www.serendipidata.com/posts/naming-guidelines-for-boolean-variables)
 
 [why-am-i-seeing-more-boolean-naming-conventions-where-is-is-used-as-the-first](https://softwareengineering.stackexchange.com/questions/102736/why-am-i-seeing-more-boolean-naming-conventions-where-is-is-used-as-the-first)
+
+#### 与使用者的期望相匹配
+
+有些名字之所以会让人误解，是因为人们对它们的含义有先入为主的印象，就算你的本意并非如此。此时，你最好放弃这个名字，而采用一个不会被误解的名字。
+
+很多程序员都习惯了使用 `get*` 作为**轻量访问器**的用法，它只是简单的返回一个内部成员变量，如果违背了这个习惯，就会误导使用者。
+
+```js
+class StatisticCollector {
+  addSample(x) {
+    // 
+  }
+  getMean() {
+    // 遍历所有的 samples 返回平均数
+  }
+}
+```
+
+上述例子中， `getMean` 的实现是遍历所有数据，然后求和，就个数，再求平均。如果有大量数据，就有很大的代价。但是使用者会以为没有什么代价，就随意调用。 `computeMean` 或者 `calcMean` 就个更加好，它更想有代价的操作。
+
+然而，很多英语单词是多义的，要做到不让人误解或者误用，很难，很多程序员不是英语母语者，更加难了。好在我有一个做法，可以缓解它：
+
+> 经验做法：不希望被频繁使用的变量，采用长一点的名字，难书写的名字，可以降低这个变量的使用频率。
+
+比如 vue3 的 `getInstance` ，就是一个不那么常见的名字，vue3 的开发者们不希望使用者频繁使用它。
 
 ## 美观的格式
 
