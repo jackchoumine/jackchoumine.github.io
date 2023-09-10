@@ -4,8 +4,8 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-26 18:16:09
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-27 15:00:47
- * @Description :
+ * @LastEditTime: 2023-09-11 02:06:21
+ * @Description : 可代替 hover 事件的 hook
  */
 import hoverIntent from 'hoverintent'
 import { ref } from 'vue'
@@ -42,6 +42,15 @@ function useHover(inAndOut: InAndOut = options, updateTarget = false, opts = und
     },
     { flush: 'post' }
   )
+
+  return {
+    isHover,
+    setHoverTarget: ele => {
+      if (!updateTarget && target.value) return
+      target.value = ele
+    },
+  }
+
   function detectHover(target) {
     const _target = isRef(target) ? target.value : target
     if (!_target) return
@@ -71,14 +80,6 @@ function useHover(inAndOut: InAndOut = options, updateTarget = false, opts = und
           isHover.value = false
         }
       )
-  }
-
-  return {
-    isHover,
-    setHoverTarget: ele => {
-      if (!updateTarget && target.value) return
-      target.value = ele
-    },
   }
 }
 

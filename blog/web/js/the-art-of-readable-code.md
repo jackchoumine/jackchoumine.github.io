@@ -12,13 +12,13 @@
 
 大部分程序员，全靠自觉、灵感和经验编写代码，往往很难一步到位写出可读性高的代码。
 
-我看过一些前端组长、前端架构写的代码，简直惨不忍睹，让人有骂娘的冲动。
+我看过一些前端组长(猪长)、前端架构师(加狗屎)写的代码，简直惨不忍睹，让人有骂娘的冲动。
 
 比如这种：
 
 ![](https://cdn.jsdelivr.net/gh/jackchoumine/jack-picture@master/bad-render-chart.png)
 
-还有行宽过大，编辑器都出现滚动条了，也会让人不想读。
+除了手写 render 函数，毫无可读性之外，行宽过大，编辑器都出现滚动条了，也会让人不想读。
 
 不可读的代码往往都会有这样或那样的问题。
 
@@ -35,7 +35,6 @@
 > 同事是和你协作的人，让和你协作的人能快速地理解你的代码，至关重要。
 
 如何定义理解？
-
 理解是一个非常高的标准。真正理解了，就应该能**改动**它、**找出缺陷**且明白它**与外部代码交互的规则**。
 
 ### 可读性的标准可以降低吗？
@@ -96,7 +95,6 @@ const euclidean_norm = arr => {
 #### 使用具体的名字，避免抽象的名字
 
 力求把实体描述得更具体，而非抽象，越具体，会越明确。
-
 `serverCanStart()` 没有 `canListenOnPort` 具体。
 
 > 技巧：名字里名字和形容词时，会比较具体。感觉不够具体时，不妨加入名字和形容词。
@@ -106,13 +104,12 @@ const euclidean_norm = arr => {
 常见的可以附加的信息：
 
 ① 单位
-
-| 函数参数                | 参数带单位          |
+| 函数参数 | 参数带单位 |
 | ----------------------- | ------------------- |
-| start(delay)            | delay -> delay_secs |
-| createCache(size)       | size -> size_mb     |
-| throttleDownload(limit) | limit -> max_kbps   |
-| rotate(angle)           | angle -> degrees_cw |
+| start(delay) | delay -> delay_secs |
+| createCache(size) | size -> size_mb |
+| throttleDownload(limit) | limit -> max_kbps |
+| rotate(angle) | angle -> degrees_cw |
 
 > angle 角度，单位度。cw(circular_measure)，弧度。
 
@@ -141,12 +138,11 @@ someFunction({
 > 如果把三维地图下逆时针也加入，参数就长了，选择不加，可通过函数注释的方式告知使用者。
 
 ② 变量存在危险或者意外
-
-| 情形                               | 变量     | 更好的选择               |
+| 情形 | 变量 | 更好的选择 |
 | ---------------------------------- | -------- | ------------------------ |
-| 纯文本的密码                       | password | plaintext_password       |
-| 用户提供的注释，需要转义后才能显示 | comment  | unescaped_comment        |
-| 安全的 html 代码                   | html     | html_safe\\ html_escaped |
+| 纯文本的密码 | password | plaintext_password |
+| 用户提供的注释，需要转义后才能显示 | comment | unescaped_comment |
+| 安全的 html 代码 | html | html_safe\\ html_escaped |
 
 #### 变量作用域大小决定名字长短
 
@@ -188,7 +184,7 @@ for (club_i = 0; club_i < clubs.size(); club_i++) {
 
 > 长名字不好打，而不使用？
 
-有人会因为长名字需要输入更多字符而不想使用，现在而 IDE、AI编程助手已经能自动补全了，不存在这个问题。
+有人会因为长名字需要输入更多字符而不想使用，现在而 IDE、AI 编程助手已经能自动补全了，不存在这个问题。
 
 > 避免随意缩写，造单词。
 
@@ -297,7 +293,6 @@ window -> win/wnd # 窗口
 # 书本
 shuBen -> sb
 # 想表示 book，却变成傻逼
-
 # 价格
 jiaGe -> jg
 # 想表示 price，却变成鸡哥
@@ -308,7 +303,6 @@ jiaGe -> jg
 > 删除没有的词
 
 拿掉某个词，不会损失信息，就删除它。
-
 比如
 
 ```bash
@@ -321,7 +315,6 @@ doStop -> stop #
 #### 使用格式表示含义
 
 把特定的格式放在变量里，使得一眼能看出不同变量的区别。
-
 常用的格式有： `_` 、 `-` 、 `#` 、 `$` 和 `大小写` 等。
 
 ```js
@@ -391,7 +384,6 @@ const str = 'abcd' // start = 0  end = 3 不包含 d
 const read_password = true // bad ❌ 两种理解：1. 读取密码，动作 2. 已经读取了密码
 const need_password = true // ok 👌
 const has_password = true // best  ✅
-
 const edit = true // bad ❌
 const shouldEdit = true // ok 👌
 const enableEdit = true // better 😄
@@ -405,31 +397,23 @@ const canEdit = true // best  ✅
 const isGood = true //
 const good = true // ok 👌 但是不够明确
 const isFinished = true
-
 const sortable = false // ok
-const isSorted = true // ok 
-const hidden = true // ok 
-
+const isSorted = true // ok
+const hidden = true // ok
 // `is` + 名字 表示是不是某个东西
 const isSon = true
 const isRiver = true
-
 // 名词 + `is` + 形容词
 const orders_is_closed = true
-
 // 也可以 `is` + 名词 + 形容词
 const isOrdersClosed = true
-
 // `should` + 动词过去式 是否需要做某个动作
 const shouldCloseDB = true
-
 // `can` + 动词 具备某种能力
 const canEdit = true // 有编辑权限
-
 // `enable` + 动词， 表示是否开启某种能力
 const enableEdit = true
 const enableRemove = true
-
 // `has` + 名词 存在某些东西
 const hasKey = true // 存在 key
 const hasValue = true // 有值
@@ -445,7 +429,7 @@ const hasValue = true // 有值
 
 ```js
 function shouldRemoveBlank(remove) {
-  // 
+  //
 }
 ```
 
@@ -459,7 +443,6 @@ const hasNoValue = arr.length === 0
 if (hasNoValue) {
   // do something
 }
-
 if (!hasNoValue) {
   // 不是没有值，产生双重否定
   // do something
@@ -506,10 +489,9 @@ selected
 ##### 参考
 
 [Naming guidelines for boolean variables](https://www.serendipidata.com/posts/naming-guidelines-for-boolean-variables)
-
 [why-am-i-seeing-more-boolean-naming-conventions-where-is-is-used-as-the-first](https://softwareengineering.stackexchange.com/questions/102736/why-am-i-seeing-more-boolean-naming-conventions-where-is-is-used-as-the-first)
 
-#### 与使用者的期望相匹配
+#### 采用使用者的期望的名字
 
 有些名字之所以会让人误解，是因为人们对它们的含义有先入为主的印象，就算你的本意并非如此。此时，你最好放弃这个名字，而采用一个不会被误解的名字。
 
@@ -518,7 +500,7 @@ selected
 ```js
 class StatisticCollector {
   addSample(x) {
-    // 
+    //
   }
   getMean() {
     // 遍历所有的 samples 返回平均数
@@ -536,9 +518,512 @@ class StatisticCollector {
 
 ## 美观的格式
 
+好的代码在格式上应该具备**美观的排版**、**合理的留白**和**符合认知的顺序**。这一节探讨如何使用留白、对齐和顺序，让代码更加易读。
+排版的三原则：
+
+1. 使用一致的布局，让读者快速习惯这种风格；
+2. 让功能相似的代码排版相似；
+3. 代码按照一定的逻辑分组，形成代码块。
+
+### 为什么美观非常重要？
+
+有一个类：
+
+```js
+class StackKeeper {
+  // A class for keeping track of a series of doubles
+  add(d) {
+    /*
+        and methods for quick statistics about them.
+       */
+  }
+  _minimum = 10
+  /* how many so
+     for
+     */
+  average() {}
+}
+```
+
+相比一个整洁的版本：
+
+```js
+// A class for keeping track of a series of doubles
+// and methods for quick statistics about them.
+class StackKeeper {
+  add(d) {}
+  _minimum = 10 // how many so for
+  average() {}
+}
+```
+
+你需要更多的时间去理解排版混乱的版本。
+
+> 编程的大部分时间花在阅读代码上，阅读得越快，理解越快，代码越容易使用。
+
+> 让代码变得难以阅读的手段之一：加入无关的混乱的注释，让代码排版混乱是常用的手段，希望你不要采用。
+
+### 让换行保持一致和紧凑
+
+有一个类 `TCPConnectionSimulator` ，评估程序在不同网络速度下的行为，构造函数有 4 个参数：
+
+```bash
+网速 -- kbps
+平均时延 -- ms
+时延抖动 -- ms
+丢包率 -- %
+
+```
+
+调用三个不同的实例：
+
+```js
+class PerformanceTester {
+  wifi = new TCPConnectionSimulator(
+    500, /*kbps*/
+    80, /*millisecs latency*/
+    200, /*jitter*/
+    1 /*packet loss  %*/ )
+  t3_fiber =
+    new TCPConnectionSimulator(
+      45000, /*kbps*/
+      10, /*millisecs latency*/
+      0, /*jitter*/
+      0 /*packet loss  %*/
+    )
+  cell = new TCPConnectionSimulator(
+    100, /*kbps*/
+    400, /*millisecs latency*/
+    250, /*jitter*/
+    5 /*packet loss  %*/
+  )
+}
+```
+
+`t3_fiber` 后的换行很突兀，违背了相似的代码看上去也要相似，且参数的注释产生了更多换行，很不美观。
+调整一下：
+
+```js
+class PerformanceTester {
+  // new TCPConnectionSimulator(throughput,latency,jitter,packet_loss)
+  //                               [kbps]    [ms]   [ms]   [percent]
+  wifi = new TCPConnectionSimulator(500, 80, 200, 1)
+  t3_fiber = new TCPConnectionSimulator(45000, 10, 0, 0)
+  cell = new TCPConnectionSimulator(100, 400, 250, 5)
+}
+```
+
+把注释都放在上面了，更加紧凑，参数排成一行，参数像表格一样，看上去像一个紧凑的表格。
+
+### 需要时使用列对齐
+
+> 整齐的变和列可快速浏览，而且很容易发现代码中的拼写错误，因为排整齐了，就有了对比。
+
+把参数调用排整齐。
+
+```js
+checkFullName('Doug Adams', 'Mr. Douglas Adams', '')
+checkFullName(' Jake Brown', 'Mr. Jake Brown III', '')
+checkFullName('No such Guy', '', 'no match found')
+checkFullName('John', '', 'more than one results')
+```
+
+> 因为我的编辑器做不到这一点，可看图片的而情况：
+
+![列对齐](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/_col-algin@2x.png)
+
+#### 应该使用列对齐吗？
+
+列对齐给代码提供了可见的边界，也符合让功能相似的代码看起来也相似。但是有些程序员不喜欢，主要两个原因：
+
+1. 列对齐，有的编辑器不支持；
+2. 列对齐会导致额外的改动，让代码的历史记录变得混乱。
+
+> 经验法则：列对齐不必强求，保证项目成员之间一致即可。
+
+### 让代码的排序有意义
+
+要是代码的顺序不影响功能，不要随机的排序，而是选一个有意义的顺序，让认知负担更小。
+
+常见的**有意义**的排序：
+
+1. 对象中的 key 的顺序和 html 中表单的顺序一致；
+2. 使用者最关心的在前，不太关心的在后，比如 css 属性；
+3. 必需的在前，可选的在后，比如后端接口验证前端提交的数据；
+4. 和代码的生命周期一致，有些代码有生命周期，比如 vue 组件，调用这些声明周期钩子函数时，最好按照生命周期的顺序调用；
+5. 按照字母排序。
+
+以第二条规则为例，看看顺序时如何影响可读性的：
+
+```css
+.page {
+  flex-direction: column;
+  box-shadow: 0 1px 5px 0 rgb(0 0 0 / 0.2), 0 2px 2px 0 rgb(0 0 0 / 0.14),
+    0 3px 1px -2px rgb(0 0 0 / 0.12);
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+```
+
+这一个段 css 代码，有一点前端开发经验的人，就会发现顺序出现的顺序非常奇怪： `display` 和 `flex-direction` 相关的属性，中间却多了一个 `box-shadow` ，display 的值为 `flex` 时，flex 相关的属性才会生效，但是 `flex-direction` 却在最前面，很费解。
+
+> 在阅读 css 代码时，我们关注的顺序是：布局 -> 定位 -> 尺寸 -> 动画 -> 字体 -> 背景 -> 其他，这些属性的顺序对布局影响依次减弱。
+
+按照这个顺序，重新排版上面的代码：
+
+```css
+.page {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: 0 1px 5px 0 rgb(0 0 0 / 0.2), 0 2px 2px 0 rgb(0 0 0 / 0.14),
+    0 3px 1px -2px rgb(0 0 0 / 0.12);
+}
+```
+
+这样就好理解多了，可以快速知道哪些属性影响了页面的布局。
+
+> 关于 css 属性顺序的最佳实践：使用 [stylelint](https://stylelint.io/) 的[stylelint-order](https://www.npmjs.com/package/stylelint-order)插件让属性的顺序按照对布局的影响大小排列。
+
+在看一个 js 例子：
+
+```js
+import hoverIntent from 'hoverintent'
+import {
+  ref
+} from 'vue'
+type InAndOut = {
+  in ? : (target: HTMLElement) => void
+  out ? : (target: HTMLElement) => void
+}
+const options = {
+  in: target => undefined,
+  out: target => undefined,
+}
+/**
+ * 鼠标移入移出 hook，可设置鼠标停留时间。
+ * 为何不使用 hover 事件：hover 事件瞬间触发，不能设置停留时间
+ * @param target 目标元素
+ * @param inAndOut 移入移除回调
+ * @param inAndOut.in 移入回调
+ * @param inAndOut.out 移出回调
+ * @param updateTarget 是否更新 hover 的目标元素
+ * @param opts hoverIntent配置
+ * @link https://www.npmjs.com/package/hoverintent
+ */
+function useHover(inAndOut: InAndOut = options, updateTarget = false, opts = undefined) {
+  const isHover = ref(false)
+  const target = ref(null)
+  watch(
+    target,
+    (target, oldTarget) => {
+      if (target && target !== oldTarget) {
+        detectHover(target)
+      }
+    }, {
+      flush: 'post'
+    }
+  )
+
+  function detectHover(target) {
+    const _target = isRef(target) ? target.value : target
+    if (!_target) return
+    const {
+      in: inTarget, out
+    } = inAndOut
+    opts &&
+      hoverIntent(
+        _target,
+        () => {
+          inTarget?.(_target)
+          isHover.value = true
+        },
+        () => {
+          out?.(_target)
+          isHover.value = false
+        }
+      ).options(opts) !opts &&
+      hoverIntent(
+        _target,
+        () => {
+          inTarget?.(_target)
+          isHover.value = true
+        },
+        () => {
+          out?.(_target)
+          isHover.value = false
+        }
+      )
+  }
+  return {
+    isHover,
+    setHoverTarget: ele => {
+      if (!updateTarget && target.value) return
+      target.value = ele
+    },
+  }
+}
+
+export {
+  useHover
+}
+```
+
+阅读一个函数时，我们更加关注函数的名字、参数和返回值，因为这三个要素决定了函数的用法。useHover 函数没有把返回值放在前面，需要滚动到后面才知道返回值，把返回值提前，让阅读者快速知道它的存在。
+
+```js
+function useHover(inAndOut: InAndOut = options, updateTarget = false, opts = undefined) {
+  const isHover = ref(false)
+  const target = ref(null)
+
+  watch(
+    target,
+    (target, oldTarget) => {
+      if (target && target !== oldTarget) {
+        detectHover(target)
+      }
+    }, {
+      flush: 'post'
+    }
+  )
+
+  return {
+    isHover,
+    setHoverTarget: ele => {
+      if (!updateTarget && target.value) return
+      target.value = ele
+    },
+  }
+
+  function detectHover(target) {
+    const _target = isRef(target) ? target.value : target
+    if (!_target) return
+    const {
+      in: inTarget, out
+    } = inAndOut
+    opts &&
+      hoverIntent(
+        _target,
+        () => {
+          inTarget?.(_target)
+          isHover.value = true
+        },
+        () => {
+          out?.(_target)
+          isHover.value = false
+        }
+      ).options(opts)
+
+      !opts &&
+      hoverIntent(
+        _target,
+        () => {
+          inTarget?.(_target)
+          isHover.value = true
+        },
+        () => {
+          out?.(_target)
+          isHover.value = false
+        }
+      )
+  }
+}
+```
+
+这个例子中，return 语句之前的代码只是一个函数，代码行输不是很多，把 return 语句放在最后，可读性提高不大，但是当 return 语句之前有很多代码时，这种改变，可让阅读快速了解到返回值，而不用滚动到下面。
+
+> js 使用 `function` 定义函数，定义可在后面，调用在前面，使用 `const let` 和函数声明定义函数，不支持调用在前，声明在后。
+
+> 经验法则：使用 function 定义函数，因为它的声明可以在调用之后，function 也一眼能让读者知道它是一个函数，而不是其他类型的变量。
+
+> 经验法则：一个 js 文件有多于**3 个以上**的导出，统一放在**文件底部**导出。
+
+> 经验法则：相似的代码，选择一个有意义的顺序，并保持一致。一段代码中 `A` 、 `B` 和 `C` ，在另一段代码中 `C` 、 `A` 和 `B` 会降低可读性。这样的做法，也符合让功能相似的代码看起来也相似的原则。
+
+### 把代码拆分成段落
+
+把文字分段的原因：
+
+1. 分段是一种把相似的想法放在一起，与其他想法分开的方式，方便组织写作思路；
+2. 分段提供了可见的边界，没有边界，读者很容易不知道读到哪儿了；
+3. 分段便于段落之间导航。
+
+类似的原因，代码也应该分段。
+
+### 个人风格和一致性
+
+相当一部分代码格式，是程序员的个人偏好，比如类的大括号是否应换行，缩进是两个 2 个 tab，还是 4 个空格等，但是两种偏好不应该同时出现在代码中，会降低可读性。
+
+> 一致风格比正确的风格更加重要。
+
+### 关于格式的最佳实践
+
+项目开始之前，和团队成员讨论，指定编码规范，不花精力制定规范的，采用社区的最佳实践即可，并借助 eslint + prettier + stylelint + gitHook 等工具在代码提交前，检查代码质量，统一格式。
+
+当有新成员加入时，先让他熟悉规范。
+
 ## 言简意赅的注释
 
+当你根据直觉写下一段代码，几周甚至几天后在阅读它时，不会有你写下代码时的直觉。注释可以在代码中记录写代码时的想法，让阅读代码的人快速理解你的想法。
+
+> 注释的目的是帮助读者快速了解作者写代码时的想法。
+
+### 何时不需要注释
+
+注释会占用阅读时间和屏幕空间，应该编写必要的注释，错误的或者不必要的注释，不能给出有用的信息，反而可能误导他人。
+
+> 经验法则：能从代码本身**快速推断**的信息，不需要注释。
+
+### 不要给不好的名字添加注释
+
+注释不应掩盖不好的命名，而是应该把名字改好。
+
+> 好代码 > 坏代码 + 好注释 >> 坏代码 + 坏注释。
+
+### 需要怎样的注释
+
+好的代码往往能反映你写下代码时的想法，以帮助他人理解你的想法
+
+#### 加入代码评论
+
+在注释中，加入一些有价值的见解，可以帮助他人理解为何这么写。
+
+一些例子：
+
+```JS
+// 出乎意料的是，对于这些数据使用二叉树比哈希表快 40%
+// 哈比运算的代码比左/右比较大得多
+```
+
+> 这个注释告诉了读者，为何使用使用二叉树，防止它们为谓的优化而浪费时间。
+
+```JS
+// 作为整体，可能会丢掉几个词。目前没发现bug，想要 100% 解决，太难了。
+```
+
+> 没有这段注释，你的队友可能会过于负责，尝试修复它。
+
+```JS
+// 这个函数很混乱
+// 也许需要另外一种方案，不如提取部分代码到新的函数中
+```
+
+> 这个注释，给出代码的问题和改进建议。
+
+### 为代码中的瑕疵写注释
+
+项目一直在迭代，代码一直在演进，难以存在瑕疵。应该把这些瑕疵记录下来，方便他人或者自己改进。
+
+| 标记  | 意义             |
+| ----- | ---------------- |
+| TODO  | 还没完成的事件   |
+| BUG   | 存在缺陷         |
+| FIXME |   需要改进的代码 |
+| NOTE  | 读者需要特别留意 |
+
+> 经验法则：以上标记可借助编辑器，可注释显示不同的颜色，方便快速阅读和统计，比如 vscode 的[Todo Tree](https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree)扩展。
+
+![todo-tree使用效果](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/todo-tree@2x.png)
+
+在编辑器左侧显示不同的 icon，状态栏也有统计信息。
+
+### 给常量添加注释
+
+```js
+// as long as it is >= 2 * num_processors, its enough.
+const MUN_THREADS = 8
+```
+
+有些常量名字本身足够见名知义，可不加注释。
+
+```js
+const SECONDS_1DAY = 24 * 60 * 60;
+```
+
+### 站在读者的角度给出注释
+
+#### 意料之中的提问
+
+他人阅读你的代码时，可能会产生各种疑问：为何这样？为何不使用简便的写法？
+
+当你预料到读者的问题时，最好在注释中给出回答。
+
+#### 公布可能的陷阱
+
+在注释中说出可能的陷阱，可以防止使用者误用。
+
+#### 全局的注释
+
+全局的注释，可以帮助项目新成员快速了解项目或者文件。
+
+```JS
+// 这个文件包含了一些辅助函数，为我们的文件系统提供了边界的接口
+// 它处理了文件权限以及其他基本细节
+```
+
+> 经验法则：文件级别的注释，告诉这个文件的目的。vscode 可使用[koroFileHeader](https://marketplace.visualstudio.com/items?itemName=OBKoro1.korofileheader) 插件快速插入文件头注释。
+
+使用效果：
+
+![文件头注释](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/koroFileHeader@2x.png)
+
+#### 总结性注释
+
+在大块代码的之间写一些总结性注释，可帮助读者快速了解代码之间的联系。
+
+### 如何写好注释
+
+你可能听过这种说法: 注释应该回答为什么，而不是做什么。这种总结过于粗暴。
+
+> 能帮助读者快速理解代码的注释，都可以写。
+
+写好注释需要的技巧
+
+#### 让注释精简
+
+```cpp
+// This int is the CategoryType
+// The first float in the inner pair is the 'score',
+// the second is the weight.
+typedef hash_map<int,pair<float,float> > ScoreMap
+```
+
+更加精简的注释
+
+```cpp
+// CategoryType -> (score,weight)
+typedef hash_map<int,pair<float,float> > ScoreMap
+```
+
+#### 避免指代不明
+
+### 说明特殊的输入和输出
+
 ## 简化控制流程
+
+好的命名、美观的排版和精简的注释，只是代码表面上的改进，代码的控制结构对可读性也有巨大影响，优化代码代码结构，让代码具备更好的设计，可以有效提高可读性。
+
+### 条件结构中的参数顺序
+
+### if else 的顺序
+
+### 避免使用 `do {} while` 循环
+
+### 提前返回
+
+### 最小化嵌套
+
+### js 中可提高可读性的写法
+
+1. 模板字符串
+
+2. 可选链
+
+3. 空值合并
+
+4. 可选参数
 
 ## 拆分超长表达式
 
@@ -553,5 +1038,4 @@ class StatisticCollector {
 ## 参考
 
 <!-- [](https://pegasuswang.readthedocs.io/zh/latest/code/%E7%BC%96%E5%86%99%E5%8F%AF%E8%AF%BB%E4%BB%A3%E7%A0%81%E7%9A%84%E8%89%BA%E6%9C%AF/)
-
 [](https://pdai.tech/md/about/book/book-read-code-art.html#%E3%80%8A%E7%BC%96%E5%86%99%E5%8F%AF%E8%AF%BB%E4%BB%A3%E7%A0%81%E7%9A%84%E8%89%BA%E6%9C%AF%E3%80%8B) -->
