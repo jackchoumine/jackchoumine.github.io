@@ -521,9 +521,9 @@ class StatisticCollector {
 好的代码在格式上应该具备**美观的排版**、**合理的留白**和**符合认知的顺序**。这一节探讨如何使用留白、对齐和顺序，让代码更加易读。
 排版的三原则：
 
-01. 使用一致的布局，让读者快速习惯这种风格；
-02. 让功能相似的代码排版相似；
-03. 代码按照一定的逻辑分组，形成代码块。
+01.  使用一致的布局，让读者快速习惯这种风格；
+02.  让功能相似的代码排版相似；
+03.  代码按照一定的逻辑分组，形成代码块。
 
 ### 为什么美观非常重要？
 
@@ -636,8 +636,8 @@ checkFullName('John', '', 'more than one results')
 
 列对齐给代码提供了可见的边界，也符合让功能相似的代码看起来也相似。但是有些程序员不喜欢，主要两个原因：
 
-01. 列对齐，有的编辑器不支持；
-02. 列对齐会导致额外的改动，让代码的历史记录变得混乱。
+01.  列对齐，有的编辑器不支持；
+02.  列对齐会导致额外的改动，让代码的历史记录变得混乱。
 
 > 经验法则：列对齐不必强求，保证项目成员之间一致即可。
 
@@ -647,11 +647,11 @@ checkFullName('John', '', 'more than one results')
 
 常见的**有意义**的排序：
 
-01. 对象中的 key 的顺序和 html 中表单的顺序一致；
-02. 使用者最关心的在前，不太关心的在后，比如 css 属性；
-03. 必需的在前，可选的在后，比如后端接口验证前端提交的数据；
-04. 和代码的生命周期一致，有些代码有生命周期，比如 vue 组件，调用这些声明周期钩子函数时，最好按照生命周期的顺序调用；
-05. 按照字母排序。
+01.  对象中的 key 的顺序和 html 中表单的顺序一致；
+02.  使用者最关心的在前，不太关心的在后，比如 css 属性；
+03.  必需的在前，可选的在后，比如后端接口验证前端提交的数据；
+04.  和代码的生命周期一致，有些代码有生命周期，比如 vue 组件，调用这些声明周期钩子函数时，最好按照生命周期的顺序调用；
+05.  按照字母排序。
 
 以第二条规则为例，看看顺序时如何影响可读性的：
 
@@ -846,9 +846,9 @@ function useHover(inAndOut: InAndOut = options, updateTarget = false, opts = und
 
 把文字分段的原因：
 
-01. 分段是一种把相似的想法放在一起，与其他想法分开的方式，方便组织写作思路；
-02. 分段提供了可见的边界，没有边界，读者很容易不知道读到哪儿了；
-03. 分段便于段落之间导航。
+01.  分段是一种把相似的想法放在一起，与其他想法分开的方式，方便组织写作思路；
+02.  分段提供了可见的边界，没有边界，读者很容易不知道读到哪儿了；
+03.  分段便于段落之间导航。
 
 类似的原因，代码也应该分段。
 
@@ -1009,33 +1009,229 @@ typedef hash_map<int,pair<float,float> > ScoreMap
 
 ### 条件结构中的参数顺序
 
+下面的条件语句哪个更加易读？
+
+```js
+if (length > 10) {
+  //
+}
+```
+
+还是
+
+```js
+if (10 < length) {
+  //
+}
+```
+
+第一个更加易读，因为它和英文和中文用法一样，"长度大于 10"。
+
+通用的指导原则：
+
+| 比较的左侧             | 比较的右侧                                   |
+| ---------------------- | -------------------------------------------- |
+| **变量**，不变的变化的 | 用来做比较的表达式，它的值更加倾向于**常量** |
+
 ### if else 的顺序
+
+下面两种等价代码，哪儿更加易读？
+
+```js
+if (a === b) {
+  //  do a
+} else {
+  // do b
+}
+```
+
+还是
+
+```js
+if (a !== b) {
+  // do b
+} else {
+  // do a
+}
+```
+
+第一种更加可读，因为它先处理正逻辑。
+
+`if else ` 顺序问题，经验法则：
+
+* 首先处理正逻辑; 
+* 先处理简单情况；
+* 先处理有趣的或者意外的情况。
+
+三种法则冲突时，只能靠你的判断了。
 
 ### 避免使用 `do {} while` 循环
 
+`do while` 的奇怪之处，是先执行代码块，再判断继续的条件。通常来说，先判断条件，再执行代码块，更加符合直觉。
+
+C++ 的创建者 Bjarne Stroustrup 说：
+
+> 我的经验是， `do` 语句是困惑的来源...... 我倾向于把条件放在前面我能看到的地方。其结果是，我倾向于避免使用 `do` 语句。
+
 ### 提前返回
+
+提前返回，更好。
+
+> 经验法则：把判断简单条件，提交返回，复杂操作放在后面，避免头重脚轻。
+
+```JS
+function doSomeThing(value) {
+  if (!value.includes()) return null
+  // do something
+
+  // ...
+
+  return someValue
+}
+```
 
 ### 最小化嵌套
 
+嵌套很深的代码难以理解，因为每个嵌套都会让读者思考嵌套结束的地方。
+
+```js
+if (e.rainMetrics && JSON.stringify(e.rainMetrics) !== '{}') {
+  let arr = Object.getOwnPropertyNames(e.rainMetrics)
+  if (arr.length !== 0) {
+    if (e.rainPeriod && e.rainPeriod.length > 0) {
+      e.rainPeriod.map(field => {
+        if (e.rainMetrics[field].length > 0) {
+          let oneObj, twoObj
+          e.rainMetrics[field].forEach(b => {
+            if (b.warnName === '准备转移') {
+              twoObj = assign({}, oneObj, {
+                intv: field,
+                warnName: b.warnName,
+                warnGradeId: b.warnGradeId,
+                period: b.period,
+                crp: b.crp,
+              })
+              tetList.push(twoObj)
+            }
+            if (b.warnName === '立即转移') {
+              oneObj = assign({}, b, {
+                intv: field,
+                warnName: b.warnName,
+                warnGradeId: b.warnGradeId,
+                period: b.period,
+                crp: b.crp,
+              })
+              tetList.push(oneObj)
+            }
+          })
+        }
+      })
+    }
+
+    tetList.forEach(v => {
+      if (v.warnName === '准备转移') {
+        threeObj['prepareTime' + v.period] = v.crp
+      }
+      if (v.warnName === '立即转移') {
+        threeObj['immediatelyTime' + v.period] = v.crp
+      }
+    })
+  }
+}
+```
+
+基本无可读性可言。
+
+> 深层嵌套往往都是逐渐累积的，当修改修改一个已经有嵌套的代码时，整体考虑这个代码片段，当嵌套比较深时，就要思考有没有可改进的方法。
+
+> 衡量嵌套的复杂度，圈复杂度，嵌套越深，圈复杂度越高，代码可读性越低。
+
+#### 避免嵌套的方案
+
+##### 提前返回
+
+```js
+if (user_result === 'SUCCESS') {
+  if (permission_result !== 'SUCCESS') {
+    reply.WriteErrors('error reading permission.')
+    reply.Done()
+    return
+  }
+  reply.WriteErrors('')
+} else {
+  reply.WriteErrors(user_result)
+}
+reply.Done()
+```
+
+使用提前返回改进它：
+
+```js
+if (user_result !== 'SUCCESS') {
+  reply.WriteErrors(user_result)
+  reply.Done()
+  return
+}
+
+if (permission_result !== 'SUCCESS') {
+  reply.WriteErrors('error reading permission.')
+  reply.Done()
+  return
+}
+
+reply.WriteErrors('')
+reply.Done()
+```
+
+通过改进，可读性显著提高了。
+
+##### 减少内层循环
+
+使用 `break` 或者 `continue` 可减少循环内的嵌套。
+
+```js 
+for(let i =0; i < result.length; i++){
+  if(result[i]){
+
+    count++
+    if(result[i].name!==''){
+      // do something
+    }
+
+  }
+}
+
+```
+改进：
+
+```js 
+for (let i = 0; i < result.length; i++) {
+  if (!result[i]) continue
+  count++
+  if (result[i].name === '') continue
+  // do something
+}
+```
+
 ### js 中可提高可读性的写法
 
-01. 模板字符串
+01.  模板字符串
 
-02. 可选链
+02.  可选链
 
-03. 空值合并
+03.  空值合并
 
-04. 可选参数
+04.  可选参数
 
-05. 剩余参数和合并对象
+05.  剩余参数和合并对象
 
-06. JSON.parse 的第二个参数
+06.  JSON.parse 的第二个参数
 
-07. 善用数组方法
+07.  善用数组方法
 
-08. 善用字符串方法
+08.  善用字符串方法
 
-09. 生成随机字符串
+09.  生成随机字符串
 
 10. 一些不常用却很有用的 api
 
