@@ -999,7 +999,9 @@ typedef hash_map<int,pair<float,float> > ScoreMap
 
 #### 避免指代不明
 
-### 说明特殊的输入和输出
+#### 说明特殊的输入和输出
+
+在函数注释中说明特殊的例子。
 
 ## 简化控制流程
 
