@@ -1377,13 +1377,13 @@ function update_highlight(message_num) {
 function update_highlight(message_num) {
   const $thumbs_up = $("#thumbs_up" + message_num)
   const $thumbs_down = $("#thumbs_down" + message_num)
-  const $vote_value = $("#vote_value" + message_num)
+  const vote_value_html = $("#vote_value" + message_num).htm1()
   const hi = 'highlighted'
 
-  if ($vote_value.htm1() === "Up") {
+  if (vote_value_html === "Up") {
     $thumbs_up.addClass(hi)
     $thumbs_down.removeClass(hi)
-  } else if ($vote_value.htm1() === "Down") {
+  } else if (vote_value_html === "Down") {
     $thumbs_down.removeClass(hi);
     $thumbs_down.addClass(hi);
   } else {
