@@ -1282,11 +1282,12 @@ if (request.user.id !== document.owner_id) {
 即使表达式很短，把它存入描述性变量，会更加容易理解。
 
 ```js
-const usr_own_doc = request.user.id === document.owner_id
-if (usr_own_doc) {
+const user_own_doc = request.user.id === document.owner_id
+if (user_own_doc) {
   //
 }
-if (!usr_own_doc) {
+
+if (!user_own_doc) {
   // do
 }
 ```
@@ -1397,11 +1398,11 @@ function update_highlight(message_num) {
 
 `const hi = 'highlighted'` 不是必需的，但是鉴于这个变量使用了多次，提取成单独的变量，有诸多好处：
 
-01. 避免输入错误。第一个版本有一个单词写错了(highighted 少了一个字母 l)
+01.  避免输入错误。第一个版本有一个单词写错了(highighted 少了一个字母 l)
 
-02. 当名字需要修改，只改一处。
+02.  当名字需要修改，只改一处。
 
-03. 降低了行宽。
+03.  降低了行宽。
 
 > 经验法则：当一个值使用超过 2 次，就应该把它提取成变量。
 
@@ -1436,6 +1437,312 @@ isOverlapsWith(otherRange) {
 ```
 
 ## 减少变量和收缩作用域
+
+变量的随意使用会让程序变的难以理解：
+
+01.  变量越多，就越难以跟踪它们的动向；
+02.  变量的作用域越大，就需要跟踪它们的动向越久；
+03.  变量改变得越频繁，就越难以跟踪它当前的值。
+
+### 减少变量
+
+前面我们增加描述性变量来保存复杂表达式，并且它们可作为某种形式的文档。但是我们需要**减少不能改进可读性的变量，从而让代码更加精简和容易理解**。
+
+#### 删除没有价值的零时变量
+
+```js
+const now = datetime.datetime.now()
+const root_msg_last_view_time = now
+```
+
+`now` 是值得保留的变量吗？不是，因为它： 01. 没有拆分复杂表达式； 02. 没有做更多的澄清 -- `datetime.datetime.now()` 已经很清楚了； 03. 只用了一次-- 没有压缩冗余代码。
+
+没 `now` ，代码更容易理解。
+
+#### 减少中间结果
+
+一个例子：
+
+```js
+function remove_one(array, value_to_remove) {
+  let index = -1
+  for (let i = 1; i < array.length; i++) {
+    if (array[i] === value_to_remove) {
+      index = i
+      break
+    }
+  }
+  if (index > -1) {
+    array.splice(index, 1)
+  }
+}
+```
+
+`index` 只是保存中间的临时结果，这种变量可以通过得到后立即处理它而被删除。
+
+```JS
+function remove_one(array, value_to_remove) {
+  for (let i = 1; i < array.length; i++) {
+    if (array[i] === value_to_remove) {
+      array.splice(i, 1)
+      return
+    }
+  }
+}
+```
+
+不再用 `index` ，代码精简多了，可读性也提高了。
+
+### 减少控制流变量
+
+常见到循环中有如下模式：
+
+```js
+let done = false
+while (!done) {
+  // do something
+  if (someCondition) {
+    done = true
+    continue
+  }
+}
+```
+
+这种变量，称为控制流变量，它不包含任何程序数据，仅仅用于控制程序流程变化，它们可以通过良好的设计而被消除。
+
+### 缩小变量的作用域
+
+缩写变量作用域是提高可读性的重要手段，常说的*减少全局变量的使用*，就是缩小变量作用域的常见手段。
+
+> 让变量的作用域越小越好，作用域越大，越容易出现命名冲突，越难以跟踪变化。
+
+js 中常见的作用域：
+
+01.  全局作用域；
+02.  局部作用域：模块作用域、函数作用域、块作用域。
+
+> 最佳实践：使用 let 和 const 声明变量，它们有块级作用域。
+
+禁止使用 `var` 或者不使用任何关键字声明变量 ，因为它不会产生块级作用域。
+
+> 最佳实践：在即将使用的地方声明，能有效缩写变量的作用域。
+
+> 经验法则：使用闭包，可缩小变量作用域在某个函数中，也实现了防止命名冲突。
+
+### 使用常量或者不变性变量
+
+不断变化的变量会导致难以跟踪它的值，难以推理程序的状态，非常容易出 bug。
+
+一个例子；
+
+```js
+const numbers = [1, 2, 3, 4, 5, 6]
+
+numbers.splice(0, 3) // [1,2,3]
+// numbers 被修改成 [4,5,6]
+numbers.splice(0, 3) // [4，5，6]
+// numbers 被修改成 []
+numbers.splice(0, 3) // []
+// numbers 被修改成 []
+```
+
+`splice` 的三次调用参数相同，得到的结果却不同，而且还修改了 numbers，就非常难以推理 splice 的返回值和当前的 numbers 的值。
+
+使用 `slice` 就没有这种问题
+
+```js
+const numbers = [1, 2, 3, 4, 5, 6]
+// 纯的，多次调用，返回值相同，且不会修改 numbers
+numbers.slice(0, 3) // [1, 2, 3]
+
+numbers.slice(0, 3) // [1, 2, 3]
+
+numbers.slice(0, 3) // [1, 2, 3]
+```
+
+三次调用，参数相同，结果相同，且不会修改 numbers。
+
+> 副作用(side effect)：除了代码单元的返回值对表达式产生影响外，还有其他影响，比如上面的例子中，splice 修改了 numbers。
+
+> 副作用往往是 bug 的来源， 可变数据和赋值操作是非常常见的副作用。
+
+几种方案可是的变量不可变：
+
+01.  使用`immutable.js`等不可变的数据结构；
+02.  使用 js 库(比如 lodash)来执行不可变的操作；
+03.  使用 es6 中执行不可变操作；
+04.  赋值一次，不再赋值的变量，使用`const`声明；
+05.  编写无副作用的函数：① 函数不改变参数；② 必需有返回值；
+06.  涉及到传递对象和数组时，传入深度复制后的数据。
+
+前两种不在此介绍，主要看看后面三种是如何避免可变的。
+
+#### ES6 中的不可变操作
+
+```js
+const a = {
+  name: 'js',
+  age: 20
+}
+const b = Object.assign({}, a) // assign 合并浅层属性
+b.name = 'python' // 修改 b，不影响 a
+
+const c = {
+  ...a
+} // 扩展运算符 ... 也是不可变操作
+```
+
+#### 使用 const 声明不再变化的变量
+
+比如，上面的例子中， `a` 初始化后不再赋值，就是了 `const` ，当不小心赋值时，编辑器会报错。
+
+#### 编写无副作用的函数
+
+副作用常常是 bug 的来源，编写函数时，不要让函数有副作用。
+
+```js
+function remove_one(array, value_to_remove) {
+  for (let i = 1; i < array.length; i++) {
+    if (array[i] === value_to_remove) {
+      array.splice(i, 1)
+      return
+    }
+  }
+}
+```
+
+remove_one 就是一个有副作用的函数，它改变了参数。改成无副作用的版本：
+
+```js
+function remove_one(array, value_to_remove) {
+  return array.filter(item => item !== value_to_remove)
+}
+```
+
+> 技巧：1. 不改变参数和全局变量，2. 保证函数又返回值，遵循这两个原则就能写出无副作用的函数。
+
+> js 中有副作用的函数，要谨慎使用。
+
+这些数组函数有副作用
+
+```js
+const array = [1, 2, 3, 4]
+array.push(1) // array [1,2,3,4]
+array.pop() // array [1,2,3]
+array.unshift(2) // array [2,1,2,3]
+array.shift() // array [1,2,3]
+array.splice(0, 1) // array [1,2,3]
+array.reverse() // array [3,2,1]
+array.sort()
+```
+
+多使用无副作用的函数，它们都返回一个新的数组：
+
+```js
+const array = []
+array.reduce()
+array.reduceRight()
+array.filter()
+array.map()
+array.some()
+array.every()
+array.slice()
+array.toReversed()
+array.toSorted()
+array.toSpliced()
+array.flat()
+array.flatMap()
+array.with() // 修改某个位置的元素
+```
+
+#### 深度复制避免意外改变变量
+
+这个不多阐述，有开发经验的人都理解。
+
+#### 最后的一个例子
+
+有如下的 html 代码：
+
+```html
+<input type="text" id="input1" value="Dustin">
+<input type="text" id="input2" value="Trevor">
+<input type="text" id="input3" value="">
+<input type="text" id="input4" value="Melissa">
+<!-- ...还有很多 input -->
+```
+
+编写一个函数 `setFirstEmptyInput(valueStr)` ，给第一个 value 值为空的 input 设置值，并返回改 input，没有为空的 input, 返回 null。
+
+我的实现：
+
+```js
+function setFirstEmptyInput(valueStr) {
+  const inputs = document.querySelectorAll('input')
+  const firstEmptyInput = Array.from(inputs).find(input => input.value === '')
+  if (!firstEmptyInput) return null
+  firstEmptyInput.value = valueStr
+  return firstEmptyInput
+}
+```
+
+其他实现：
+
+```js
+function setFirstEmptyInput(valueStr) {
+  let found = false
+  let i = 1
+  let ele = document.getElementById('input' + i)
+  while (ele !== null) {
+    if (ele.value === '') {
+      found = true
+      break
+    }
+    i++
+    ele = document.getElementById('input' + i)
+  }
+  if (found) ele.value = valueStr
+  return ele
+}
+```
+
+`found` 是循环控制变量，可消除。
+
+```js
+function setFirstEmptyInput(valueStr) {
+  let i = 1
+  let ele = document.getElementById('input' + i)
+  while (elem !== null) {
+    if (elem.value === '') {
+      elem.value = valueStr
+      return ele
+    }
+    i++
+    ele = document.getElementById('input' + i)
+  }
+  return null
+}
+```
+
+这个循环类似 `do...while` 循环，且 `document.getElementById` 调用了两次，希望避免使用 `do...while` ，消除 `document.getElementById` 的重复：
+
+```js
+function setFirstEmptyInput(valueStr) {
+  let i = 1
+  while (true) {
+    let ele = document.getElementById('input' + i)
+    if (ele === null) {
+      return null
+    }
+    if (ele.value === '') {
+      ele.value = valueStr
+      return ele
+    }
+    i++
+  }
+}
+```
+
+这个版本的，更加好了，相比之下，还是我的实现最好，它没有涉及到循环，即没有代码嵌套，也没有冗余的变量。
 
 ## 一次只做一件事
 
