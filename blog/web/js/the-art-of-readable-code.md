@@ -1671,7 +1671,7 @@ array.with() // 修改某个位置的元素
 <!-- ...还有很多 input -->
 ```
 
-编写一个函数 `setFirstEmptyInput(valueStr)` ，给第一个 value 值为空的 input 设置值，并返回改 input，没有为空的 input, 返回 null。
+编写一个函数 `setFirstEmptyInput(valueStr)` ，给第一个 value 值为空的 input 设置值，并返回修改后的 input，没有为空的 input, 返回 null。
 
 我的实现：
 
