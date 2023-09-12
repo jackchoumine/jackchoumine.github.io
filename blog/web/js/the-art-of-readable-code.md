@@ -1253,6 +1253,188 @@ for (let i = 0; i < result.length; i++) {
 
 ## 拆分超长表达式
 
+表达式越长，越难以理解，且容易出现 bug，要把超长表达式拆分成小块。
+
+### 将表达式存入描述性变量
+
+```JS
+if (line.split(':')[0].strip() === 'root') {
+  // do something
+}
+// 引入描述性变量
+const usrName = line.split(':')[0].strip()
+if (usrName === 'root') {
+  //
+}
+```
+
+多次使用的表达式存在描述性变量：
+
+```js
+if (request.user.id === document.owner_id) {
+  //
+}
+if (request.user.id !== document.owner_id) {
+  // do
+}
+```
+
+即使表达式很短，把它存入描述性变量，会更加容易理解。
+
+```js
+const usr_own_doc = request.user.id === document.owner_id
+if (usr_own_doc) {
+  //
+}
+if (!usr_own_doc) {
+  // do
+}
+```
+
+### 善用德摩根定律
+
+```js
+const result = !(a && b)
+const result2 = !a || !b
+// 这两个表达式等价
+```
+
+> 转换技巧：分别取反， `&` 和 `||` 互换。
+
+可以使用这个定律使得表达式更加可读。
+
+```JS
+if (!(file_exist && !is_protected)) {
+  // 不易读
+}
+if (!file_exist || is_protected) {
+  // 更加可读
+}
+```
+
+### 避免赋值语句再包含其他操作
+
+```js
+if (!(bucket = findBucket(key))) {
+  //
+}
+// 包含两个操作
+// 1. 取出 key 对应的 bucket
+// 2. 判断 bucket 是否不存在
+```
+
+一个语句或者表单式具有多个操作，虽然代码量少了，显得很智能，但是容易让人困惑。
+
+分成两步写，可读性更高。
+
+```js
+const bucket = findBucket(key)
+if (!bucket) {
+  //
+}
+```
+
+简写的箭头函数只有一条语句也容易出现这种情况：
+
+```js
+const myFn = (value) => result = doSomeThing(value)
+```
+
+> 返回值和赋值语句混合了，难以确定写代码的人是刻意为之还是不小心写错了。
+
+```js
+const myFn = (value) => {
+  return doSomeThing(value)
+}
+```
+
+这样更加可读。
+
+> 避免任何智能的代码，它会让人困惑。
+
+### 拆分巨大语句
+
+一个语句包含两个以上操作，也容易让人困惑。
+
+```js
+function update_highlight(message_num) {
+  if ($("#vote_value" + message_num).htm1() === "Up") {
+    $("#thumbs_up" + message_num).addClass("highlighted")
+    $("#thumbs_down" + message_num).removeClass("highlighted")
+  } else if ($("#vote_value" + message_num).htm1() === "Down") {
+    $("#thumbs_up" + message_num).removeClass("highlighted");
+    $("#thumbs_down" + message_num).addClass("highlighted");
+  } else {
+    $("#thumbs_up" + message_num).removeClass("highighted")
+    $("#thumbs_down" + message_num).removeClass("highlighted")
+  }
+}
+```
+
+代码中每个语句都包含了两个操作，不好理解，把它们拆分成描述性变量：
+
+```js
+function update_highlight(message_num) {
+  const $thumbs_up = $("#thumbs_up" + message_num)
+  const $thumbs_down = $("#thumbs_down" + message_num)
+  const $vote_value = $("#vote_value" + message_num)
+  const hi = 'highlighted'
+
+  if ($vote_value.htm1() === "Up") {
+    $thumbs_up.addClass(hi)
+    $thumbs_down.removeClass(hi)
+  } else if ($vote_value.htm1() === "Down") {
+    $thumbs_down.removeClass(hi);
+    $thumbs_down.addClass(hi);
+  } else {
+    $thumbs_up.removeClass(hi)
+    $thumbs_down.removeClass(hi)
+  }
+}
+```
+
+这样一改进，可读性有明显的提高。
+
+`const hi = 'highlighted'` 不是必需的，但是鉴于这个变量使用了多次，提取成单独的变量，有诸多好处：
+
+01. 避免输入错误。第一个版本有一个单词写错了(highighted少了一个字母l)
+
+02. 当名字需要修改，只改一处。
+
+03. 降低了行宽。
+
+> 经验法则：当一个值使用超过 2 次，就应该把它提取成变量。
+
+### 复杂逻辑反向操作
+
+有一个表示区间的类：
+
+```js
+class Range {
+  begin
+  end
+  isOverlapsWith(otherRange) {
+    // 判断是否和range 重叠 [0,5) 和 [3,8) 有重叠
+  }
+}
+```
+
+正向思考，需要判断当前的区间端点是否是否在另一个端点的范围内
+
+```js
+const isOverlap = (begin >= otherRange.begin && begin <= otherRange.end) || (end >= otherRange.begin && end <= otherRange.end)
+```
+
+这个表达式就太复杂了，不易理解，且容易错误，它忽略了 begin 和 end 完全包含的情况。反向思考，更加简单：AB 无重叠，A 在 B 开始之前结束，或者 A 在 B 结束后开始，从而达到简化判断的目的。
+
+```js
+isOverlapsWith(otherRange) {
+  if (otherRange.end <= begin) return false
+  if (otherRange.begin >= end) return false
+  return true
+}
+```
+
 ## 减少变量和收缩作用域
 
 ## 一次只做一件事
