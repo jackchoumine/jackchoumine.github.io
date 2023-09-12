@@ -920,7 +920,7 @@ function useHover(inAndOut: InAndOut = options, updateTarget = false, opts = und
 | ----- | ---------------- |
 | TODO  | 还没完成的事件   |
 | BUG   | 存在缺陷         |
-| FIXME |   需要改进的代码 |
+| FIXME | 需要改进的代码   |
 | NOTE  | 读者需要特别留意 |
 
 > 经验法则：以上标记可借助编辑器，可注释显示不同的颜色，方便快速阅读和统计，比如 vscode 的[Todo Tree](https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree)扩展。
@@ -1189,22 +1189,22 @@ reply.Done()
 
 使用 `break` 或者 `continue` 可减少循环内的嵌套。
 
-```js 
-for(let i =0; i < result.length; i++){
-  if(result[i]){
+```js
+for (let i = 0; i < result.length; i++) {
+  if (result[i]) {
 
     count++
-    if(result[i].name!==''){
+    if (result[i].name !== '') {
       // do something
     }
 
   }
 }
-
 ```
+
 改进：
 
-```js 
+```js
 for (let i = 0; i < result.length; i++) {
   if (!result[i]) continue
   count++
