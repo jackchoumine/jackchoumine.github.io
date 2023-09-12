@@ -1397,7 +1397,7 @@ function update_highlight(message_num) {
 
 `const hi = 'highlighted'` 不是必需的，但是鉴于这个变量使用了多次，提取成单独的变量，有诸多好处：
 
-01. 避免输入错误。第一个版本有一个单词写错了(highighted少了一个字母l)
+01. 避免输入错误。第一个版本有一个单词写错了(highighted 少了一个字母 l)
 
 02. 当名字需要修改，只改一处。
 
