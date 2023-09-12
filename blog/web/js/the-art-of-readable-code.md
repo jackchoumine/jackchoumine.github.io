@@ -1362,8 +1362,8 @@ function update_highlight(message_num) {
     $("#thumbs_up" + message_num).addClass("highlighted")
     $("#thumbs_down" + message_num).removeClass("highlighted")
   } else if ($("#vote_value" + message_num).htm1() === "Down") {
-    $("#thumbs_up" + message_num).removeClass("highlighted");
-    $("#thumbs_down" + message_num).addClass("highlighted");
+    $("#thumbs_up" + message_num).removeClass("highlighted")
+    $("#thumbs_down" + message_num).addClass("highlighted")
   } else {
     $("#thumbs_up" + message_num).removeClass("highighted")
     $("#thumbs_down" + message_num).removeClass("highlighted")
@@ -1384,8 +1384,8 @@ function update_highlight(message_num) {
     $thumbs_up.addClass(hi)
     $thumbs_down.removeClass(hi)
   } else if (vote_value_html === "Down") {
-    $thumbs_down.removeClass(hi);
-    $thumbs_down.addClass(hi);
+    $thumbs_down.removeClass(hi)
+    $thumbs_down.addClass(hi)
   } else {
     $thumbs_up.removeClass(hi)
     $thumbs_down.removeClass(hi)
