@@ -1940,13 +1940,377 @@ function cookie() {
 
 隐去具体细节，只给出测试的输入和输出。
 
+有vue组件 `Counter.vue` :
+
+```html
+<template>
+  <button role="increment" @click="increment" />
+  <button role="submit" @click="submit" />
+</template>
+
+<script>
+  import {
+    ref
+  } from 'vue';
+  export function submitValidator(value) {
+    if (typeof value !== 'number') {
+      throw Error(`Count should be a number. Got: ${count}`)
+    }
+    return true
+  }
+  export default {
+    emits: {
+      submit: submitValidator
+    },
+    setup(props, ctx) {
+      const count = ref(0)
+      // NOTE 触发自定义事件的方法命名
+      // 1. onCustomEvent 和 触发的事件保持一致
+      // 2. handleCustomEvent
+      function submit() {
+        ctx.emit('submit', this.count)
+      }
+
+      function increment() {
+        count.value++
+      }
+      return {
+        count,
+        submit,
+        increment
+      }
+    },
+  }
+</script>
+```
+
+测试用例：
+
+```jsx
+// Counter.test.jsx
+import {
+  render
+} from '@testing-library/vue'
+import userEvent from '@testing-library/user-event'
+import Counter, {
+  submitValidator
+} from './Counter.vue'
+
+describe('Counter.vue', () => {
+  it('emit with current count', async () => {
+    // Arrange
+    const {
+      getByRole,
+      user,
+      emitted
+    } = setup(<Counter/> )
+
+    // Action
+    await user.click(getByRole('increment'))
+    await user.click(getByRole('submit'))
+
+    // Assert
+    expect(emitted('submit')[0]).toEqual([1])
+  })
+})
+
+function setup(component) {
+  const result = render(component)
+  return {
+    user: userEvent.setup(),
+    ...result,
+  }
+}
+```
+
+组件挂载过程，封装了 `setup` ，隐去了挂载细节。
+
+### 更好的组织测试代码
+
+01. 上面的组件测试，遵循了`3A`法则编写用例，可读性更高。
+
+① 准备测试环境(Arrange)，比如挂载组件、模拟定时器、测试数据等。
+② 执行相关操作(Action)，比如点击按钮、输入表单等。
+③ 断言结果(Assert)。
+④ 以上代码，使用空行分割，保证可读性。
+
+02. 为特殊的输入，常见的 bug，编写用例，让使用者了解意外情况。
+
+比如测试封装的浏览器存储：
+
+```ts
+// storage.ts
+type StorageType = 'local' | 'session'
+
+function set<V = unknown>(key: string, value: V, type: StorageType = 'session') {
+  if (!key || typeof key !== 'string') throw new Error('必须有一个字符串参数 key')
+  const jsonValue = JSON.stringify(value)
+  if (type === 'local') {
+    localStorage.setItem(key, jsonValue)
+  } else if (type === 'session') {
+    sessionStorage.setItem(key, jsonValue)
+  } else {
+    throw new Error('不支持的存储类型')
+  }
+  // NOTE  stringify 支持的值
+  // 1， 对象 {...}
+  // 2， 数组 [...]
+  // 3， 字符串
+  // 4， 数字
+  // 5， 布尔值
+  // 6， null
+
+  // 被忽略的属性值
+  // 1， undefined
+  // 2， Symbol
+  // 3， 函数
+}
+
+function get<V = string | null | unknown>(key: string, type: StorageType = 'session'): V {
+  if (!key || typeof key !== 'string') throw new Error('必须有一个字符串参数 key')
+
+  if (type === 'local') {
+    try {
+      let value = JSON.parse(localStorage.getItem(key)!)
+      return value
+    } catch (error) {
+      return localStorage.getItem(key) as any
+    }
+  } else if (type === 'session') {
+    try {
+      let value = JSON.parse(sessionStorage.getItem(key)!)
+      return value
+    } catch (error) {
+      return sessionStorage.getItem(key) as any
+    }
+  } else {
+    throw new Error('不支持的存储类型')
+  }
+}
+
+function clear(type: StorageType = 'session') {
+  if (type === 'local') {
+    localStorage.clear()
+  } else if (type === 'session') {
+    sessionStorage.clear()
+  } else {
+    throw new Error('不支持的存储类型')
+  }
+}
+
+function remove(key: string, type: StorageType = 'session') {
+  if (!key || typeof key !== 'string') throw new Error('必须有一个字符串参数 key')
+  if (type === 'local') {
+    localStorage.removeItem(key)
+  } else if (type === 'session') {
+    sessionStorage.removeItem(key)
+  } else {
+    throw new Error('不支持的存储类型')
+  }
+}
+
+const storage = {
+  get,
+  set,
+  clear,
+  remove,
+}
+
+export { storage }
+```
+
+测试用例：
+
+```ts
+// storage.test.ts
+import { storage } from './storage'
+describe('storage', () => {
+  describe('默认是 sessionStorage', () => {
+    beforeEach(() => {
+      sessionStorage.clear()
+    })
+    it('storage.set', () => {
+      const value = 'hello'
+      const key = 'sessionKey'
+      storage.set(key, value)
+      expect(sessionStorage.getItem(key)).toEqual(JSON.stringify(value))
+
+      const key2 = 'sessionKey2'
+      const value2 = {
+        name: 'zqj',
+      }
+      storage.set(key2, value2)
+
+      expect(storage.get(key2)).toEqual(value2)
+    })
+
+    it('storage.get', () => {
+      const value = JSON.stringify('hello')
+      const key = 'sessionKey'
+      sessionStorage.setItem(key, value)
+
+      expect(sessionStorage.getItem(key)).toEqual(value)
+      expect(storage.get(key)).toEqual(JSON.parse(value))
+    })
+    it('storage.remove', () => {
+      const key = 'sessionKey'
+      const value = ['hello']
+      storage.set(key, value)
+
+      expect(storage.get(key)).toEqual(value)
+
+      storage.remove(key)
+
+      expect(storage.get(key)).toBeNull()
+    })
+    it('storage.clear', () => {
+      const key = 'sessionKey'
+      const value = ['hello']
+      storage.set(key, value)
+      const key2 = 'sessionKey2'
+      const value2 = {}
+      storage.set(key2, value2)
+
+      expect(storage.get(key)).toEqual(value)
+      expect(storage.get(key2)).toEqual(value2)
+
+      storage.clear()
+
+      expect(storage.get(key)).toBeNull()
+      expect(storage.get(key2)).toBeNull()
+    })
+  })
+  describe('设置 localStorage', () => {
+    beforeEach(() => {
+      localStorage.clear()
+    })
+    it('storage.set', () => {
+      const value = 'hello'
+      const key = 'sessionKey'
+      storage.set(key, value, 'local')
+      expect(localStorage.getItem(key)).toEqual(JSON.stringify(value))
+
+      const key2 = 'sessionKey2'
+      const value2 = {
+        name: 'zqj',
+      }
+      storage.set(key2, value2, 'local')
+
+      expect(storage.get(key2, 'local')).toEqual(value2)
+    })
+
+    it('storage.get', () => {
+      const value = JSON.stringify('hello')
+      const key = 'sessionKey'
+      localStorage.setItem(key, value)
+
+      expect(localStorage.getItem(key)).toEqual(value)
+      expect(storage.get(key, 'local')).toEqual(JSON.parse(value))
+    })
+    it('storage.remove', () => {
+      const key = 'sessionKey'
+      const value = ['hello']
+      storage.set(key, value, 'local')
+
+      expect(storage.get(key, 'local')).toEqual(value)
+
+      storage.remove(key, 'local')
+
+      expect(storage.get(key, 'local')).toBeNull()
+    })
+    it('storage.clear', () => {
+      const key = 'sessionKey'
+      const value = ['hello']
+      storage.set(key, value, 'local')
+      const key2 = 'sessionKey2'
+      const value2 = {}
+      storage.set(key2, value2, 'local')
+
+      expect(storage.get(key, 'local')).toEqual(value)
+      expect(storage.get(key2, 'local')).toEqual(value2)
+
+      storage.clear('local')
+
+      expect(storage.get(key, 'local')).toBeNull()
+      expect(storage.get(key2, 'local')).toBeNull()
+    })
+  })
+  describe('设置错误的 type', () => {
+    it('storage.set throw', () => {
+      expect(() => storage.set('key', 'error', 'errorType' as any)).toThrowError()
+    })
+    it('storage.get throw', () => {
+      storage.set('key', 'error')
+
+      expect(() => storage.get('key', 'errorType' as any)).toThrowError()
+
+      const value = 'error'
+      sessionStorage.setItem('key2', value)
+      expect(storage.get('key2')).toBe(value)
+
+      // 不是一个合法的 json 字符串
+      const valueObj = '{name: "zqj"}}'
+      localStorage.setItem('key2', valueObj)
+      // 部署合法的 JSON 字符串，返回原字符串，不进行 JSON.parse
+      expect(storage.get('key2', 'local')).toBe(valueObj)
+    })
+    it('storage.remove throw', () => {
+      storage.set('key', 'error')
+
+      expect(() => storage.remove('key', 'errorType' as any)).toThrowError()
+    })
+    it('storage.clear throw', () => {
+      expect(() => storage.clear('errorType' as any)).toThrowError()
+    })
+  })
+  describe('没有提供 key', () => {
+    it('storage.set() throw', () => {
+      expect(() => storage.set('', 'value')).toThrowError()
+      expect(() => storage.set(undefined as any, 'value')).toThrowError()
+      expect(() => storage.set(null as any, 'value')).toThrowError()
+    })
+    it('storage.get() throw', () => {
+      expect(() => storage.get('', 'session')).toThrowError()
+      expect(() => storage.get(undefined as any, 'session')).toThrowError()
+      expect(() => storage.get(null as any, 'session')).toThrowError()
+      expect(() => storage.get(1 as any, 'session')).toThrowError()
+    })
+    it('storage.remove() throw', () => {
+      expect(() => storage.remove('', 'session')).toThrowError()
+      expect(() => storage.remove(undefined as any, 'session')).toThrowError()
+      expect(() => storage.remove(null as any, 'session')).toThrowError()
+      expect(() => storage.remove(1 as any, 'session')).toThrowError()
+    })
+  })
+})
+```
+
+对没有 `key` 和错误的 `type` ，都是编写了用例。
+
+### 给用例取一个好名字
+
+如下的例子，都给describe和it，取了一个好名字。
+
+```js
+describe('submitValidator', () => {
+  it('throw error when count is not number', function() {
+    const actual = () => submitValidator('1')
+    expect(actual).toThrowError()
+  })
+
+  it('return true when count is number', function() {
+    const actual = () => submitValidator(1)
+    expect(actual).not.toThrowError()
+    expect(actual()).toBe(true)
+  })
+})
+```
+
 ### 构造良好的测试输入
 
 最好的输入，能覆盖所有的边界情况，同时保持输入最小。
 
-### 为特殊的输入编写用例
-
-为特殊的输入，常见的 bug，编写用例，让使用者对意外情况更加了解。
+上面的测试例子，两个用例就覆盖了所有情况。
 
 ### 让错误消息更加可读
 
@@ -2003,9 +2367,17 @@ function cookie() {
 
 04. 向稳定的方向依赖
 
-> 不太理解。
+耦合点的变化，会导致依赖方跟着变化。耦合点稳定，依赖方受到耦合点变化的影响越小。
 
-依赖的版本要稳定，属于这个原则吗？
+如何让依赖更趋于稳定：
+
+> 站在需求的角度，而不是实现的角度定义依赖点（API），会让API更加稳定。
+
+需求是不断变化的，必须对需求进行抽象和建模，找出其中本质的东西，才能使API更加稳定。
+
+依赖的版本要稳定，属于这个原则吗？属于。
+
+[更多参考 -- 正交设计之正交四原则](https://blog.csdn.net/qfturauyls/article/details/124462763)
 
 ## 总结
 
