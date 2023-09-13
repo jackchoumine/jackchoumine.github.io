@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-09-01 10:31:25
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-09-01 15:26:11
+ * @LastEditTime: 2023-09-14 04:06:50
  * @Description : 
 -->
 <template>
@@ -25,7 +25,7 @@ export default {
     setup(props, ctx) {
         const count = ref(0)
         // NOTE 触发自定义事件的方法命名
-        // 1. onCustomEvent 和 触发的2023年9月1日 15:12:48保持一致
+        // 1. onCustomEvent 和 触发的事件保持一致
         // 2. handleCustomEvent
         function submit() {
             ctx.emit('submit', this.count)
