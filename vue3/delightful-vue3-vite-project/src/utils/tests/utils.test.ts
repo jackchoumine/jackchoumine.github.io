@@ -2,12 +2,12 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-09-15 01:06:17
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-09-15 01:44:45
+ * @LastEditTime: 2023-09-15 02:25:49
  * @Description :
  */
 import { describe, expect, test } from 'vitest'
 
-import { calcPlace } from '@/utils/index'
+import { calcPlace, checkOneVar } from '@/utils/index'
 
 describe('calcPlace function', () => {
   describe('美国地址', () => {
@@ -87,5 +87,15 @@ describe('calcPlace function', () => {
 
       expect(calcPlace(locationInfo)).toEqual(`${locationInfo.local},planet earth`)
     })
+  })
+})
+
+describe('测试 checkOneVar', () => {
+  it('测试字符串', () => {
+    checkOneVar('hello')
+    checkOneVar('1')
+    checkOneVar(true)
+    checkOneVar()
+    checkOneVar(null)
   })
 })
