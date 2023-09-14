@@ -521,8 +521,11 @@ selected
 
 ##### 参考
 
-[Naming guidelines for boolean variables](https://www.serendipidata.com/posts/naming-guidelines-for-boolean-variables)
-[why-am-i-seeing-more-boolean-naming-conventions-where-is-is-used-as-the-first](https://softwareengineering.stackexchange.com/questions/102736/why-am-i-seeing-more-boolean-naming-conventions-where-is-is-used-as-the-first)
+[Naming guidelines for boolean variables](https://www.serendipidata.com/posts/naming-guidelines-for-boolean-variables)<br/>
+
+[why-am-i-seeing-more-boolean-naming-conventions-where-is-is-used-as-the-first](https://softwareengineering.stackexchange.com/questions/102736/why-am-i-seeing-more-boolean-naming-conventions-where-is-is-used-as-the-first)<br/>
+
+[Tips on naming boolean variables - Cleaner Code](https://michaelzanggl.com/articles/tips-on-naming-boolean-variables/)
 
 #### 采用使用者的期望的名字
 
@@ -2597,6 +2600,3 @@ N 个函数和 M 个函数的功能正交，组合起来就能做 `N*M` 件事�
 03.  善用周边库少造轮子
 
 ## 参考
-
-<!-- [](https://pegasuswang.readthedocs.io/zh/latest/code/%E7%BC%96%E5%86%99%E5%8F%AF%E8%AF%BB%E4%BB%A3%E7%A0%81%E7%9A%84%E8%89%BA%E6%9C%AF/)
-[](https://pdai.tech/md/about/book/book-read-code-art.html#%E3%80%8A%E7%BC%96%E5%86%99%E5%8F%AF%E8%AF%BB%E4%BB%A3%E7%A0%81%E7%9A%84%E8%89%BA%E6%9C%AF%E3%80%8B) -->
