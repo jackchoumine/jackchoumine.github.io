@@ -1686,6 +1686,8 @@ function setFirstEmptyInput(valueStr) {
 
 > 工程学的思想：把大问题拆分成小问题，再把小问题的解决方案组合成大问题的解决方案。
 
+> 保持职责单一的技巧：拆分任务，相同的任务聚集到同一个代码快中。
+
 写代码也一样，在解决一个复杂问题时，可把它拆分成解决简单问题的组合。
 
 ### 提取可复用的操作
@@ -1759,6 +1761,132 @@ function sphericalDistance(lat1, lng1, lat2, lng2) {
 
 > 保持函数短小，职责单一，有诸多好处。
 
+再看一个例子：
+
+从对象中抽取值：
+
+```JS
+const locationInfo = {
+  country: 'USA',
+  state: 'California',
+  city: 'Los Angeles',
+  local: 'Santa Monica'
+}
+```
+
+从这个对象中提取友好的地址字符串，形成 `city,country` ，比如 `Santa Monica, USA` ，找到每个属性都可能缺失。提取方案：
+
+* 选择 city 的值时，先取 local，没有，再取 city, city 还是没有，再取 state，还是没有，取默认值`middle-of-nowhere`; 
+* 选择 country 的值，country 不存在，取默认值`planet earth`。
+
+第一个实现了版本：
+
+```JS
+const locationInfo = {
+  country: 'USA',
+  state: 'California',
+  city: 'Los Angeles',
+  local: 'Santa Monica',
+}
+
+function calcPlace(location_info) {
+  // 取值 + 更新第一部分
+  let place = location_info['local'] //  e.g. "Santa Monica"
+  if (!place) {
+    // 取值 + 更新第一部分
+    place = location_info['city'] //  e.g. "Los Angeles"
+  }
+  if (!place) {
+    // 取值 + 更新第一部分
+    place = location_info['state'] //  e.g. "California"
+  }
+  if (!place) {
+    // 取值 + 更新第一部分
+    place = 'middle-of-nowhere'
+  }
+
+  if (location_info['country']) {
+    // 取值 + 更新第二部分
+    place += ', ' + location_info['CountryName'] //  e.g. "USA"
+  } else {
+    // 取值 + 更新第二部分
+    place += ',planet earth'
+  }
+
+  return place
+}
+```
+
+代码有点乱，但是能工作。过几天，新的需求又来了：美国之内的地点，要显示州，而不是国家名。
+
+第二个版本：
+
+```js
+function calcPlace(location_info) {
+  // 1. 取值
+  const {
+    country,
+    state,
+    city,
+    local
+  } = location_info
+
+  // 2. 计算第一部分
+  let first_part = 'middle-of-nowhere'
+  if (state && country !== 'USA') {
+    first_part = state
+  }
+  if (city) {
+    first_part = city
+  }
+  if (local) {
+    first_part = local
+  }
+  // 3. 计算第二部分
+  let second_part = 'planet earth'
+  if (country) {
+    second_part = country
+  }
+  if (state && country === 'USA') {
+    second_part = state
+  }
+  // 4. 组合成新地址
+  return `${first_part},${second_part}`
+}
+```
+
+第一个版本的不同操作，分散在不同的代码区域，而第二个版本，相同的操作，更加聚集，4 个不同的任务，聚合在 4 个代码块中，可读性和可维护性，第二个版本更加好。
+
+第二个版本中，对 `country` 的判断分散在两个代码块中，和其他逻辑交织在一起，可读性还是不够理想，希望对 `country` 的判断更加聚集，可以提高可读性。
+
+```js
+function calcPlace(location_info) {
+  const {
+    country,
+    state,
+    city,
+    local
+  } = location_info
+
+  let first_part
+  let second_part
+  if (country === 'USA') {
+    // 先处理正逻辑
+    first_part = local || city || 'middle-of-nowhere'
+    second_part = state || 'USA'
+  } else {
+    first_part = local || city || state || 'middle-of-nowhere'
+    second_part = country || 'planet earth'
+  }
+
+  return `${first_part},${second_part}`
+}
+```
+
+第三个版本的可读性又有很大的提升。
+
+> 技巧：从多个值中获取第一个真值，使用 `const result = a||b||c||'default value'` ，可简写多个if语句。
+
 ### 提取工具函数代码
 
 每个项目都有一些可复用的工具代码，可提取出来。
@@ -1812,6 +1940,7 @@ cookie.remove()
 ```JS
 function cookie() {
   const enable = window.navigator.cookieEnabled
+
   cookie.get = get
   cookie.set = set
   cookie.remove = remove
@@ -1859,6 +1988,7 @@ function cookie() {
       let [k, v] = el.split('=')
       cookie[k.trim()] = v
     })
+
     return cookie[name]
   }
 
