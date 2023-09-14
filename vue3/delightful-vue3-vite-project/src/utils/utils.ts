@@ -136,6 +136,7 @@ function checkOneVar(greet?) {
   // }
   // 策略模式简化对同一个变量不同值的检查，尤其是对枚举值的检查
   // NOTE 对象的键只能是字符串，非字符串会被转化
+  // https://segmentfault.com/a/1190000021883055
   const obj = {
     hello: () => {
       console.log('字符串 hello', 'zqj log')
