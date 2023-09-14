@@ -84,10 +84,11 @@ class ConcurrencyControl {
   }
 }
 // ?? VS ||
+// 相同点：都可用于检查多个变量的存在性，获取第一个存在的变量
 // ?? 用于过滤空值，获取第一个非空值 undefined null
-// 特别小心 NaN
+// 常用来获取非空值，特别小心 NaN
 // || 用于过滤假值，获取第一个真值 undefined null 0 false '' NaN
-// 常用检测字符串类型的值，当 0 和 false 有意义时，要特别小心
+// 常用来获取非空字符串、非零数值和 true，当 0 和 false 有意义时，要特别小心
 // NOTE 常用在检测 http 接口返回的值
 function calcPlace(location_info) {
   const { country, state, city, local } = location_info
