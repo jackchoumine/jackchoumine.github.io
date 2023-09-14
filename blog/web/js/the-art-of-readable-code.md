@@ -428,7 +428,7 @@ function shouldRemoveBlank(remove) {
 
 > 避免使用反义
 
-不使用反义的词，比如 `no` 、 `not` 、 `never` 、 `won't` 和 `dont` ，因为含有反义，容易有双重否定，认知负担大。
+不使用反义的词，比如 `no` 、 `not` 、 `disabled` 、 `never` 、 `won't` 和 `dont` ，因为含有反义，容易有双重否定，认知负担大。
 
 ```js
 const hasNoValue = arr.length === 0
@@ -463,6 +463,46 @@ if (!hasValue) {
 ```
 
 没有值时，执行条件，非常自然。
+
+> 全称变量和存在变量的命名
+
+数学上表示所有的的量词叫我全称量词，表示存在的量词叫存在量词。如何命名呢？
+
+举例说明:
+
+```JS
+// 全称变量 对应数学上的全称量词
+const isUsersActive = users.every(user => user.isActive) // ❌ 英文语法错误  is 和复数搭配了, 模糊
+const areUsersActive = users.every(user => user.isActive) // ❌ 自定义前缀
+const isEachUserActive = users.every(user => user.isActive) // ✅ better 语法正确 
+const isEveryUserActive = users.every(user => user.isActive) // ✅ best 语法正确 every 符合 every 函数的语义
+```
+
+```JS
+// 存在量词
+const isUsersActive = users.some(user => user.isActive) // ❌ 英文语法错误  is 和复数搭配了, 模糊
+const isAtLeastOneUserActive = users.some(user => user.isActive) // ❌ 太长
+const isOneUserActive = users.some(user => user.isActive) // ❌ 只有一个，和语义不符
+const isAnyUserActive = users.some(user => user.isActive) // ✅ better
+const isSomeUserActive = users.some(user => user.isActive) // ✅ best 语法正确 some 还反映到 some 语义上
+```
+
+取反的情况
+
+```js
+const isAnyUserOffline = users.some(user => !user.isOnline)
+
+if (isAnyUserOffline) {
+  // 有人离线
+}
+// 使用 every
+const isEveryUserOnLine = user.every(user => user.isOnline)
+if (!isEveryUserOnLine) {
+  // 不是每个人都在线
+}
+```
+
+第一种更加好理解，而且数据量大的时候，性能更好。
 
 > 如果可能，布尔变量的默认值为 `false` ，尤其是在函数参数中。
 
