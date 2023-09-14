@@ -83,4 +83,27 @@ class ConcurrencyControl {
     this.callback(res) // 执行回调函数
   }
 }
-export { ConcurrencyControl }
+// ?? VS ||
+// ?? 用于过滤空值，获取第一个非空值 undefined null
+// 特别小心 NaN
+// || 用于过滤假值，获取第一个真值 undefined null 0 false '' NaN
+// 常用检测字符串类型的值，当 0 和 false 有意义时，要特别小心
+// NOTE 常用在检测 http 接口返回的值
+function calcPlace(location_info) {
+  const { country, state, city, local } = location_info
+
+  let first_part
+  let second_part
+  if (country === 'USA') {
+    // 先处理正逻辑
+    first_part = local || city || 'middle-of-nowhere'
+    second_part = state || 'USA'
+  } else {
+    first_part = local || city || state || 'middle-of-nowhere'
+    second_part = country || 'planet earth'
+  }
+
+  return `${first_part},${second_part}`
+}
+
+export { ConcurrencyControl, calcPlace }
