@@ -512,11 +512,12 @@ if (!isEveryUserOnLine) {
 autofocus
 checked
 disabled
-formnovalidate
-nowrap
 readonly
 required
 selected
+draggable
+formnovalidate
+nowrap
 ```
 
 ##### 参考
