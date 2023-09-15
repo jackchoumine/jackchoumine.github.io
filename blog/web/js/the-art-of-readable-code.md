@@ -391,7 +391,7 @@ const canEdit = true // best  ✅
 | ------ | ----------------- | ---------------------------------- | ---------------------------------- | --------------------------------------------------------------------- |
 | is     | is + 形容词       | 是否具备某种属性或者状态           | isOk、isHidden                     | 单独的形容词，也能猜到是布尔变量，但是不够明确，比如 hidden、sortable |
 | is     | is + 动词过去式   | 是否完成了某个动作或者某件事       | isConnected、isFilled、isSorted    |                                                                       |
-| is     | is + 名词         | 是否是某个东西                     | isAdmin、isVIP、isProUser          |                                                                       |
+| is     | is + 名词         | 是否是某个东西                     | isAdmin、isVIP、isEditing、isProUser          |                                                                       |
 | has    | has + 名字        | 是否存在某物                       | hasKey、hasError、hasOnlineUser                   | 名字一般使用单数，复数也无伤大雅                                      |
 | can    | can + 动词原型    | 是否启用某种能力 使其具备某种功能  | canEdit、canRemove                 |                                                                       |
 | enable | enable + 动词原型 | 是否启用某种能力 使其具备某种功能  | enableEdit、enableLoad             | 还能用于命名函数                                                      |
