@@ -387,6 +387,7 @@ const canEdit = true // best  ✅
 
 ```js
 // `is` + 形容词 或者直接形容词，具有某写属性
+// `is` + 动词过去式，表示完成了某个都行 做完xxx
 const isGood = true //
 const good = true // ok 👌 但是不够明确
 const isFinished = true
@@ -400,16 +401,18 @@ const isRiver = true
 const orders_is_closed = true
 // 也可以 `is` + 名词 + 形容词
 const isOrdersClosed = true
-// `should` + 动词过去式 是否需要做某个动作
-const shouldCloseDB = true
-// `can` + 动词 具备某种能力
-const canEdit = true // 有编辑权限
-// `enable` + 动词， 表示是否开启某种能力
-const enableEdit = true
-const enableRemove = true
+
 // `has` + 名词 存在某些东西
 const hasKey = true // 存在 key
 const hasValue = true // 有值
+
+// `should` + 动词原型 是否需要执行某个动作
+const shouldCloseDB = true
+// `can` + 动词 具备某种能力
+const canEdit = true // 有编辑权限
+// `enable` + 动词， 表示是否开启某种能力 是具备某个能力
+const enableEdit = true
+const enableRemove = true
 ```
 
 因为这些词在英语中常常使用来引导疑问句，而疑问句的回答一般是 `yes` 或者 `no` ，对应 `true` 或者 `false` 。
