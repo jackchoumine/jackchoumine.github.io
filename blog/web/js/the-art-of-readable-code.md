@@ -369,6 +369,18 @@ const str = 'abcd' // first = 0  last = 3 包含 d
 const str = 'abcd' // start = 0  end = 3 不包含 d
 ```
 
+#### 更好地给变量加否定前缀
+
+英文中表示否定前缀的有很多，比如 `un` 、 `de` 、 `dis` ，如何选择呢？
+
+| 前缀 | 后缀                    | 描述         | 例子                                   |
+| ---- | ----------------------- | ------------ | -------------------------------------- |
+| non  | 名词、动词、形容词      | 表相反的意思 | editedRows->nonEditedRows              |
+| de   | 动词                    | 表相反的动作 | encodeURIComponent->decodeURIComponent |
+| un   | ed 或 able 结尾的形容词 |              | founded->unfounded                     |
+
+> non 最通用，搞不清楚，一律 non 就行了。
+
 #### 给布尔变量命名
 
 当命名布尔变量或者返回布尔值的函数命名时，要确保阅读者一眼明确(返回)值的范围是 `true` 或者 `false` 。
@@ -387,17 +399,17 @@ const canEdit = true // best  ✅
 
 这些词在英语中常常使用来引导疑问句，而疑问句的回答一般是 `yes` 或者 `no` ，对应 `true` 或者 `false` 。
 
-| 前缀   | 常见的搭配        | 描述                               | 例子                               | 补充                                                                  |
-| ------ | ----------------- | ---------------------------------- | ---------------------------------- | --------------------------------------------------------------------- |
-| is     | is + 形容词       | 是否具备某种属性或者状态           | isOk、isHidden                     | 单独的形容词，也能猜到是布尔变量，但是不够明确，比如 hidden、sortable |
-| is     | is + 动词过去式   | 是否完成了某个动作或者某件事       | isConnected、isFilled、isSorted    |                                                                       |
-| is     | is + 名词         | 是否是某个东西                     | isAdmin、isVIP、isEditing、isProUser          |                                                                       |
-| has    | has + 名字        | 是否存在某物                       | hasKey、hasError、hasOnlineUser                   | 名字一般使用单数，复数也无伤大雅                                      |
-| can    | can + 动词原型    | 是否启用某种能力 使其具备某种功能  | canEdit、canRemove                 |                                                                       |
-| enable | enable + 动词原型 | 是否启用某种能力 使其具备某种功能  | enableEdit、enableLoad             | 还能用于命名函数                                                      |
-| should | should + 动词原型 | 是否执行某个操作，一般用于命名函数 | shouldRemoveBlank、shouldFillTable |                                                                       |
+| 前缀   | 常见的搭配        | 描述                               | 例子                                 | 补充                                                                  |
+| ------ | ----------------- | ---------------------------------- | ------------------------------------ | --------------------------------------------------------------------- |
+| is     | is + 形容词       | 是否具备某种属性或者状态           | isOk、isHidden                       | 单独的形容词，也能猜到是布尔变量，但是不够明确，比如 hidden、sortable |
+| is     | is + 动词过去式   | 是否完成了某个动作或者某件事       | isConnected、isFilled、isSorted      |                                                                       |
+| is     | is + 名词         | 是否是某个东西                     | isAdmin、isVIP、isEditing、isProUser |                                                                       |
+| has    | has + 名字        | 是否存在某物                       | hasKey、hasError、hasOnlineUser      | 名字一般使用单数，复数也无伤大雅                                      |
+| can    | can + 动词原型    | 是否启用某种能力 使其具备某种功能  | canEdit、canRemove                   |                                                                       |
+| enable | enable + 动词原型 | 是否启用某种能力 使其具备某种功能  | enableEdit、enableLoad               | 还能用于命名函数                                                      |
+| should | should + 动词原型 | 是否执行某个操作，一般用于命名函数 | shouldRemoveBlank、shouldFillTable   |                                                                       |
 
-> 不关注数量。全部、所有，使用 every 或者 each, 比如 isEachUserActive，isEveryOrderClosed，存在至少一个，搭配 some、any或者 has, 比如 isSomeUserLogin、isAnyUserOnLine、hasOnlineUser。
+> 不关注数量。全部、所有，使用 every 或者 each, 比如 isEachUserActive，isEveryOrderClosed，存在至少一个，搭配 some、any 或者 has, 比如 isSomeUserLogin、isAnyUserOnLine、hasOnlineUser。
 
 > 或者直接使用复数，虽然英文语法错误，但是无伤大雅，比如 isOrdersClosed。不要使用 are。
 
