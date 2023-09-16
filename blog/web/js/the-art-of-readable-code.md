@@ -1,6 +1,6 @@
 # 编写可读性代码的艺术
 
-最近阅读了《编写可读代码的艺术》一书，感觉很有收获，现在结合自己的理解再来总结编写可读性代码的技巧，会举很多例子，并且针对日常开发中常见的**代码异味**给出改我的进建议。
+最近阅读了《编写可读代码的艺术》一书，感觉很有收获，现在结合自己的理解再来总结编写可读性代码的技巧，会用 js 举例，并且针对日常开发中常见的**代码异味**给出改我的进建议。
 
 学会该书的大部分技巧并付诸实践，不能保证保证你写出完美的代码，但是能保证你写出能读的代码，保证你的**码德**下限。
 
@@ -242,6 +242,9 @@ package -> pkg # 包 n 打包 v
 position -> pos # 位置
 configuration -> config # 配置
 calculate -> calc
+initialization -> init # 初始化的
+initialize -> init # 初始化
+generate -> gen # 生成
 array -> arr
 previous -> pre
 next -> next
@@ -254,7 +257,7 @@ summation -> sum
 synchronization -> sync
 asynchronization -> async
 system -> sys # 系统
-temporary -> tmp # 临时
+temporary -> temp # 临时 或者 tmp
 text -> txt # 纯文本
 variable -> var
 control -> ctr # 控制
@@ -269,7 +272,10 @@ length -> len # 长度
 administrator -> adm # 管理员
 database -> db # 数据库
 coordinates -> coord # 坐标
-# 经度维度
+longitude -> lng # 经度
+latitude -> lat # 维度
+circularMeasure -> cw # 弧度
+angle -> ng # 角度
 dictionary -> dic # 字典
 extend -> ex/ext # 扩展
 horizontal -> horz # 水平
@@ -2082,6 +2088,231 @@ function cookie() {
 产品经理说需要一个 google, 经过分析，他其实只是需要一个能让用户搜索的功能。
 
 当产品理解提出难以实现或者离谱的需求时，积极了解他的目的，实现困难时，就换一种方式满足用户。
+
+### 简化函数的参数
+
+参数越多，易用性越差，可读性也越差。
+
+01. 位置参数超过4个，使用对象代替
+
+> 函数参数不应该超过4个，超过4个，就难以理解和使用。超过4个，使用对象代替。
+
+```js 
+// 位置参数太对，难以使用和理解
+function person(name, age, city, salary, job){}
+// 使用对象代替 5个参数被放在一个对象里
+function person2({name, age, city, salary, job}){}
+
+```
+02. 多使用默认参数和剩余参数
+
+提供默认参数和剩余参数，可提高函数的易用性。
+
+```js
+function testFn(name,age=18,job='coder'){
+// 
+}
+testFn('Jack')
+testFn('Tom',20)
+testFn('Tim',34,'PM')
+```
+
+对象的默认参数，善用解构
+
+```js 
+function person({ name = 'Tim', age = 28, ...restProps } = {}) {
+  console.log(restProps)
+}
+person()
+person({
+  name: 'Tim', 
+  age: 30, 
+  salary: '$30000', 
+  addr: 'ShangHai, China', 
+  job: 'rust dev', 
+})
+
+```
+
+> 当知道了对象会具备的属性时，使用对象默认参数是非常好的方法。
+
+比如需要给一个div设置style样式：
+
+```js
+function setDivStyle({width='200px',height='100px',display='flex',...restProps}={}){}
+```
+
+03. 剩余参数
+
+```js 
+function testFn(name, age, city, ...restParams){
+}
+
+```
+
+> 避免滥用剩余参数，因为剩余参数也是位置参数的一种。函数不能同时具备剩余参数和默认参数。
+
+04. 柯里化实现减少形参和复用实参
+
+柯理化的基本形式：函数一个函数的返回值为另一个函数。
+
+```js
+function outerFn(greet){
+  return function innerFn(name){
+    console.log(`${greet},${name}`)
+  }
+}
+```
+
+再看一个例子
+
+```js
+function sum(a, b) {
+  return a + b
+}
+// 参数 10 重复 3 参数
+sum(10, 1)
+sum(10, 10)
+sum(10, 100)
+```
+
+使用柯里化复用参数：
+
+```js 
+function currySum(a) {
+  return function add(b) {
+
+    return a + b
+
+  }
+}
+
+const tenAdd = currySum(10)
+tenAdd(1) // 复用之前的参数 10
+tenAdd(10) // 同上
+tenAdd(100) // 同上
+
+```
+
+柯里化不仅柯返回函数，还能包含函数的对象，有时候会更加实用。
+
+```JS
+function counter(initValue){
+  return {
+    add
+  }
+  function add(n){
+    return initValue + n
+  }
+}
+const {add} = counter(10)
+add(1)
+const {add:add100and} = counter(100)
+add100and(1000)
+```
+
+> 通过柯里化，把两个**形参拆分**到了两个函数中，从而实现了**实参复用**。 通用的柯里化函数，读者可自行实现或者谷歌。
+
+通过柯里化拆分形参，实现了实际参数的复用，函数功能不仅得到加强，易用性和可读性也提高了。
+
+看一个综合的例子，封装一个 vue3 的useHttp:
+
+```ts
+type Method = 'post' | 'get'
+type MaybeRef<T> = Ref<T> | T
+
+function useHttp(
+  url: string,
+  params: MaybeRef<Record<string, any>> = ref({}),
+  { enableWatch = true, immediate = true, autoAbort = true } = {},
+  method: Method = 'get'
+) {
+  const _method = method
+  const _params = unref(params)
+  const data = ref()
+  const error = ref()
+  const loading = ref(false)
+
+  enableWatch &&
+    watch(
+      params,
+      newParams => {
+        sendHttp(newParams, _method)
+      },
+      {
+        deep: true,
+      }
+    )
+
+  onMounted(() => {
+    immediate && sendHttp(unref(params))
+  })
+
+  let abortController = null // new AbortController()
+  onBeforeUnmount(() => {
+    autoAbort && abortHttp()
+  })
+
+  return [data, loading, sendHttp, error]
+
+  function sendHttp(params: Record<string, any> = _params, method = _method) {
+    let path = url
+    let body = undefined
+    if (method === 'get') {
+      let query = Object.keys(params)
+        .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(params[k])}`)
+        .join('&')
+      path += `?${query}`
+    } else if (method === 'post') {
+      body = JSON.stringify(params)
+    }
+
+    abortController = new AbortController()
+    const options = { body, signal: abortController.signal }
+
+    loading.value = true
+
+    return fetch(path, options)
+      .then(res => res.json())
+      .then(res => {
+        data.value = res
+        return res
+      })
+      .catch(err => {
+        error.value = err
+        return Promise.reject(err)
+      })
+      .finally(() => {
+        loading.value = false
+        abortController = null
+      })
+  }
+
+  function abortHttp() {
+    abortController?.abort()
+  }
+}
+
+export { useHttp }
+```
+
+使用方式：
+
+```js
+// 立即请求 todo
+const [todo] = useHttp('/todos/120')
+
+const params = ref({
+  date: '2023-10-10'
+})
+// 立即请求订单，当 params 改变，会自动再次请求
+const [orderList, loading] = useHttp('/orders', params)
+
+// 自动请求，需要再次更新 userList 时，手动调用，fetchUsers({job:'pm'})，会复用 url 
+const [userList, loadIngUsers, fetchUsers] = useHttp('/users', {
+  job: 'coder'
+})
+```
 
 ### 善用周边库
 
