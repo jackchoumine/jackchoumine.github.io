@@ -2154,7 +2154,7 @@ function testFn(name, age, city, ...restParams){
 
 04. 柯里化实现减少形参和复用实参
 
-柯理化的基本形式：函数一个函数的返回值为另一个函数。
+柯里化的基本形式：函数A返回另函数B，B使用A的参数参与计算。
 
 ```js
 function outerFn(greet){
@@ -2194,7 +2194,7 @@ tenAdd(100) // 同上
 
 ```
 
-柯里化不仅柯返回函数，还能包含函数的对象，有时候会更加实用。
+柯里化不仅可以返回函数，还能返回包含函数的对象，有时候这种方式会更加实用。
 
 ```JS
 function counter(initValue){
@@ -2209,6 +2209,7 @@ const {add} = counter(10)
 add(1)
 const {add:add100and} = counter(100)
 add100and(1000)
+// 像不像 react 的 useState ? 😄
 ```
 
 > 通过柯里化，把两个**形参拆分**到了两个函数中，从而实现了**实参复用**。 通用的柯里化函数，读者可自行实现或者谷歌。
