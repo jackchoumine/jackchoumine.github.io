@@ -1231,6 +1231,84 @@ function checkOneVar(greet) {
 }
 ```
 
+#### 使用 `||` 过滤假值，简化多个条件语句
+
+有一个从对象中提取地址的函数：
+
+```JS
+function calcPlace(location_info) {
+  const {
+    country,
+    state,
+    city,
+    local
+  } = location_info
+
+  let first_part = 'middle-of-nowhere'
+  let second_part = 'planet earth'
+  if (country === 'USA') {
+    if (city) {
+      first_part = city
+    }
+    if (local) {
+      first_part = local
+    }
+    second_part = 'USA'
+    if (state) {
+      second_part = state
+    }
+  } else {
+    second_part = 'planet earth'
+    if (country) {
+      second_part = country
+    }
+    if (state) first_part = state
+    if (city) first_part = city
+    if (local) first_part = local
+  }
+
+  return `${first_part},${second_part}`
+}
+```
+
+两层条件语句嵌套，理解时还要考虑条件语句的优先情况，认知负担大，改用 `||` 可改善：
+
+```JS
+function calcPlace(location_info) {
+  const {
+    country,
+    state,
+    city,
+    local
+  } = location_info
+
+  let first_part
+  let second_part
+  if (country === 'USA') {
+    // 先处理正逻辑
+    first_part = local || city || 'middle-of-nowhere'
+    second_part = state || 'USA'
+  } else {
+    first_part = local || city || state || 'middle-of-nowhere'
+    second_part = country || 'planet earth'
+  }
+
+  return `${first_part},${second_part}`
+}
+```
+
+> 思考： `||` 和 `??` 有何不同？该如何选择？
+
+相同点：
+
+都可用于**多个变量的存在性**检查，获取第一个存在的变量，可简化多个 if 语句。都需要注意短路效应或者说变量取值的优先级。
+
+不同点：
+`??` 用于过滤空值，获取第一个非空值 `undefined` 和 `null` , 常用来获取非空值，特别小心 `NaN` 。
+
+`||` 用于过滤假值（ `undefined` 、 `null` 、 `0` 、 `false` 、 `''` 、 `NaN` ），获取第一个真值。
+常用来获取 `非空字符串` 、 `非零数值` 和 `true` ，当 0 和 false 有意义时，要特别小心。
+
 ### 最小化嵌套
 
 嵌套很深的代码难以理解，因为每个嵌套都会让读者思考嵌套结束的地方。
