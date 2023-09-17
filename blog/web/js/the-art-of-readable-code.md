@@ -1540,22 +1540,6 @@ data.value?.resources.forEach(itemOne => {
 
 使用 `await` 或者 `promise.then` 避免回调地狱问题。
 
-### forEach some filter map 等数组函数的使用
-
-### js 中可提高可读性的写法
-
-01.  模板字符串
-02.  可选链
-03.  空值合并
-04.  可选参数
-05.  剩余参数和合并对象
-06.  JSON.parse 的第二个参数
-07.  善用数组方法
-08.  善用字符串方法
-09.  生成随机字符串
-10. 一些不常用却很有用的 api
-11. 多使用声明式的代码
-
 ### 让执行流程更容易理解
 
 除了把循环、条件和其他跳转语句写得简单，更应该从高层次来考虑执行流程，让执行流程更容易理解。在实践中，有些代码结构会让流程难以了理解和难以调试，应该避免滥用它们。
@@ -1810,6 +1794,74 @@ while (!done) {
 ```
 
 这种变量，称为控制流变量，它不包含任何程序数据，仅仅用于控制程序流程变化，它们可以通过良好的设计而被消除。
+
+具体的例子后面会有。
+
+#### 使用声明式代码是消除控制流变量的重要方式
+
+有一段求和的代码：
+
+```JS
+const arr = [1, 2, 3, 4]
+let sum = 0
+for (let i; i < arr.length; i++) {
+  sum += arr[i]
+}
+```
+
+这段代码每次累加，都要维护下标 `i` ，非常容易出错。使用声明式的代码可消除 `i` :
+
+```JS
+const arr = [1, 2, 3, 4]
+const sum = arr.reduce((pre, next) => {
+  return pre + next
+}, 0)
+```
+
+或者使用 `forEach` 或者 `for of` :
+
+```JS
+const arr = [1, 2, 3, 4]
+const sum = 0
+arr.forEach(item => {
+  sum += item
+})
+```
+
+> 声明式代码告诉你做什么，往往不需要知道太多细节，命令式代码告诉你怎么做，会包含很多细节。
+
+再看一个例子，找到第一个大于3的元素：
+
+命令式代码：
+
+```JS
+const arr = [1, 2, 5, 4, 3, 5, 5, 6, 0]
+let greatThan3
+let len = arr.length
+let i = 0
+while (i < len) {
+  if (arr[i] > 3) {
+    greatThan3 = arr[i]
+    break
+  }
+  i++
+}
+```
+
+需要计算数组下标、数组长度，然后跳出循环，需要控制的变量很多，认知负担大。
+
+声明式代码：
+
+```js
+const arr = [1, 2, 5, 4, 3, 5, 5, 6, 0]
+const greatThan3 = arr.find(ele => ele > 3)
+```
+
+使用声明式代码不仅消除了两个变量，可读性也提高了。
+
+#### js 中有哪些声明式的代码呢？
+
+数组方法: `forEach` 、 `filter` 、 `every` 、 `some` 、 `map` 、 `find` 、 `findIndex` 等。
 
 ### 缩小变量的作用域
 
@@ -2422,10 +2474,8 @@ function setDivStyle({width='200px',height='100px',display='flex',...restProps}=
 
 03. 剩余参数
 
-```js 
-function testFn(name, age, city, ...restParams){
-}
-
+```JS
+function testFn(name, age, city, ...restParams) {}
 ```
 
 > 避免滥用剩余参数，因为剩余参数也是位置参数的一种。函数不能同时具备剩余参数和默认参数。
@@ -2435,8 +2485,8 @@ function testFn(name, age, city, ...restParams){
 柯里化的基本形式：函数A返回另函数B，B使用A的参数参与计算。
 
 ```js
-function outerFn(greet){
-  return function innerFn(name){
+function outerFn(greet) {
+  return function innerFn(name) {
     console.log(`${greet},${name}`)
   }
 }
@@ -2456,12 +2506,10 @@ sum(10, 100)
 
 使用柯里化复用参数：
 
-```js 
+```JS
 function currySum(a) {
   return function add(b) {
-
     return a + b
-
   }
 }
 
@@ -2469,23 +2517,28 @@ const tenAdd = currySum(10)
 tenAdd(1) // 复用之前的参数 10
 tenAdd(10) // 同上
 tenAdd(100) // 同上
-
 ```
 
 柯里化不仅可以返回函数，还能返回包含函数的对象，有时候这种方式会更加实用。
 
 ```JS
-function counter(initValue){
+function counter(initValue) {
   return {
-    add
+    add,
   }
-  function add(n){
+
+  function add(n) {
     return initValue + n
   }
 }
-const {add} = counter(10)
+const {
+  add
+} = counter(10)
 add(1)
-const {add:add100and} = counter(100)
+
+const {
+  add: add100and
+} = counter(100)
 add100and(1000)
 // 像不像 react 的 useState ? 😄
 ```
@@ -2496,7 +2549,7 @@ add100and(1000)
 
 看一个综合的例子，封装一个 vue3 的useHttp:
 
-```ts
+```TS
 type Method = 'post' | 'get'
 type MaybeRef<T> = Ref<T> | T
 
@@ -2547,7 +2600,10 @@ function useHttp(
     }
 
     abortController = new AbortController()
-    const options = { body, signal: abortController.signal }
+    const options = {
+      body,
+      signal: abortController.signal,
+    }
 
     loading.value = true
 
