@@ -1088,7 +1088,7 @@ if (10 < length) {
 | ---------------------- | -------------------------------------------- |
 | **变量**，不变的变化的 | 用来做比较的表达式，它的值更加倾向于**常量** |
 
-### if else 的顺序
+### 优化 if else 的顺序
 
 下面两种等价代码，哪儿更加易读？
 
@@ -1129,9 +1129,7 @@ C++ 的创建者 Bjarne Stroustrup 说：
 
 > 我的经验是， `do` 语句是困惑的来源...... 我倾向于把条件放在前面我能看到的地方。其结果是，我倾向于避免使用 `do` 语句。
 
-### 提前返回
-
-提前返回，更好。
+### 善用提前返回
 
 > 经验法则：把判断简单条件，提交返回，复杂操作放在后面，避免头重脚轻。
 
@@ -1199,9 +1197,9 @@ if (e.rainMetrics && JSON.stringify(e.rainMetrics) !== '{}') {
 
 > 衡量嵌套的复杂度，圈复杂度，嵌套越深，圈复杂度越高，代码可读性越低。
 
-#### 避免嵌套的方案
+避免过深的嵌套的方式有哪些呢？
 
-##### 提前返回
+#### 提前返回或者提前抛错
 
 ```js
 if (user_result === 'SUCCESS') {
@@ -1236,7 +1234,132 @@ reply.Done()
 
 通过改进，可读性显著提高了。
 
-##### 减少内层循环
+再看一个提前抛错的例子：
+
+```js
+async function getBook(params) {
+  const {
+    id
+  } = params;
+  if (id) { // not an empty string
+    const idAsInt = parseInt(id);
+    if (!isNaN(idAsInt)) { // is it a number?
+      const book = await findBook(idAsInt);
+      return Response.ok(JSON.stringify(book));
+    } else {
+      throw Error("Id must be numeric");
+    }
+  } else {
+    throw Error("Id must be present");
+  }
+}
+```
+
+两个抛错的条件，可以提前：
+
+```js
+async function getBook(params) {
+  const {
+    id
+  } = params;
+  if (!id) {
+    throw Error("Id must be present");
+  }
+
+  const idAsInt = parseInt(id);
+  if (Number.isNaN(idAsInt)) {
+    throw Error("Id must be numeric");
+  }
+
+  const book = await findBook(idAsInt);
+  return Response.ok(JSON.stringify(book));
+}
+```
+
+> 这样处理，抛错的两个条件语句提前了。
+
+[参考 -- Invariant - a helpful JavaScript pattern](https://www.strictmode.io/articles/invariant)
+
+#### 嵌套的条件语句，只有一个操作，可合并
+
+有一段这样的代码：
+
+```JS
+data.value?.resources.forEach(itemOne => {
+  itemOne?.subs.forEach(itemTwo => {
+    // 只在三维下执行:行政区划,行政驻地
+    const is3DList = ['listen_id_371', 'listen_id_372']
+    if (is3DList.includes(itemTwo.name)) {
+      if (isCesium()) {
+        if (itemTwo.checked === 1) {
+          // 两个条件下，只有一个操作，可把条件合并
+          cacheChecksData[itemTwo.id] = itemTwo
+          onLayerCheck(itemTwo, true)
+        }
+      }
+    } else {
+      if (itemTwo.checked === 1) {
+        cacheChecksData[itemTwo.id] = itemTwo
+        onLayerCheck(itemTwo, true)
+      }
+    }
+  })
+})
+```
+
+经过观察， `itemTwo.checked === 1` 和 `isCesium()` 可合并，减少嵌套：
+
+```JS
+data.value?.resources.forEach(itemOne => {
+  itemOne?.subs.forEach(itemTwo => {
+    // 只在三维下执行:行政区划,行政驻地
+    const is3DList = ['listen_id_371', 'listen_id_372']
+    if (is3DList.includes(itemTwo.name)) {
+      if (isCesium() && itemTwo.checked === 1) {
+        cacheChecksData[itemTwo.id] = itemTwo
+        onLayerCheck(itemTwo, true)
+      }
+    } else {
+      if (itemTwo.checked === 1) {
+        cacheChecksData[itemTwo.id] = itemTwo
+        onLayerCheck(itemTwo, true)
+      }
+    }
+  })
+})
+```
+
+经过合并条件，嵌套少了一层。
+
+#### 调整条件语句的顺序
+
+当条件语句顺序不影响代码执行时，可调整顺序，减少嵌套。
+
+上面的例子，经过观察，有两个条件语句 `itemTwo.checked === 1` ，可把它提到外层。
+
+```JS
+// 只在三维下执行: 行政区划, 行政驻地
+const is3DList = ['listen_id_371', 'listen_id_372']
+data.value?.resources.forEach(itemOne => {
+  itemOne?.subs.forEach(itemTwo => {
+    if (itemTwo.checked === 1) {
+      if (is3DList.includes(itemTwo.name) && isCesium()) {
+        cacheChecksData[itemTwo.id] = itemTwo
+        onLayerCheck(itemTwo, true)
+      } else if (!is3DList.includes(itemTwo.name)) {
+        cacheChecksData[itemTwo.id] = itemTwo
+        onLayerCheck(itemTwo, true)
+      }
+    }
+  })
+})
+```
+
+这样调整以后，嵌套虽然没有减少，但是条件语句不再重复，更加容易理解。
+
+> 下一个办法，继续改进它。
+
+#### 减少循环或者迭代中的嵌套
 
 使用 `break` 或者 `continue` 可减少循环内的嵌套。
 
@@ -1261,6 +1384,72 @@ for (let i = 0; i < result.length; i++) {
   // do something
 }
 ```
+
+> continue 和 break，还能用于 `for of` 迭代。
+
+> 如何跳出 `forEach` 循环？
+
+`return` 跳出本轮循环。
+
+```JS
+const arr = [
+  [1, 2, 3],
+  ['1', '2', '3'],
+]
+
+arr.forEach(ele => {
+  ele.forEach(item => {
+    if (item === '2') return /*跳出本次循环*/
+    console.log(item)
+  })
+})
+```
+
+输出 `1 2 3 '1' '3'` 。
+
+使用 `for of` 改写上面的例子：
+
+```JS
+const arr = [
+  [1, 2, 3],
+  ['1', '2', '3'],
+]
+
+for (const value of arr) {
+  for (const _value of value) {
+    if (_value === '2') continue /*跳出本次迭代*/
+    console.log(_value)
+  }
+}
+```
+
+> 注意：在 `for of` 中使用 `return` , 效果等同于 `break` 。
+
+使用 `return` 再次改进前面的例子：
+
+```js
+const is3DList = ['listen_id_371', 'listen_id_372']
+data.value?.resources.forEach(itemOne => {
+  itemOne?.subs.forEach(itemTwo => {
+    // 跳出本轮循环
+    if (itemTwo.checked !== 1) return
+
+    if (is3DList.includes(itemTwo.name) && isCesium()) {
+      cacheChecksData[itemTwo.id] = itemTwo
+      onLayerCheck(itemTwo, true)
+    } else if (!is3DList.includes(itemTwo.name)) {
+      cacheChecksData[itemTwo.id] = itemTwo
+      onLayerCheck(itemTwo, true)
+    }
+  })
+})
+```
+
+优化以后，内层循环的嵌套，只有一层了。😄
+
+#### 避免回调地狱
+
+使用 `await` 或者 `promise.then` 避免回调地狱问题。
 
 ### forEach some filter map 等数组函数的使用
 
