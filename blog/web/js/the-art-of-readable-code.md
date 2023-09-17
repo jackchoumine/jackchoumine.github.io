@@ -1142,6 +1142,95 @@ function doSomeThing(value) {
 }
 ```
 
+### 使用策略模式改善消除多个语句分支或者 `switch case`
+
+有一个函数如下：
+
+```JS
+function checkOneVar(greet) {
+  if (greet === 'hello') {
+    console.log('字符串 hello', 'zqj log')
+  } else if (typeof greet === 'number' && greet === 1) {
+    console.log('数值 1', 'zqj log')
+  } else if (typeof greet === 'boolean' && greet) {
+    console.log('布尔值 true', 'zqj log')
+  } else {
+    console.log('其他值', 'zqj log')
+  }
+}
+```
+
+这段代码，对同一个变量进行多个条件判断，可使用策略模式改善。
+
+```JS
+function checkOneVar(greet) {
+  function whenHello() {
+    console.log('字符串 hello', 'zqj log')
+  }
+
+  function whenUndefined() {
+    console.log('undefined undefined', 'zqj log')
+  }
+
+  function whenNull() {
+    console.log('null null', 'zqj log')
+  }
+
+  function when1() {
+    console.log('数值 1', 'zqj log')
+  }
+
+  function whenTrue() {
+    console.log('数值 1', 'zqj log')
+  }
+
+  const obj = {
+    hello: whenHello,
+    1: when1,
+    true: whenTrue,
+    undefined: whenUndefined,
+    null: whenNull,
+  }
+  obj[greet]?.()
+}
+```
+
+> 策略模式简化对**同一个变量不同值**的检查，尤其是对枚举值的检查。
+
+使用 map 的的策略模式：
+
+```JS
+function checkOneVar(greet) {
+  function whenHello() {
+    console.log('字符串 hello', 'zqj log')
+  }
+
+  function whenUndefined() {
+    console.log('undefined undefined', 'zqj log')
+  }
+
+  function whenNull() {
+    console.log('null null', 'zqj log')
+  }
+
+  function when1() {
+    console.log('数值 1', 'zqj log')
+  }
+
+  function whenTrue() {
+    console.log('数值 1', 'zqj log')
+  }
+  const map = new Map()
+  map.set('hello', whenHello)
+  map.set(1, when1)
+  map.set(undefined, whenUndefined)
+  map.set(null, whenNull)
+  map.set(true, whenTrue)
+
+  map.get(greet)?.()
+}
+```
+
 ### 最小化嵌套
 
 嵌套很深的代码难以理解，因为每个嵌套都会让读者思考嵌套结束的地方。
