@@ -1574,6 +1574,8 @@ arr.forEach(ele => {
 
 输出 `1 2 3 '1' '3'` 。
 
+> forEach 不能使用 `continue` 和 `break` ，希望跳出整个循环，使用 `try...catch` ，在内部抛出错误。但是不推荐这么使用。
+
 使用 `for of` 改写上面的例子：
 
 ```JS
@@ -1590,7 +1592,7 @@ for (const value of arr) {
 }
 ```
 
-> 注意：在 `for of` 中使用 `return` , 效果等同于 `break` 。
+> 注意：在 `for of` 中不能使用 `return` ，可以使用 `continue` 和 `break` 。
 
 使用 `return` 再次改进前面的例子：
 
@@ -1599,7 +1601,7 @@ const is3DList = ['listen_id_371', 'listen_id_372']
 data.value?.resources.forEach(itemOne => {
   itemOne?.subs.forEach(itemTwo => {
     // 跳出本轮循环
-    if (itemTwo.checked !== 1) return
+    if (itemTwo.checked !== 1) continue
 
     if (is3DList.includes(itemTwo.name) && isCesium()) {
       cacheChecksData[itemTwo.id] = itemTwo
