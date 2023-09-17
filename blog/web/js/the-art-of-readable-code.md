@@ -1667,6 +1667,37 @@ if (!user_own_doc) {
 }
 ```
 
+### 使用可选链 `?.` 简化存在性检查
+
+`value?.key` ，当 `value` 为 `null` 或者 `undefined` 时，表达式返回 `undefined` 。善用它，简化对象深层属性的判断。
+
+```JS
+const objDeep = {
+  a: {
+    b: {
+      c: 'hello',
+      d: 'a'
+    }
+  }
+}
+if (objDeep.a && objDeep.a.b && objDeep.a.b.c) {
+  // 当 c 的值为真
+  // do something
+}
+// 使用可选链简化
+if (objDeep.a?.b?.c) {
+  // 当 c 的值为真
+  // do something
+}
+```
+
+> 技巧： `?.` 还可以用于函数和数组。
+
+```js
+const ele = arr?.[4] // arr 存在，才获取下标为 4 元素
+obj.methodName?.() // obj.methodName 方法，才执行
+```
+
 ### 善用德摩根定律
 
 ```js
