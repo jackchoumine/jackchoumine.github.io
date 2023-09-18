@@ -1146,6 +1146,75 @@ function doSomeThing(value) {
 }
 ```
 
+### 减少 `try...catch` 语句
+
+很多编程语言都有 `try...catch` ，用来处理抛出的错误，应该要减少使用它，它有诸多缺点：
+
+01. 让函数变得不纯；
+02. 中断程序控制流，从而会中断理解思路，可读性不高，难以推理程序执行流程；
+03. 语法冗余，模板代码多；
+04. 程序中断后无法恢复。
+
+> 那应该如何处理错误？
+
+程序错误时，不抛出错误，而是给变量设置一个 `可理解的` 提示信息，或是设置默认值。比如 `undefined` 、 `Invalid user input` 。
+
+抛错的例子：
+
+```js
+const greet = ({
+  firstName,
+  lastName
+}) => {
+  if (firstName === undefined || lastName === undefined) {
+    throw new Error("Invalid user");
+  }
+  return `Hello, ${firstName} ${lastName}`
+}
+```
+
+不抛错的改进：
+
+```JS
+// 设置默认值
+const greet = ({
+    firstName = "Guest",
+    lastName = "User"
+  }) =>
+  `Hello, ${firstName} ${lastName}`
+```
+
+> 使用空值合并，设置默认值
+
+抛错的例子：
+
+```JS
+const getUserName = user => {
+  if (
+    user !== undefined &&
+    user.profile !== undefined &&
+    user.profile.name !== undefined
+  ) {
+    return user.profile.name
+  }
+  throw new Error("Invalid user")
+}
+```
+
+不抛错的例子：
+
+```JS
+const getUserName = user => user?.profile?.name ?? "Guest"
+// 或者
+const getUserName = user => user?.profile?.name ?? "user no name"
+```
+
+程序错误时，给一个友好的可理解的默认值，比抛错好得多。
+
+参考：
+
+[We don't need Throw](https://luke.sh/articles/we-don-t-need-throw)
+
 ### 使用策略模式改善消除多个语句分支或者 `switch case`
 
 有一个函数如下：
@@ -1449,7 +1518,9 @@ async function getBook(params) {
 
 > 这样处理，抛错的两个条件语句提前了。
 
-[参考 -- Invariant - a helpful JavaScript pattern](https://www.strictmode.io/articles/invariant)
+[代码来源 -- Invariant - a helpful JavaScript pattern](https://www.strictmode.io/articles/invariant)
+
+> 不要滥用抛错，因为它有诸多缺点，比如处理错误的可读性差、排错困难、程序被中断、理解代码的思考被中断、使得函数不纯等。 
 
 #### 嵌套的条件语句，只有一个操作，可合并
 
