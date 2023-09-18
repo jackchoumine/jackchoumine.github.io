@@ -1683,7 +1683,7 @@ const is3DList = ['listen_id_371', 'listen_id_372']
 data.value?.resources.forEach(itemOne => {
   itemOne?.subs.forEach(itemTwo => {
     // 跳出本轮循环
-    if (itemTwo.checked !== 1) continue
+    if (itemTwo.checked !== 1) return 'next loop'
 
     if (is3DList.includes(itemTwo.name) && isCesium()) {
       cacheChecksData[itemTwo.id] = itemTwo
