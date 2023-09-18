@@ -190,9 +190,11 @@ for (club_i = 0; club_i < clubs.size(); club_i++) {
 众所周知的缩写是可以使用的，比如
 
 ```BASH
+# 名词和形容词
 button -> btn
 background -> bg
 backgroundColor -> bgColor
+image -> img
 document -> doc
 string -> str
 number -> num
@@ -208,29 +210,20 @@ address -> addr
 application -> app
 average -> avg # 平均数
 command -> cmd
-delete -> del
 organization -> org # 组织
 original -> orig
 destination -> dest/des
-source -> src # 源数据
 resource -> res # 资源
-decrease -> desc # 减少
-increase -> inc # 增加
-increment -> inc # 增加
-Ascending -> asc # 升序
+source -> src # 源数据
+ascending -> asc # 升序
 descending -> desc # 降序
 device -> dev # 设备
 different -> diff # 区别
 directory -> dir # 目录
 environment -> env # 环境
 error -> err
-execute -> exec # 执行
-image -> img
-information -> info # 信息
-initialize -> init # 初始化
 library -> lib # 库
-maximum -> max # 最大
-minimum -> min # 最小
+information -> info # 信息
 message -> msg
 number -> num
 object -> obj
@@ -241,49 +234,58 @@ argument -> arg # 形参 参数
 package -> pkg # 包 n 打包 v
 position -> pos # 位置
 configuration -> config # 配置
-calculate -> calc
-initialization -> init # 初始化的
-initialize -> init # 初始化
-generate -> gen # 生成
 array -> arr
 previous -> pre
 next -> next
 middle -> mid # 中间
 current -> cur # 当前的
 password -> pwd
-public -> pub
 reference -> ref
 summation -> sum
-synchronization -> sync
-asynchronization -> async
 system -> sys # 系统
 temporary -> temp # 临时 或者 tmp
 text -> txt # 纯文本
 variable -> var
-control -> ctr # 控制
 character -> char
 status -> stat # 状态
 standard -> std # 标准
-trigger -> trig
-escape -> esc # 退出
+trigger -> trig # 触发
 user -> usr # 用户
-insert -> ins # 插入
 length -> len # 长度
 administrator -> adm # 管理员
 database -> db # 数据库
 coordinates -> coord # 坐标
 longitude -> lng # 经度
 latitude -> lat # 维度
-circularMeasure -> cw # 弧度
 angle -> ng # 角度
+circularMeasure -> cw # 弧度
 dictionary -> dic # 字典
-extend -> ex/ext # 扩展
+link -> lnk # 链接
+window -> win/wnd # 窗口
 horizontal -> horz # 水平
+public -> pub
+
+# 动词
+delete -> del
+decrease -> desc # 减少
+increase -> inc # 增加
+increment -> inc # 增加
+execute -> exec # 执行
+maximum -> max # 最大
+minimum -> min # 最小
+calculate -> calc
+initialization -> init # 初始化的
+initialize -> init # 初始化
+generate -> gen # 生成
+synchronization -> sync
+asynchronization -> async
+control -> ctr # 控制
+escape -> esc # 退出
+insert -> ins # 插入
+extend -> ex/ext # 扩展
 vertical -> vert # 垂直
 instance -> ins # 实例
-link -> lnk # 链接
 multiply -> mul # 乘
-window -> win/wnd # 窗口
 ```
 
 > 禁止拼音缩写
@@ -319,7 +321,7 @@ doStop -> stop #
 常用的格式有： `_` 、 `-` 、 `#` 、 `$` 和 `大小写` 等。
 
 ```js
-const YYYYMMDD = '2023-03-23' // 这个变量，就能一眼看出表示一个时间，在结合上下文，就能轻易知道的表示的时间
+const YYYYMMDD = '2023-03-23' // 这个变量，就能一眼推断出表示一个时间
 ```
 
 遵循编程语言或者团队的约定，且保持一致。
@@ -335,7 +337,7 @@ jquery 对象使用 `$` 开头，事件处理器使用 `onXxx` 或者 `handleXxx
 > 技巧： `onXxx` 作为属性或者参数，而 `handleXxx` 作为函数，会更好。
 
 ```js
-const $allImges = $('img')
+const $allImages = $('img')
 ```
 
 DOM 的 ID 属性值使用 `_` 连接，类名使用 `-` 或者 `--` 。
