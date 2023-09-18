@@ -1762,9 +1762,9 @@ assign({}, assign({}, assign({}, threeObj, assign({}, assign({}, oneObj, fourObj
 改进：
 
 ```JS
-const merge1 = assign({}, oneObj, fourObj)
-const merge2 = assign({}, threeObj, fourObj)
-const mergeObj = assign({}, merge1, merge2)
+const merge14 = assign({}, oneObj, fourObj)
+const merge32 = assign({}, threeObj, twoObj)
+const mergeAll = assign({}, merge14, merge32)
 ```
 
 ### 使用可选链 `?.` 简化存在性检查
