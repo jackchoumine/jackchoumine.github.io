@@ -1,1 +1,0 @@
-import{_ as s,o as a,c as e,a as n}from"./app.0e6167a0.js";const A=JSON.parse('{"title":"技巧","description":"","frontmatter":{},"headers":[],"relativePath":"vue3/技巧.md"}'),o={name:"vue3/技巧.md"},l=n("",3),t=[l];function p(r,c,i,_,d,D){return a(),e("div",null,t)}const C=s(o,[["render",p]]);export{A as __pageData,C as default};
