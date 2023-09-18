@@ -2736,31 +2736,23 @@ add100and(1000)
 看一个综合的例子，封装一个 vue3 的useHttp:
 
 ```TS
-import { ref, unref, onMounted, onBeforeUnmount, watch } from 'vue';
-
 type Method = 'post' | 'get'
 type MaybeRef<T> = Ref<T> | T
 
 type Options = {
-  method ? : Method
-  enableWatch ? : boolean
-  immediate ? : boolean
-  autoAbort ? : boolean
+  method?: Method
+  enableWatch?: boolean
+  immediate?: boolean
+  autoAbort?: boolean
 }
 
 function useHttp(
   url: string,
-  params: MaybeRef<Record<string, any>> = ref({}), 
-  {
-    enableWatch = true,
-    immediate = true,
-    autoAbort = true,
-    method = 'get'
-  }: Options = {}
+  params: MaybeRef<Record<string, any>> = ref({}),
+  { enableWatch = true, immediate = true, autoAbort = true, method = 'get' }: Options = {}
 ) {
   const _params = unref(params)
   const data = ref()
-  const error = ref()
   const loading = ref(false)
 
   enableWatch &&
@@ -2768,7 +2760,8 @@ function useHttp(
       params,
       newParams => {
         sendHttp(newParams)
-      }, {
+      },
+      {
         deep: true,
       }
     )
@@ -2784,12 +2777,7 @@ function useHttp(
 
   type SendHttp = (params?: Record<string, any>) => Promise<any>
 
-  return [data, loading, sendHttp, error] as [
-    Ref<any>,
-    Ref<boolean>,
-    SendHttp,
-    Ref<Error>
-  ]
+  return [data, loading, sendHttp] as [Ref<any>, Ref<boolean>, SendHttp]
 
   function sendHttp(params: Record<string, any> = _params) {
     let path = url
@@ -2804,23 +2792,24 @@ function useHttp(
     }
 
     abortController = new AbortController()
-
-    const options = {
-      body,
-      signal: abortController.signal
-    }
+    const options = { body, signal: abortController.signal }
 
     loading.value = true
 
     return fetch(path, options)
-      .then(res => res.json())
+      .then(res => {
+        // 请求不成功，不抛错
+        if (!res.ok) {
+          return Promise.resolve({
+            success: false,
+            msg: ` httpCode is ${res.status}`,
+          })
+        }
+        return res.json()
+      })
       .then(res => {
         data.value = res
         return res
-      })
-      .catch(err => {
-        error.value = err
-        return Promise.reject(err)
       })
       .finally(() => {
         loading.value = false
@@ -2833,9 +2822,7 @@ function useHttp(
   }
 }
 
-export {
-  useHttp
-}
+export { useHttp }
 ```
 
 使用方式：

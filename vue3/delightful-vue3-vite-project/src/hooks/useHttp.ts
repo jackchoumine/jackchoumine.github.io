@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-09-16 12:03:55
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-09-18 09:16:24
+ * @LastEditTime: 2023-09-18 11:36:54
  * @Description :
  */
 type Method = 'post' | 'get'
@@ -22,7 +22,6 @@ function useHttp(
 ) {
   const _params = unref(params)
   const data = ref()
-  const error = ref()
   const loading = ref(false)
 
   enableWatch &&
@@ -47,12 +46,7 @@ function useHttp(
 
   type SendHttp = (params?: Record<string, any>) => Promise<any>
 
-  return [data, loading, sendHttp, error] as [
-    Ref<any>,
-    Ref<boolean>,
-    SendHttp,
-    Ref<Error>
-  ]
+  return [data, loading, sendHttp] as [Ref<any>, Ref<boolean>, SendHttp]
 
   function sendHttp(params: Record<string, any> = _params) {
     let path = url
@@ -72,14 +66,19 @@ function useHttp(
     loading.value = true
 
     return fetch(path, options)
-      .then(res => res.json())
+      .then(res => {
+        // 请求不成功，不抛错
+        if (!res.ok) {
+          return Promise.resolve({
+            success: false,
+            msg: ` httpCode is ${res.status}`,
+          })
+        }
+        return res.json()
+      })
       .then(res => {
         data.value = res
         return res
-      })
-      .catch(err => {
-        error.value = err
-        return Promise.reject(err)
       })
       .finally(() => {
         loading.value = false
