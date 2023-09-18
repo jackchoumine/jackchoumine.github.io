@@ -2663,16 +2663,28 @@ add100and(1000)
 看一个综合的例子，封装一个 vue3 的useHttp:
 
 ```TS
+import { ref, unref, onMounted, onBeforeUnmount, watch } from 'vue';
+
 type Method = 'post' | 'get'
 type MaybeRef<T> = Ref<T> | T
 
+type Options = {
+  method ? : Method
+  enableWatch ? : boolean
+  immediate ? : boolean
+  autoAbort ? : boolean
+}
+
 function useHttp(
   url: string,
-  params: MaybeRef<Record<string, any>> = ref({}),
-  { enableWatch = true, immediate = true, autoAbort = true } = {},
-  method: Method = 'get'
+  params: MaybeRef<Record<string, any>> = ref({}), 
+  {
+    enableWatch = true,
+    immediate = true,
+    autoAbort = true,
+    method = 'get'
+  }: Options = {}
 ) {
-  const _method = method
   const _params = unref(params)
   const data = ref()
   const error = ref()
@@ -2682,9 +2694,8 @@ function useHttp(
     watch(
       params,
       newParams => {
-        sendHttp(newParams, _method)
-      },
-      {
+        sendHttp(newParams)
+      }, {
         deep: true,
       }
     )
@@ -2698,9 +2709,16 @@ function useHttp(
     autoAbort && abortHttp()
   })
 
-  return [data, loading, sendHttp, error]
+  type SendHttp = (params?: Record<string, any>) => Promise<any>
 
-  function sendHttp(params: Record<string, any> = _params, method = _method) {
+  return [data, loading, sendHttp, error] as [
+    Ref<any>,
+    Ref<boolean>,
+    SendHttp,
+    Ref<Error>
+  ]
+
+  function sendHttp(params: Record<string, any> = _params) {
     let path = url
     let body = undefined
     if (method === 'get') {
@@ -2713,9 +2731,10 @@ function useHttp(
     }
 
     abortController = new AbortController()
+
     const options = {
       body,
-      signal: abortController.signal,
+      signal: abortController.signal
     }
 
     loading.value = true
@@ -2741,7 +2760,9 @@ function useHttp(
   }
 }
 
-export { useHttp }
+export {
+  useHttp
+}
 ```
 
 使用方式：
@@ -2756,11 +2777,14 @@ const params = ref({
 // 立即请求订单，当 params 改变，会自动再次请求
 const [orderList, loading] = useHttp('/orders', params)
 
-// 自动请求，需要再次更新 userList 时，手动调用，fetchUsers({job:'pm'})，会复用 url 
+// 自动请求，需要再次更新 userList 时，
+// 手动调用，fetchUsers({job:'pm'})，会复用 url 和 method
 const [userList, loadIngUsers, fetchUsers] = useHttp('/users', {
   job: 'coder'
 })
 ```
+
+> 还可以给 useHttp 添加泛型，提供设置请求头等功能。
 
 ### 善用周边库
 

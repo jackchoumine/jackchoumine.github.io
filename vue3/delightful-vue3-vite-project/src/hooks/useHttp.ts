@@ -2,19 +2,24 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-09-16 12:03:55
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-09-16 12:47:53
+ * @LastEditTime: 2023-09-18 09:16:24
  * @Description :
  */
 type Method = 'post' | 'get'
 type MaybeRef<T> = Ref<T> | T
 
+type Options = {
+  method?: Method
+  enableWatch?: boolean
+  immediate?: boolean
+  autoAbort?: boolean
+}
+
 function useHttp(
   url: string,
   params: MaybeRef<Record<string, any>> = ref({}),
-  { enableWatch = true, immediate = true, autoAbort = true } = {},
-  method: Method = 'get'
+  { enableWatch = true, immediate = true, autoAbort = true, method = 'get' }: Options = {}
 ) {
-  const _method = method
   const _params = unref(params)
   const data = ref()
   const error = ref()
@@ -24,7 +29,7 @@ function useHttp(
     watch(
       params,
       newParams => {
-        sendHttp(newParams, _method)
+        sendHttp(newParams)
       },
       {
         deep: true,
@@ -40,9 +45,16 @@ function useHttp(
     autoAbort && abortHttp()
   })
 
-  return [data, loading, sendHttp, error]
+  type SendHttp = (params?: Record<string, any>) => Promise<any>
 
-  function sendHttp(params: Record<string, any> = _params, method = _method) {
+  return [data, loading, sendHttp, error] as [
+    Ref<any>,
+    Ref<boolean>,
+    SendHttp,
+    Ref<Error>
+  ]
+
+  function sendHttp(params: Record<string, any> = _params) {
     let path = url
     let body = undefined
     if (method === 'get') {

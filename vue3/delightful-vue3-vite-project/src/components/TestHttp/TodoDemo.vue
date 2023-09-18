@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-01-30 08:49:19
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-09-16 12:51:23
+ * @LastEditTime: 2023-09-18 09:35:41
  * @Description : 测试 http 封装
 -->
 <script lang="ts" setup>
@@ -29,6 +29,22 @@ onBeforeMount(async () => {
 const url = 'https://jsonplaceholder.typicode.com/todos/120'
 const params = { name: 'to' }
 const [data, loading, getTodo] = useHttp(url, params, { immediate: false })
+
+const array: Ref<number[]> = ref(['张三', '李四', '王五', '赵六'])
+
+function toSortArray() {
+  array.value = array.value.toSorted((a, b) =>
+    a.localeCompare(b, 'zh-Hans-CN', { sensitivity: 'accent' })
+  )
+}
+
+function toRandomSort() {
+  array.value = array.value.toSorted(() => {
+    if (Math.random() > 0.5) return 1
+    if (Math.random() < 0.5) return -1
+    return 0
+  })
+}
 </script>
 
 <template>
@@ -37,4 +53,9 @@ const [data, loading, getTodo] = useHttp(url, params, { immediate: false })
   <p v-if="loading">loading data</p>
   <p v-else>{{ data }}</p>
   <button @click="() => getTodo({ title: 'to' })">请求todo</button>
+  <ul>
+    <li v-for="item in array" :key="item">{{ item }}</li>
+  </ul>
+  <button @click="toSortArray">排序</button>
+  <button @click="toRandomSort">打乱</button>
 </template>
