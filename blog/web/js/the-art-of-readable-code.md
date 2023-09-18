@@ -1729,7 +1729,7 @@ if (usrName === 'root') {
 }
 ```
 
-多次使用的表达式存在描述性变量：
+多次使用的表达式存入描述性变量：
 
 ```js
 if (request.user.id === document.owner_id) {
@@ -1750,6 +1750,21 @@ if (user_own_doc) {
 if (!user_own_doc) {
   // do
 }
+```
+
+再看一个嵌套函数调用的复杂表单式：
+
+```js
+// 你一定想骂娘
+assign({}, assign({}, assign({}, threeObj, assign({}, assign({}, oneObj, fourObj), twoObj)
+```
+
+改进：
+
+```JS
+const merge1 = assign({}, oneObj, fourObj)
+const merge2 = assign({}, threeObj, fourObj)
+const mergeObj = assign({}, merge1, merge2)
 ```
 
 ### 使用可选链 `?.` 简化存在性检查
