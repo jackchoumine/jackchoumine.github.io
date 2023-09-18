@@ -65,7 +65,7 @@
 
 > 技巧：如果存在两个相对或者相反的操作，取名使最好能让他人知道一个，便能直接的猜到有一个操作。
 
-`start` 和 `stop` 相对， `pause` 和 `resume` 相对。
+`start` 和 `stop` 相对， `pause` 和 `resume` 相对， `include` 和 `exclude` 相对。
 
 > 技巧：取名符合生活或者数学的习惯。比如 `count` 一般为正数, `num` 使可正可负， `complexNumber` 复数。
 
@@ -289,6 +289,8 @@ extend -> ex/ext # 扩展
 vertical -> vert # 垂直
 instance -> ins # 实例
 multiply -> mul # 乘
+include -> incl # 包含
+exclude -> excl # 排除
 ```
 
 > 禁止拼音缩写
