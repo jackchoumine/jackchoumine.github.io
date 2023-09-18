@@ -383,9 +383,11 @@ const str = 'abcd' // start = 0  end = 3 不包含 d
 | ---- | ----------------------- | ------------ | -------------------------------------- |
 | non  | 名词、动词、形容词      | 表相反的意思 | editedRows->nonEditedRows              |
 | de   | 动词                    | 表相反的动作 | encodeURIComponent->decodeURIComponent |
-| un   | ed 或 able 结尾的形容词 |              | founded->unfounded                     |
+| un   | able 结尾的形容词或者一动词 |              | founded->unfounded   known -> unknown   |
 
 > non 最通用，搞不清楚，一律 non 就行了。
+
+> 参考: [How to Use the Prefixes “Dis” and “Un” Correctly](https://www.grammarly.com/blog/dis-vs-un/)
 
 #### 给布尔变量命名
 
