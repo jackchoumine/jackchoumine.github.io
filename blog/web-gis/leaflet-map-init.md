@@ -6,25 +6,25 @@ Map 是 leaflet 的核心类，通过它可以在页面上创建并操作地图�
 
 主要 `options` 对象选项
 
-| 分组     | key                | 类型              | 默认值           | 描述                                                             |
-| -------- | ------------------ | ----------------- | ---------------- | ---------------------------------------------------------------- |
-| 渲染配置 | preferCanvas       | boolean           | false            | 线和面要素的渲染方式，支持 svg 和 canvas 两种，默认为 svg。      |
-| 控件配置 | attributionControl | boolean           | true             | 是否显示 attribution 控件，即图层版权信息。                      |
-| 交互配置 | closePopupOnClick  | boolean           | true             | 点击地图是否关闭 popup。                                         |
-| 控件配置 | zoomControl        | boolean           | true             | 是否添加放缩控件。                                               |
-| 交互配置 | zoomDelta          | number            | 1                | 放缩数量级。                                                     |
-| 交互配置 | trackResize        | boolean           | true             | 地图容器大小变化时地图是否调整。                                 |
-| 交互配置 | boxZoom            | boolean           | true             | 按下 shift, 是否可框选放缩地图，放缩框选的位置。                 |
-| 交互配置 | doubleClickZoom    | boolean \| string | true             | 开启双击放大。 `center` ，取地图中心点放大，true，鼠标位置放大。 |
-| 交互配置 | dragging           | boolean           | true             | 是否可拖拽。                                                     |
-| 初始状态 | crs                | CRS               | EPSG3857 | 投影方式                                       |
-| 初始状态 | center               | LatLng               | undefined | 地图中心                                       |
-| 初始状态 | zoom               | number               | undefined | 放缩级别                                       |
-| 初始状态 | minZoom               | number               | undefined | 最小放缩级别                                       |
-| 初始状态 | maxZoom               | number               | undefined | 最大放缩级别                                       |
-| 初始状态 | layers               |   Layer[]             | [] | 图层                                       |
-| 初始状态 | maxBounds               |   LatLngBounds[]             | null | 最大展示范围                                       |
-| 初始状态 | renderer               |   Renderer             | * | 矢量图形的渲染方式，L. SVG 或者 L. Canvas                                       |
+| 分组     | key                | 类型              | 默认值    | 描述                                                             |
+| -------- | ------------------ | ----------------- | --------- | ---------------------------------------------------------------- |
+| 渲染配置 | preferCanvas       | boolean           | false     | 线和面要素的渲染方式，支持 svg 和 canvas 两种，默认为 svg。      |
+| 控件配置 | attributionControl | boolean           | true      | 是否显示 attribution 控件，即图层版权信息。                      |
+| 交互配置 | closePopupOnClick  | boolean           | true      | 点击地图是否关闭 popup。                                         |
+| 控件配置 | zoomControl        | boolean           | true      | 是否添加放缩控件。                                               |
+| 交互配置 | zoomDelta          | number            | 1         | 放缩数量级。                                                     |
+| 交互配置 | trackResize        | boolean           | true      | 地图容器大小变化时地图是否调整。                                 |
+| 交互配置 | boxZoom            | boolean           | true      | 按下 shift, 是否可框选放缩地图，放缩框选的位置。                 |
+| 交互配置 | doubleClickZoom    | boolean \| string | true      | 开启双击放大。 `center` ，取地图中心点放大，true，鼠标位置放大。 |
+| 交互配置 | dragging           | boolean           | true      | 是否可拖拽。                                                     |
+| 初始状态 | crs                | CRS               | EPSG3857  | 投影方式                                                         |
+| 初始状态 | center             | LatLng            | undefined | 地图中心                                                         |
+| 初始状态 | zoom               | number            | undefined | 放缩级别                                                         |
+| 初始状态 | minZoom            | number            | undefined | 最小放缩级别                                                     |
+| 初始状态 | maxZoom            | number            | undefined | 最大放缩级别                                                     |
+| 初始状态 | layers             | Layer[]           | []        | 图层                                                             |
+| 初始状态 | maxBounds          | LatLngBounds[]    | null      | 最大展示范围                                                     |
+| 初始状态 | renderer           | Renderer          | \*        | 矢量图形的渲染方式，L. SVG 或者 L. Canvas                        |
 
 ## 全部配置选项
 
@@ -173,3 +173,72 @@ const map = new Map(mapContainer.value, {
 | contextmenu | 当鼠标右键点击时触发。 |
 
 ## 方法
+
+### 渲染相关
+
+| 方法        | 参数  | 返回值   | 描述         |
+| ----------- | ----- | -------- | ------------ |
+| getRenderer | layer | Renderer | 获取渲染方式 |
+
+### 空间相关
+
+| 方法                             | 返回值 | 描述 |
+| -------------------------------- | ------ | ---- |
+| `addControl(control:Control)` | this   |      |
+| `removeControl(control:Control)` | this   |      |
+
+### 图层相关
+
+| 方法                                          | 返回值                                              | 描述     |
+| --------------------------------------------- | --------------------------------------------------- | -------- | ---------- |
+| `addLayer(layer:Layer)` | this                                                | 添加图层 |
+| `removeLayer(layer:Layer)` | this                                                | 移除图层 |
+| `hasLayer(layer:Layer)` | boolean                                             |          |
+| `eachLayer(callBack:function,context:Object)` | this                                                | 遍历图层 |
+| `openPopup(popup:Popup)` | this                                                |          |
+| `openPopup(content:string                     | HTMLElement,latlng:LatLng,options?:PopupOptions)` | this     | 创建 popup |
+| `closePopup(popup?:Popup)` | this                                                |          |
+| `openTooltip(tooltip:Tooltip)` | this                                                |          |
+| `openTooltip(content:string                   | HTMLElement,latlng:LatLng,options?:TooltipOptions)` | this     |            |
+| `closePopup(tooltip:Tooltip)` | this                                                |          |
+
+### 修改地图状态相关
+
+| 方法                                                         | 返回值 | 描述             |
+| ------------------------------------------------------------ | ------ | ---------------- |
+| `setView(latlng:LatLng,zoom:number,zoomOptions?:options)` | this   | 设置中心点       |
+| `setZoom(zoom:number,zoomOptions?:options)` | this   | 设置放缩级别     |
+| `setZoom(zoom:number,zoomOptions?:options)` | this   | 设置放缩级别     |
+| `setMinZoom(zoom:number)` | this   | 设置最小放缩级别 |
+| `setMaxZoom(zoom:number)` | this   | 设置最大放缩级别 |
+| `zoomIn(delta?:number,zoomOptions?:options)` | this   | 放大地图         |
+| `zoomOut(delta?:number,zoomOptions?:options)` | this   | 放大地图         |
+| `fitBounds(bounds:LatLngBounds,fitOptions?:options)` | this   | 设置地图范围     |
+| `panBy(point:offset,panOptions?:options)` | this   | 移动到某一像素点 |
+| `flyTo(latlng:LatLng,zoom:number,zoomOptions?:options)` | this   | 飞到某一点       |
+| `flyToBounds(bounds:LatLngBounds,fitBoundsOptions?:options)` | this   | 飞到范围         |
+| `locate(locateOptions?:options)` | this   | 定位             |
+| `stopLocate()` | this   | 停止定位         |
+| `setMaxBounds(bounds:LatLngBounds)` | this   | 设置最大范围     |
+| `setMaxBounds(bounds:LatLngBounds)` | this   | 设置最大范围     |
+
+### 获取地图状态
+
+| 方法                                             | 返回值 | 描述 |
+| ------------------------------------------------ | ------ | ---- |
+| `getPane(name:string)` | pane   |  获取图层面板    |
+| `createPane(name:string,container?:HTMLElement)` | this   |      |
+| `getPanes()` | panes  |      |
+| `getCenter()` | LatLng |      |
+| `getZoom()` | number |      |
+
+### 其他方法
+
+| 方法                               | 返回值 | 描述         |
+| ---------------------------------- | ------ | ------------ |
+| `addHandler(name:string,callBack)` | this   | 添加操作     |
+| `remove()` | this   | 移除所有操作 |
+
+## 小结
+
+介绍了核心类 `Map` 相关的配置、事件和方法。

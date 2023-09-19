@@ -64,4 +64,4 @@
 
 [选择 npm 时，应考虑的 5 个事项](https://www.arryblog.com/guide/es6/npm-selection.html#_1%E3%80%81%E6%A3%80%E6%9F%A5%E5%BC%80%E6%BA%90%E8%AE%B8%E5%8F%AF%E8%AF%81-license)
 
-![如何快速找到一个合适的 npm 库](https://shanyue.tech/frontend-engineering/quick-find-npm.html)
+[如何快速找到一个合适的 npm 库](https://shanyue.tech/frontend-engineering/quick-find-npm.html)
