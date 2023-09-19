@@ -1,0 +1,1 @@
+import{_ as s,o as n,c as a,a as l}from"./app.98b74942.js";const b=JSON.parse('{"title":"tsconfig 配置说明","description":"","frontmatter":{},"headers":[],"relativePath":"others/ts/tsconfig配置说明.md"}'),p={name:"others/ts/tsconfig配置说明.md"},o=l("",2),t=[o];function e(c,r,F,y,D,i){return n(),a("div",null,t)}const q=s(p,[["render",e]]);export{b as __pageData,q as default};
