@@ -1,5 +1,11 @@
 # leaflet 学习笔记(二)--地图初始化
 
+## leaflet 核心类
+
+![leaflet 核心类](https://segmentfault.com/img/bVc9MtK)
+
+## 初始化地图
+
 Map 是 leaflet 的核心类，通过它可以在页面上创建并操作地图。
 
 其初始化方法为: `L.map(<String|HTMLElement> id, <Map options> options?)`
