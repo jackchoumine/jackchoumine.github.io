@@ -190,16 +190,16 @@ const map = new Map(mapContainer.value, {
 ### 图层相关
 
 | 方法                                          | 返回值                                              | 描述     |
-| --------------------------------------------- | --------------------------------------------------- | -------- | ---------- |
+| --------------------------------------------- | --------------------------------------------------- | -------- |
 | `addLayer(layer:Layer)` | this                                                | 添加图层 |
 | `removeLayer(layer:Layer)` | this                                                | 移除图层 |
 | `hasLayer(layer:Layer)` | boolean                                             |          |
 | `eachLayer(callBack:function,context:Object)` | this                                                | 遍历图层 |
 | `openPopup(popup:Popup)` | this                                                |          |
-| `openPopup(content:string                     | HTMLElement,latlng:LatLng,options?:PopupOptions)` | this     | 创建 popup |
+| `openPopup(content:string\|HTMLElement,latlng:LatLng,options?:PopupOptions)` | this     | 创建 popup |
 | `closePopup(popup?:Popup)` | this                                                |          |
 | `openTooltip(tooltip:Tooltip)` | this                                                |          |
-| `openTooltip(content:string                   | HTMLElement,latlng:LatLng,options?:TooltipOptions)` | this     |            |
+| `openTooltip(content:string\|HTMLElement,latlng:LatLng,options?:TooltipOptions)` | this     |            |
 | `closePopup(tooltip:Tooltip)` | this                                                |          |
 
 ### 修改地图状态相关
@@ -224,13 +224,13 @@ const map = new Map(mapContainer.value, {
 
 ### 获取地图状态
 
-| 方法                                             | 返回值 | 描述 |
-| ------------------------------------------------ | ------ | ---- |
-| `getPane(name:string)` | pane   |  获取图层面板    |
-| `createPane(name:string,container?:HTMLElement)` | this   |      |
-| `getPanes()` | panes  |      |
-| `getCenter()` | LatLng |      |
-| `getZoom()` | number |      |
+| 方法                                             | 返回值 | 描述         |
+| ------------------------------------------------ | ------ | ------------ |
+| `getPane(name:string)` | pane   | 获取图层面板 |
+| `createPane(name:string,container?:HTMLElement)` | this   |              |
+| `getPanes()` | panes  |              |
+| `getCenter()` | LatLng |              |
+| `getZoom()` | number |              |
 
 ### 其他方法
 

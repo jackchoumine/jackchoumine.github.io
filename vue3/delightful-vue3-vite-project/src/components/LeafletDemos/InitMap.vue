@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-04-08 21:08:15
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-09-04 16:22:48
+ * @LastEditTime: 2023-09-20 16:55:45
  * @Description : 初始化地图
 -->
 <script lang="ts" setup>
@@ -35,7 +35,7 @@ function initMap(
     zoomControl: true,
     attributionControl: false,
     closePopupOnClick: false,
-    trackResize: true,
+    // trackResize: true,
     center: coordinates, // 初始视角中心 [latitude,longitude] [纬度,经度]
     zoom, // 初始缩放等级
     // layers: [layer], // 初始图层
@@ -47,13 +47,13 @@ function initMap(
     // 地图投影
     crs: L.CRS.EPSG3857,
     doubleClickZoom: 'center',
-    maxBounds: [
-      [27.33, 107.21],
-      [26.21, 106.33],
-    ],
+    // maxBounds: [
+    //   [27.33, 107.21],
+    //   [26.21, 106.33],
+    // ],
     // 最大边界 使用经纬度标识，设置后地图不可拖出该范围
     // 是否允许拖动
-    dragging: true,
+    // dragging: true,
     renderer: L.svg(), // 渲染器 Renderer，根据浏览器环境自动选择
   }) // .setView(coordinates, zoom)
 
@@ -98,6 +98,11 @@ function initMap(
   map.on('layeradd', event => {
     console.log('map layeradd', event)
   })
+
+  setTimeout(() => {
+    // 飞到北京
+    map.flyTo([39.92, 116.46], 8)
+  }, 2000)
   return map
 }
 
