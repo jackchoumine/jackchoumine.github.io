@@ -1,12 +1,8 @@
 # leaflet 学习笔记(二)--地图初始化
 
+![leaflet 核心类](https://image-static.segmentfault.com/271/948/2719487025-650abbfe81c46_fix732)
+
 ## leaflet 核心类
-
-![leaflet 核心类](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/leaflet内核类.png)
-
-![](https://image-static.segmentfault.com/271/948/2719487025-650abbfe81c46_fix732)
-
-<iframe src="https://image-static.segmentfault.com/271/948/2719487025-650abbfe81c46_fix732" frameborder="0"></iframe>
 
 Map 是 leaflet 的核心类，通过它可以在页面上创建并操作地图。
 
