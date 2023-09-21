@@ -2,11 +2,26 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-09-21 15:27:41
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-09-21 15:40:13
+ * @LastEditTime: 2023-09-21 16:25:11
  * @Description : 常用工具函数
  */
 const randomNum = (min = 0, max = 10) => Math.floor(Math.random() * (max - min + 1)) + min
 
+function randomStr(len = 7, maxLen) {
+  const upperCaseLetters = 'ABCDEFGHJKMNPQRSTWXYZ'
+  const number = '123456789'
+  const chars = `${upperCaseLetters}${upperCaseLetters.toLowerCase()}${number}`
+  let strLen = chars.length
+  let randomStr = ''
+  let size = len
+  if (typeof maxLen === 'number' && len < maxLen) {
+    size = Math.floor(Math.random() * (maxLen - len + 1)) + len
+  }
+  for (let i = 0; i < size; i++) {
+    randomStr += chars.charAt(Math.floor(Math.random() * strLen))
+  }
+  return randomStr
+}
 const format = n => {
   let num = n.toString()
   let len = num.length
@@ -136,8 +151,11 @@ const dateFormat = (format, time) => {
 }
 export {
   randomNum,
+  randomStr,
   format,
   telFormat,
+  arrScrambling,
+  checkCardNo,
   toKebabCase,
   toCamelCase,
   toCDB,
