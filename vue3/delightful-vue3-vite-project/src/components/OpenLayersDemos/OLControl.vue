@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-06-26 10:07:10
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-12 22:28:21
+ * @LastEditTime: 2023-09-22 14:31:19
  * @Description : 常用控件
  * 放缩滑块 https://openlayers.org/en/latest/examples/zoomslider.html
  * 
@@ -128,6 +128,7 @@ function initMap() {
   map.addControl(overviewMap)
   const rotate = new Rotate()
   map.addControl(rotate)
+  // NOTE 鼠标位置控制
   const mousePosition = new MousePosition({
     coordinateFormat: createStringXY(6), // 保留小数点后4位, 默认为 createStringXY(15)
     projection: 'EPSG:4326', // 坐标系
@@ -136,6 +137,12 @@ function initMap() {
     target: document.getElementById('mouse-position'), // 显示坐标的目标容器
   })
   map.addControl(mousePosition)
+
+  // NOTE 监听鼠标移动事件
+  map.on('moveend', event => {
+    console.log(event, 'moveend zqj log')
+  })
+
   const scaleLine = new ScaleLine({
     units: 'metric',
   })
@@ -188,7 +195,7 @@ let radius = 75
 function layerDetection(map: Map, secondLayer: TileLayer<XYZ>, view: View) {
   view.addEventListener('mousemove', function (event) {
     mousePosition = map.getEventPixel(event)
-    console.log(mousePosition, 'zqj log')
+    console.log(mousePosition, 'mousemove zqj log')
     map.render() // 重新渲染
   })
   view.addEventListener('mouseout', function () {
