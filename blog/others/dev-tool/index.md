@@ -1,5 +1,7 @@
 # 开发工具使用
 
+### [常用软件](./win-software-list.md)
+
 ### [最常用的 prettier 配置](./最常用的prettier配置.md)
 
 ### [choco 包管理器](./choco包管理器.md)
@@ -17,7 +19,9 @@
 ### [jsconfig 文件](./jsconfig文件.md)
 
 <!--
+
 ### [eslint 使用](./eslint.md)
 
 ### [xshell 使用.md](./xshell使用.md)
+
 -->
