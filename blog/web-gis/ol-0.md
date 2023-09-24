@@ -100,9 +100,9 @@ import 'ol/ol.css'
 
 至少需要设置三个属性：
 
-1. `target`： 地图容器的 id
-2. `layers`： 图层
-3. `view`： 视图
+1. `target`： 地图容器的 id，唯一。
+2. `layers`： 图层，可包含多个图层。
+3. `view`： 视图，只有一个。
 
 > target
 
