@@ -108,7 +108,7 @@ import 'ol/ol.css'
 
 target 指定地图渲染的容器，是页面上一个元素的 id 或者元素，地图将被渲染到该元素中。
 
-初始化时没有指定 target，可以通过 `setTarget` 方法动态设置 target。
+初始化时没有指定 target，可以通过 `setTarget` 方法动态设置 target，比如动态设置 `target` ，可交换页面上两个图地图。
 
 target 对 `transform` 属性有特殊要求，仅支持 `scale` 。
 
@@ -146,6 +146,8 @@ view 是一个视图对象，用于控制地图的显示范围、中心位置和
 center 的值为经纬度坐标，数组，先经度后纬度，即 [longitude, latitude] 或者 [lng, lat]。
 
 `View` 是地图视图类，主要控制地图和人的交互，比如地图的中心点、缩放级别、旋转角度等。
+
+一个页面上有两个地图，可共有一个 `View` ，实现两个地图联动，这种需求不太常见。
 
 > Map -- 地图容器类
 
