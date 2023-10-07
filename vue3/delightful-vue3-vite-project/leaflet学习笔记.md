@@ -25,7 +25,7 @@ import 'leaflet/dist/leaflet.css'
 
 ### 使用
 
-新建`InitMap.vue`
+新建 `InitMap.vue`
 
 ```ts
 <script lang="ts" setup>
@@ -56,7 +56,7 @@ function initMap(
 </template>
 ```
 
-`map`方法接收一个**元素**作为参数，作为防止地图的 div，返回一个地图对象。这个元素设置了一个固定高度，`h-full` 是`height:100%`，撑开到父元素的高度。
+`map` 方法接收一个**元素**作为参数，作为防止地图的 div，返回一个地图对象。这个元素设置了一个固定高度， `h-full` 是 `height:100%` ，撑开到父元素的高度。
 
 其他常用参数：
 
@@ -70,7 +70,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map)
 ```
 
-使用一个瓦片图层作为底图，`tileLayer`方法接收一个 url 作为参数，第二个参数里的 maxZoom 指定地图的最大放缩级别。返回一个图层对象。`addTo`方法接收一个地图对象作为参数，将图层添加到地图上。
+使用一个瓦片图层作为底图， `tileLayer` 方法接收一个 url 作为参数，第二个参数里的 maxZoom 指定地图的最大放缩级别。返回一个图层对象。 `addTo` 方法接收一个地图对象作为参数，将图层添加到地图上。
 
 完成了一个简单的地图。
 
@@ -90,7 +90,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 const marker = L.marker([26.55 /*纬度*/, 106.6 /*经度*/]).addTo(map) // 创建一个标记，添加到地图的经纬度位置
 ```
 
-`marker`两个参数，第一个是坐标，第二个是可选参数，用于设置标记的图标。不传递第二个参数时，会使用默认的图标。
+`marker` 两个参数，第一个是坐标，第二个是可选参数，用于设置标记的图标。不传递第二个参数时，会使用默认的图标。
 
 ![默认的标记图标](https://github.com/Leaflet/Leaflet/blob/main/dist/images/marker-icon.png)
 
@@ -112,7 +112,7 @@ const options = {
 
 如何自定义标记的图标？
 
-leaflet 提供了一个`Icon`类，用于创建自定义的图标。
+leaflet 提供了一个 `Icon` 类，用于创建自定义的图标。
 
 ```ts
 const myIcon = L.icon({
@@ -135,7 +135,7 @@ L.circle(GuiYangPosition, {
 }).addTo(map)
 ```
 
-要素的更多内容，后面学习`geoJSON`时，还会再讲。
+要素的更多内容，后面学习 `geoJSON` 时，还会再讲。
 
 ## popup 弹出框
 
@@ -147,11 +147,11 @@ marker.bindPopup('<p>我是一个 popup</p>').openPopup() // 弹出 popup
 // 顺序重要，先添加标记到地图，后绑定 popup 内容，再打开 popup
 ```
 
-`bindPopup` 方法接收一个字符串作为参数，设置 popup 的内容。`openPopup` 方法打开**标记**上的 popup。**用户不需要点击标记，弹窗已经打开了**。
+`bindPopup` 方法接收一个字符串作为参数，设置 popup 的内容。 `openPopup` 方法打开**标记**上的 popup。**用户不需要点击标记，弹窗已经打开了**。
 
 > openPopup 是图层上的一个方法，可使用它打开**标记**上的 popup。其他要素不能使用这个方法，用户点击要素才能打开 popup。
 
-bindPopup 第一个参数可以是`innerHTML`即字符串，也可以是一个`HTMLElement`，还可以是一个函数，返回 innerHTML，比如：
+bindPopup 第一个参数可以是 `innerHTML` 即字符串，也可以是一个 `HTMLElement` ，还可以是一个函数，返回 innerHTML，比如：
 
 ```ts
 const marker = L.marker([26.55, 106.6]).addTo(map)
@@ -161,7 +161,7 @@ span.innerHTML = '我是一个 popup'
 marker.bindPopup(span).openPopup()
 ```
 
-接收一个函数，返回一个`innerHTML`：
+接收一个函数，返回一个 `innerHTML` ：
 
 ```ts
 const marker = L.marker([26.55, 106.6]).addTo(map)
@@ -192,7 +192,7 @@ marker
   .openPopup()
 ```
 
-> 关键，借助`createApp`来挂载组件，然后返回组件的渲染结果。这样一改造，当展示复杂内容时，或者弹窗里需要使用组件库的组件开展示数据时，就非常强大了。
+> 关键，借助 `createApp` 来挂载组件，然后返回组件的渲染结果。这样一改造，当展示复杂内容时，或者弹窗里需要使用组件库的组件开展示数据时，就非常强大了。
 
 还是可以直接在图层上添加一个**孤立的弹窗**：
 
@@ -203,11 +203,11 @@ const popup = L.popup().setLatLng(GuiYangPosition).setContent(popupContent)
 popup.openOn(map)
 ```
 
-`setContent` 接收一个参数，和`bindPopup`的第一个参数类型一样。
+`setContent` 接收一个参数，和 `bindPopup` 的第一个参数类型一样。
 
 ### 要素的显示顺序
 
-默认情况下，要素的显示顺序是按照添加到地图上的顺序来的，**后添加的要素会覆盖前面的要素**。如果想要改变显示顺序，可以使用`bringToFront`和`bringToBack`方法。
+默认情况下，要素的显示顺序是按照添加到地图上的顺序来的，**后添加的要素会覆盖前面的要素**。如果想要改变显示顺序，可以使用 `bringToFront` 和 `bringToBack` 方法。
 
 ```js
 const circle = L.circle(GuiYangPosition, {
@@ -227,19 +227,19 @@ circle.bringToFront() // 将要素置于最前面
 
 panes 是一些 DOM 元素的集合，leaflet 会将要素添加到这些 DOM 元素中，不同的 pane 具有不同的 z-index，从而控制不同的图层。panes 有 4 个，分别是：
 
-- mapPane
-- tilePane
-- overlayPane
-- shadowPane
-- markerPane
-- tooltipPane
-- popupPane
+* mapPane
+* tilePane
+* overlayPane
+* shadowPane
+* markerPane
+* tooltipPane
+* popupPane
 
 mapPane 的 z-index 为 auto, popupPane 的 z-index 为 7000，最大。具体可看[官方文档](https://leafletjs.com/reference-1.7.1.html#map-pane)
 
 overlayPane 默认容纳矢量要素的 pane，z-index 为 400。
 
-通过`createPane`方法创建一个 pane，然后将要素添加到这个 pane 上，从而实现控制要素的显示顺序。
+通过 `createPane` 方法创建一个 pane，然后将要素添加到这个 pane 上，从而实现控制要素的显示顺序。
 
 ```js
 const circlesPane = map.createPane('circlesPane')
@@ -250,7 +250,7 @@ const mapCircles = L.geoJSON(circles as GeoJSON.GeoJsonObject, {
 mapCircles.addTo(map)
 ```
 
-页面上会创建一个`div`，类名为`leaflet-pane leaflet-circles-pane`，然后将要素添加到这个`div`中。
+页面上会创建一个 `div` ，类名为 `leaflet-pane leaflet-circles-pane` ，然后将要素添加到这个 `div` 中。
 
 > 通过 pane 批量设置要素的层级，是非常有用的。
 
@@ -294,8 +294,10 @@ L.imageOverlay('http://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg', [
 
 ```js
 L.geoJSON(geojsonFeature, {
-  style: function (feature) {
-    return { color: feature.properties.color }
+  style: function(feature) {
+    return {
+      color: feature.properties.color
+    }
   },
 }).addTo(map)
 ```
@@ -316,7 +318,7 @@ L.geoJSON(geojsonFeature, {
 
 ## 地理信息数据结构
 
-表示地理信息的数据格式有多种：`geoJSON`、`WKT`、`WKB`、`GML`、`GPX`、`KML`、`TopoJSON`等。
+表示地理信息的数据格式有多种： `geoJSON` 、 `WKT` 、 `WKB` 、 `GML` 、 `GPX` 、 `KML` 、 `TopoJSON` 等。
 
 ### geoJSON
 
@@ -420,11 +422,102 @@ geoJSON 是一种用于表示地理信息的数据结构，它是一种 JSON 格
 
 ### WKT
 
+WKT(Well-known text)是一种用于表示**空间矢量几何体**的**文本标记语言**，类似 `html` ，就是一种特殊的文本，二进制格式为 `WKB` 。
+
+#### 普通几何体
+
+> 点 -- POINT
+
+ `POINT(30,10)`
+
+> 线段 -- LINESTRING
+
+ `LINESTRING(30 10, 10 30, 40 40)`
+
+> 面 -- POLYGON
+
+ `POLYGON((30 10, 40 40, 20 40, 10 20, 30 10))`
+
+ 
+ `POLYGON((35 10, 45 45, 15 40, 10 20, 35 10), (20 30, 35 35, 30 20, 20 30))`
+
+#### 多部分几何体
+
+> 多点 -- MULTIPOINT
+
+ `MULTIPOINT ((10 40), (40 30), (20 20), (30 10))`
+
+ `MULTIPOINT (10 40, 40 30, 20 20, 30 10)`
+
+> 多线 -- MULTILINESTRING
+
+ `MULTILINESTRING((10 10, 20 20, 10 40),(40 40, 30 30, 40 20, 30 10))`
+
+> 多面 -- MULTIPOLYGON
+
+ `MULTIPOLYGON (((40 40, 20 45, 45 30, 40 40)),((20 35, 10 30, 10 10, 30 5, 45 20, 20 35),(30 20, 20 15, 20 25, 30 20)))`
+
+#### 总结表格
+
+类型|例子|描述
+-----|-----|-----
+Point| `POINT(30 10)` |x坐标未30，y坐标为10的点
+LineString| `LINESTRING(30 10, 10 30, 40 40)` |连接 `(30,10)、(10，30)、(40,40)` 三点的线
+Polygon| `POLYGON((30 10, 40 40, 20 40, 10 20, 30 10))` |连接5个点围成的面
+MultiPoint| `MULTIPOINT((10 40), (40 30), (20 20), (30 10))` |4点的集合
+MultiLineString| `MULTILINESTRING((10 10, 20 20, 10 40), (40 40, 30 30, 40 20, 30 10))` |两条线段，每条线段连接2点
+MultiPolygon| `MULTIPOLYGON(((30 20, 45 40, 10 40, 30 20)),((15 5, 40 10, 10 20, 5 10, 15 5)))` |两个面
+GeometryCollection| `GEOMETRYCOLLECTION(POINT(10 40), LINESTRING(30 10, 10 30, 40 40), POLYGON((30 10, 40 40, 20 40, 10 20, 30 10)))` |多种几何体的集合
+
+#### WKT 的限制
+
+* 大小和冗余程度高：在表示复杂的空间对象时，会很冗余。相比之下，二进制的`WKB`和`Shapefile`，要小很多。
+* 不能附加空间属性：WKT 仅表示几何体，无法附加几何体的属性。`GeoJSON`、`Shapefiles`和`KML`允许附加空间属性。
+* 不包含参考坐标系统：坐标系统对空间分析至关重要。`GeoJSON`、`Shapefiles`包含坐标系统。
+* 不能表示复杂几何体：比如曲线，3D几何体。
+* 不太适合web应用：由于`大小限制`和无法附加空间属性，不太适用于web应用（传输效率低）。
+
+由于 WKT 存在这些限制，应该综合考虑选择它。
+
+### 验证 WKT 的格式是否正确
+
+复杂的WKT，肉眼无法知道它的是否正确，需要借助工具验证。
+
+python 库：
+
+```Python
+from shapely import wkt
+
+def validate_wkt(wkt_string):
+    try:
+        geometry = wkt.loads(wkt_string)
+        return True
+    except Exception as e:
+        print("Error:", e)
+        return False
+
+wkt_data = "POINT (30 10)"
+is_valid = validate_wkt(wkt_data)
+
+if is_valid:
+    print("WKT is valid.")
+else:
+    print("WKT is not valid.")
+```
+
+[在线网页-Wicket](https://arthur-e.github.io/Wicket/)
+
+#### 参考
+
+[Well-known text representation of geometry](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry)
+
+[A guide to WKT in GIS](https://mapscaping.com/a-guide-to-wkt-in-gis/)
+
 ## 渲染方式
 
-leaflet 支持两种渲染方式：`SVG`和`Canvas`，默认使用`SVG`。
+leaflet 支持两种渲染方式： `SVG` 和 `Canvas` ，默认使用 `SVG` 。
 
-启用`Canvas`渲染方式：
+启用 `Canvas` 渲染方式：
 
 ```js
 Map(id, {
@@ -449,5 +542,13 @@ canvas 是 HTML5 提供的一个元素，通过 JavaScript 来实现图形绘制
 支持:
 
 ```js
-import { Map } from 'lefalet'
+import {
+  Map
+} from 'lefalet'
 ```
+
+## 一些地理信息的网站
+
+[geoapify](https://www.geoapify.com)
+
+[一个地理信息的播客](https://mapscaping.com/)
