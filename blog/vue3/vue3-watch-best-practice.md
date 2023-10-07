@@ -458,6 +458,22 @@ setTimeout(function() {
 
 > watchEffect 的副作用是立即执行的。
 
+## watch 和 watchEffect 误用
+
+常见的误用：
+
+1. 在回调函数中修改数据源，容易导致死循环
+
+```js
+watch(() => source.value,
+  n => {
+    // 修改数据源
+    sources.value = []
+    if (!n) return
+    // 修改数据源 ...
+  })
+```
+
 ## 小结
 
 1. 优先使用 ref：心智负担小，监听和重置都很方便，一眼能看出时响应式变量；
