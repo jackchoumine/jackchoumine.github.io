@@ -36,7 +36,7 @@
 
 06. 社区支持是否好
 
-比如在 `stackoverflow` 的问题和回答是否多，多就意味着，使用广泛，你遇到问题，有解决办法。
+比如在 `stackOverflow` 的问题和回答是否多，多就意味着，使用广泛，你遇到问题，有解决办法。
 
 问题数量趋势如何？是在逐渐增加还是逐渐减少？逐渐增加意味着是未来的趋势，文档、周边生态等会越来越完善，你的项目一旦采用，未来几年不会换技术。
 
@@ -59,6 +59,29 @@
 ## 前端常用库推荐
 
 <!-- TODO 待总结 -->
+
+### 数据处理
+
+库|功能|显著特性|中文文档|类似的库
+-----|-----|-----|----|-----
+[dayjs](https://github.com/iamkun/dayjs/)|处理日期|轻便、API友好|[dayjs](https://day.js.org/zh-CN/)| `-`
+
+[lodash](https://github.com/lodash/lodash)|数据处理工具库，体积比较大|[lodash](https://www.lodashjs.com/)| `lodash-es` ，采用ES6，体积小 
+
+### 文件处理
+
+库|功能|显著特性|中文文档|类似的库
+-----|-----|-----|-----|---
+[videojs](https://github.com/videojs/video.js)|播放视频|支持HTML5和flash|[中文文档](https://gitcode.gitcode.host/docs-cn/video.js-docs-cn/index.html)||
+[pdf.js](https://github.com/mozilla/pdf.js)|处理PDF| `*` |无
+
+### DOM 加强
+
+库|功能|显著特性|中文文档|类似的库
+-----|-----|-----|----|-----
+[bounds.js](https://github.com/ChrisCavs/bounds.js)|异步监测DOM边界，方便实现延迟加载、无限滚动等功能|api友好|无|
+[daterangepicker](https://github.com/dangrossman/daterangepicker)|日期选择|api友好|无
+[hoverintent](https://github.com/tristen/hoverintent)|可设置停留时间的hover事件加强|体积小，api友好|无
 
 ## 参考
 
