@@ -77,12 +77,14 @@
 
 库|功能|显著特性|中文文档|类似的库
 -----|-----|-----|-----|---
-[videojs](https://github.com/videojs/video.js)|播放视频|支持HTML5和flash|[中文文档](https://gitcode.gitcode.host/docs-cn/video.js-docs-cn/index.html)||
-[pdf.js](https://github.com/mozilla/pdf.js)|处理PDF| 使用广泛 ||
+[videojs](https://github.com/videojs/video.js)|播放视频|支持HTML5和flash|[中文文档](https://gitcode.gitcode.host/docs-cn/video.js-docs-cn/index.html)| `plyr` 、 `mediaElement.js` 、 `howler.js` |
+[pdf.js](https://github.com/mozilla/pdf.js)|处理PDF| 使用广泛 | `jsPDF` 、 `pdfmake` 、 `pdf-lib` 、 `pdfkit` 、 `react-pdf` |
 [file-saver](https://github.com/mozilla/pdf.js)|浏览器大文件存储| 流式处理| | `StreamSaver.js` |
-[sheetjs](https://github.com/SheetJS/sheetjs)|处理Excel| 使用广泛| | `StreamSaver.` |
-[sheetjs](https://github.com/SheetJS/sheetjs)|处理Excel| 使用广泛| | `js-xlsx` |
-[cropperjs](https://github.com/fengyuanchen/cropperjs)|图片剪切| 功能强大| |  |
+[sheetjs](https://github.com/SheetJS/sheetjs)|处理Excel| 使用广泛| | `js-xlsx` 、 `handsontable` 、 `ag-grid` |
+[cropperjs](https://github.com/fengyuanchen/cropperjs)|图片剪切| 功能强大| | `sharp` 、 `tui.image-editor` 、 `compressorjs` 、 `viewerjs` |
+[uppy](https://github.com/transloadit/uppy)|文件上传|速度快，api友好| | `filepond` 、 `dropzone` 、 `uppload` |
+[JSZip](https://github.com/Stuk/jszip)|读取编辑zip|api友好| |  |
+[PapaParse](https://github.com/mholt/PapaParse)|快速而强大的 CSV（分隔文本）解析器|api友好| |  |
 
 ### 网络请求
 
