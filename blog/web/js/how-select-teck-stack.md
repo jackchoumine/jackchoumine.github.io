@@ -65,9 +65,12 @@
 库|功能|显著特性|中文文档|类似的库
 -----|-----|-----|----|-----
 [dayjs](https://github.com/iamkun/dayjs/)|处理日期|轻便、API友好|[dayjs](https://day.js.org/zh-CN/)| `date-fns` |
+[Numeral.js](https://github.com/adamwdraper/Numeral-js)|数值格式化|轻便、API友好|无| `accounting.js` |
 [lodash](https://github.com/lodash/lodash)|函数式数据处理工具库，体积比较大|性能卓越，模块化设计|[lodash](https://www.lodashjs.com/)| `lodash-es` ，采用ES6，体积小 `underscore.js` |
 |[number-precision](https://github.com/nefe/number-precision)|数值计算|小|无| `big.js` 、 `math.js` |
 |[qs](https://github.com/ljharb/qs)|处理查询字符串|小，api友好|无| |
+|[voca](https://github.com/panzerdp/voca)|处理字符串|小，api友好|无| |
+|[chance](https://github.com/chancejs/chancejs)|生成随机字符串内容|小，api友好|无| `UUID` 、 `nanoid` |
 |[validator.js](https://github.com/validatorjs/validator.js)|数据验证|小，api友好|无| `validate.js` |
 
 ### 文件处理
@@ -87,6 +90,12 @@
 -----|-----|-----|-----|---
 [axios](https://github.com/axios/axios)|基于promise的xhr请求库| 使用广泛 |[axios](https://www.axios-http.cn/)| `superagent` 、 `fly.js` |
 
+### cookie
+
+库|功能|显著特性|中文文档|类似的库
+-----|-----|-----|-----|---
+[js-cookie](https://github.com/js-cookie/js-cookie)|处理cookie| 小、API 友好 |[js-cookie](https://github.com/js-cookie/js-cookie)| `cookies` |
+
 ### 动画处理
 
 库|功能|显著特性|中文文档|类似的库
@@ -102,6 +111,7 @@
 [daterangepicker](https://github.com/dangrossman/daterangepicker)|日期选择|api友好|无
 [hoverintent](https://github.com/tristen/hoverintent)|可设置停留时间的hover事件加强|体积小，api友好|无
 [html2canvas](https://github.com/niklasvh/html2canvas)|把HTML转成canvas|体积小，api友好||
+[DOMPurify](https://github.com/cure53/DOMPurify)|DOM净化工具|体积小，api友好||
 
 ### CSS
 
