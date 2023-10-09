@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-18 00:02:00
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-18 00:42:15
+ * @LastEditTime: 2023-10-09 16:10:01
  * @Description : 
 -->
 <script setup lang="ts">
@@ -39,7 +39,7 @@ function changeA() {
 
 const numList = shallowRef<any[]>([1, 2, 3])
 function changeNumList() {
-  // NOTE 无法改变 ❌
+  // NOTE shallowRef<Array> 无法改变 ❌ ref<Array> 是可以监听到改变的
   // numList.value.push(10, 20, 30)
   numList.value = [...numList.value, 10, 20, 30]
 }
