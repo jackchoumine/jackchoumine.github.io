@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2022-12-26 17:59:30
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-27 15:57:07
+ * @LastEditTime: 2023-10-09 16:53:03
  * @Description : 
 -->
 <script setup lang="ts" name="HookPage">
@@ -15,13 +15,28 @@ import {
   PopupContainer,
   testNameExport,
 } from '@/components'
+import { CountOne, CountTwo } from '@/components/HookTest'
 
 const myInput = ref('hello')
 const draggable = ref(true)
+const count1 = ref(0)
+function onAddCount(count) {
+  count1.value = count
+}
+
+const countOne = ref()
+onMounted(() => {
+  console.log(countOne.value, 'zqj log')
+})
 </script>
 
 <template>
   <div class="page">
+    <h3>hook 共享状态</h3>
+    <CountOne @add-count="onAddCount" ref="countOne" />
+    <CountTwo />
+    <p>count1:{{ count1 }}</p>
+    <hr />
     <button @click="draggable = !draggable">
       draggable?{{ draggable ? 'yes' : 'no' }}
     </button>
