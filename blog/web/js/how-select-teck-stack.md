@@ -118,7 +118,17 @@
 ### CSS
 
 库|功能|显著特性|中文文档|类似的库
+
+### 浏览器指纹
+
+> 浏览器指纹：浏览器的唯一标识，可用于识别用户登录的浏览器设备。
+
+库|功能|显著特性|中文文档|类似的库
 -----|-----|-----|----|-----
+
+参考：
+
+[9 Device Fingerprinting Solutions for Developers](https://blog.castle.io/9-device-fingerprinting-solutions-for-developers/)
 
 ## 参考
 
