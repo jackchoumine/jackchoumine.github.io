@@ -64,14 +64,14 @@
 
 库|功能|显著特性|中文文档|类似的库
 -----|-----|-----|----|-----
-[dayjs](https://github.com/iamkun/dayjs/)|处理日期|轻便、API友好|[dayjs](https://day.js.org/zh-CN/)| `date-fns` |
+[dayjs](https://github.com/iamkun/dayjs/)|处理日期|轻便、API友好|[dayjs](https://day.js.org/zh-CN/)| `date-fns` 、 `fecha` |
 [Numeral.js](https://github.com/adamwdraper/Numeral-js)|数值格式化|轻便、API友好|无| `accounting.js` |
 [lodash](https://github.com/lodash/lodash)|函数式数据处理工具库，体积比较大|性能卓越，模块化设计|[lodash](https://www.lodashjs.com/)| `lodash-es` ，采用ES6，体积小 `underscore.js` |
 |[number-precision](https://github.com/nefe/number-precision)|数值计算|小|无| `big.js` 、 `math.js` |
 |[qs](https://github.com/ljharb/qs)|处理查询字符串|小，api友好|无| |
 |[voca](https://github.com/panzerdp/voca)|处理字符串|小，api友好|无| |
 |[chance](https://github.com/chancejs/chancejs)|生成随机字符串内容|小，api友好|无| `UUID` 、 `nanoid` |
-|[validator.js](https://github.com/validatorjs/validator.js)|数据验证|小，api友好|无| `validate.js` |
+|[validator.js](https://github.com/validatorjs/validator.js)|数据验证|小，api友好|无| `validate.js` 、 `vest` |
 
 ### 文件处理
 
@@ -114,24 +114,29 @@
 [hoverintent](https://github.com/tristen/hoverintent)|可设置停留时间的hover事件加强|体积小，api友好|无
 [html2canvas](https://github.com/niklasvh/html2canvas)|把HTML转成canvas|体积小，api友好||
 [DOMPurify](https://github.com/cure53/DOMPurify)|DOM净化工具|体积小，api友好||
+[diff2html](https://github.com/rtfpessoa/diff2html)|将 Git diff 或 SVN diff 转换为漂亮的 HTML 格式|||
+
+### 浏览器特性检测
+
+这类库用于判断浏览器信息。
+
+库|功能|显著特性|中文文档|类似的库
+-----|-----|-----|----|-----
+|[bowser.js](https://github.com/lancedikson/bowser)|判断浏览器信息|模块化设计|无||
+|[broprint.js](https://github.com/Rajesh-Royal/Broprint.js)|生成浏览器ID|api友好|无||
+
+> 浏览器指纹：浏览器的唯一标识，可用于识别用户登录的浏览器设备。
 
 ### CSS
 
 库|功能|显著特性|中文文档|类似的库
 
-### 浏览器指纹
-
-> 浏览器指纹：浏览器的唯一标识，可用于识别用户登录的浏览器设备。
-
-库|功能|显著特性|中文文档|类似的库
------|-----|-----|----|-----
-
 参考：
-
-[9 Device Fingerprinting Solutions for Developers](https://blog.castle.io/9-device-fingerprinting-solutions-for-developers/)
 
 ## 参考
 
 [选择 npm 时，应考虑的 5 个事项](https://www.arryblog.com/guide/es6/npm-selection.html#_1%E3%80%81%E6%A3%80%E6%9F%A5%E5%BC%80%E6%BA%90%E8%AE%B8%E5%8F%AF%E8%AF%81-license)
 
 [如何快速找到一个合适的 npm 库](https://shanyue.tech/frontend-engineering/quick-find-npm.html)
+
+[9 Device Fingerprinting Solutions for Developers](https://blog.castle.io/9-device-fingerprinting-solutions-for-developers/)
