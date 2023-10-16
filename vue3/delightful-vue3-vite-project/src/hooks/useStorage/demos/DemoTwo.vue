@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-10-13 15:49:13
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-10-16 14:40:35
+ * @LastEditTime: 2023-10-16 14:49:58
  * @Description : 
 -->
 <script setup lang="ts">
@@ -19,7 +19,9 @@ const [info, updateCount] = useStorage('my-name', 'session')
 <template>
   <div>
     <p>DemoTwo</p>
-    <button type="button" @click="updateCount({ name: 'JackChou', age: +info?.age + 1 })">
+    <button
+      type="button"
+      @click="updateCount({ name: 'JackChou', age: info?.age ? +info.age + 1 : 1 })">
       count is {{ info }}
     </button>
   </div>
