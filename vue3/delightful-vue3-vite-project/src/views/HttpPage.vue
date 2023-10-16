@@ -2,13 +2,13 @@
  * @Description : 测试 http 
  * @Date        : 2022-12-16 00:31:13 +0800
  * @Author      : JackChou
- * @LastEditTime: 2023-10-16 09:33:34
+ * @LastEditTime: 2023-10-16 15:00:40
  * @LastEditors : ZhouQiJun
 -->
 <script lang="ts" setup>
 import { UserCart } from '@/components/HookTest'
 import { TodoDemo } from '@/components/TestHttp'
-import DemoOne from '@/hooks/useStorage/demos/DemoOne.vue'
+import DemoThree from '@/hooks/useStorage/demos/DemoThree.vue'
 </script>
 
 <template>
@@ -16,7 +16,7 @@ import DemoOne from '@/hooks/useStorage/demos/DemoOne.vue'
     <TodoDemo />
     <MyButton />
     <UserCart />
-    <DemoOne />
+    <DemoThree />
   </div>
 </template>
 

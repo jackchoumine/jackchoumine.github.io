@@ -8,7 +8,6 @@
 <script setup lang="ts">
 import { DemoOne } from '@/components/ConcurrencyControl'
 import StorageDemoOne from '@/hooks/useStorage/demos/DemoOne.vue'
-import DemoThree from '@/hooks/useStorage/demos/DemoThree.vue'
 import StorageDemoTwo from '@/hooks/useStorage/demos/DemoTwo.vue'
 </script>
 <template>
@@ -17,7 +16,6 @@ import StorageDemoTwo from '@/hooks/useStorage/demos/DemoTwo.vue'
     <DemoOne />
     <StorageDemoOne />
     <StorageDemoTwo />
-    <DemoThree />
   </div>
 </template>
 
