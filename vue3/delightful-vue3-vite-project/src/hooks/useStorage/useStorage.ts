@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-10-13 15:38:15
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-10-16 10:46:56
+ * @LastEditTime: 2023-10-16 11:11:26
  * @Description :
  */
 import { ref } from 'vue'
@@ -19,9 +19,6 @@ export const useStorage = (key: string, type) => {
   const sub = createMediator()
 
   const storage = createStorage(type)
-  function setValue(_value) {
-    value.value = _value
-  }
 
   sub.subscribe(key, setValue)
 
@@ -29,5 +26,13 @@ export const useStorage = (key: string, type) => {
     value.value = storage.get(key)
   })
 
-  return value
+  return [value, updateValue]
+
+  function setValue(_value) {
+    value.value = _value
+  }
+
+  function updateValue(_value) {
+    storage.set(key, _value)
+  }
 }
