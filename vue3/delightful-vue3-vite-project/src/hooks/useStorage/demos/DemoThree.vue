@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-10-13 15:46:35
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-10-16 11:14:58
+ * @LastEditTime: 2023-10-16 14:35:57
  * @Description : 测试 useStorage
 -->
 <script lang="ts" setup>
@@ -14,7 +14,7 @@ const [myName, changeName] = useStorage('my-name', 'local')
 <template>
   <div class="DemoThree">
     demo-one myName {{ myName }}
-    <button @click="changeName(++myName)">更新 myName</button>
+    <!-- <button @click="changeName(++myName)">更新 myName</button> -->
   </div>
 </template>
 

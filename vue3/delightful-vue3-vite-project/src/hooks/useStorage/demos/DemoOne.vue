@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-10-13 15:46:35
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-10-16 11:11:50
+ * @LastEditTime: 2023-10-16 14:40:43
  * @Description : 测试 useStorage
 -->
 <script lang="ts" setup>
@@ -11,13 +11,15 @@ import { createStorage } from '@/utils'
 import { useStorage } from '../useStorage'
 
 const $localStorage = createStorage('local')
-const [myName, updateName] = useStorage('my-name', 'local')
+const [info, updateName] = useStorage('my-name', 'session')
 </script>
 
 <template>
   <div class="DemoOne">
-    demo-one myName {{ myName }}
-    <button @click="updateName(++myName)">更新 myName</button>
+    demo-one myName {{ info }}
+    <button @click="updateName({ name: info.name, age: info.age + 1 })">
+      更新 myName
+    </button>
   </div>
 </template>
 
