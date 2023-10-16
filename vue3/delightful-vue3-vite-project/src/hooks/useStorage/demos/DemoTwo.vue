@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-10-13 15:49:13
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-10-16 14:49:58
+ * @LastEditTime: 2023-10-16 16:22:08
  * @Description : 
 -->
 <script setup lang="ts">
@@ -13,7 +13,7 @@ import { ref } from 'vue'
 // const count = ref($localStorage.get('my-name'))
 import { useStorage } from '../useStorage'
 
-const [info, updateCount] = useStorage('my-name', 'session')
+const [info, updateCount] = useStorage('my-name', 'local')
 </script>
 
 <template>

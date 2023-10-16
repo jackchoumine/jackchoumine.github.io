@@ -8,7 +8,7 @@
 <script lang="ts" setup>
 import { useStorage } from '../useStorage'
 
-const [myName, changeName] = useStorage('my-name', 'session')
+const [myName, changeName] = useStorage('my-name', 'local')
 </script>
 
 <template>
