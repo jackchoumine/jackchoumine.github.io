@@ -2,16 +2,20 @@
  * @Date        : 2022-08-08 16:42:27
  * @Author      : ZhouQijun
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-06-05 10:17:19
+ * @LastEditTime: 2023-10-16 10:49:51
  * @Description : 关于页面
 -->
 <script setup lang="ts">
 import { DemoOne } from '@/components/ConcurrencyControl'
+import StorageDemoOne from '@/hooks/useStorage/demos/DemoOne.vue'
+import StorageDemoTwo from '@/hooks/useStorage/demos/DemoTwo.vue'
 </script>
 <template>
   <div class="page">
     <h3>并发控制</h3>
     <DemoOne />
+    <StorageDemoOne />
+    <StorageDemoTwo />
   </div>
 </template>
 
