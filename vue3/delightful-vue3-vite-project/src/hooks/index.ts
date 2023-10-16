@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2022-12-26 17:59:30
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-10-09 14:47:54
+ * @LastEditTime: 2023-10-13 16:57:39
  * @Description : 导出 hooks
  */
 export { default as useLocalStorage } from './useLocalStorage.js'
@@ -24,3 +24,4 @@ export { useEvent } from './useEvent'
 export * from './useDraggable'
 export * from './useHttp'
 export * from './useTestGlobalState'
+export * from './useStorage'
