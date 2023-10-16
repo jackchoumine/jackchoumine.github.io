@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-10-13 15:38:15
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-10-16 11:11:26
+ * @LastEditTime: 2023-10-16 14:32:20
  * @Description :
  */
 import { ref } from 'vue'
@@ -17,22 +17,20 @@ const createMediator = () => mediator.install({})
 export const useStorage = (key: string, type) => {
   const value = ref(null)
   const sub = createMediator()
+  sub.subscribe(key, changeValue)
 
   const storage = createStorage(type)
-
-  sub.subscribe(key, setValue)
-
   onMounted(() => {
     value.value = storage.get(key)
   })
 
-  return [value, updateValue]
+  return [value, setValue]
 
   function setValue(_value) {
-    value.value = _value
+    storage.set(key, _value)
   }
 
-  function updateValue(_value) {
-    storage.set(key, _value)
+  function changeValue(_value) {
+    value.value = _value
   }
 }
