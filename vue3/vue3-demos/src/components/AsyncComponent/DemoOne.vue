@@ -2,24 +2,26 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-10-17 10:35:03
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-10-17 15:04:28
+ * @LastEditTime: 2023-10-17 16:29:35
  * @Description : 异步组件定义方式1
 -->
 <script lang="ts" setup>
+import { defineAsyncComponent, ref, onErrorCaptured } from 'vue'
 import ErrorComponent from './ErrorComponent.vue'
 import LoadingComponent from './LoadingComponent.vue'
+import AsyncSetup from './AsyncSetup.vue'
 
 // LocalComponent 在 dev-tool 中显示为 AsyncComponentWrapper
 const LocalComponent = defineAsyncComponent(
   () =>
-    new Promise(resolve => {
+    new Promise((resolve) => {
       resolve({
         name: 'AsyncCom',
         template: `
           <h5>
             This is a local component defined as async!
           </h5>
-        `,
+        `
       })
     })
 )
@@ -43,20 +45,23 @@ const CompleteDefineMethod = defineAsyncComponent({
     } else {
       fail()
     }
-  },
+  }
 })
 const LoginPopup = defineAsyncComponent(() => import('./LoginPopup.vue'))
 const show = ref(false)
 function onClose() {
   show.value = false
 }
+onErrorCaptured((error, instance, info) => {
+  console.log(error)
+  console.log(instance)
+  console.log(info)
+})
 </script>
 
 <template>
   <div class="demo-one">
-    <h4>
-      定义方式1: defineAsyncComponent(()=>new Promise(resolve=>{resolve(component)}))
-    </h4>
+    <h4>定义方式1: defineAsyncComponent(()=>new Promise(resolve=>{resolve(component)}))</h4>
     <LocalComponent />
     <hr />
     <StandaloneComponent />
@@ -66,8 +71,14 @@ function onClose() {
     <h4>条件渲染触发加载异步组件</h4>
     <button @click="show = true">Login</button>
     <p>{{ show }}</p>
-    <!-- <LoginPopup v-if="show" :on-close="onClose" /> -->
-    <component :is="LoginPopup"></component>
+    <LoginPopup v-if="show" :on-close="onClose" />
+    <Suspense>
+      <AsyncSetup />
+      <template #fallback>
+        <p>todo is loading</p>
+      </template>
+    </Suspense>
+    <!-- <component :is="LoginPopup" v-if="show" :on-close="onClose" /> -->
   </div>
 </template>
 

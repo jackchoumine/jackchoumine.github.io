@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import { DemoOne } from '../components/AsyncComponent'
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <DemoOne />
   </main>
 </template>
