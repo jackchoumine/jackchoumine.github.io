@@ -4,7 +4,7 @@
 
 webpack、vite 等打包工具往往会把**单页应用**打包成一个 js 文件，浏览器请求这个 js 文件，然后再执行 js 动态生产页面内容，如果 js 文件很大，势必影响加载速度。
 
-按需加载 js 文件，成为优化文件加载的重要途径，打包工具会识别按需加载的文件，按需加载的文件会被处理成单独的文件，用户**需要时再去加载**它们，从而提升访问速度。
+打包工具会识别按需加载的文件，把它们分割成单独的文件，需要使用这些文件时，再去加载它们，从而提升访问速度。
 
 ### webpack 代码分割
 
@@ -18,7 +18,9 @@ webpack、vite 等打包工具往往会把**单页应用**打包成一个 js 文
 testClick() {
   console.log('testClick')
   // 魔术注释
-  import(/* webpackChunkName: "test" */ './test.js').then(({ onClick }) => {
+  import( /* webpackChunkName: "test" */ './test.js').then(({
+    onClick
+  }) => {
     onClick()
   })
 }
@@ -35,22 +37,22 @@ export const onClick2 = () => {
 }
 ```
 
-> 可添加魔术注释，用于命名按需加载文件，在浏览器网络面板方便查看。
+> 可添加魔术注释，用于命名按需加载文件，方便在浏览器网络面板查看。
 
 ### 路由组件按需加载
 
 ```js
 {
   path: '/',
-  component: () => import(/* webpackChunkName: "layout" */ 'views/index.vue'),
+  component: () => import( /* webpackChunkName: "layout" */ 'views/index.vue'),
 }
 ```
 
-> component 的值，是一个返回`import`的函数，可实现按需加载。
+> component 的值，是一个返回 `import` 的函数，可实现按需加载。
 
 ### 异步组件按需加载
 
-vue 允许把组件定义成一个工厂函数，异步的解析组件，实现**需要渲染时**加载组件。
+vue 允许把组件定义成一个工厂函数，异步地解析组件，实现**需要渲染时**加载组件。
 
 ```js
 import Vue from 'vue'
@@ -129,7 +131,7 @@ const HelloTwo = Vue.component('hello-two', resolve => {
       }
     },
     methods: {
-      switchComponent: function (component) {
+      switchComponent: function(component) {
         this.app = () => import(`./${component}`)
         this.show = true
       },
@@ -138,7 +140,7 @@ const HelloTwo = Vue.component('hello-two', resolve => {
 </script>
 ```
 
-还可以在`switchComponent`中注册全局组件：
+还可以在 `switchComponent` 中注册全局组件：
 
 ```html
 <template>
@@ -161,10 +163,10 @@ const HelloTwo = Vue.component('hello-two', resolve => {
       }
     },
     methods: {
-      switchComponent: function (component) {
+      switchComponent: function(component) {
         Vue.component('App', () => import(`./${component}`))
 
-        //由于components改变后视图不会自动刷新, 需要手动刷新, 也可以使用this.$forceUpdate()
+        // 由于 component 改变后视图不会自动刷新, 需要手动刷新, 也可以使用this.$forceUpdate()
         this.show = false
         setTimeout(() => {
           this.show = true
@@ -192,7 +194,7 @@ const HelloTwo = Vue.component('hello-two', resolve => {
     name: 'DebounceTest',
     components: {
       HelloComponent: () => ({
-        component: import(/* webpackChunkName: "AsyncComponent" */ './AsyncComponent.vue'),
+        component: import( /* webpackChunkName: "AsyncComponent" */ './AsyncComponent.vue'),
         loading: AsyncLoading,
         error: AsyncError,
         delay: 4000,
@@ -200,7 +202,9 @@ const HelloTwo = Vue.component('hello-two', resolve => {
       }),
     },
     data() {
-      return { show: false }
+      return {
+        show: false
+      }
     },
     methods: {
       myClick(event) {
@@ -221,11 +225,11 @@ export default {
   components: {
     // HelloComponent: () => import('./AsyncComponent.vue')
     HelloComponent: () => ({
-      component: import(/* webpackChunkName: 'AsyncComponent' */ './AsyncComponent.vue'),
+      component: import( /* webpackChunkName: 'AsyncComponent' */ './AsyncComponent.vue'),
       loading: AsyncLoading,
       error: AsyncError,
-      delay: 500 /* 500 毫秒后 还没加载到 component 显示 loading 组件*/,
-      timeout: 3000 // 3秒后显示 error 组件
+      delay: 500 // 500 毫秒后 还没加载到 component 显示 loading 组件
+      timeout: 3000 // 3000 毫秒后，还没加载到组件，说明网络超时了，显示 error 组件
     })
   },
   data() {
@@ -260,15 +264,15 @@ export default {
 
 这些文件最后都是 js，然后通过 link 标签改变加载优先级和缓存请求。
 
-`<link href="/js/hello.js" rel="prefetch">`
+ `<link href="/js/hello.js" rel="prefetch">`
 
-> 按需加载：用到了（点击导航或者下一页时）才加载，优先级低。在网络面板里看不到加载 hello.js，在网络面板的 其他 tab 里，有 hello.js。
+> 按需加载：用到了(点击导航或者下一页时)才加载，优先级低。在网络面板里看不到加载 hello.js，在网络面板的 其他 tab 里，有 hello.js。
 
-`<link href="/js/hello.js" rel="preload" as="script">`
+ `<link href="/js/hello.js" rel="preload" as="script">`
 
-> 预加载：在页面渲染之前加载，稍后使用（window 的 load 事件触发时使用），优先级高，需要设置 as 属性。在网络面板，能看到加载 hello.js。稍后不使用，浏览器会有提示设置适当的 as 属性。rel=preload 必须设置 as 属性
+> 预加载：在页面渲染之前加载，稍后使用(window 的 load 事件触发时使用)，优先级高，需要设置 as 属性。在网络面板，能看到加载 hello.js。稍后不使用，浏览器会提示设置适当的 as 属性。rel=preload 必须设置 as 属性
 
-> link 只是改变资源请求的**优先级**和**缓存请求**，不会真正加载 js 并执行，真正加载并执行的是动态创建的`script`标签。
+> link 只是改变资源请求的**优先级**和**缓存请求**，不会真正加载 js 并执行，真正加载并执行的是动态创建的 `script` 标签。
 
 webpack 会在代码里生成一个动态创建 script 的函数：
 
@@ -287,7 +291,7 @@ __webpack_require__.e = function requireEnsure(chunkId) {
       promises.push(installedChunkData[2])
     } else {
       // setup Promise in chunk cache
-      var promise = new Promise(function (resolve, reject) {
+      var promise = new Promise(function(resolve, reject) {
         installedChunkData = installedChunks[chunkId] = [resolve, reject]
       })
       promises.push((installedChunkData[2] = promise))
@@ -305,7 +309,7 @@ __webpack_require__.e = function requireEnsure(chunkId) {
 
       // create error before stack unwound to get useful stacktrace later
       var error = new Error()
-      onScriptComplete = function (event) {
+      onScriptComplete = function(event) {
         // avoid mem leaks in IE.
         script.onerror = script.onload = null
         clearTimeout(timeout)
@@ -323,8 +327,11 @@ __webpack_require__.e = function requireEnsure(chunkId) {
           installedChunks[chunkId] = undefined
         }
       }
-      var timeout = setTimeout(function () {
-        onScriptComplete({ type: 'timeout', target: script })
+      var timeout = setTimeout(function() {
+        onScriptComplete({
+          type: 'timeout',
+          target: script
+        })
       }, 120000)
       script.onerror = script.onload = onScriptComplete
       document.head.appendChild(script)
@@ -334,7 +341,7 @@ __webpack_require__.e = function requireEnsure(chunkId) {
 }
 ```
 
-生成标签：`<script charset="utf-8" src="/js/HelloOne.js"></script>`，从而实现加载 js 脚本并执行。
+生成标签： `<script charset="utf-8" src="/js/HelloOne.js"></script>` ，从而实现加载 js 脚本并执行。
 
 ## 图片懒加载
 
