@@ -2041,8 +2041,8 @@ for (let i; i < arr.length; i++) {
 
 ```JS
 const arr = [1, 2, 3, 4]
-const sum = arr.reduce((pre, next) => {
-  return pre + next
+const sum = arr.reduce((accumulator, next) => {
+  return accumulator + next
 }, 0)
 ```
 
