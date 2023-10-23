@@ -268,6 +268,7 @@ link -> lnk # 链接
 window -> win/wnd # 窗口
 horizontal -> horz # 水平
 public -> pub
+accumulator -> acc # 累加器
 
 # 动词
 delete -> del
