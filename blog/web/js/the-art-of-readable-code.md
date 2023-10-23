@@ -1930,7 +1930,7 @@ class Range {
 }
 ```
 
-正向思考，需要判断当前的区间端点是否是否在另一个端点的范围内
+正向思考，需要判断当前的区间端点是否在另一个端点的范围内
 
 ```js
 const isOverlap = (begin >= otherRange.begin && begin <= otherRange.end) || (end >= otherRange.begin && end <= otherRange.end)
