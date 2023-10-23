@@ -1,0 +1,1 @@
+import{_ as s,o as n,c as a,a as l}from"./app.36125c63.js";const A=JSON.parse('{"title":"flask 配置跨域","description":"","frontmatter":{},"headers":[],"relativePath":"vue3/flask 配置跨域.md"}'),p={name:"vue3/flask 配置跨域.md"},e=l("",5),o=[e];function t(r,c,i,D,F,y){return n(),a("div",null,o)}const b=s(p,[["render",t]]);export{A as __pageData,b as default};
