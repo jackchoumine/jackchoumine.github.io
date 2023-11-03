@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-22 05:47:29
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-22 07:21:13
+ * @LastEditTime: 2023-11-03 10:54:57
  * @Description :
  */
 const baseUrl = 'https://jsonplaceholder.typicode.com/todos'
@@ -109,8 +109,8 @@ function onClick() {
 //NOTE 和 Promise.all 的区别？
 
 // Promise.all会同时发起请求，等待所有请求完成，才算完成，存在阻塞
-// 使用 concurrencyHttp，会同时发起 n 个请求，完成1个，
-// 马上补充1个，不会等待 n 请求都完成，再发起请求，即 n 请求之间不会阻塞
+// 使用 concurrencyHttp，会将请求按照并发数量分组，同属一组的请求，同时发起，完成后，再发起一下组，
+// 全部分组完成，再 resolve 结果
 
 window.onClick = onClick
 // window.onClick = concurrencyHttpPromiseAll
