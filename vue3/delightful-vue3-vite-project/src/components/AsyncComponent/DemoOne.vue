@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-10-17 10:35:03
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-10-17 15:04:28
+ * @LastEditTime: 2023-11-06 12:08:41
  * @Description : 异步组件定义方式1
 -->
 <script lang="ts" setup>
@@ -66,7 +66,7 @@ function onClose() {
     <h4>条件渲染触发加载异步组件</h4>
     <button @click="show = true">Login</button>
     <p>{{ show }}</p>
-    <!-- <LoginPopup v-if="show" :on-close="onClose" /> -->
+    <LoginPopup v-if="show" :on-close="onClose" />
     <component :is="LoginPopup"></component>
   </div>
 </template>
