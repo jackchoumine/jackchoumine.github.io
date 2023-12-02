@@ -19,8 +19,8 @@ const controller = new AbortController()
 
 ```bash
 # signal 对象具有属性
-reason: 'AbortError' # 从 abort 方法传入， AbortError
-aborted: true # 是否已经终止
+reason: 'AbortError' # 从 abort 方法传入， 默认 AbortError
+aborted: false # 是否已取消，取消后会变成 true
 ```
 
 > 通常需要处理两部分功能：
