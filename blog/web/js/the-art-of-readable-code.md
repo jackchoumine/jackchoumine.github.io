@@ -260,7 +260,9 @@ administrator -> adm # 管理员
 database -> db # 数据库
 coordinates -> coord # 坐标
 longitude -> lng # 经度
+longitude -> lgtd # 经度
 latitude -> lat # 维度
+latitude -> lttd # 维度
 angle -> ng # 角度
 circularMeasure -> cw # 弧度
 dictionary -> dic # 字典
