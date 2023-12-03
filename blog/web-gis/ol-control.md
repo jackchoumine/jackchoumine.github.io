@@ -113,7 +113,8 @@ import {
   ZoomToExtent
 } from 'ol/control'
 const zoomToExtent = new ZoomToExtent({
-  // TODO extent 是什么值？
+  // extent 是什么值？    
+  // [经度1,纬度1,经度2,纬度2]
   extent: [0, 0, 100, 100],
 })
 map.addControl(zoomToExtent)
@@ -156,7 +157,7 @@ import {
   Rotate
 } from 'ol/control'
 const rotate = new Rotate({
-  autoHide: false, // 是否自动隐藏，默认为 true
+  autoHide: false, // 是否自动隐藏，默认为 true 旋转角度为 0 时，隐藏旋转按钮
 })
 map.addControl(rotate)
 ```
@@ -432,7 +433,8 @@ layers[0].setVisible(bool) // 隐藏或者显示图层
 
 ```js
 const view = map.getView()
-view.setZoom(10) // 设置缩放级别
+const zoom = view.getZoom() // 获取地图级数
+view.setZoom(zoom + 1) // 放大一个级别
 ```
 
 ### 平移
@@ -440,18 +442,21 @@ view.setZoom(10) // 设置缩放级别
 即把地图移动到指定的位置，可通过设置中心点实现。
 
 ```js
+// [lng,lat] 
 view.setCenter([106.675271, 26.579508]) // 设置中心点
 ```
 
 ### 旋转
 
 ```js
+// NOTE  正的角度为顺时针旋转 负的角度为逆时针 【正顺负逆】
+// 每操作一次，旋转 30 度
 view.setRotation(Math.PI / 6) // 设置旋转角度
 ```
 
 ### 复位
 
-即回到地图初始化状态，可从配置项中获取初始值或者初始化完成后获取初始状态，复位时再回答初始状态，使用前面几种操作即可
+即回到地图初始化状态，可从配置项中获取初始值或者初始化完成后获取初始状态，复位时再设置到初始状态，使用前面几种操作即可
 
 ```js
 view.setZoom(10)

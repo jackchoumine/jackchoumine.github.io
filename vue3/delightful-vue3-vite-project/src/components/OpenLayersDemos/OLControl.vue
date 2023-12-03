@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-06-26 10:07:10
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-12-03 22:08:35
+ * @LastEditTime: 2023-12-04 01:18:18
  * @Description : 常用控件
  * 放缩滑块 https://openlayers.org/en/latest/examples/zoomslider.html
  * 
@@ -124,7 +124,7 @@ function initMap() {
   })
   const overviewMap = new OverviewMap({
     collapsed: false,
-    // 需要添加鸟瞰的图层，否则不会显示
+    //NOTE 需要添加鸟瞰的图层，否则不会显示
     layers: [_firstLayer, _secondLayer],
   })
   map.addControl(overviewMap)
@@ -132,7 +132,7 @@ function initMap() {
   map.addControl(rotate)
   // NOTE 鼠标位置控制
   const mousePosition = new MousePosition({
-    coordinateFormat: createStringXY(6), // 保留小数点后4位, 默认为 createStringXY(15)
+    coordinateFormat: createStringXY(6), // NOTE 保留小数点后6位, 默认为 createStringXY(15)
     projection: 'EPSG:4326', // 坐标系
     // undefinedHTML: '&nbsp', // 未定义坐标时的提示
     className: 'custom-mouse-position', // 自定义样式
