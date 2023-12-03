@@ -1,5 +1,7 @@
 # js 学习
 
+### [如何选择一个npm库](./how-select-teck-stack.md)
+
 ### [null 和 undefined 的区别](./null%E5%92%8Cundefined%E7%9A%84%E5%8C%BA%E5%88%AB.md)
 
 ### [编写可读性代码的艺术](./the-art-of-readable-code.md)

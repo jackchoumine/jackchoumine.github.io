@@ -116,21 +116,25 @@ watch 的第一个参数是监听的数据源，有四种形式：
 
 3. 关于 ref 的修改，使用`ref.value = newValue`，即直接重置，可有效降低心智负担。
 
-比如上面的数组添加，numList 是一个 `shallowRef` ，使用数组方法 `numList.value.push(10, 20, 30)` 添加，不会改变 `numList` 。使用 `push` 、 `pop` 等改变数组的方法修改数组，是监听不到的。
+比如上面的数组添加，numList 是一个 `shallowRef` ，使用数组方法 `numList.value.push(10, 20, 30)` 添加元素，无法监测到 `numList` 的改变 。使用 `push` 、 `pop` 等改变数组类型的 ref，是能监听到的。
 
- `numList.value = [...numList.value, 10, 20, 30]`
+修改数组，推荐都这样改：
+
+```js
+numList.value = [...numList.value, 10, 20, 30] // 直接重置数组
+```
 
 修改对象某个属性：
 
 ```js
-  shallowA.value = {
-    ...shallowA.value,
-    a: {
-      b: 'this is a.b '
-    },
-    // @ts-ignore
-    e: 1000,
-  }
+shallowA.value = {
+  ...shallowA.value,
+  a: {
+    b: 'this is a.b '
+  },
+  // @ts-ignore
+  e: 1000,
+}
 ```
 
 ### 关于 reactive 和 shallowReactive 的监听
@@ -457,6 +461,22 @@ setTimeout(function() {
 3. 深层监听比较麻烦的时候。
 
 > watchEffect 的副作用是立即执行的。
+
+## watch 和 watchEffect 误用
+
+常见的误用：
+
+1. 在回调函数中修改数据源，容易导致死循环
+
+```js
+watch(() => source.value,
+  n => {
+    // 修改数据源
+    source.value = []
+    if (!n) return
+    // 修改数据源 ...
+  })
+```
 
 ## 小结
 

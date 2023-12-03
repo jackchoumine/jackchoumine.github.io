@@ -120,3 +120,4 @@ blog/.vitepress/cache
 *.zip
 *.xlsx
 *.xls
+vite.*.mjs
