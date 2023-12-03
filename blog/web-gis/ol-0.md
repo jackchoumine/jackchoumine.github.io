@@ -1,6 +1,6 @@
 # ol 之快速开始
 
-[openLayers](https://openlayers.org/) 是一个开源的二维的 JavaScript 地图库，用于在 web 上显示交互式的地图，简称 ol。
+[openLayers](https://openlayers.org/) 是一个开源的二维的 JS 地图库，用于在 web 上显示交互式的地图，简称 ol。
 
 ol 的特点：
 
@@ -11,7 +11,7 @@ ol 的特点：
 * 高性能
 * 功能丰富
 * 高度可定制
-* 支持多种数据源
+* 支持多种数据源 -- XML、JSON、GeoJSON、MVT、GML、KML、WKT等
 * 支持多种投影方式
 
 ## 在 vue3 中使用 ol
