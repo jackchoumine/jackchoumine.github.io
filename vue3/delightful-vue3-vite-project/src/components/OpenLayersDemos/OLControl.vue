@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-06-26 10:07:10
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-09-22 14:31:19
+ * @LastEditTime: 2023-12-04 01:18:18
  * @Description : 常用控件
  * 放缩滑块 https://openlayers.org/en/latest/examples/zoomslider.html
  * 
@@ -34,6 +34,7 @@ const layers = shallowRef([])
 onMounted(initMap)
 
 let view: View = null
+let map: Map = null
 const initZoom = 10
 const initCenter: Coordinate = [106.675271, 26.579508]
 const initExtent: Extent = [
@@ -68,7 +69,7 @@ function initMap() {
   const secondLayer = new Tile({
     source: tianDiTuSource5,
   })
-  const map = new Map({
+  map = new Map({
     target: mapContainer.value,
     layers: [firstLayer, secondLayer],
     // loadTilesWhileAnimating: true,
@@ -76,6 +77,7 @@ function initMap() {
       center: initCenter, // starting center position
       zoom: initZoom, // starting zoom
       projection: 'EPSG:4326',
+      constrainRotation: 4,
     }),
     // NOTE 默认控件
     // controls: defaultControls({
@@ -122,7 +124,7 @@ function initMap() {
   })
   const overviewMap = new OverviewMap({
     collapsed: false,
-    // 需要添加鸟瞰的图层，否则不会显示
+    //NOTE 需要添加鸟瞰的图层，否则不会显示
     layers: [_firstLayer, _secondLayer],
   })
   map.addControl(overviewMap)
@@ -130,7 +132,7 @@ function initMap() {
   map.addControl(rotate)
   // NOTE 鼠标位置控制
   const mousePosition = new MousePosition({
-    coordinateFormat: createStringXY(6), // 保留小数点后4位, 默认为 createStringXY(15)
+    coordinateFormat: createStringXY(6), // NOTE 保留小数点后6位, 默认为 createStringXY(15)
     projection: 'EPSG:4326', // 坐标系
     // undefinedHTML: '&nbsp', // 未定义坐标时的提示
     className: 'custom-mouse-position', // 自定义样式
@@ -171,11 +173,12 @@ function toggleLayer(index: number) {
   layers.value[index].setVisible(!layers.value[index].getVisible())
 }
 function resetMap() {
+  console.log('复位', 'zqj log')
   view.setCenter(initCenter)
   view.setZoom(initZoom)
   // 旋转，使用弧度
   // 为 0 时自动隐藏旋转控件
-  // view.setRotation((45 / 180) * Math.PI)
+  view.setRotation(0)
 }
 
 function zoom(step: number) {
@@ -284,6 +287,7 @@ function bounceToShanghai() {
     easing: bounce,
   })
 }
+
 function bounce(t) {
   const s = 7.5625
   const p = 2.75
@@ -306,8 +310,21 @@ function bounce(t) {
   }
   return l
 }
+
 function elastic(t) {
   return Math.pow(2, -10 * t) * Math.sin(t - 0.075 - (2 * Math.PI) / 0.3) + 1
+}
+
+function moveToLeftBy(distance = 1000) {
+  const mapCenter = view.getCenter()
+  console.log(mapCenter, 'mapCenter')
+  // 让地图中心的x值增加，即可使得地图向左移动，增加的值根据效果可自由设定
+  // mapCenter[0] += distance
+  // view.setCenter(mapCenter)
+  const _mapCenter = view.getCenter()
+  // console.log(_mapCenter, '_mapCenter')
+  view.adjustRotation((45 / 180) * Math.PI)
+  map.render()
 }
 </script>
 
@@ -333,6 +350,7 @@ function elastic(t) {
         <p>基本操作</p>
         <button @click="zoom(-1)">缩小</button>
         <button @click="zoom(+1)">放大</button>
+        <button @click="moveToLeftBy(+1)">左移</button>
         <button @click="goToGuiYang">平移到贵阳</button>
         <button @click="resetMap">复位</button>
         <hr />

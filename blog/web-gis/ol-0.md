@@ -1,6 +1,6 @@
 # ol 之快速开始
 
-[openLayers](https://openlayers.org/) 是一个开源的二维的 JavaScript 地图库，用于在 web 上显示交互式的地图，简称 ol。
+[openLayers](https://openlayers.org/) 是一个开源的二维的 JS 地图库，用于在 web 上显示交互式的地图，简称 ol。
 
 ol 的特点：
 
@@ -11,7 +11,7 @@ ol 的特点：
 * 高性能
 * 功能丰富
 * 高度可定制
-* 支持多种数据源
+* 支持多种数据源 -- XML、JSON、GeoJSON、MVT、GML、KML、WKT等
 * 支持多种投影方式
 
 ## 在 vue3 中使用 ol
@@ -100,15 +100,15 @@ import 'ol/ol.css'
 
 至少需要设置三个属性：
 
-1. `target`： 地图容器的 id
-2. `layers`： 图层
-3. `view`： 视图
+1. `target`： 地图容器的 id，唯一。
+2. `layers`： 图层，可包含多个图层。
+3. `view`： 视图，只有一个。
 
 > target
 
 target 指定地图渲染的容器，是页面上一个元素的 id 或者元素，地图将被渲染到该元素中。
 
-初始化时没有指定 target，可以通过 `setTarget` 方法动态设置 target。
+初始化时没有指定 target，可以通过 `setTarget` 方法动态设置 target，比如动态设置 `target` ，可交换页面上两个图地图。
 
 target 对 `transform` 属性有特殊要求，仅支持 `scale` 。
 
@@ -146,6 +146,8 @@ view 是一个视图对象，用于控制地图的显示范围、中心位置和
 center 的值为经纬度坐标，数组，先经度后纬度，即 [longitude, latitude] 或者 [lng, lat]。
 
 `View` 是地图视图类，主要控制地图和人的交互，比如地图的中心点、缩放级别、旋转角度等。
+
+一个页面上有两个地图，可共有一个 `View` ，实现两个地图联动，这种需求不太常见。
 
 > Map -- 地图容器类
 
