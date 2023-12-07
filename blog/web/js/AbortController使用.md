@@ -122,7 +122,8 @@ const el = document.querySelector('div');
 
 el.addEventListener('mousedown', e => {
   console.log(e, 'zqj log')
-  //   https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent/buttons
+  // https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent/buttons
+  // buttons 为 1 表示鼠标左键按下
   if (e.buttons !== 1) return;
   const {
     offsetX,

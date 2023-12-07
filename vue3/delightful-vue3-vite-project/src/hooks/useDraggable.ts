@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-26 19:01:00
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-17 11:14:28
+ * @LastEditTime: 2023-12-07 17:37:16
  * @Description : 拖拽元素 hook
  */
 import type { VNodeRef } from 'vue'
@@ -90,6 +90,7 @@ function useDraggable(
     setPositionEle,
   }
   function onMousedown(event) {
+    if (event.buttons !== 1) return
     // 鼠标相对于header的初始便宜位置
     shiftX = event.clientX - dragEle.value.getBoundingClientRect().left
     shiftY = event.clientY - dragEle.value.getBoundingClientRect().top
@@ -115,7 +116,8 @@ function useDraggable(
   function onMove(event) {
     moveAt(event)
   }
-  function onMouseup() {
+  function onMouseup(event) {
+    if (event.buttons !== 1) return
     document.removeEventListener('mousemove', onMove)
     dragEle.value.removeEventListener('dragstart', disableDrag)
     document.body.style.userSelect = ''
