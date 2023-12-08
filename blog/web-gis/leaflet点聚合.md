@@ -117,3 +117,4 @@ setTimeout(() => {
 ## 参考
 
 [Leaflet 进阶 D14--marker 聚合源码](https://stackblitz.com/edit/leaflet-d14?file=index.js)
+[使用Vue和Leaflet实现地图聚合功能](https://malagis.com/use-vue-and-leaflet-to-implement-map-aggregation.html)
