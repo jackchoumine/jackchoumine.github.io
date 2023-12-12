@@ -4,13 +4,13 @@
 
 useMemo 的作用：
 
-> 减少计算量，比如有一个组件计算质数
+> 减少计算量，比如有一个计算质数的组件；
 
-> 保持数组、对象和函数的引用，避免重复渲染
+> 保持数组、对象和函数的引用，避免重复渲染；
 
-> useCallback 用于保持函数的**引用**，是 useMemo 的特殊情况
+> useCallback 用于保持函数的**引用**，是 useMemo 的特殊情况。
 
-具体来说，`userCallback`的返回值是一个函数，第一个参数是一个函数，第二个参数是一个数组，当第二个参数**变化**时，返回新的函数。第二个参数是一个空数组，返回相同的函数。
+具体来说， `userCallback` 的返回值是一个函数，第一个参数是一个函数，第二个参数是一个数组，当第二个参数**变化**时，返回新的函数。第二个参数是一个空数组，返回相同的函数。
 
 ```js
 const cachedFn = useCallback(fn, dependencies) // fn 是需要缓存的函数，可以有任何参数
@@ -18,7 +18,7 @@ const cachedFn = useCallback(fn, dependencies) // fn 是需要缓存的函数，
 
 [react useCallback](https://beta.reactjs.org/reference/react/useCallback)
 
-`useMemo`的参数和返回值和`userCallback`类似，不同之处为第一个参数往往会返回一个值，useMemo 更加接近 vue 中的计算属性。
+`useMemo` 的参数和返回值与 `userCallback` 类似，不同之处为第一个参数往往是返回一个值的函数，useMemo 更加接近 vue 中的计算属性。
 
 ```js
 const cachedValue = useMemo(calculateValue, dependencies) // calculateValue 计算想要缓存的值的函数，不能有参数，需要有返回值
@@ -68,12 +68,11 @@ function App({ text }) {
 
 ## react 如何判断依赖变化？
 
-当 React 对比 useEffect、 useCallback 的依赖数组的值，或者传入子组件的 props 值时，使用的是 `Object.is()`，Object.is 的比较策略如下：
+当 React 对比 useEffect、 useCallback 的依赖数组的值，或者传入子组件的 props 值时，使用的是 `Object.is()` ，Object.is 的比较策略如下：
 
-- 原始值（数字、字符串等）比较值是否相同
+* 原始值（数字、字符串等）比较值是否相同
 
-- 引用类型（对象、数组和函数）比较两个对象的引用（内存里的值）是否相同
-
+* 引用类型（对象、数组和函数）比较两个对象的引用（内存里的值）是否相同
 
 ![Object.is 的比较情况](https://cdn.jsdelivr.net/gh/jackchoumine/jack-picture@master/Object.is.png)
 
@@ -107,9 +106,15 @@ useCallback 缓存函数的**定义**。
 
 provider 往往会提供巨大的对象，传递给后代组件，当 provider value 改变时，会导致所有后代都重新渲染，用 useMemo 缓存 value 能避免。
 
-```js
+```jsx
 const AuthContext = React.createContext({})
-function AuthProvider({ user, status, forgotPwLink, children }) {
+
+function AuthProvider({
+  user,
+  status,
+  forgotPwLink,
+  children
+}) {
   const memoizedValue = React.useMemo(() => {
     return {
       user,
@@ -117,11 +122,13 @@ function AuthProvider({ user, status, forgotPwLink, children }) {
       forgotPwLink,
     }
   }, [user, status, forgotPwLink])
-  return <AuthContext.Provider value={memoizedValue}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value = {memoizedValue}>{children}</AuthContext.Provider>
 }
 ```
 
 > 复杂的计算
+
+比如计算质数。
 
 ## 其他优化手段
 
@@ -129,7 +136,7 @@ function AuthProvider({ user, status, forgotPwLink, children }) {
 
 把计算量大的组件提取成单独的组件，减少复杂状态变更引发的不必要重新渲染。
 
-> 使用纯组件：`React.memo()` 包裹组件
+> 使用纯组件： `React.memo()` 包裹组件
 
 memo 用于缓存整个组件，props 变化时，才会重新渲染组件。
 
