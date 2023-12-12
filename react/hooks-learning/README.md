@@ -84,10 +84,9 @@ function FilterList({ data }) {
 
 > 状态的变更变得复杂，这样复杂是完全没有必要的
 
-正确示例：使用`useMemo`计算搜索结果
+正确示例：使用 `useMemo` 计算搜索结果
 
 ```jsx
-
 function FilterList({ data }) {
   const [searchKey, setSearchKey] = useState('')
 
