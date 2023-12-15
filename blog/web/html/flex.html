@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>flex学习</title>
+    <style>
+        div {
+            box-sizing: border-box;
+        }
+      .wrap {
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+        width: 200px;
+        height: 200px;
+        border: 1px solid red;
+      }
+      .wrap div {
+        /* width: 100px; */
+        /* height: 100px; */
+        border: 1px solid blue;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>换行</h2>
+    <div class="wrap">
+      <div>item1</div>
+      <div>item2</div>
+      <div>item2</div>
+      <div>item2</div>
+      <div>item2</div>
+      <div>item2</div>
+      <div>item2</div>
+      <div>item2</div>
+      <div>item2</div>
+      <div>item2</div>
+      <div>item2</div>
+      <div>item2</div>
+    </div>
+  </body>
+</html>

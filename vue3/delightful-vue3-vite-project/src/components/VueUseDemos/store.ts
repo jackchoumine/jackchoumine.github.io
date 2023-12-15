@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-05-15 16:47:15
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-12-13 14:58:06
+ * @LastEditTime: 2023-12-14 17:29:45
  * @Description :
  */
 import { createGlobalState } from '@vueuse/core'
@@ -44,6 +44,8 @@ function globalState(initState) {
 
 // 使用闭包的形式共享全局状态
 export const useOpen2 = globalState(() => {
+  // effectScope 作用域
+  // https://www.cnblogs.com/wangyang0210/p/17217109.html
   const isOpen = ref(false)
   function toggleOpen(open?: boolean) {
     isOpen.value = open ?? !isOpen.value
