@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-12-18 15:53:53
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-12-18 17:27:41
+ * @LastEditTime: 2023-12-18 17:55:34
  * @Description : dayjs学习
 -->
 <!DOCTYPE html>
@@ -13,6 +13,10 @@
     <title>dayjs学习</title>
     <script
       src="https://jsd.cdn.zzko.cn/npm/dayjs@1.11.10/dayjs.min.js"
+      integrity="sha256-nP25Pzivzy0Har7NZtMr/TODzfGWdlTrwmomYF2vQXM="
+      crossorigin="anonymous"></script>
+    <script
+      src="https://jsd.cdn.zzko.cn/npm/dayjs@1.11.10/plugin/isBetween.js"
       integrity="sha256-nP25Pzivzy0Har7NZtMr/TODzfGWdlTrwmomYF2vQXM="
       crossorigin="anonymous"></script>
   </head>
@@ -83,8 +87,23 @@
         // 默认情况下， dayjs#diff 会将结果截去小数部分，返回一个整数。 如果要得到一个浮点数，将 true 作为第三个参数传入。
         const dayjs1 = dayjs()
         const dayjs2 = dayjs('2023-10-1')
-        const diff = dayjs1.diff(dayjs2)
+        const diff = dayjs1.diff(dayjs2) // 毫秒
         console.log(diff,'zqj log')
+        const diffInMonth = dayjs1.diff(dayjs2, 'month') // 月为单位的差距 取整
+        console.log(diffInMonth,'zqj log')
+        const diffInMonthS = dayjs1.diff(dayjs2, 'm',true) // 月为单位的差距 精确值
+        console.log(diffInMonthS,'zqj log')
+        // 比较
+        // isBefore isSame isAfter 默认按照毫秒比较
+        // isBefore(dayjs,unit) unit 是时间单位 y M d h m s
+        // isBetween(start,end,unit,range) range 设置包容性 [ 包含 ) 排除
+        const isAfterNationDay = dayjs().isAfter('2023-10-01','d') // 是否在国庆节之后
+        console.log(isAfterNationDay,'zqj log')
+        // debugger
+        // dayjs.extend(isBetween)
+        // const isBetweenNewYearAndNationDay = dayjs(new Date()).isBetween('2023-01-01','2023-10-01','d','[]')
+        // console.log(isBetweenNewYearAndNationDay,'zqj log')
+        // 格式化
     </script>
   </body>
 </html>
