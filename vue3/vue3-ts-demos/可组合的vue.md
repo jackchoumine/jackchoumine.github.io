@@ -6,21 +6,21 @@ vue3 引入的组织组件代码的方式。
 
 vue2 语法
 
-```js
+```html
 <script>
-export default {
-  name:"Demo",
-  data(){
-    return {
-      count: 1,
-    }
-  },
-  computed:{
-    addTen(){
-      return this.count + 10;
+  export default {
+    name: "Demo",
+    data() {
+      return {
+        count: 1,
+      }
+    },
+    computed: {
+      addTen() {
+        return this.count + 10;
+      }
     }
   }
-}
 </script>
 ```
 
@@ -50,7 +50,9 @@ vue3 的语法：
 ## Ref vs Reactive
 
 ```js
-import { ref } from 'vue'
+import {
+  ref
+} from 'vue'
 let a = 0
 let b = ref(0)
 a = 10
@@ -58,12 +60,18 @@ b = 10 // ❌ error
 b.value = 10 // ✅
 ```
 
-`reactive`
+ `reactive`
 
 ```js
-import { reactive } from 'vue'
-const a = { prop: 0 }
-const b = reactive({ prop: 0 })
+import {
+  reactive
+} from 'vue'
+const a = {
+  prop: 0
+}
+const b = reactive({
+  prop: 0
+})
 a.prop = 10 // ✅
 b.prop = 10 // 不会报错  ✅
 ```
@@ -74,30 +82,30 @@ b.prop = 10 // 不会报错  ✅
 
 > 优点
 
-- 显示调用，类型检查，**明确知道是否为响应式数据**
-- 比 Reactive 局限少
+* 显示调用，类型检查，**明确知道是否为响应式数据**
+* 比 Reactive 局限少
 
 > 缺点
 
-- `.value` 具有一定的心智负担，反自觉
+* `.value` 具有一定的心智负担，反自觉
 
 ### Reactive
 
 > 优点
 
-- 自动解开(unwrap),不需要`.value` 【函数不会自动解包】
+* 自动解开(unwrap), 不需要`.value` 【函数不会自动解包】
 
 > 缺点
 
-- 类型和一般对象没区别，难以知道是否为响应式数据
-- **ES6 解构，丢失响应式**
-- 需要使用箭头函数包装才可`watch`
+* 类型和一般对象没区别，难以知道是否为响应式数据
+* **ES6 解构，丢失响应式**
+* 需要使用箭头函数包装才可`watch`
 
 ### 如何降低 `.value` 的心智负担?
 
 Ref 自动解包的情况
 
-- 作为 watch 的监听对象自动解包， 回调返回解包后的值
+* 作为 watch 的监听对象自动解包， 回调返回解包后的值
 
 ```js
 const count = ref(0)
@@ -107,7 +115,7 @@ watch(count, (newVal, oldVal) => {
 })
 ```
 
-- 模板中自动解包
+* 模板中自动解包
 
 ```html
 <div>{{count}}</div>
@@ -115,18 +123,21 @@ watch(count, (newVal, oldVal) => {
 <!--❌ 错误用法-->
 ```
 
-- Reactive 包裹 Ref，Ref 解包
+* Reactive 包裹 Ref，Ref 解包
 
 ```js
 const count = ref(0)
-const obj = reactive({ count, name: 'Mason' })
+const obj = reactive({
+  count,
+  name: 'Mason'
+})
 console.log(obj.count) // 0
 ```
 
 ### Ref 的反操作 `unref` --- 手动解包
 
 ```js
-function unref(r: Ref<T> | T) {
+function unref(r: Ref < T > | T) {
   return isRef(r) ? r.value : r
 }
 // 返回 非响应式的值
@@ -137,7 +148,7 @@ function unref(r: Ref<T> | T) {
 
 > 技巧：使用 Ref 作为参数，返回 Ref
 
-为何返回 Ref: 可直接在模板中使用，不必关心`.value`
+为何返回 Ref: 可直接在模板中使用，不必关心 `.value`
 
 ```ts
 // 普通函数
@@ -187,7 +198,9 @@ export function useTimeAgo(time: MaybeRef<DateType>) {
 ### 让函数更加灵活
 
 ```js
-import { useTitle } from '@vueuse/core'
+import {
+  useTitle
+} from '@vueuse/core'
 const title = useTitle('')
 title.value = 'Hello World' // 希望页面 title 随着赋值改变
 
@@ -235,9 +248,9 @@ function useFoo(foo: Ref<string>) {
 
 ### 总结
 
-- `MaybeRef<T>` 配合 Ref 和 unref；
-- 使用 ref() 得到 Ref；
-- 使用 unref 得到普通值。
+* `MaybeRef<T>` 配合 Ref 和 unref；
+* 使用 ref() 得到 Ref；
+* 使用 unref 得到普通值。
 
 ## ref 组成的对象
 
@@ -251,7 +264,10 @@ function useMouse() {
   }
 }
 // 使用方式
-const { x, y } = useMouse() // 解构
+const {
+  x,
+  y
+} = useMouse() // 解构
 // 把 x y 聚合，可读性好
 const position = reactive(useMouse()) // 使用 reactive 包装
 position.x === x.value // true
@@ -259,8 +275,8 @@ position.x === x.value // true
 
 好处：
 
-- 避免解构丢失响应性
-- 希望自动解包，使用 Reactive 转为对象
+* 避免解构丢失响应性
+* 希望自动解包，使用 Reactive 转为对象
 
 ## 将异步操作变成同步代码
 
@@ -273,11 +289,13 @@ const data = await fetch(url).then((r) => r.json())
 > 同步写法
 
 ```js
-const { data } = useFetch(url).json()
+const {
+  data
+} = useFetch(url).json()
 const user_url = computed(() => data.value?.user_url)
 ```
 
-先建立数据之间的`连接关系`或者`依赖关系`,再等待异步返回结果，触发有依赖关系的数据变化。
+先建立数据之间的 `连接关系` 或者 `依赖关系` , 再等待异步返回结果，触发有依赖关系的数据变化。
 
 ```ts
 import { shallowRef, Ref, unref } from 'vue'
@@ -301,7 +319,10 @@ export function useFetch<T>(url: MaybeRef<string>) {
 用法：
 
 ```js
-const { data, error } = useFetch('https://api.thecatapi.com/v1/categories3')
+const {
+  data,
+  error
+} = useFetch('https://api.thecatapi.com/v1/categories3')
 return {
   error,
   data,
