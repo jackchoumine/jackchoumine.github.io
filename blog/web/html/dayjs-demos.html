@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-12-18 15:53:53
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-12-19 10:13:17
+ * @LastEditTime: 2023-12-19 10:53:42
  * @Description : dayjs学习
 -->
 <!DOCTYPE html>
@@ -23,108 +23,111 @@
   <body>
     <h1>dayjs学习</h1>
     <script>
-         // Day.js 对象是不可变的，所有的 API 操作都将返回一个全新的实例。
-         // 解析时间
-         // dayjs() 当前时间
-         const t1 =  dayjs().format()
-         console.log(t1,'zqj log')
-         console.log(t1.$d,'zqj log')
-        // 解析指定时间
-        // dayjs(number) 时间戳
-        // 13 位时间戳 毫秒
-        const ts1 = dayjs(1318781876406).format('YYYY-MM-DD HH:mm:ss')
-        console.log(ts1,'zqj log')
-        // 10 位时间戳 秒
-        const ts2 = dayjs.unix(1318781876).format('YYYY-MM-DD HH:mm:ss')
-        console.log(ts2,'zqj log')
-        console.log('----','时间戳转换为时间对象','----')
-        // dayjs('ISOString')
-        const t2 = dayjs('2020-12-18').format('YYYY-MM-DD HH:mm:ss')
-        console.log(t2,'zqj log')
-        const t3 = dayjs('2020-12').format('YYYY-MM-DD HH:mm:ss')
-        console.log(t3,'zqj log')
+       // Day.js 对象是不可变的，所有的 API 操作都将返回一个全新的实例。
+       // 1、解析时间
+       // dayjs() 当前时间
+       const t1 =  dayjs().format()
+       console.log(t1,'zqj log')
+       console.log(t1.$d,'zqj log')
+      // 解析指定时间
+      // dayjs(number) 时间戳
+      // 13 位时间戳 毫秒
+      const ts1 = dayjs(1318781876406).format('YYYY-MM-DD HH:mm:ss')
+      console.log(ts1,'zqj log')
+      // 10 位时间戳 秒
+      const ts2 = dayjs.unix(1318781876).format('YYYY-MM-DD HH:mm:ss')
+      console.log(ts2,'zqj log')
+      console.log('----','时间戳转换为时间对象','----')
+      // dayjs('ISOString')
+      const t2 = dayjs('2020-12-18').format('YYYY-MM-DD HH:mm:ss')
+      console.log(t2,'zqj log')
+      const t3 = dayjs('2020-12').format('YYYY-MM-DD HH:mm:ss')
+      console.log(t3,'zqj log')
       // const t4 = dayjs('08:20:15').format('YYYY-MM-DD HH:mm:ss')
       // console.log(t4,'zqj log')
-        const t5 = dayjs('2020-12-18T08:24:35').format('YYYY-MM-DD HH:mm:ss')
-        console.log(t5,'zqj log')
-        // dayjs('string','format')
-        const str7 = dayjs('2012-09-10 09:10').format('YYYY-MM-DD HH:mm')
-        console.log(str7,'zqj log')
-        // Dayjs 对象
-        const dayjsObj = dayjs('2020-12-18')
-        const t6 = dayjs(dayjsObj).format('YYYY-MM-DD HH:mm:ss')
-        // 验证 isValid()
-        const t7 = dayjs('2020-12-18').isValid()
+      const t5 = dayjs('2020-12-18T08:24:35').format('YYYY-MM-DD HH:mm:ss')
+      console.log(t5,'zqj log')
+      // dayjs('string','format')
+      const str7 = dayjs('2012-09-10 09:10').format('YYYY-MM-DD HH:mm')
+      console.log(str7,'zqj log')
+      // Dayjs 对象
+      const dayjsObj = dayjs('2020-12-18')
+      const t6 = dayjs(dayjsObj).format('YYYY-MM-DD HH:mm:ss')
+      // 验证 isValid()
+      const t7 = dayjs('2020-12-18').isValid()
 
-        // 取值和赋值 年日开始 月时分秒毫秒 0 开始
-        // year() month(0-11) date(1-31) hour(0-23) minute(0-59) second(0-59) millisecond(0-999)
-        // day() 0-6  0 是周日 6 是周六
-        const t8 = dayjs().year()
-        console.log(t8,'zqj log')
-        const t9 = dayjs().year(2012).format('YYYY-MM-DD HH:mm:ss')
-        console.log(t9,'zqj log')
-        console.log(t9,'zqj log')
-        const t10 = dayjs().month()
-        console.log(t10,'zqj log')
-        const t11 = dayjs().month(0).format('YYYY-MM-DD HH:mm:ss')
-        console.log(t11,'zqj log')
-        // 星期几
-        const t12 = dayjs().day()
-        console.log(t12,'zqj log')
-        // 时间计算
-        // 往前推 add
-        // add(number,string) number 数量  string是单位： y M d h m s ms
-        const t13 = dayjs().add(1,'year').format('YYYY-MM-DD HH:mm:ss')
-        // 往后推 subtract
-        // subtract(number,string)
-        // 时间取整
-        // startOf() 开始 传入单位：y -- 今年开始 M -- 本月开始 D -- 今天开始 h -- 当前小时开始 m -- 当前分开始  s -- 当前秒
-        const startH = dayjs().add(1,'h').startOf('h').format('YYYY-MM-DD HH:mm:ss')
-        console.log(startH,'zqj log')
-        const endH = dayjs().endOf('h').format('YYYY-MM-DD HH:mm:ss')
-        console.log(endH,'zqj log')
-        // 时间差 dayjs().diff(dayjs(),string) string 单位：y M d h m s ms
-        // 默认情况下， dayjs#diff 会将结果截去小数部分，返回一个整数。 如果要得到一个浮点数，将 true 作为第三个参数传入。
-        const dayjs1 = dayjs()
-        const dayjs2 = dayjs('2023-10-1')
-        const diff = dayjs1.diff(dayjs2) // 毫秒
-        console.log(diff,'zqj log')
-        const diffInMonth = dayjs1.diff(dayjs2, 'month') // 月为单位的差距 取整
-        console.log(diffInMonth,'zqj log')
-        const diffInMonthS = dayjs1.diff(dayjs2, 'm',true) // 月为单位的差距 精确值
-        console.log(diffInMonthS,'zqj log')
-        // 比较
-        // isBefore isSame isAfter 默认按照毫秒比较
-        // isBefore(dayjs,unit) unit 是时间单位 y M d h m s
-        // isBetween(start,end,unit,range) range 设置包容性 [ 包含 ) 排除
-        const isAfterNationDay = dayjs().isAfter('2023-10-01','d') // 是否在国庆节之后
-        console.log(isAfterNationDay,'zqj log')
-        // debugger
-        // dayjs.extend(isBetween)
-        // const isBetweenNewYearAndNationDay = dayjs(new Date()).isBetween('2023-01-01','2023-10-01','d','[]')
-        // console.log(isBetweenNewYearAndNationDay,'zqj log')
-        // 格式化
-        // 默认 ISO8601 的格式
-        const today1 = dayjs().format()
-        console.log(today1)
-        const today2 = dayjs().format('YYYY-MM-DD HH:mm:ss')
-        console.log(today2)
-        const X = dayjs().format('X') // 秒
-        console.log(X,'zqj log')
-        const x = dayjs().format('x') // 毫秒 dayjs().valueOf() 也是毫秒
-        console.log(x,'zqj log')
-        console.log(dayjs().valueOf(),'zqj log')
-        console.log('' + new Date().getTime(),'ms')
-        console.log('' + new Date().valueOf(),'ms')
-        // 常用的格式
-        // YYYYY 四位的年份
-        // MM 两位的月份 01
-        // DD 两位的日期
-        // HH 两位的小时 00-23
-        // mm 分钟 00-59
-        // ss 秒 00-59
-        // X 时间戳 秒
-        // x 时间戳 毫秒
+      // 2. 取值和赋值 年日1开始 月时分秒毫秒 0 开始
+      // year() month(0-11) date(1-31) hour(0-23) minute(0-59) second(0-59) millisecond(0-999)
+      // day() 0-6  0 是周日 6 是周六
+      const t8 = dayjs().year()
+      console.log(t8,'zqj log')
+      const t9 = dayjs().year(2012).format('YYYY-MM-DD HH:mm:ss')
+      console.log(t9,'zqj log')
+      console.log(t9,'zqj log')
+      const t10 = dayjs().month()
+      console.log(t10,'zqj log')
+      const t11 = dayjs().month(0).format('YYYY-MM-DD HH:mm:ss')
+      console.log(t11,'zqj log')
+      // 星期几
+      const t12 = dayjs().day()
+      console.log(t12,'zqj log')
+      // 3. 时间计算
+      // 往前推 add
+      // add(number,string) number 数量  string是单位： y M d h m s ms
+      const t13 = dayjs().add(1,'year').format('YYYY-MM-DD HH:mm:ss')
+      // 往后推 subtract
+      // subtract(number,string)
+      // 时间取整
+      // startOf() 开始 传入单位：y -- 今年开始 M -- 本月开始 D -- 今天开始 h -- 当前小时开始 m -- 当前分开始  s -- 当前秒
+      const startH = dayjs().add(1,'h').startOf('h').format('YYYY-MM-DD HH:mm:ss')
+      console.log(startH,'zqj log')
+      const endH = dayjs().endOf('h').format('YYYY-MM-DD HH:mm:ss')
+      console.log(endH,'zqj log')
+      // 时间差 dayjs().diff(dayjs(),string) string 单位：y M d h m s ms
+      // 默认情况下， dayjs#diff 会将结果截去小数部分，返回一个整数。 如果要得到一个浮点数，将 true 作为第三个参数传入。
+      const dayjs1 = dayjs()
+      const dayjs2 = dayjs('2023-10-1')
+      const diff = dayjs1.diff(dayjs2) // 毫秒
+      console.log(diff,'zqj log')
+      const diffInMonth = dayjs1.diff(dayjs2, 'month') // 月为单位的差距 取整
+      console.log(diffInMonth,'zqj log')
+      const diffInMonthS = dayjs1.diff(dayjs2, 'm',true) // 月为单位的差距 精确值
+      console.log(diffInMonthS,'zqj log')
+      // 4. 比较
+      // isBefore isSame isAfter 默认按照毫秒比较
+      // isBefore(dayjs,unit) unit 是时间单位 y M d h m s
+      // isBetween(start,end,unit,range) range 设置包容性 [ 包含 ) 排除
+      const isAfterNationDay = dayjs().isAfter('2023-10-01','d') // 是否在国庆节之后
+      console.log(isAfterNationDay,'zqj log')
+      // debugger
+      // dayjs.extend(isBetween)
+      // const isBetweenNewYearAndNationDay = dayjs(new Date()).isBetween('2023-01-01','2023-10-01','d','[]')
+      // console.log(isBetweenNewYearAndNationDay,'zqj log')
+      // 5. 格式化
+      // 默认 ISO8601 的格式
+      const today1 = dayjs().format()
+      console.log(today1)
+      const today2 = dayjs().format('YYYY-MM-DD HH:mm:ss')
+      console.log(today2)
+      const X = dayjs().format('X') // 秒
+      console.log(X,'zqj log')
+      const x = dayjs().format('x') // 毫秒 dayjs().valueOf() 也是毫秒
+      console.log(x,'zqj log')
+      console.log(dayjs().valueOf(),'zqj log')
+      console.log('' + new Date().getTime(),'ms')
+      console.log('' + new Date().valueOf(),'ms')
+      // 常用的格式
+      // YYYYY 四位的年份
+      // MM 两位的月份 01
+      // DD 两位的日期
+      // HH 两位的小时 00-23
+      // mm 分钟 00-59
+      // ss 秒 00-59
+      // X 时间戳 秒
+      // x 时间戳 毫秒
+      // 6. 时间排序
+      // TODO 时间排序
+      // 没有找到方法
     </script>
   </body>
 </html>
