@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-12-18 15:53:53
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-12-18 17:55:34
+ * @LastEditTime: 2023-12-19 10:13:17
  * @Description : dayjs学习
 -->
 <!DOCTYPE html>
@@ -104,6 +104,27 @@
         // const isBetweenNewYearAndNationDay = dayjs(new Date()).isBetween('2023-01-01','2023-10-01','d','[]')
         // console.log(isBetweenNewYearAndNationDay,'zqj log')
         // 格式化
+        // 默认 ISO8601 的格式
+        const today1 = dayjs().format()
+        console.log(today1)
+        const today2 = dayjs().format('YYYY-MM-DD HH:mm:ss')
+        console.log(today2)
+        const X = dayjs().format('X') // 秒
+        console.log(X,'zqj log')
+        const x = dayjs().format('x') // 毫秒 dayjs().valueOf() 也是毫秒
+        console.log(x,'zqj log')
+        console.log(dayjs().valueOf(),'zqj log')
+        console.log('' + new Date().getTime(),'ms')
+        console.log('' + new Date().valueOf(),'ms')
+        // 常用的格式
+        // YYYYY 四位的年份
+        // MM 两位的月份 01
+        // DD 两位的日期
+        // HH 两位的小时 00-23
+        // mm 分钟 00-59
+        // ss 秒 00-59
+        // X 时间戳 秒
+        // x 时间戳 毫秒
     </script>
   </body>
 </html>
