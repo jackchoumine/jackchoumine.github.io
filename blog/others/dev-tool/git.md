@@ -18,16 +18,13 @@ git diff master # 查看当前分支和 master 分支的差异
 git merge master # 合并 master 分支到当前分支
 ```
 
-> git fetch 新建分支
+> git fetch 新建一个临时分支，不推荐使用
 
 ```bash
 git fetch origin master:temp # 从远程的 origin 仓库的 master 分支下载到本地并新建一个分支 temp
 git diff temp # 查看当前分支和 temp 分支的差异
 git merge temp # 合并 temp 分支到当前分支
 git branch -D temp # 删除 temp 分支
-```
-
-```
 ```
 
 ## 同一台电脑上管理多 ssh 密钥
