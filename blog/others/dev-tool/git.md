@@ -1,5 +1,35 @@
 # git 使用
 
+## 合并分支
+
+### git pull
+
+```bash
+git pull # 拉取远程分支，合并到当前分支
+git pull origin master # 拉取远程 master 分支，合并到当前分支
+git pull --all # 拉取所有远程分支，合并到对应的当前分支
+```
+
+### git fetch
+
+```bash
+git fetch origin master # 拉取远程 master 分支，不合并到当前分支
+git diff master # 查看当前分支和 master 分支的差异
+git merge master # 合并 master 分支到当前分支
+```
+
+> git fetch 新建分支
+
+```bash
+git fetch origin master:temp # 从远程的 origin 仓库的 master 分支下载到本地并新建一个分支 temp
+git diff temp # 查看当前分支和 temp 分支的差异
+git merge temp # 合并 temp 分支到当前分支
+git branch -D temp # 删除 temp 分支
+```
+
+```
+```
+
 ## 同一台电脑上管理多 ssh 密钥
 
 使用私钥推送代码到仓库，可免去输入密码等繁琐问题。在同一个设备上管理多个仓库的密钥很必要，比如公司的仓库是 gitlab，个人仓库是 github。
@@ -65,9 +95,9 @@ Host gitee.com
 ssh -T git@gitee.com
 ```
 
-出现`Hi jackzhoumine! You've successfully authenticated, but GITEE.COM does not provide shell access.` 就表示成功了。
+出现 `Hi jackzhoumine! You've successfully authenticated, but GITEE.COM does not provide shell access.` 就表示成功了。
 
-出现类似 `Host key verification failed.` 、`git@gitee.com: Permission denied (publickey).` 就是不成功。
+出现类似 `Host key verification failed.` 、 `git@gitee.com: Permission denied (publickey).` 就是不成功。
 
 可能会出现 `git@gitee.com: Permission denied (publickey).` 执行以下命令:
 
@@ -82,11 +112,11 @@ Hi jackchoumine! You've successfully authenticated, but GitHub does not provide 
 
 ### 可能的报错
 
-`but GitHub does not provide shell access.`，出现这个，使用 https 设置远程的 origin，会推送失败，两种解决办法：
+`but GitHub does not provide shell access.` ，出现这个，使用 https 设置远程的 origin，会推送失败，两种解决办法：
 
 ① 使用 ssh 协议，推荐；
 
-② 执行`git pull origin master --allow-unrelated-histories`,再 push。
+② 执行 `git pull origin master --allow-unrelated-histories` , 再 push。
 
 最后的 config
 
