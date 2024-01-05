@@ -1,0 +1,80 @@
+<!--
+ * @Author      : ZhouQiJun
+ * @Date        : 2024-01-05 16:08:57
+ * @LastEditors : ZhouQiJun
+ * @LastEditTime: 2024-01-05 16:39:16
+ * @Description : 
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>cancel 事件学习</title>
+
+    <style>
+      .result {
+          background-color:aliceblue;
+          height: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <dialog class="example-dialog">
+      <button class="close" type="reset">Close</button>
+    </dialog>
+
+    <button class="open-dialog">Open dialog</button>
+
+    <div class="result"></div>
+
+    <label for="file">Select or file. Or don't.</label>
+    <input type="file" id="file" name="file" />
+
+    <div id="result"></div>
+    <!-- https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/cancel_event -->
+    <!-- https://juejin.cn/post/7104263047648116749 -->
+    <!-- https://code.juejin.cn/pen/7320512078878834738 -->
+    <script>
+          const result = document.querySelector(".result");
+
+           const dialog = document.querySelector(".example-dialog");
+
+           dialog.addEventListener("cancel", (event) => {
+             alert(1)
+             console.log(event)
+             result.textContent = "dialog was canceled";
+           });
+
+           const openDialog = document.querySelector(".open-dialog");
+           openDialog.addEventListener("click", () => {
+             if (typeof dialog.showModal === "function") {
+               dialog.showModal();
+               result.textContent = "";
+             } else {
+               result.textContent = "The dialog API is not supported by this browser";
+             }
+           });
+
+           const closeButton = document.querySelector(".close");
+           closeButton.addEventListener("click", () => {
+             dialog.close();
+           });
+           //  file
+      const elem = document.getElementById("file");
+
+      const result1 = document.getElementById("result");
+
+      elem.addEventListener("cancel", (event) => {
+        console.log(event);
+        result1.textContent = "Cancelled.";
+      });
+
+      elem.addEventListener("change", () => {
+        if (elem.files.length == 1) {
+          result1.textContent = "File Selected.";
+        }
+      });
+    </script>
+  </body>
+</html>
