@@ -671,7 +671,7 @@ jest ---watch # 监听文件变化，只运行变化的文件中的用例 必须
 jest --watchAll # 监听文件变化，运行所有用例
 jest --coverage # 生成测试覆盖率报告
 jest --coverage --watchAll # 生成测试覆盖率报告，监听文件变化
-# 在命令行按`w` 可选择模式 
+# 在终端按`w` 可选择模式 
 # a watchAll 模式
 # o watch 模式
 # f 只运行失败的用例
