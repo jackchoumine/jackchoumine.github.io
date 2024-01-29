@@ -2,7 +2,7 @@
  * @Date        : 2022-11-04 09:41:26
  * @Author      : ZhouQiJun
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-01-26 11:57:39
+ * @LastEditTime: 2024-01-29 10:37:03
  * @Description : watch 有哪些用法 
 -->
 <template>
@@ -12,7 +12,7 @@
       v-model="modelValue"
       :bool-val="isOk"
       :number-val="money"
-      :obj="obj"
+      :obj="comObj"
       :arr="testArr" />
     <button @click="changeObjAndModelValue">changeObjAndModelValue</button>
     <WatchCleanUp />
@@ -35,6 +35,12 @@ const money = ref(100)
 const obj = reactive({
   name: 'zhouQiJun',
   age: 18,
+})
+const comObj = computed(() => {
+  return {
+    name: obj.name,
+    age: 2 * obj.age,
+  }
 })
 const testArr = ref(['1', '2', '3'])
 

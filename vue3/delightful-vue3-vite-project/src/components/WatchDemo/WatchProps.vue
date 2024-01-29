@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-01-26 11:04:56
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-01-26 12:04:07
+ * @LastEditTime: 2024-01-29 10:38:55
  * @Description : 监听 props
 -->
 <script setup lang="ts">
@@ -66,12 +66,22 @@ const emit = defineEmits(['update:modelValue'])
 //     console.log('() => props.numberVal', val)
 //   }
 // )
-
+// NOTE obj 是一个计算属性，监听不到  是一个 reactive 能监听
 // 监听对象、数组
 watch(props.obj, (val, old) => {
   console.log('props.obj', val, old)
 })
-// NOTE 监听不到
+// NOTE obj 是一个计算属性能监听 是一个 reactive 监听不到
+watch(
+  () => props.obj,
+  (val, old) => {
+    console.log('()=>props.obj', val, old)
+  }
+  // {
+  //   deep: true,
+  // }
+)
+// NOTE 监听对象、数组，使用箭头函数 + deep, reactive 和计算属性都能监听到
 watch(
   () => props.obj,
   (val, old) => {
