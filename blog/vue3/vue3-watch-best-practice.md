@@ -336,6 +336,41 @@ watchEffect(
 
 > 监听变化，ref 比 reactive 心智负担更加小，监听 reactive 的深层次属性，需要添加 `{deep:true}` , ref 不用。
 
+## 关于 props 的监听
+
+> 1. 都使用**箭头函数**作为数据源
+
+> 2. 在 1 的基础上，监听 `对象` 和 `数组` 时，使用深度监听。
+
+关于 1 很好理解，vue 文档也有很好的解释，为什么要使用深度监听呢？
+
+因为只有 `箭头函数` + `deep` 的组合，才能监听到 reactive 和计算属性。
+
+```js
+// NOTE obj 是一个计算属性，监听不到  是 reactive 能监听 ❌
+watch(props.obj, (val, old) => {
+  console.log('props.obj', val, old)
+})
+// NOTE obj 是 reactive 监听不到 是计算属性能监听  ❌
+watch(
+  () => props.obj,
+  (val, old) => {
+    console.log('()=>props.obj', val, old)
+  }
+)
+// NOTE obj 是 reactive 或者计算属性 都能监听到 ✅
+watch(
+  () => props.obj,
+  (val, old) => {
+    console.log('()=>props.obj', val, old)
+  }, {
+    deep: true,
+  }
+)
+```
+
+> 关于这个差异，vue3 文档没有给出解释。
+
 ## watch vs watchEffect
 
 ### 相同点
@@ -480,7 +515,8 @@ watch(() => source.value,
 
 ## 小结
 
-1. 优先使用 ref：心智负担小，监听和重置都很方便，一眼能看出时响应式变量；
+1. 优先使用 ref：心智负担小，监听和重置都很方便，一眼能看出是响应式变量；
 2. watchEffect 和 watch 的 cleanUp 回调里可清除副作用；
 3. 惰性执行副作用和获取旧值，必须使用 watch;
 4. 当需要执行**深层监听**和**依赖源较多**的**立即执行**的副作用，watchEffect 更好；
+5. 监听props，都使用箭头函数，监听对象和数组时，使用深度监听。
