@@ -100,12 +100,14 @@ ssh -T git@gitee.com
 
 > ssh-add ~/.ssh/gitee_id_rsa
 
-**重复以上方式，配置 github 仓库**，最后成功了！
+再次测试
 
 ```bash
 ╰─$ ssh -T git@github.com
 Hi jackchoumine! You've successfully authenticated, but GitHub does not provide shell access.
 ```
+
+成功了！
 
 ### 可能的报错
 
