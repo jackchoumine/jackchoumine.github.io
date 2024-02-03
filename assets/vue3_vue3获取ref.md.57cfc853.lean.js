@@ -1,1 +1,0 @@
-import{_ as s,o as n,c as a,a as l}from"./app.6b01dd31.js";const A=JSON.parse('{"title":"vue3 获取 ref","description":"","frontmatter":{},"headers":[],"relativePath":"vue3/vue3获取ref.md"}'),p={name:"vue3/vue3获取ref.md"},o=l("",5),e=[o];function t(c,r,F,D,y,i){return n(),a("div",null,e)}const b=s(p,[["render",t]]);export{A as __pageData,b as default};
