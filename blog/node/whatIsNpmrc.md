@@ -50,7 +50,7 @@ registry=https://registry.npmjs.org/
 # registry=https://registry.npmmirror.com/
 ```
 
-### 限定的package
+### 配置限定包
 
 ```bash
 @myscope:registry=https://mycustomregistry.example.org
