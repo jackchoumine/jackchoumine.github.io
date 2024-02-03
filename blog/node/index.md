@@ -1,5 +1,7 @@
 # node 学习记录
 
+### [什么是 npmrc ](./whatIsNpmrc.md)
+
 ### [pnpm 的使用](./how-to-use-pnpm.md)
 
 ### [如何在本地测试 npm 包？](./如何在本地测试npm包.md)
@@ -30,7 +32,7 @@
 
 ### [node 学习笔记---全局对象](./node学习笔记---全局对象.md)
 
-### [node 学习笔记 http 模块 -- http.Server](./node学习笔记http模块http.Server.md)
+### [node 学习笔记 http 模块 -- http. Server](./node学习笔记http模块http. Server.md)
 
 ### [node 学习笔记 http 模块之 request](./node学习笔记http模块之request.md)
 
