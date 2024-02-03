@@ -108,3 +108,4 @@ keyfile # (path to key file)
 
 * [npm-npmrc](https://docs.npmjs.com/cli/v10/configuring-npm/npmrc)
 * [What is a .npmrc file?](https://medium.com/@pmmanav/what-is-a-npmrc-file-e7bd40bff3f0)
+* [深入了解npmrc：使用与配置指南](https://zhuanlan.zhihu.com/p/651477901)
