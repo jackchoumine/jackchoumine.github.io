@@ -66,7 +66,7 @@ registry=https://registry.npmjs.org/
 
 当使用私有的 npm 源时，可能需要认证信息。
 
-> 注意认证信息的应用范围。
+> 注意认证信息的应用范围，源和认证信息不对应，可能导致404。
 
 ```bash
 # bad config
