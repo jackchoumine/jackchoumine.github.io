@@ -21,7 +21,13 @@ npm 在执行命令时，会读取里面的配置，然后执行特定的行为�
 # 相似版本
 save-prefix=~
 # 从淘宝镜像下载
-registry=https://registry.npmmirror.com/
+registry=https://registry.npmmirror.com
+# 指定 node-sass 镜像 提高下载速度
+sass_binary_site=https://npmmirror.com/mirrors/node-sass
+electron_mirror=https://npmmirror.com/mirrors/electron/
+electron_builder_binaries_mirror=https://npmmirror.com/mirrors/electron-builder-binaries/
+# 详细日志 常用于调试
+loglevel=verbose
 ```
 
 > 从**命令行传递的参数**优先级最高，然后是项目级别的配置，然后是用户级别的配置，最后是全局级别的配置。
