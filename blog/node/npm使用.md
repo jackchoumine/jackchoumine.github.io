@@ -129,8 +129,7 @@ npm i # 安装 package.json 所有依赖, 依赖版本变化，会更新 package
 npm ci # 按照 package-lock 来安装， 不会更新 package.json 和 package-lock.json 持续集成时使用，能保证安装的依赖和 package-lock.json 一致
 ```
 
-一个模块要么是开发依赖，要么是产品依赖，不可能同时是两种依赖。
-在 `package.json` 内部声明需要安装的模块。然后 `npm i` 可以安装。
+[npm Peer Dependencies](https://fathomtech.io/blog/understanding-peer-dependencies-in-npm/)
 
 ### 卸载
 
