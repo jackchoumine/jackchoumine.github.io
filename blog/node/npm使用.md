@@ -3,8 +3,8 @@
 ## NPM 是什么
 
 npm (**node package manager**) ，node 包管理工具，主要功能就是管理 node 包：安装、卸载、更新、查看、搜索、发布等。
-npm 的背后，有一个 couchdb（一个 json 数据库或者非关系型数据库）,详细记录了每个包的信息：作者、版本、依赖、授权信息等。
-npm 的重要作用：将开发者从繁琐的包管理工作（版本、依赖等）中解放出来，专注功能开发，建立了一个 node 生态圈，实现 node `代码共享、复用`。
+npm 的背后，有一个 couchdb（一个 json 数据库或者非关系型数据库）, 详细记录了每个包的信息：作者、版本、依赖、授权信息等。
+npm 的重要作用：将开发者从繁琐的包管理工作（版本、依赖等）中解放出来，专注功能开发，建立了一个 node 生态圈，实现 node `代码共享、复用` 。
 
 [NPM 官网](https://npmjs.org)
 
@@ -16,7 +16,7 @@ npm help # 帮助命令
 npm <command> -h #某条命令的用法
 npm -v #版本信息
 npm -l #常用命令信息
-npm config list #npm  配置信息
+npm config list # npm  配置信息
 npm config list -l # 默认配置信息列表
 npm init #初始化 package.json文件
 npm init -y #初始化 package.json 跳过询问
@@ -26,10 +26,10 @@ npm ls # 查看当前包的依赖
 
 依赖名称注意事项：
 
-- 不与 node 核心模块同名；
-- 不得使用 js 或者 node
-- name 会成为 url、命令行、或者一个文件夹的名，非法 url 字符不允许，不以`_`或`.`开头
-- 不得含有大写字母
+* 不与 node 核心模块同名；
+* 不得使用 js 或者 node
+* name 会成为 url、命令行、或者一个文件夹的名，非法 url 字符不允许，不以`_`或`.`开头
+* 不得含有大写字母
 
 配置相关：
 
@@ -45,9 +45,12 @@ npm config get cache # npm 缓存目录
 ### 安装模式
 
 **本地安装 vs 全局安装**
-`本地安装`：package 会下载到`当前目录`的`node_modules`文件夹内，只能在当前目录下使用，一个项目使用到的依赖，采用本地安装。
-`全局安装`：package 会被下载到特定的`系统目录`的`node_modules`文件夹内，在所有目录下都能使用。在安装命令行后加`-g`选项，表示全局安装。工具包、很多项目都可能使用的包，全局安装。
+
+`本地安装` ：package 会下载到 `当前目录` 的 `node_modules` 文件夹内，只能在当前目录下使用，一个项目使用到的依赖，采用本地安装。
+`全局安装` ：package 会被下载到特定的 `系统目录` 的 `node_modules` 文件夹内，在所有目录下都能使用。在安装命令行后加 `-g` 选项，表示全局安装。工具包、很多项目都可能使用的包，全局安装。
+
 全局模式和本地模式的比较：
+
 |模式|通过 require 获取|注册环境变量 path|
 |:----------:|:-----:|:---:|
 |本地模式|是|否|
@@ -108,15 +111,25 @@ npm i packageName # 安装最新版本
 
 ```bash
 npm install packageName #安装后默认写入package.json中 dependencies 中
-npm i packageName --no-save # 安装依赖，但不写入package.json
-npm install packageName --save #安装好后写入package.json的 dependencies中（生产环境依赖）
-npm install packageName -S #安装好后写入package.json的dependencies中（生产环境依赖）
-npm install packageName -D #安装好后写入package.json的devDependencies中（开发环境依赖）
-npm install packageName --save-dev #安装好后写入package.json的devDependencies中（开发环境依赖）
+npm install --save packageName # 安装好后写入package.json的 dependencies中（生产环境依赖）
+npm install -S  packageName # 安装好后写入 package.json的dependencies中（生产环境依赖）
+npm install --save-prod packageName  
+# 安装好后写入 package.json的dependencies中（生产环境依赖） 常用来把已有的依赖移动到 dependencies 中
+
+npm install -D  packageName # 安装好后写入 package.json的devDependencies中（开发环境依赖）
+npm install --save-dev packageName  # 安装好后写入 package.json的devDependencies中（开发环境依赖）
+npm install --save-exact packageName  # 安装好后写入 package.json的dependencies中，且版本号是精确的
+npm install -E packageName  # 安装好后写入 package.json的dependencies中，且版本号是精确的
+
+npm i --no-save packageName # 安装依赖，但不写入 package.json 常用于调试 测试
+npm i --save-peer packageName # 安装依赖，但写入 package.json 的 peerDependencies 开发有依赖的库是常用
+npm i --save-optional packageName # 安装依赖，但写入 package.json 的 optionalDependencies
+
+npm i # 安装 package.json 所有依赖, 依赖版本变化，会更新 package.json 和 package-lock.json
+npm ci # 按照 package-lock 来安装， 不会更新 package.json 和 package-lock.json 持续集成时使用，能保证安装的依赖和 package-lock.json 一致
 ```
 
-一个模块要么是开发依赖，要么是产品依赖，不可能同时是两种依赖。
-在`package.json`内部声明需要安装的模块。然后`npm i`可以安装。
+[npm Peer Dependencies](https://fathomtech.io/blog/understanding-peer-dependencies-in-npm/)
 
 ### 卸载
 
@@ -260,13 +273,13 @@ Use equal casing. Compare these module identifiers:
 
 ### 配置 script 命令
 
-在 package.json 文件的 `script`字段里，可设置 npm 运行脚本的命令。
+在 package.json 文件的 `script` 字段里，可设置 npm 运行脚本的命令。
 
 ```js
 "script": {
-    "start": "node ./bin/www",
-    "test": "node ./test.js"
-    "dev": "nodemon ./bin/www"
+  "start": "node ./bin/www",
+  "test": "node ./test.js"
+  "dev": "nodemon ./bin/www"
 }
 ```
 

@@ -7,7 +7,7 @@ npm 在执行命令时，会读取里面的配置，然后执行特定的行为�
 有*4*种 `.npmrc` 文件，npm 会依次读取这些文件，后面的文件会覆盖前面的文件的配置。
 
 1. 项目级别的 `.npmrc` 文件，在 `package.json` 文件所在的目录。
-2. 用户级别的 `.npmrc` 文件，在用户的根目录。可以通过 `npm config get userconfig` 查看。
+2. 用户级别的 `.npmrc` 文件，在用户的根目录。通过 `npm config get userconfig` 查看。
 3. 全局级别的 `.npmrc` 文件, 在 npm 的安装目录下。通过 `npm config get globalconfig` 查看。
 4. 内置的 `.npmrc` 文件，npm 自带的配置文件，无法修改，基本不会用到。
 
@@ -21,10 +21,18 @@ npm 在执行命令时，会读取里面的配置，然后执行特定的行为�
 # 相似版本
 save-prefix=~
 # 从淘宝镜像下载
-registry=https://registry.npmmirror.com/
+registry=https://registry.npmmirror.com
+# 指定 node-sass 镜像 提高下载速度
+sass_binary_site=https://npmmirror.com/mirrors/node-sass
+electron_mirror=https://npmmirror.com/mirrors/electron/
+electron_builder_binaries_mirror=https://npmmirror.com/mirrors/electron-builder-binaries/
+# 详细日志 常用于调试
+loglevel=verbose
 ```
 
 > 从**命令行传递的参数**优先级最高，然后是项目级别的配置，然后是用户级别的配置，最后是全局级别的配置。
+
+> 编码务必使用 UTF-8 编码，否则可能不会读取配置。
 
 > `#` 或者 `;` 表示注释。
 
@@ -35,6 +43,9 @@ npm config set [key] [value] [-g] # -g 全局配置
 npm config set save-prefix ^
 npm config set registry https://registry.npmmirror.com/
 npm config get [key] # 查看配置
+npm config list --local # 查看本地配置
+npm config list -g # 全局配置
+npm config list -u # 用户配置
 ```
 
 ## 可配置哪些信息呢？
@@ -60,7 +71,7 @@ registry=https://registry.npmjs.org/
 
 当使用私有的 npm 源时，可能需要认证信息。
 
-> 注意认证信息的应用范围。
+> 注意认证信息的应用范围，源和认证信息不对应，可能导致404。
 
 ```bash
 # bad config
