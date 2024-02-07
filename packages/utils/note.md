@@ -710,7 +710,7 @@ npm version prerelease --preid=alpha
 
 ### 打 tag
 
-tag 用于标记不同版本的用途，至少会有 latest 这个 tag，可根据测试版本、稳定版本、预发布版本打不同的 tag。
+tag 用于标记不同版本的用途，默认为 `latest` ，可根据测试版本、稳定版本、预发布版本打不同的 tag。
 
 ```bash
 npm publish --tag beta
@@ -721,7 +721,7 @@ npm publish --tag alpha
 tag 会在 npm 上显示，用户可以根据 tag 安装不同版本。
 
 ```bash
-npm install vue@v2-latest # 指定 tag 安装
+npm install vue@v2-latest # 指定 tag 安装 vue2 的最新版
 ```
 
 使用 `npm view <package-name> dist-tags` 查看所有 tag。
