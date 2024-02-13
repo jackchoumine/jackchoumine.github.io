@@ -26,6 +26,7 @@
        // Day.js 对象是不可变的，所有的 API 操作都将返回一个全新的实例。
        // 1、解析时间
        // dayjs() 当前时间
+       console.log(dayjs(),'zqj log')
        const t1 =  dayjs().format()
        console.log(t1,'zqj log')
        console.log(t1.$d,'zqj log')
@@ -59,18 +60,22 @@
       // 2. 取值和赋值 年日1开始 月时分秒毫秒 0 开始
       // year() month(0-11) date(1-31) hour(0-23) minute(0-59) second(0-59) millisecond(0-999)
       // day() 0-6  0 是周日 6 是周六
-      const t8 = dayjs().year()
-      console.log(t8,'zqj log')
+      const t8 = dayjs().date()
+      console.log(t8,'zqj log --- year()')
       const t9 = dayjs().year(2012).format('YYYY-MM-DD HH:mm:ss')
       console.log(t9,'zqj log')
       console.log(t9,'zqj log')
       const t10 = dayjs().month()
-      console.log(t10,'zqj log')
+      console.log(t10,'zqj log month')
       const t11 = dayjs().month(0).format('YYYY-MM-DD HH:mm:ss')
       console.log(t11,'zqj log')
       // 星期几
       const t12 = dayjs().day()
-      console.log(t12,'zqj log')
+      console.log(t12,' 星期 zqj log')
+      const newTime = dayjs().year(2024).month(11).date(31).hour(23).minute(59).second(59).millisecond(999).format('YYYY-MM-DD HH:mm:ss.SSS')
+      console.log(newTime, ' newTime zqj log')
+      const newTime2 = dayjs().year(2024).month(12).date(32).hour(28).minute(61).second(59).millisecond(1099).format('YYYY-MM-DD HH:mm:ss.SSS')
+      console.log(newTime2, ' newTime2 zqj log')
       // 3. 时间计算
       // 往前推 add
       // add(number,string) number 数量  string是单位： y M d h m s ms
@@ -108,11 +113,12 @@
       const today1 = dayjs().format()
       console.log(today1)
       const today2 = dayjs().format('YYYY-MM-DD HH:mm:ss')
-      console.log(today2)
-      const X = dayjs().format('X') // 秒
-      console.log(X,'zqj log')
-      const x = dayjs().format('x') // 毫秒 dayjs().valueOf() 也是毫秒
-      console.log(x,'zqj log')
+      console.log(today2,'zqj log today2')
+      console.log('11------------->','zqj log')
+      const X2 = dayjs().format('X') // 秒
+      console.log(X2,'X zqj log')
+      const x2 = dayjs().format('x') // 毫秒 dayjs().valueOf() 也是毫秒
+      console.log(x2,'x zqj log')
       console.log(dayjs().valueOf(),'zqj log')
       console.log('' + new Date().getTime(),'ms')
       console.log('' + new Date().valueOf(),'ms')

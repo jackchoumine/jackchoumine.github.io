@@ -70,6 +70,7 @@ export default defineConfig({
         // 二级下拉
         items: [
           { text: '函数式编程', link: '/others/functional-programming/' },
+          { text: '库使用', link: '/packages/' },
           { text: 'angular', link: '/angular/' },
           { text: 'vitepress', link: '/others/vitepress/' },
           { text: '开发工具', link: '/others/dev-tool/' },
