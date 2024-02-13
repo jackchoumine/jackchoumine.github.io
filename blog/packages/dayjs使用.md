@@ -202,8 +202,7 @@ import isToday from 'dayjs/plugin/isToday'
 import minMax from 'dayjs/plugin/minMax'
 
 dayjs.extend(advancedFormat)
-dayjs.extend(isToday)
-dayjs.extend(minMax)
+dayjs.extend(isToday).extend(minMax) // 支持链式调用
 
 const unix_s = dayjs().format('X')
 const unix_ms = dayjs().format('x')
