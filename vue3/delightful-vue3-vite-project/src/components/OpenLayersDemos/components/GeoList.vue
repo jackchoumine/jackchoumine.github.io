@@ -12,6 +12,7 @@ const geoList = shallowRef([
   { type: 'LineString', text: '线', active: false },
   { type: 'Polygon', text: '面', active: false },
   { type: 'Circle', text: '圆', active: false },
+  { type: 'None', text: '无', active: true },
 ])
 
 function onSelect(index) {
@@ -52,7 +53,7 @@ function undo() {
   top: 100px;
   left: 10px;
   z-index: 999;
-  background-color: #fff;
+  background-color: #fff000;
   border-radius: 5px;
 
   ul {

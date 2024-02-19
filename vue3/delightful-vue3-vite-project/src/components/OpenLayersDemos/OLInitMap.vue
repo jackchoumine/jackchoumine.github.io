@@ -12,6 +12,8 @@ import { Attribution } from 'ol/control'
 import { Tile } from 'ol/layer'
 import { TileJSON, XYZ } from 'ol/source'
 
+import { GeoList } from './components'
+
 // console.log(Map)
 // console.log(View)
 
@@ -87,7 +89,9 @@ function initMap() {
 </script>
 
 <template>
-  <div class="init-map" id="ol-map-init"></div>
+  <div class="init-map" id="ol-map-init">
+    <GeoList />
+  </div>
 </template>
 
 <style scoped lang="scss">
