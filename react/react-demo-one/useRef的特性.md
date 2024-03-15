@@ -2,9 +2,9 @@
 
 useRef 存储的值在渲染之间**保持不变**，具有三个特性：
 
-1. 值修改；
+1. 值可修改；
 
-2. 修改值是不触发组件更新；
+2. 修改值不触发组件更新；
 
 3. 保存的值在组件更新之间保持不变。
 
@@ -12,7 +12,7 @@ useRef 存储的值在渲染之间**保持不变**，具有三个特性：
 
 ## useState vs useRef 的区别
 
-```js
+```jsx
 import React, { useRef, useState } from 'react'
 
 export default function Counter() {
@@ -59,7 +59,7 @@ export default function Counter() {
 
 1. 操作 DOM
 
-```js
+```jsx
 import React, { useRef } from 'react'
 
 export default function App() {
@@ -79,7 +79,7 @@ export default function App() {
 
 2. 记录计时器
 
-```js
+```jsx
 import React, { useRef } from 'react'
 
 export default function TimeInterval() {
