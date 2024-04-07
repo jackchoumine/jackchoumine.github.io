@@ -1,6 +1,6 @@
 # JSDoc 代替 TypeScript 语法
 
-> 翻译文章：[JSDoc as an alternative TypeScript syntax](https://alexharri.com/blog/jsdoc-as-an-alternative-typescript-syntax)
+> 主要翻译[JSDoc as an alternative TypeScript syntax](https://alexharri.com/blog/jsdoc-as-an-alternative-typescript-syntax)，加入一些个人理解。
 
 想要在 web 开发中采用静态类型的语言，TypeScript 已经成为默认的首选。这很棒，我喜欢 TypeScript。但是不能使用 ts 怎么办呢？无论是工具约束还是不喜欢静态类型的团队，都可能遇到需要纯 js 的情况。这时候，JSDoc 就是一个很好的选择。
 
