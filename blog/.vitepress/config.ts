@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-06-12 03:01:09
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-02-27 15:02:28
+ * @LastEditTime: 2024-04-07 11:27:58
  * @Description : vitepress 配置
  */
 import { defineConfig } from 'vitepress'
@@ -76,6 +76,7 @@ export default defineConfig({
           { text: 'vitepress', link: '/others/vitepress/' },
           { text: '开发工具', link: '/others/dev-tool/' },
           { text: 'mac使用', link: '/others/mac/' },
+          { text: 'ts', link: '/others/ts/' },
         ],
       },
       // { text: '面试', link: '/interview/' },
