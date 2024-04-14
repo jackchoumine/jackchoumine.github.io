@@ -507,6 +507,8 @@ mount(ParentCom, {
 
 [Vue NYC - Component Tests with Vue.js - Matt O'Connell---技术演讲](https://www.youtube.com/watch?v=OIpfWTThrK8)
 
+[An Introduction to testing in Javascript](https://gabrieltanner.org/blog/testing-introduction/)
+
 ## 小结
 
 * 介绍了前端测试的分类，单元测试能帮助我们编写高质量的代码。
