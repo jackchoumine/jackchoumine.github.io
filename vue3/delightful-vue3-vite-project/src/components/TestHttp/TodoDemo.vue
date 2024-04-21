@@ -6,7 +6,7 @@
  * @Description : 测试 http 封装
 -->
 <script lang="ts" setup>
-import http from '@jack/http'
+// import http from '@jack/http'
 
 import { useHttp } from '@/hooks'
 
@@ -19,13 +19,13 @@ type Todo = {
   completed: boolean
 }
 
-onBeforeMount(async () => {
-  const [error, todoId120] = await http.get<Todo>(
-    'https://jsonplaceholder.typicode.com/todos/120',
-    { name: 'to' }
-  )
-  !error && Object.assign(todo, todoId120)
-})
+// onBeforeMount(async () => {
+//   const [error, todoId120] = await http.get<Todo>(
+//     'https://jsonplaceholder.typicode.com/todos/120',
+//     { name: 'to' }
+//   )
+//   !error && Object.assign(todo, todoId120)
+// })
 const url = 'https://jsonplaceholder.typicode.com/todos/120'
 const params = { name: 'to' }
 const [data, loading, getTodo] = useHttp(url, params, { immediate: false })

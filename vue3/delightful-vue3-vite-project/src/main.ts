@@ -7,7 +7,7 @@
  */
 // import { default as jackComponents }from '@jack/components'
 // @ts-ignore
-import jackComponents from '@jack/components'
+// import jackComponents from '@jack/components'
 // Import icon libraries
 import '@quasar/extras/material-icons/material-icons.css'
 // @ts-ignore
@@ -69,7 +69,7 @@ const app = createApp(App)
 
 app.config.performance = true
 app
-  .use(jackComponents)
+  // .use(jackComponents)
   .use(globalDirectives) // .use(vAuth) //.use(vClickOutside) // .use(Antd)
   .use(piniaStore) // 激活 pinia
   .use(ElLoading)

@@ -6,12 +6,12 @@
  * @Description : 
 -->
 <script setup>
-import http from '@jack/http'
+// import http from '@jack/http'
 
 const postID = ref(1)
 const post = ref()
 
-watch(postID, callback, { immediate: true })
+// watch(postID, callback, { immediate: true })
 
 async function callback(newID, oldID, cleanUp) {
   let lastController
