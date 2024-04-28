@@ -1,1 +1,0 @@
-import{_ as s,o as n,c as a,a as l}from"./app.21bf321a.js";const C=JSON.parse('{"title":"JS 风格","description":"","frontmatter":{},"headers":[],"relativePath":"web/js/js风格编码风格.md"}'),p={name:"web/js/js风格编码风格.md"},e=l("",9),o=[e];function c(t,r,D,i,y,F){return n(),a("div",null,o)}const b=s(p,[["render",c]]);export{C as __pageData,b as default};
