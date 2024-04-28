@@ -16,7 +16,7 @@ vue 2 中，是利用 Object.defineProperty 来重新定义 vue 实例上的属�
 
 - set，设置属性的方法。
 
-响应式基本原理：在 Vue 的构造函数中，对 vue 对象的 options 进行二次定义，即在初始化 vue 实例的时候，对 data、props、methods 等对象的每一个属性都通过 Object.defineProperty 定义一次，在数据被修改时，可在 set 中执行某些操作，比如更新视图、执行一个监听器等。
+响应式基本原理：在 Vue 的构造函数中，对 vue 对象的 options 进行**二次定义**，即在初始化 vue 实例的时候，对 data、props、methods 等对象的每一个属性都通过 Object.defineProperty 定义一次，**在数据被修改时，可在 set 中执行某些操作**，比如更新视图、执行一个监听器等。
 
 ## myVue 实现
 
@@ -46,7 +46,7 @@ function MyVue(options = {}) {
   // 初始化计算属性
   initComputed.call(this)
   // 初始化实例方法
-  initMethods().call(this)
+  initMethods.call(this)
   // 编译模板即使得 vue 对象和 dom 模板产生关联，更新 vue 实例的属性，模板才会更新
   new Compile(options.el, this)
 }
@@ -81,7 +81,7 @@ function initMethods() {
 // 初始化计算属性
 initComputed.call(this)
 // 初始化实例方法
-initMethods().call(this)
+initMethods.call(this)
 ```
 
 ## compile 是模板编译函数
@@ -107,7 +107,7 @@ function Compile(el, vm) {
 function observe(dataObj) {
   if (typeof dataObj !== 'object') {
     // NOTE 监听对象上的属性
-    return //dataObj
+    return // dataObj
   }
   return new Observe(dataObj)
 }
