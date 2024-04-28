@@ -1,6 +1,6 @@
 # vue 路由进阶
 
-路由可向路由匹配的组件传递参数，`不同情况`向组件传递不同的参数，从而实现组件的复用。
+路由可向路由匹配的组件传递参数， `不同情况` 向组件传递不同的参数，从而实现组件的复用。
 
 <!--more-->
 
@@ -10,19 +10,19 @@
 
 ### 传参方式
 
-`:`、`params`和`query`
+`:` 、 `params` 和 `query`
 
 #### `:` 在路径传递参数
 
 ```js
 {
-	path: "/argu/:id/book",
-	name: "argu",
-	component: () => import("@/views/ArguPage")
+  path: "/argu/:id/book",
+  name: "argu",
+  component: () => import("@/views/ArguPage")
 }
 ```
 
-`路径`中的一部分是参数，`必须`传递该参数：
+`路径` 中的一部分是参数， `必须` 传递该参数：
 
 ```html
 <!--路径跳转-->
@@ -34,21 +34,21 @@
 <!--params的名字路径中的的参数名一致-->
 ```
 
-此时 `path`+ `parmas`传递参数，`params`会被忽略。
+此时 `path` + `parmas` 传递参数， `params` 会被忽略。
 
-#### `params`+`name`传递参数
+#### `params` + `name` 传递参数
 
 路由：
 
 ```js
 {
-	path: "/argu",
-	name: "argu",
-	component: () => import("@/views/ArguPage")
+  path: "/argu",
+  name: "argu",
+  component: () => import("@/views/ArguPage")
 }
 ```
 
-跳转方式是 `name`+`params`+（query），通过`path`跳转，params 会被忽略。
+跳转方式是 `name` + `params` +（query），通过 `path` 跳转，params 会被忽略。
 
 ```html
 <router-link :to="{name:'argu', params:{name:'hangge'}}">跳转到 hello</router-link>
@@ -58,9 +58,9 @@
 
 #### query 参数
 
-query 参数参数，表现为查询字符串，和`localtion.search`一样的。
+query 参数，表现为查询字符串，和 `location.search` 一样的。
 
-不需要先在路径中先定义，可通过`path`、`path`+`query` 或者 `name` + `query` 传递参数。
+不需要先在路径中先定义，可通过 `path` 、 `path` + `query` 或者 `name` + `query` 传递参数。
 
 ```html
 <router-link to="/argu?queryName=value">跳转到 hello</router-link>
@@ -72,31 +72,30 @@ query 参数参数，表现为查询字符串，和`localtion.search`一样的�
 函数传递 query
 
 ```js
-// 主要是  $router 不是 $route
+// 注意是  $router 不是 $route
 go() {
-	this.$router.push({
-		name: 'argu',
-		query: {
-				queryName: "你好"
-			}
-		})
-	}
+  this.$router.push({
+    name: 'argu',
+    query: {
+      queryName: "你好"
+    }
+  })
 }
 ```
 
-但是这样使得 `$route` 和组件耦合在一起，不方便组件的复用，如果能将路由中的参数传递到 组件的`props` 就好了，恰恰是可以这样设置的。
+但是这样使得 `$route` 和组件耦合在一起，不方便组件的复用，如果能将路由中的参数传递到组件的 `props` 就好了，恰恰是可以这样设置的。
 
 ### props 接收路由的 `params`
 
 路由传参数的三种方式：
 
-1. 布尔模式
+01. 布尔模式
 
 ```js
 {
-    path: '/user/:id',
-    component: User,
-    props: true //表明 将 id 作为 props 传递到匹配的组件 User 中。
+  path: '/user/:id',
+  component: User,
+  props: true //表明 将 id 作为 props 传递到匹配的组件 User 中。
 }
 ```
 
@@ -107,13 +106,13 @@ export default {
   props: {
     id: {
       type: String,
-      default: 'jackzhou' //默认值
+      default: 'jackZhou' //默认值
     }
   }
 }
 ```
 
-2. 对象模式
+02. 对象模式
 
 将路由的 `props` 属性设置一个对象，也可在组件中获取到该值，这种方式往往用于传递静态值，即 name 值不会变化。
 
@@ -121,25 +120,27 @@ export default {
 
 ```js
 {
-	name: 'home',
-	alias:'/home_page',
-	path: '/',
-	props:{name:'jack jack'},
-	component: Home
+  name: 'home',
+  alias: '/home_page',
+  path: '/',
+  props: {
+    name: 'jack jack'
+  },
+  component: Home
 }
 ```
 
 Home 组件：
 
 ```js
-props:{
-	name:{
-		type:String,
-	}
+props: {
+  name: {
+    type: String,
+  }
 }
 ```
 
-3. 函数模式
+03. 函数模式
 
 以上两种方式，params 参数的名字必须和组件中的 props 属性名字相同，如果想对 params 进行改造后传递到组件，就可将 `props` 设置成函数，在函数内获取路由中的 params 或者 query，或者其他属性值，对其进行处理后再传递给组件。
 
@@ -149,16 +150,16 @@ props:{
 
 ```js
 {
-	name: 'about',
-	path: '/about/:years', //params 有一个参数 years
-	props:(route) {
-  		const now = new Date()
-  		return {
-		// 将 years 改造成 name
-    	name: (now.getFullYear() + parseInt(route.params.years)) + '!'
-        }
-	    },
-	component: () => import('@/views/AboutPage'),
+  name: 'about',
+  path: '/about/:years', //params 有一个参数 years
+  props: (route) {
+    const now = new Date()
+    return {
+      // 将 years 改造成 name
+      name: (now.getFullYear() + parseInt(route.params.years)) + '!'
+    }
+  },
+  component: () => import('@/views/AboutPage'),
 }
 ```
 
@@ -172,28 +173,30 @@ props: {
 }
 ```
 
-命名视图的路由，要为每个命名视图添加 `props`：
+命名视图的路由，要为每个命名视图添加 `props` ：
 
 ```js
 {
-	path:'/name/:view',
-	name:'name_view',
-	components:{
-		default:()=>import('@/views/ChildPage'),
-		sister:()=>import('@/views/SisterPage'),
-		brother:()=>import('@/views/BrotherPage'),
-	},
-	props:{
-        default:true,
-        sister:false,
-        brother:(route)=>({view:route.params.view.toUpperCase()})
-    }
+  path: '/name/:view',
+  name: 'name_view',
+  components: {
+    default: () => import('@/views/ChildPage'),
+    sister: () => import('@/views/SisterPage'),
+    brother: () => import('@/views/BrotherPage'),
+  },
+  props: {
+    default: true,
+    sister: false,
+    brother: (route) => ({
+      view: route.params.view.toUpperCase()
+    })
+  }
 }
 ```
 
 ### 完整的例子
 
-<p class="codepen" data-height="544" data-default-tab="result" data-slug-hash="JqBzWE" data-user="JackZhouMine" style="height: 544px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+<p class="codepen" data-height="544" data-default-tab="result" data-slug-hash="JqBzWE" data-user="JackZhouMine" style="height: 544px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em; ">
   <span>See the Pen <a href="https://codepen.io/JackZhouMine/pen/JqBzWE">
   route 的 params 传递参数</a> by JackChouMine (<a href="https://codepen.io/JackZhouMine">@JackZhouMine</a>)
   on <a href="https://codepen.io">CodePen</a>.</span>
@@ -202,18 +205,18 @@ props: {
 
 ## HTML5 History 模式
 
-路由配置里有一个属性 `mode` ，默认值是 `hash`，以 hash 来模拟一个 url，url 改变时，页面不会重新加载。
+路由配置里有一个属性 `mode` ，默认值是 `hash` ，以 hash 来模拟一个 url，url 改变时，**页面不会重新加载**。
 
-先使用普通模式，可将 `mode` 设置成 `history`，这种模式会使用 `history.pushSate` 来完成 url 跳转而页面不会重新加载。这种模式需要**服务器设置一下**。
+先使用普通模式，可将 `mode` 设置成 `history` ，这种模式会使用 `history.pushSate` 来完成 url 跳转而页面不会重新加载。这种模式需要**服务器设置一下**。
 
-使用 history 模式，因为 web 应用往往是单页应用，当用户访问一个不存在的路径时，需要提供一个后备页面。
+> 使用 history 模式，因为 web 应用往往是单页应用，当用户访问一个不存在的路径时，需要提供一个后备页面。
 
 在路由配置的最后增加一个 404 路由：
 
 ```js
 {
-	path:'*',
-	component:NotFoundPage// 前面没有匹配的路由，最后会匹配该路由。
+  path: '*',
+  component: NotFoundPage // 前面没有匹配的路由，最后会匹配该路由。
 }
 ```
 
@@ -225,12 +228,12 @@ props: {
 
 ```js
 {
-	name: "about",
-	path: "/about",
-	meta: {
-		title: "关于"
-	},
-   	component: () => import("@/views/AboutPage")
+  name: "about",
+  path: "/about",
+  meta: {
+    title: "关于"
+  },
+  component: () => import("@/views/AboutPage")
 }
 ```
 
@@ -254,29 +257,29 @@ export default router
 
 ### 全局守卫
 
-1. 全局前置守卫
+01. 全局前置守卫
 
 ```js
 const router = new Router({
-    {
-        path:"/",
-        name:"heom_page"
-        component:Home,
-        //路由独享守卫
-        beforeEnter:(to,from,next)=>{
-            //处理逻辑
-            next()
-        }
+  {
+    path: "/",
+    name: "heom_page"
+    component: Home,
+    // 路由独享守卫
+    beforeEnter: (to, from, next) => {
+      // 处理逻辑
+      next()
     }
+  }
 })
 //每次路由进入都会调用
-router.beforeEach((to,from,next)=>{
-    //处理逻辑，比如登录判断，可跳转到任意页面
-    //不要忘记调用 next，不调用 next，页面不会跳转
+router.beforeEach((to, from, next) => {
+  //处理逻辑，比如登录判断，可跳转到任意页面
+  //不要忘记调用 next，不调用 next，页面不会跳转
 })
 ```
 
-2. 后置钩子
+02. 后置钩子
 
 ```js
 //路由跳转之后做一些操作，比如去掉登录样式
@@ -285,14 +288,14 @@ router.afterEach((to, form) => {
 })
 ```
 
-3. 路由独享守卫
+03. 路由独享守卫
    只在匹配某个路由时执行。
 
-4. 组件内守卫
+04. 组件内守卫
 
-`beforeRouteEnter`, 组件创建之前调用，组件不具备`this`；
-`beforeRouteUpdate`，路由更新，而组件被复用时调用，可使用`this`；
-`beforeRouteLeave`，离开路由时调用，可使用`this`。
+`beforeRouteEnter` , 组件创建之前调用，组件不具备 `this` ；
+`beforeRouteUpdate` ，路由更新，而组件被复用时调用，可使用 `this` ；
+`beforeRouteLeave` ，离开路由时调用，可使用 `this` 。
 
 ```js
 export default {
@@ -303,8 +306,8 @@ export default {
   /**
    * 组件内路由守卫
    * 1. 该函数在路由进入时执行
-   * 2. 此时 组件还未渲染，不可用 this,当可在  next 中用 vm
-   * 3. next 晚于 mounted 执行，next 之前的代码，早于beforeCreate 	  *	   执行
+   * 2. 此时组件还未渲染，不可用 this, 当可在  next 中用 vm
+   * 3. next 晚于 mounted 执行，next 之前的代码，早于 beforeCreate 执行
    * 4. 最后需要调用 next 使得路由跳转
    */
   beforeRouteEnter(to, from, next) {
@@ -320,7 +323,7 @@ export default {
   },
   /**
    * 组件内路由守卫
-   * 1. 该函数在路由离开时执行,最先调用,然后在调用全局守卫，再调用		*	 beforeDestroy
+   * 1. 该函数在路由离开时执行,最先调用,然后再调用全局守卫，再调用 beforeDestroy
    * 2. 此时，该路由守卫所在组件已渲染，可用 this
    * 3. 最后需要调用 next 使得路由跳转
    */
@@ -377,15 +380,15 @@ export default {
 
 路由全过程：
 
-1. 导航被触发
-2. 离开页面（失活的组件）里调用离开守卫 beforeRouteLeave
-3. 调用`全局前置守卫` beforeEach
-4. 在重用的组件里调用 beforeRouteUpdate (非重用组件，没有这个步骤)
-5. 调用路由独享守卫 beforeEnter
-6. 解析异步路由组件
-7. 在进入页面（激活组件）调用 beforeRouteEnter
-8. 调用`全局解析守卫` beforeResolve （导航被确认之前，组件内守卫和异步路由组件被解析之后，调用 beforeResolve）
-9. 导航被确认（什么时候被确认，全部钩子执行完了，是被确认的）
+01. 导航被触发
+02. 离开页面（失活的组件）里调用离开守卫 beforeRouteLeave
+03. 调用`全局前置守卫` beforeEach
+04. 在重用的组件里调用 beforeRouteUpdate (非重用组件，没有这个步骤)
+05. 调用路由独享守卫 beforeEnter
+06. 解析异步路由组件
+07. 在进入页面（激活组件）调用 beforeRouteEnter
+08. 调用`全局解析守卫` beforeResolve （导航被确认之前，组件内守卫和异步路由组件被解析之后，调用 beforeResolve）
+09. 导航被确认（什么时候被确认，全部钩子执行完了，是被确认的）
 10. 调用`全局后置守卫` afterEach
 11. 触发 DOM 更新
 12. 在 vue 实例中（此时页面解析完毕了吗？是的）调用 beforeRouterEnter 守卫里传给 next 的回调。`next`在`mounted`之后被调用。
@@ -393,7 +396,7 @@ export default {
 ## 过渡效果
 
 可以给路由匹配的组件设置过渡效果，让页面平滑地显示，提升用户体验。
-需要用到 `transition` 标签，如果有多个视图需要过渡，则用 `transition-group`。
+需要用到 `transition` 标签，如果有多个视图需要过渡，则用 `transition-group` 。
 
 ```html
 <transition-group name="router-view">
@@ -411,6 +414,7 @@ css 过渡效果：
 .router-view-enter {
   opacity: 0;
 }
+
 .router-view-enter-active {
   transition: opacity 1s ease;
 }
@@ -418,9 +422,11 @@ css 过渡效果：
 .router-view-enter-to {
   opacity: 1;
 }
+
 .router-view-leave {
   opacity: 1;
 }
+
 .router-view-leave-active {
   transition: opacity 1s ease;
 }
@@ -436,10 +442,10 @@ css 过渡效果：
 
 ```js
 watch: {
-	'$route'(to){
-		console.log(to);
-		to.params&&to.params.view&&(this.effect = to.params.view)
-	},
+  '$route'(to) {
+    console.log(to);
+    to.params && to.params.view && (this.effect = to.params.view)
+  },
 }
 ```
 
