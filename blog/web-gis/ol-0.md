@@ -6,13 +6,15 @@ ol 的特点：
 
 * 开源
 * 模块化 -- 使用 ES6 模块化语法
-* 流行 -- 开发活跃，一直在更新；社区活跃，能够找到大量的资料
+* 流行 -- 开发活跃，一直在更新；社区活跃，能够找到相关解决方案
 * 成熟 -- 2013 年发布，历史悠久
 * 高性能
 * 功能丰富
 * 高度可定制
 * 支持多种数据源 -- XML、JSON、GeoJSON、MVT、GML、KML、WKT等
 * 支持多种投影方式
+
+> 吐槽：openLayers 英文文档虽然很全面，但是可读性不高，且教程和例子是分开的，在学习它的概念时，无法找到相应的例子。中文教程不多，这就导致学习成本较高。
 
 ## 在 vue3 中使用 ol
 
@@ -171,4 +173,4 @@ XYZ 类是 ol 的瓦片图层数据源基类，用于加载瓦片图层数据源
 
 ## 参考
 
-[从 0 使用 openlayers 加载官网天地图--b 站视频](https://www.bilibili.com/video/BV1Su411q7pz/?spm_id_from=333.999.0.0&vd_source=9bbf149e26315d2edf55b034712e09d6)
+[从 0 使用 openLayers 加载官网天地图--b 站视频](https://www.bilibili.com/video/BV1Su411q7pz/?spm_id_from=333.999.0.0&vd_source=9bbf149e26315d2edf55b034712e09d6)
