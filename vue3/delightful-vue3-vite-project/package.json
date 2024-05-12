@@ -4,7 +4,6 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
     "dev": "vite --open",
     "build": "vite build",
     "test": "vitest",
@@ -30,8 +29,7 @@
   },
   "dependencies": {
     "@geoman-io/leaflet-geoman-free": "~2.14.2",
-    "@jack/components": "workspace:0.0.0",
-    "@jack/http": "workspace:1.0.0",
+    "@jackzhoumine/ec-ui": "~1.0.1",
     "@panzhiyue/leaflet-canvaslabel": "~1.2.0",
     "@popperjs/core": "~2.11.8",
     "@quasar/extras": "1.16.5",

@@ -117,6 +117,7 @@ function addInteractions(type) {
 }
 function onSelect(type) {
   map.removeInteraction(draw)
+  map.removeInteraction(snap)
   if (type === 'None') return
   addInteractions(type)
 }
