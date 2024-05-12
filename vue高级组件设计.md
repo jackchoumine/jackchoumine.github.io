@@ -1,12 +1,11 @@
 # vue 高级组件设计
+01. 受控组件
 
-1. 受控组件
+02. 自定义的受控组件
 
-2. 自定义的受控组件
+03. 使用第三方库封装组件
 
-3. 使用第三方库封装组件
-
-4. 封装行为--全局事件
+04. 封装行为--全局事件
 
 使用 ref 自动聚焦；
 
@@ -20,13 +19,64 @@ nextTick 里聚焦，tabIndex 进行导航，这个实现复杂了，同时不�
 
 [动态使用生命钩子](https://www.digitalocean.com/community/tutorials/vuejs-component-event-hooks)
 
-6. 封装行为--操作 DOM
+06. 封装行为--操作 DOM
 
-7. 封装行为--瞬移组件
+07. 封装行为--瞬移组件
 
-8. 重用瞬移组件
+08. 重用瞬移组件
 
-9.
+9. 
+
+10. vue3 中复用 props 的方法
+
+```js
+// Overlay.js
+export default {
+  name: 'Overlay',
+  props: {
+    name: String,
+    age: Number,
+    address: String,
+  },
+  setup(props, {
+    expose
+  }) {
+    const innerName = ref('hello');
+    expose({
+      name: innerName,
+    });
+    return {
+      name: props.name,
+      age: props.age,
+      address: props.address,
+    };
+  },
+};
+// Dialog.vue
+```
+
+```html
+<script setup>
+  import Overlay from './Overlay';
+  export default {
+    name: 'Dialog',
+    props: {
+      ...Overlay.props,
+      // other props
+    },
+    setup(props, context) {
+      const overlay = Overlay.setup(props, context);
+      const hello = ref('hello Dialog');
+      return {
+        ...overlay,
+        hello,
+      }
+    }
+  }
+</script>
+```
+
+> 这是一一种类似于 mixin 的方式，但是更加灵活，可以更加细粒度的控制 props 的复用。
 
 ## 自定义元素
 
@@ -35,6 +85,5 @@ https://maximomussini.com/posts/vue-custom-elements
 https://zyszys.github.io/vue-patterns-cn/patterns/
 
 https://github.com/guitarbien/advanced-vue-component-design
-
 
 https://blog.q-bit.me/an-introduction-to-vue-3-typescript-functional-components-attrs-and-slots/

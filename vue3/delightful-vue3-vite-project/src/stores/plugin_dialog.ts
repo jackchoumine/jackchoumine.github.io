@@ -2,14 +2,15 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-16 19:21:09
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-17 16:00:14
+ * @LastEditTime: 2024-05-09 19:18:44
  * @Description : 管理弹窗的 pinia 插件
  */
-import type { PiniaPlugin, PiniaPluginContext } from 'pinia'
-import type { ShallowReactive } from 'vue'
+import type { PiniaPlugin, PiniaPluginContext } from 'pinia';
+import type { ShallowReactive } from 'vue';
+
 
 type DialogOptions = {
-  id?: string | number | symbol
+  id?: string | number //  | symbol TODO  vue prop type 不支持 symbol
   title?: string
   content?: string
   props: Record<string, any>
@@ -35,9 +36,13 @@ export default function pluginDialog(): PiniaPlugin {
   // 弹窗操作
   const actions = {
     onClose: id => {
-      console.log('关闭弹窗')
-      const index = dialogState.items.findIndex(item => item.id !== id)
-      dialogState.items.splice(index, 1)
+      console.log('关闭弹窗', id)
+      const item = dialogState.items.find(item => item.id === id)
+      // const index = dialogState.items.findIndex(item => item.id === id)
+      item.onClose?.()
+      nextTick(() => {
+        dialogState.items.splice(item.index, 1)
+      })
     },
     open: (options: DialogOptions) => {
       console.log('打开弹窗')
@@ -49,9 +54,11 @@ export default function pluginDialog(): PiniaPlugin {
       }
       const exist = items.find(item => item.id === options.id)
       if (exist) {
+        // 已经存在，提到最前面，通过 index 控制层级
         dialogState.frontDialog = exist.id
       } else {
-        dialogState.items.push(options)
+        const index = dialogState.items.length
+        dialogState.items.push({ ...options, index: index })
       }
     },
   }

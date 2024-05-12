@@ -9,9 +9,17 @@ export default {
     QBtn,
   },
   props: {
+    id: {
+      type: [String, Number],
+      default: 'dialog',
+    },
     title: {
       type: String,
       default: '这是弹窗标题',
+    },
+    position: {
+      type: Object,
+      default: () => ({ left: '100px', top: '100px' }),
     },
     /**
      * 设置dialog是否可以移动，可选值：
@@ -42,7 +50,7 @@ export default {
       default: true,
     },
   },
-  emits: ['submit', 'cancel'],
+  emits: ['submit', 'cancel', 'close'],
   setup(props, context) {
     const switcher =
       props.maximum === false
@@ -66,22 +74,34 @@ export default {
           }
 
     const onCancel = () => context.emit('cancel')
+    const onClose = () => context.emit('close', { id: props.id })
 
+    const positionStyle = computed(() => {
+      return {
+        position: 'fixed',
+        left: props.position.left,
+        top: props.position.top,
+      }
+    })
     provide('dialog', {
       onCancel,
     })
     return {
       switcher,
       innerCloser,
+      onClose,
+      positionStyle
     }
   },
 }
 </script>
 
 <template>
+  <!-- style="position: fixed; top: 11rem; left: 27.5rem; z-index: 1001" -->
   <div
     class="component modal dialog"
-    style="position: fixed; top: 11rem; left: 27.5rem; z-index: 1001">
+    :style="positionStyle"
+    >
     <!-- 
       :enter-active-class="animation?.enter || 'window--enter-active'"
       :leave-active-class="animation?.leave || 'window--leave-active'"
@@ -91,11 +111,12 @@ export default {
         <div v-if="!!header" class="header">
           <slot name="header">
             <div class="header--left">
-              <slot name="left"> <ElButton>左侧按钮</ElButton> </slot>
+              <slot name="left"> <ElButton @click.stop="onCancel">左侧按钮1</ElButton> </slot>
             </div>
             <div class="header--title">
               <slot name="title">{{ title }}</slot>
             </div>
+            <ElButton @click.stop="onClose">关闭按钮</ElButton>
             <div v-if="!!switcher || !!innerCloser" class="header--control">
               <QBtn
                 v-if="!!switcher"
