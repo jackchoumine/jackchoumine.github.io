@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "npm run build:js && npm run build:css",
     "build:js": "vue-tsc && vite build",
-    "build:css": "npx gulp",
+    "build:css": "npx gulp --gulpfile gulpfile.cjs",
     "preview": "vite preview",
     "story:dev": "histoire dev",
     "story:build": "histoire build",
