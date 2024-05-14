@@ -2,7 +2,7 @@
 
 `.npmrc` 是 npm 的配置文件。rc 是 registry config 缩写。
 
-npm 在执行命令时，会读取里面的配置，然后执行特定的行为，通过它可改变 npm 的默认行为，比如下载精确版本的 node 依赖，从某个 npm 源的下载依赖等。
+npm 在执行命令时，会读取里面的配置，然后执行特定的行为，通过它可改变 npm 的默认行为，比如下载精确版本的 npm 包，从某个 npm 源的下载依赖等。
 
 有*4*种 `.npmrc` 文件，npm 会依次读取这些文件，后面的文件会覆盖前面的文件的配置。
 
@@ -42,13 +42,14 @@ loglevel=verbose
 npm config set [key] [value] [-g] # -g 全局配置
 npm config set save-prefix ^
 npm config set registry https://registry.npmmirror.com/
+
 npm config get [key] # 查看配置
-npm config list --local # 查看本地配置
+npm config list -l # 查看本地配置
 npm config list -g # 全局配置
 npm config list -u # 用户配置
 ```
 
-## 可配置哪些信息呢？
+## 日常开放常常需要置哪些信息呢？
 
 ### registry 信息
 
@@ -104,6 +105,8 @@ keyfile # (path to key file)
 > 通过 `npm login` 登录，会自动添加认证信息。
 
 > 认知信息是敏感信息，不要提交到代码仓库。
+
+> 不能配置多个源和对多个源的认证信息。
 
 ### 代理配置
 
