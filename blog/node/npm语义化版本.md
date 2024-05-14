@@ -287,3 +287,5 @@ npm i vue@"^0.7 || ~2" # 安装 2.6.10 最新的版本
 [语义化版本 2.0](https://semver.org/lang/zh-TW/#%E5%9C%A8-0yz-%E5%88%9D%E5%A7%8B%E9%96%8B%E7%99%BC%E9%9A%8E%E6%AE%B5%E6%88%91%E8%A9%B2%E5%A6%82%E4%BD%95%E9%80%B2%E8%A1%8C%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6)
 
 [whats-the-difference-between-tilde-and-caret-in-package-json](https://stackoverflow.com/questions/22343224/whats-the-difference-between-tilde-and-caret-in-package-json)
+
+[npm 发包最佳实践](https://github.com/canvasT/blog/issues/2)
