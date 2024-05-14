@@ -1,11 +1,18 @@
+/*
+ * @Author      : ZhouQiJun
+ * @Date        : 2024-02-19 17:36:55
+ * @LastEditors : ZhouQiJun
+ * @LastEditTime: 2024-05-14 11:22:29
+ * @Description :
+ */
 import { createApp } from 'vue'
 // import './style.css'
 import App from './App.vue'
 const app = createApp(App)
 
-import '../components/index.scss'
+import '../dist/css/index.css'
 // @ts-ignore
-import ESUI from '../dist/es-ui'
+import ESUI from '../dist'
 app.use(ESUI)
 
 // import '../components/Button/button.scss'

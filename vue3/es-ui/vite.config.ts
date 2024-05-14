@@ -1,3 +1,10 @@
+/*
+ * @Author      : ZhouQiJun
+ * @Date        : 2024-02-19 17:36:55
+ * @LastEditors : ZhouQiJun
+ * @LastEditTime: 2024-05-14 11:24:09
+ * @Description :
+ */
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
@@ -8,8 +15,8 @@ export default defineConfig({
   plugins: [vue(), HstVue(), dts({ include: './components' })],
   build: {
     minify: true,
-    //css分离
-    cssCodeSplit: true,
+    // NOTE css分离 组件内部没有样式 无需配置
+    // cssCodeSplit: true,
     lib: {
       entry: resolve(__dirname, './components/index.js'),
       name: 'es-ui',
