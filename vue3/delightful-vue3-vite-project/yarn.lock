@@ -623,6 +623,11 @@
   resolved "https://gitlab.com/api/v4/projects/57809843/packages/npm/@jackzhoumine/ec-ui/-/@jackzhoumine/ec-ui-1.0.1.tgz"
   integrity sha1-sHR0c5CXIiq7SOqHtyfwc3XbmDU=
 
+"@jackzhoumine/test-lib@~1.0.2-0":
+  version "1.0.2-0"
+  resolved "https://gitlab.com/api/v4/projects/54522683/packages/npm/@jackzhoumine/test-lib/-/@jackzhoumine/test-lib-1.0.2-0.tgz"
+  integrity sha1-Mpt1pjZS1EFFONSMB0TAMmbeBwM=
+
 "@jest/schemas@^29.6.0":
   version "29.6.0"
   resolved "https://registry.npmmirror.com/@jest/schemas/-/schemas-29.6.0.tgz"
