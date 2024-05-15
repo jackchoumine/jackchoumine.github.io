@@ -1,6 +1,6 @@
 # node 学习记录
 
-### [什么是 npmrc ](./whatIsNpmrc.md)
+### [什么是 npmrc ](./what-is-npmrc.md)
 
 ### [pnpm 的使用](./how-to-use-pnpm.md)
 

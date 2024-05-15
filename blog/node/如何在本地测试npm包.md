@@ -1,8 +1,10 @@
 # 如何优雅地在本地测试 npm 包
 
-需要发布`my-npm`，想在`my-project`项目内测试`my-npm`
+需要发布`my-npm`，想在`my-project`项目内测试`my-npm`。
 
-`my-npm` 是 npm 的名字，不一定和项目名字相同，为了方便，开发 my-npm 的项目名字也叫 my-npm。
+`my-npm` 是 npm 的名字，即`package.json`中的 name，项目所在目录也是`my-npm`。
+
+两者不要求相同，但是为了方便描述，这里取一样的名字。
 
 ## 三种方法
 
@@ -14,7 +16,14 @@ my-npm build 后，执行 `npm link`，然后 my-project `npm link my-npm`
 
 **推荐这种方式，优点：my-npm 再次构建后，在 my-project 直接得到变更后的代码**
 
-> 2. yalc 模拟仓库
+
+> 2. npm i . -g
+
+my-npm build 后， 执行`npm i . -g`，然后 my-project `npm link my-npm`
+
+测试完毕，my-project `npm unlink my-npm` 释放软连接。
+
+> 3. yalc 模拟仓库
 
 全局安装 `npm i yalc -g`
 
@@ -22,15 +31,9 @@ my-npm build 后， 执行 `yalc public`， my-project `yalc add my-npm`
 
 缺点：再次构建后，还需要在`my-project`安装，有点繁琐。
 
-> 3. npm i . -g
-
-my-npm build 后， 执行`npm i . -g`，然后 my-project `npm link my-npm`
-
-测试完毕，my-project `npm unlink my-npm` 释放软连接。
-
 ## 这些命令做了啥
 
-link 和 npm i . 都在 npm 的全局 node_modules 内创建了链接到 npm 的软连接。
+`link` 和`i . -g` 都在的全局 node_modules 内创建了链接到`my-npm`的软连接。
 
 ![安装依赖](https://tva1.sinaimg.cn/large/008i3skNgy1gu9ki7kssoj61680audhp02.jpg)
 
