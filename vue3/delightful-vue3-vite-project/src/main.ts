@@ -2,15 +2,15 @@
  * @Date        : 2022-08-08 14:23:25
  * @Author      : ZhouQijun
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-05-13 01:48:40
+ * @LastEditTime: 2024-05-15 14:49:37
  * @Description :
  */
 // import { default as jackComponents }from '@jack/components'
 // @ts-ignore
 // import jackComponents from '@jack/components'
 // Import icon libraries
-import ECUI from '@jackzhoumine/ec-ui';
-import '@jackzhoumine/ec-ui/style.css';
+// import ECUI from '@jackzhoumine/ec-ui';
+// import '@jackzhoumine/ec-ui/style.css';
 import '@quasar/extras/material-icons/material-icons.css';
 // @ts-ignore
 // import { MyRating } from 'jack-web-ui/dist/components/index'
@@ -78,7 +78,7 @@ const app = createApp(App)
 
 app.config.performance = true
 app
-  .use(ECUI)
+  // .use(ECUI)
   // .use(jackComponents)
   .use(globalDirectives) // .use(vAuth) //.use(vClickOutside) // .use(Antd)
   .use(piniaStore) // 激活 pinia

@@ -42,8 +42,8 @@ const activeId = ref(0)
       :name="item.name" />
     <!-- v-for in 指令可写成 v-for of  -->
     <ul>
-      <li v-for="(item, key, index) in list[0]" :key="index">
-        key => {{ key }} index => {{ index }} name => {{ item }}
+      <li v-for="(val, key, index) in list[0]" :key="index">
+        val => {{ val }} | key => {{ key }} | index => {{ index }}
       </li>
     </ul>
   </ul>
