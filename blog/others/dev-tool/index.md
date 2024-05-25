@@ -1,6 +1,6 @@
 # 开发工具使用
 
-### [如何在vscode中调试程序](./how-to-debug-in-vscode.md.md)
+### [如何在vscode中调试程序](./how-to-debug-in-vscode.md)
 
 ### [常用软件](./win-software-list.md)
 

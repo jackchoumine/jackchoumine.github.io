@@ -56,9 +56,9 @@ vscode 是一个非常好用的编辑器，它支持调试 node 程序，下面�
 
 三种方式：
 
-### vscode 自带 npm 脚本调试
-
-在 vscode 左下角选择选择带有 debugger 的图标 npm 脚本执行，点击后会出现一个 debug 控制台，点击绿色的三角形按钮，开始调试。
+1. launch 调试模式
+2. attach 调试模式
+3. vscode 自带 npm 脚本调试
 
 ### launch 调试模式
 
@@ -109,3 +109,21 @@ vscode 是一个非常好用的编辑器，它支持调试 node 程序，下面�
 > attach 模式需要一个 processId，这里使用了 `${command:PickProcess}` ，会弹出一个选择框，选择一个进程，然后连接到这个进程。
 
 > attach 通常用来调试 web 服务，比如 koa、express 等，可以在服务启动时打断点，然后 attach 到进程上，这样就可以调试服务了。
+
+### vscode 自带 npm 脚本调试
+
+在 vscode 左下角选择选择带有 debugger 的图标 npm 脚本执行，点击后会出现一个 debug 控制台，点击绿色的三角形按钮，开始调试。
+
+> 实际上，他会启动一个 attach 模式的调试器，然后连接到 npm 脚本启动的进程。
+
+### vscode 中和调试相关的菜单
+
+顶部菜单栏有一个 `运行` 菜单，包含了一些和调试相关的功能。
+
+## 小结
+
+vscode 是一个非常好用的编辑器，可调试各种程序。调试程序需要满足的条件：① 具备编程语言的运行环境 ② 安装对应语言的 vscode 扩展 ③ 配置 `launch.json` 文件。
+
+* launch.json 需要有三个必须选项：`type`、`request`、`name`。
+* vscode 自带 npm 脚本调试、launch 调试模式、attach 调试模式。
+* vscode 中和调试相关的菜单在顶部菜单栏的`运行`菜单中。
