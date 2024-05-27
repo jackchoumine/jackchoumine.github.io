@@ -23,10 +23,37 @@ import {
 
 const app = createApp(App)
 
-// 在应用挂载之前使用 pinia
+// NOTE 注册 pinia 插件
 app.use(createPinia())
 
 app.mount('#app')
+```
+
+> 在使用 store 之前，需要先注册 pinia 插件。
+
+```js
+import {
+  useUserStore
+} from '@/stores/user'
+import {
+  createPinia
+} from 'pinia'
+import {
+  createApp
+} from 'vue'
+import App from './App.vue'
+
+// ❌  fails because it's called before the pinia is created
+const userStore = useUserStore()
+
+const pinia = createPinia()
+const app = createApp(App)
+app.use(pinia)
+
+// ✅ works because the pinia instance is now active
+const userStore = useUserStore()
+
+// more info https://pinia.vuejs.org/core-concepts/outside-component-usage.html
 ```
 
 ## 创建 store
@@ -72,7 +99,7 @@ export const useCounter = defineStore('counter', {
 2. getters 使用了 this，需要手动声明返回值类型；
 3. actions 使用 this 访问状态和 getters。`actions`可以是异步的，不再有 mutations；
 4. getters 和 actions 不使用箭头函数，否则 this 会指向 window，而不是 state。
-5. 每个 store **只注册一次**。
+5. 每个 store **只注册一次**，即 id 不能重复。
 
 ## 使用 store
 
@@ -310,7 +337,8 @@ export const useTodosStore = defineStore('todos', () => {
 
 > 实际， `defineStore` 的第二个参数，就是一个普通的组合式函数。
 
-> **注意：**，第二个参数虽然是一个函数，都是无法传递参数给它。如果需要传递参数，可使用工厂函数传递新的 id 和参数。
+> **注意：**，第二个参数虽然是一个函数，都是无法接收参数。
+> 如果需要传递参数，可使用工厂函数传递新的 id 和参数。
 
 学习使用 hook 管理全局状态时，有如下 useCart 例子，用于记录购物车的商品信息。
 
@@ -517,7 +545,7 @@ useCart 把状态放在 hook 外部（变成全局变量），当和 pinia 结�
 
 > 可以。
 
-这个特点非常棒，意味着不是用于**共享全局状态**的 hook，不做任何改动也能方便地通过 pinia 实现共享全局状态。pinia 和 hook 和结合，没有侵入性。
+这个特点非常棒，意味着不是用于**共享全局状态**的 hook即普通hook，不做任何改动也能方便地通过 pinia 实现共享全局状态。pinia 和 hook 和结合，没有侵入性。
 
 > 一个 store 只会注册一次, `CartDemo.vue` 再次挂载，不会再次注册。要是二个参数是一个 hooks, hooks 内的初始化操作不会再次执行，这个行为和 hooks 的行为不同，很可能导致 bug。
 
