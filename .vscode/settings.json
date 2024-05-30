@@ -1,7 +1,7 @@
 {
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "always"
   },
   "stylelint.validate": ["css", "scss", "less", "scss", "vue", "sass"],
   "liveSassCompile.settings.formats": [
@@ -57,7 +57,8 @@
     "trivago",
     "unplugin",
     "USGS",
-    "vitepress"
+    "vitepress",
+    "Vnode"
   ],
   // 这些文件将不会显示在工作空间中
   "files.exclude": {
