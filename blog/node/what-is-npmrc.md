@@ -44,6 +44,7 @@ npm config set save-prefix ^
 npm config set registry https://registry.npmmirror.com/
 
 npm config get [key] # 查看配置
+npm config get cache # 查看缓存目录
 npm config list -l # 查看本地配置
 npm config list -g # 全局配置
 npm config list -u # 用户配置
@@ -87,7 +88,7 @@ registry=https://registry.npmjs.org/
 
 # 从 gitlab 的私有仓库下载依赖
 @jackzhoumine:registry=https://gitlab.com/api/v4/projects/54539895/packages/npm/
-//gitlab.com/api/v4/projects/54539895/packages/npm/:_authToken=glpat-3759QXSo9Pzy9FxGe1z
+//gitlab.com/api/v4/projects/54539895/packages/npm/:_authToken=glpat-3759QXSo9Pz9FxGe12324
 ```
 
 可通过这些信息认证：
@@ -110,13 +111,27 @@ keyfile # (path to key file)
 
 ### 代理配置
 
+```bash
+proxy=http://username:password@proxy-server-address:port
+https-proxy=https://username:password@proxy-server-address:port
+```
+
 ### 缓存配置
 
 配置 node 依赖的缓存。
 
+```bash
+cache=your/path/to/cache
+```
+
 ### 安装行为
 
 比如默认安装的时候，是否保存精确版本，依赖信息是否保存到 `package.json` 文件等。
+
+```bash
+# 相似版本
+save-prefix=~
+```
 
 ## 参考
 
