@@ -1,4 +1,4 @@
-# npmrc 文件
+# 你知道 npmrc 文档吗？ ---- npmrc 关键作用介绍
 
 `.npmrc` 是 npm 的配置文件。rc 是 registry config 缩写。
 
@@ -105,7 +105,7 @@ keyfile # (path to key file)
 
 > 通过 `npm login` 登录，会自动添加认证信息。
 
-> 认知信息是敏感信息，不要提交到代码仓库。
+> 认证信息是敏感信息，不要提交到代码仓库。
 
 > 不能配置多个源和对多个源的认证信息。
 
