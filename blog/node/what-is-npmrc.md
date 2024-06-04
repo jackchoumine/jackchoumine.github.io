@@ -69,7 +69,7 @@ registry=https://registry.npmjs.org/
 @myscope:registry=https://mycustomregistry.example.org
 ```
 
-### 认知信息
+### 认证信息
 
 当使用私有的 npm 源时，可能需要认证信息。
 
