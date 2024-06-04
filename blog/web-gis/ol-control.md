@@ -238,7 +238,7 @@ map.removeControl(attribution)
 
 ## 修改控件
 
-控件都是通过 DOM 元素实现的，可通过修改 DOM 元素样式实现自定义控件样式。
+> 控件都是通过 DOM 元素实现的，可通过修改 DOM 元素样式实现自定义控件样式。
 
 比如，把坐标拾取控件的坐标显示在地图**下方中间**的位置。
 
@@ -292,6 +292,56 @@ target 是控件放置的容器，可以是 DOM 元素，也可以是 DOM 元素
 ```
 
 className 是坐标容器的类名，ol 会创建一个类名为 className 的 div，并添加为 `target` 的子元素，不会创建默认的坐标容器。通过修改 className 的样式，可以实现自定义坐标拾取控件。
+
+### 导航控件 
+
+使用 `ZoomSlider` 和 `ZoomToExtent` 组合起来，实现一个导航控件。
+
+```js
+  // 实例化控件
+  const zoomSlider = new ZoomSlider()
+  // 添加控件
+  map.addControl(zoomSlider)
+  const zoomToExtent = new ZoomToExtent({
+    // [经度1,纬度1,经度2,纬度2]
+    extent: initExtent,
+  })
+  map.addControl(zoomToExtent)
+```
+
+调整两者的样式，使他们布局更加美观：
+
+```html
+<style scoped lang="scss">
+  .init-map {
+    position: absolute;
+    inset: 0;
+
+    :deep(.ol-overlaycontainer-stopevent) {
+      .ol-zoom {
+        .ol-zoom-out {
+          margin-top: 204px;
+
+          .ol-has-tooltip:focus,
+          .ol-has-tooltip:hover {
+            top: 232px;
+          }
+        }
+      }
+
+      .ol-zoomslider {
+        top: 2.75em;
+        background-color: transparent;
+      }
+
+      /* ol.control.zoomToExtent 控件样式的设置，将其放到导航条下方 */
+      .ol-zoom-extent {
+        top: 280px;
+      }
+    }
+  }
+</style>
+```
 
 ## 常用控件的参数和方法
 

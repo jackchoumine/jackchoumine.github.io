@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-06-26 10:07:10
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-12-04 01:18:18
+ * @LastEditTime: 2024-06-04 22:26:28
  * @Description : 常用控件
  * 放缩滑块 https://openlayers.org/en/latest/examples/zoomslider.html
  * 
@@ -124,7 +124,7 @@ function initMap() {
   })
   const overviewMap = new OverviewMap({
     collapsed: false,
-    //NOTE 需要添加鸟瞰的图层，否则不会显示
+    // NOTE 需要添加鸟瞰的图层，否则不会显示
     layers: [_firstLayer, _secondLayer],
   })
   map.addControl(overviewMap)
@@ -422,18 +422,12 @@ function moveToLeftBy(distance = 1000) {
   }
 
   :deep(.ol-overlaycontainer-stopevent) {
-    // .ol-mouse-position {
-    //   position: absolute;
-    //   inset: auto auto 8px 300px;
-    //   background-color: azure;
-    // }
-
     .ol-zoom {
       .ol-zoom-out {
         margin-top: 204px;
 
-        .ol-has-tooltip:focus [role='tooltip'],
-        .ol-has-tooltip:hover [role='tooltip'] {
+        .ol-has-tooltip:focus,
+        .ol-has-tooltip:hover {
           top: 232px;
         }
       }
