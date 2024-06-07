@@ -6,7 +6,7 @@
 
 后台管理中常常有如下布局的数据展示需求：
 
-![](https://jsd.cdn.zzko.cn/gh/jackchoumine/jack-picture@master/008i3skNgy1grboa6ymuhj31wm0ekach.7frqog22iqs0.webp 'Ant Design Vue Descriptions 描述列表')
+![](https://img-blog.csdnimg.cn/direct/aaf51308ea0e44f49d625ff2c4ec875f.webp 'Ant Design Vue Descriptions 描述列表')
 
 像表格又不是表格，像表单又不是表单，实际上样子像表格，呈现的数据是一个对象，和 form 的绑定的值一样，我将其称为表单式表格。
 
@@ -44,12 +44,35 @@
 // column 属性设置跨列
 // 需要自定义显示内容 提供 slot
 lessonPackageInfo: {
-    orderType: { type: 'option', desc: '课时包类别', map_data: { 1: '首单', 2: '续费', 5: '赠课' } },
-    combo: { type: 'text', desc: '套餐名称' },
-    presentedHours: { type: 'text', desc: '赠送课时', slot: true },
-    price: { type: 'text', desc: '标准价格' },
-    gifts: { type: 'text', desc: '赠送礼物', column: 3, slot: true },
-  }
+  orderType: {
+    type: 'option',
+    desc: '课时包类别',
+    map_data: {
+      1: '首单',
+      2: '续费',
+      5: '赠课'
+    }
+  },
+  combo: {
+    type: 'text',
+    desc: '套餐名称'
+  },
+  presentedHours: {
+    type: 'text',
+    desc: '赠送课时',
+    slot: true
+  },
+  price: {
+    type: 'text',
+    desc: '标准价格'
+  },
+  gifts: {
+    type: 'text',
+    desc: '赠送礼物',
+    column: 3,
+    slot: true
+  },
+}
 ```
 
 :::warning 存在什么问题
@@ -108,12 +131,7 @@ lessonPackageInfo: {
               </template>
 
               <slot v-else :name="key" v-bind:data="data">
-                <TableColContent
-                  :dataType="field.type"
-                  :metaData="data[key]"
-                  :mapData="field.map_data"
-                  :text="field.text"
-                />
+                <TableColContent :dataType="field.type" :metaData="data[key]" :mapData="field.map_data" :text="field.text" />
               </slot>
             </div>
           </div>
@@ -219,10 +237,13 @@ lessonPackageInfo: {
 ```html{1}
 <span v-else-if="dataType === 'image' || dataType === 'cropper'" :class="className">
   <el-popover placement="right" title="" trigger="hover">
+
     <img :src="metaData" style="max-width: 600px;" />
     <img slot="reference" :src="metaData" :alt="metaData" width="44" class="column-pic" />
+
   </el-popover>
 </span>
+
 ```
 
 分析完以上实现的问题，看看好的实现
@@ -268,7 +289,7 @@ lessonPackageInfo: {
 ```
 
 组件说明：
-`titleList`是组件的列配置，一个数组，元素 title 属性是标题，prop 指定从 data 里取值的字段，span 指定这列值跨越的行数。
+`titleList` 是组件的列配置，一个数组，元素 title 属性是标题，prop 指定从 data 里取值的字段，span 指定这列值跨越的行数。
 
 prop 支持 string ，还支持函数，这是实现自定义显示的方式，当这个函数很大时，可提取到独立的 js 文件中，也可以把整个 titleList 提取单独的 js 文件中。
 
@@ -288,6 +309,7 @@ h 是 `createElement` 函数，data 是从组件内部的 data，和父组件传
 ```html{17-20}
 <template>
   <div class="form-table">
+
     <ul v-if="titleList.length">
       <!-- titleInfo 是经过转化的titleList-->
       <li
@@ -295,13 +317,13 @@ h 是 `createElement` 函数，data 是从组件内部的 data，和父组件传
         :key="index"
         :style="{ width: ((item.span || 1) / titleNumPreRow) * 100 + '%' }"
       >
-        <div class="form-table-title" :style="`width: ${titleWidth}px;`">
+        <div class="form-table-title" :style=" `width: ${titleWidth}px;` ">
           <Container v-if="typeof item.title === 'function'" :renderContainer="item.title" :data="data" />
           <span v-else>
             {{ item.title }}
           </span>
         </div>
-        <div class="form-table-key" :style="`width:calc(100% - ${titleWidth}px);`">
+        <div class="form-table-key" :style=" `width:calc(100% - ${titleWidth}px);` ">
           <Container v-if="typeof item.prop === 'function'" :renderContainer="item.prop" :data="data" />
           <span v-else>
             {{ ![null, void 0].includes(data[item.prop] && data[item.prop]) || '' }}
@@ -310,12 +332,14 @@ h 是 `createElement` 函数，data 是从组件内部的 data，和父组件传
       </li>
     </ul>
     <div v-else class="form-table-no-data">暂无数据</div>
+
   </div>
 </template>
 
 <script>
   import Container from './container.js'
   export default {
+
     name: 'FormTable',
     components: {
       Container,
@@ -359,9 +383,11 @@ h 是 `createElement` 函数，data 是从组件内部的 data，和父组件传
         },
       },
     },
+
   }
 </script>
 <!-- 样式不是关键，省略 -->
+
 ```
 
 :::tip 说明
