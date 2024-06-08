@@ -2,11 +2,11 @@
  * @Description: 确认弹窗
  * @Date: 2021-06-03 14:49:13 +0800
  * @Author: JackChou
- * @LastEditTime: 2021-06-03 17:41:02 +0800
+ * @LastEditTime: 2024-06-08 23:21:21
  * @LastEditors: JackChou
 -->
 <template>
-  <div v-if="show" ref="myModal" class="modal" @click="close">
+  <div v-if="show" ref="myModal" class="modal">
     <div ref="myModalContent" class="modal-content">
       <div>{{ title }}</div>
       <slot name="default">
@@ -14,7 +14,8 @@
       </slot>
       <slot name="footer">
         <div class="footer">
-          <el-button type="default" @click="hiddenModal">取消</el-button>
+          <button @click="onCancel">取消</button>
+          <button @click="onConfirm">确定</button>
         </div>
       </slot>
     </div>
@@ -23,7 +24,7 @@
 
 <script>
 export default {
-  name: 'Confirm',
+  name: 'ConfirmModal',
   props: {
     title: {
       type: String,
@@ -40,17 +41,14 @@ export default {
     }
   },
   methods: {
-    close(event) {
-      const isContainsModalContent = this.$refs.myModalContent ? this.$refs.myModalContent.contains(event?.target) : ''
-      if (!isContainsModalContent) {
-        console.log('点击到了弹窗内容以外')
-        // NOTE 点击到弹窗内容以外的区域，才关闭弹窗
-        this.show = false
-      }
-    },
-    hiddenModal() {
-      this.show = false
-    },
+    // onCancel() {
+    //   console.log(this.$options)
+    //   this.show = false
+    //   return false
+    // },
+    // onConfirm() {
+    //   return true
+    // },
   },
 }
 </script>
@@ -63,13 +61,13 @@ export default {
   z-index: 99; // 确保弹窗在顶层
   width: 100%;
   height: 100%;
-  background-color: #faebd799;
+  background-color: #e4e4e4c7;
   &-content {
     position: relative;
     left: 50%;
     top: 50%;
     width: 20vw;
-    height: 200px;
+    height: 100px;
     z-index: 999; //
     transform: translate(-50%, -50%);
     display: flex;

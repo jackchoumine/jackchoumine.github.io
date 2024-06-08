@@ -45,6 +45,7 @@ module.exports = {
     // 禁止将 undefined 作为标识符
     // NOTE 使用 void 0 代替 undefined
     'no-undefined': 2,
+    'no-undef': 0,
     // 禁止出现未使用过的变量
     // NOTE 不要全局关闭，在文件内和当前行关闭该规则的检查: cmd + .
     'no-unused-vars': [1, { vars: 'all', args: 'none' }],

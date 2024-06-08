@@ -2,14 +2,13 @@
  * @Description: 应用入口
  * @Date: 2021-06-01 10:07:44 +0800
  * @Author: JackChou
- * @LastEditTime: 2022-11-17 00:03:56 +0800
- * @LastEditors : JackChou
+ * @LastEditTime: 2024-06-08 21:54:56
+ * @LastEditors : ZhouQiJun
  */
 import Vue from 'vue'
 
 // learn axios
 import './utils/bind.js'
-
 import VueRouter from 'vue-router'
 import App from './App'
 import './assets/style/reset.css'
@@ -24,6 +23,7 @@ import http from './http/index4' // 只发出老的请求，新来的请求取�
 // import http from './http/index2' // 只发出最新请求
 // import http from './http/index' // 允许发出多个重复请求，有一个成功后，取消其他
 import { vAuth, vClickOutside } from './plugins'
+import { showElButton } from './examples/dynamic-component/showElButton.js'
 // import { defineCustomElements } from 'web-components-jack/loader'
 // defineCustomElements(window)
 // 引入自定义组件
@@ -47,6 +47,7 @@ plugins.forEach(plugin => {
 })
 
 Vue.prototype.$http = http
+Vue.prototype.$showElButton = showElButton
 
 Vue.config.productionTip = false
 
