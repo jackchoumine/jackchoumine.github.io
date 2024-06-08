@@ -2,15 +2,15 @@
 
 本文记录一下 Vue 组件封装的基本实践和一些组件的相关知识。主要涉及以下知识点：
 
-- 封装一个组件的代码组织形式；
-- vue 组件的三大核心：
-  - 属性（props、data）;
-  - 事件
-  - 插槽
-- 样式
-- 其他一些杂项
-  - \$nextTick 函数的使用
-  - 获取 DOM 元素及在父级组件中执行子组件方法
+* 封装一个组件的代码组织形式；
+* vue 组件的三大核心：
+  + 属性（props、data）; 
+  + 事件
+  + 插槽
+* 样式
+* 其他一些杂项
+  + \$nextTick 函数的使用
+  + 获取 DOM 元素及在父级组件中执行子组件方法
 
 使用第三方计数库 [countup.js](https://inorganik.github.io/countUp.js/) 创建一个 `count-to` 组件对以上知识进行总结。
 
@@ -18,7 +18,7 @@
 
 ## 文件组织形式
 
-在组件文件夹 `component` 下创建一个与组件名相同的文件，文件夹内必须有 `index.js`,并将组件导入到该文件中，这样方便我们引用组件。
+在组件文件夹 `component` 下创建一个与组件名相同的文件，文件夹内必须有 `index.js` , 并将组件导入到该文件中，这样方便我们引用组件。
 
 `count-to` 文件夹内：
 
@@ -38,17 +38,17 @@ import CountTo from '_c/count-to' // _c 是组件存放路径
 
 ### 属性（props、data 和样式）
 
-props 定义了组件`可配置`的数据，确定的组件的核心功能。封装组件时，props 推荐写成对象形式，方便对数据进行验证，提高了代码健壮性也能明确如何使用。
+props 定义了组件 `可配置` 的数据，确定的组件的核心功能。封装组件时，props 推荐写成对象形式，方便对数据进行验证，提高了代码健壮性也能明确如何使用。
 
-常见的检查类型：`Number`、`String`、`Boolean`、`Array`、`Object`、`Date`、`Function`、`Symbol`、`构造函数`。`null|undefined` 会通过所有类型。
+常见的检查类型： `Number` 、 `String` 、 `Boolean` 、 `Array` 、 `Object` 、 `Date` 、 `Function` 、 `Symbol` 、 `构造函数` 。 `null|undefined` 会通过所有类型。
 
 还可以自定义验证函数，指定是否必须和默认值。
 
 ```js
-props:{
-	// 多个可能的类型
+props: {
+  // 多个可能的类型
   propB: [String, Number],
-	// 必填的字符串
+  // 必填的字符串
   propC: {
     type: String,
     required: true
@@ -62,13 +62,15 @@ props:{
   propE: {
     type: Object,
     // 对象或数组默认值必须从一个工厂函数获取
-    default: function () {
-      return { message: 'hello' }
+    default: function() {
+      return {
+        message: 'hello'
+      }
     }
   },
   // 自定义验证函数
   propF: {
-    validator: function (value) {
+    validator: function(value) {
       // 这个值必须匹配下列字符串中的一个
       return ['success', 'warning', 'danger'].indexOf(value) !== -1
     }
@@ -76,7 +78,7 @@ props:{
 }
 ```
 
-通过阅读 [countUP 文档](https://github.com/inorganik/CountUp.js)，了解到构造函数`CountUp` 的参数
+通过阅读 [countUP 文档](https://github.com/inorganik/CountUp.js)，了解到构造函数 `CountUp` 的参数
 
 ```js
 CountUp(eleDOM, startValue, endValue, decimals, duration, options) // eleDOM 是数值显示的元素；endValue 是数值的最终值，这两个参数必须的。
@@ -186,7 +188,7 @@ CountUp(eleDOM, startValue, endValue, decimals, duration, options) // eleDOM 是
 ```
 
 代码说明：
-`this._uid` 用于生成`组件内唯一`的 id 值，可用作元素的 id，值是递增的。
+`this._uid` 用于生成 `组件内唯一` 的 id 值，可用作元素的 id，值是递增的。
 
 `this.$nextTick` 函数接收一个回调函数作为参数，回调函数会在 `DOM更新` 之后执行，如果某些操作必须在 DOM 更新之后，可将这些操作作为其参数。
 
@@ -224,12 +226,12 @@ CountUp(eleDOM, startValue, endValue, decimals, duration, options) // eleDOM 是
 
 prop 的命名：
 
-组件中使用`小驼峰`命名，传递值是使用`-`。
+组件中使用 `小驼峰` 命名，传递值是使用 `-` 。
 
 关于 props 传递静态值：
 
-不使用 `v-bind` 即 `:` 传递的是静态值，是一个字符串字常量，而不是变量，而使用`:`指令传递的值，是有类型的。`:duration="5"` 传递是 数值 5，`duration="5"` 传递字符串`'5'`。
-`duration="true"` 传递的是字符串`true` 而不是 Boolean 值真值。
+不使用 `v-bind` 即 `:` 传递的是静态值，是一个字符串字常量，而不是变量，而使用 `:` 指令传递的值，是有类型的。 `:duration="5"` 传递是 数值 5， `duration="5"` 传递字符串 `'5'` 。
+`duration="true"` 传递的是字符串 `true` 而不是 Boolean 值真值。
 
 默认值：
 
@@ -240,16 +242,10 @@ inheritAttrs：
 如果传递一个组件中没有声明的属性，该属性会挂载都组件元素上，可在组件中将 `inheritAttrs` 设置为 `false` 取消这一行为。上面的 `title` 属性会挂载到组件的 `div` 上。该属性不应 style 和 class 的传递。
 
 ```html
-<count-to
-  title="会挂载到组件的根元素上"
-  test="test"
-  :end-value="endValue"
-  :decimals="decimals"
-  :duration="5"
-></count-to>
+<count-to title="会挂载到组件的根元素上" test="test" :end-value="endValue" :decimals="decimals" :duration="5"></count-to>
 ```
 
-title 会成为`count-to` 组件的根元素的属性：
+title 会成为 `count-to` 组件的根元素的属性：
 
 ```html
 <div title="这是标题" test="测试">
@@ -260,7 +256,7 @@ title 会成为`count-to` 组件的根元素的属性：
 \$attrs 接收没有声明的属性
 
 title 和 test 属性没有在组件中声明，依然可以在组件中使用 `attrs` 接收到些属性：
-`<span>没有props接收的父组件数据：{{$attrs}}</span><br/>`
+ `<span>没有props接收的父组件数据：{{$attrs}}</span><br/>`
 
 最后的结果：
 
@@ -276,7 +272,7 @@ inheritAttrs: false 和 \$attrs 结合使用：
 
 **有了 inheritAttrs: false 和 \$attrs，你就可以手动决定这些特性会被赋予哪个元素，而不需要声明变量接收**。
 
-<p class="codepen" data-height="551" data-theme-id="0" data-default-tab="js,result" data-user="JackZhouMine" data-slug-hash="yWZdRv" style="height: 551px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;" data-pen-title="$attrs使用">
+<p class="codepen" data-height="551" data-theme-id="0" data-default-tab="js, result" data-user="JackZhouMine" data-slug-hash="yWZdRv" style="height: 551px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em; " data-pen-title="$attrs使用">
   <span>See the Pen <a href="https://codepen.io/JackZhouMine/pen/yWZdRv/">
   $attrs使用</a> by JackZhouMine (<a href="https://codepen.io/JackZhouMine">@JackZhouMine</a>)
   on <a href="https://codepen.io">CodePen</a>.</span>
@@ -285,7 +281,7 @@ inheritAttrs: false 和 \$attrs 结合使用：
 
 #### data vs props
 
-props 从父级组件入，传入的值由父级组件维护，不允许在子组件中**直接操作**,是否必需和数据类型都是确定的，我们不能改变。
+props 从父级组件入，传入的值由父级组件维护，不允许在子组件中**直接操作**, 是否必需和数据类型都是确定的，我们不能改变。
 
 data 是组件内部维护的状态，组件可直接操作，可随时改变值、类型等。
 
@@ -293,7 +289,7 @@ data 是组件内部维护的状态，组件可直接操作，可随时改变值
 
 #### 打破 props 单向数据流
 
-Vue 不允许在子组件中**直接操作** props ,否则会报错，因为父组件和子组件都可直接操作 props，会使得 props 的管理变得混乱。可通过一些间接的方式操作 props:
+Vue 不允许在子组件中**直接操作** props , 否则会报错，因为父组件和子组件都可直接操作 props，会使得 props 的管理变得混乱。可通过一些间接的方式操作 props:
 
 1. 将 props 赋值给 data ，然后操作 data;
 
@@ -307,8 +303,8 @@ Vue 不允许在子组件中**直接操作** props ,否则会报错，因为父�
 
 使用 `.sync` 需要注意：
 
-- 不能和表达式一起使用：`v-bind:title.sync="doc.title + '!'"`;
-- 不能传递对象字面量：`v-bind.sync="{ title: doc.title }"`。
+* 不能和表达式一起使用：`v-bind:title.sync="doc.title + '!'"`; 
+* 不能传递对象字面量：`v-bind.sync="{ title: doc.title }"`。
 
 4. 传递引用类型的 props
 
@@ -318,15 +314,15 @@ Vue 不允许在子组件中**直接操作** props ,否则会报错，因为父�
 
 传统的 web 开发使用事件驱动：
 
-- 查询节点 → 绑定事件监听；
-- 用在页面上触发事件 → 执行监听器，修改 DOM,反馈到页面上；
+* 查询节点 → 绑定事件监听；
+* 用在页面上触发事件 → 执行监听器，修改 DOM, 反馈到页面上；
   这种模式开发效率低成本高。
 
 Vue 的核心思想是数据驱动，视图由数据决定。MVVM 架构的页面变化流程：
 
 View(用户操作) → 执行 DOMlistenrs (ViewModel) → Data 改变 （Model）→ View 改变。
 
-组件和绑定原生事件和自定义事件，绑定原生事件时，需要添加`native`修饰符。
+组件和绑定原生事件和自定义事件，绑定原生事件时，需要添加 `native` 修饰符。
 
 可以在组件的原生事件处理器中触发一个自定义事件，就能在父级组件中监听该事件，执行相关操作。
 
@@ -338,17 +334,17 @@ View(用户操作) → 执行 DOMlistenrs (ViewModel) → Data 改变 （Model�
 <button @click="add">+</button>
 ```
 
-在事件处理器`add`中触发一个自定义事件：
+在事件处理器 `add` 中触发一个自定义事件：
 
 ```js
 add() {
-	this.$emit("changeValue", Math.random() * 100);
+  this.$emit("changeValue", Math.random() * 100);
 }
 ```
 
 `$emit` 的第一个参数是事件名称，第二个参数是传递到该事件监听器的参数。
 
-在组件上监听 `changValue`:
+在组件上监听 `changValue` :
 
 ```html
 <template>
@@ -411,7 +407,7 @@ add() {
 </script>
 ```
 
-在组件上使用监听`on-end`:
+在组件上使用监听 `on-end` :
 
 ```html
 <template>
@@ -444,14 +440,14 @@ add() {
 
 #### 表单修饰符
 
-- lazy ： 在`change`事件同步数据；
-- trim ： 删除首尾空格；
-- number ：只能输入数字；
+* lazy ： 在`change`事件同步数据；
+* trim ： 删除首尾空格；
+* number ：只能输入数字；
 
 #### 事件修饰符
 
-- stop：阻止冒泡；
-- prevent :阻止默认行为；
+* stop：阻止冒泡；
+* prevent : 阻止默认行为；
 
 ```html
 <!-- 阻止单击事件继续传播 -->
@@ -464,15 +460,15 @@ add() {
 
 ### 插槽
 
-props 传递普通的数据类型，插槽提供了`传递 HTML 代码`的方式，父组件中给的插槽内容，会被放置到子组件的指定为位置。
+props 传递普通的数据类型，插槽提供了 `传递 HTML 代码` 的方式，父组件中给的插槽内容，会被放置到子组件的指定为位置。
 
 父组件决定是否显示插槽和怎样显示，子组件决定插槽显示的位置。
 
 三种插槽：
 
-- 匿名插槽；
-- 命名插槽；
-- 作用域插槽。
+* 匿名插槽；
+* 命名插槽；
+* 作用域插槽。
 
 我们现在想要在 数值左边显示一个从父级组件传递到组件中的文字提示，数值右边显示人民币符号。
 
@@ -547,8 +543,8 @@ props 传递普通的数据类型，插槽提供了`传递 HTML 代码`的方式
 
 ```js
 text: {
-	name: "本月工资",
-	color: "#F4D03F"
+  name: "本月工资",
+  color: "#F4D03F"
 },
 ```
 
@@ -612,7 +608,7 @@ text: {
 </script>
 ```
 
-`<slot v-bind="text">奖金额度：</slot>`，向父级组件传递数据；
+`<slot v-bind="text">奖金额度：</slot>` ，向父级组件传递数据；
 `slot-scope="data"` 用来接收插槽传递到父组件的数据；
 
 #### 新指令 v-slot
@@ -668,7 +664,7 @@ text: {
 </template>
 ```
 
-`v-slot` 指令后跟一个 slot 的名字，插槽具有名字时，可简写为`#`。
+`v-slot` 指令后跟一个 slot 的名字，插槽具有名字时，可简写为 `#` 。
 
 ```html
 <template #left="{textFromChild}">
@@ -682,17 +678,17 @@ text: {
 
 ### 组件生成 id
 
-使用`this_uid`其他字母，可成组件内唯一的 id。
-`count-to`组件中，我们使用计算属性，设置 span 的 id。
+使用 `this_uid` 其他字母，可成组件内唯一的 id。
+`count-to` 组件中，我们使用计算属性，设置 span 的 id。
 
 ```js
 eleId() {
-      // 使用 this.uid 生成全局唯一id
-      return `count_up_uid${this._uid}`;
-    },
+  // 使用 this.uid 生成全局唯一id
+  return `count_up_uid${this._uid}`;
+},
 ```
 
-在组件内部，可以通过 id 或者 class 等获取到 dom，但是不推荐这么做。可通过`ref` 属性，获取到`DOM`，更加简洁，并且可以直接通过`ref` 获取组件或者`DOM`元素。
+在组件内部，可以通过 id 或者 class 等获取到 dom，但是不推荐这么做。可通过 `ref` 属性，获取到 `DOM` ，更加简洁，并且可以直接通过 `ref` 获取组件或者 `DOM` 元素。
 
 在下面的函数中获取 DOM：
 
@@ -714,10 +710,10 @@ eleId() {
 
 `this.$nextTick` 接收一个回调函数作为参数，参数会在 Vue 完成 DOM 更新后立即调用。如果某些操作是依赖 DOM 更新后的，可以把这些操作放在回调函数里执行。
 
-- 在 created 和 mounted 阶段，如果需要操作渲染后的试图，也要使用 nextTick 方法。
-- mounted 不会承诺所有的子组件也都一起被挂载。如果你希望等到整个视图都渲染完毕，可以用 vm.\$nextTick 替换掉 mounted。
+* 在 created 和 mounted 阶段，如果需要操作渲染后的试图，也要使用 nextTick 方法。
+* mounted 不会承诺所有的子组件也都一起被挂载。如果你希望等到整个视图都渲染完毕，可以用 vm.\$nextTick 替换掉 mounted。
 
-`Vue.$nexttick` 全局的，`this.$nexttick` 是局部的。
+`Vue.$nexttick` 全局的， `this.$nexttick` 是局部的。
 
 ```js
 var vm = new Vue({
@@ -728,7 +724,7 @@ var vm = new Vue({
 })
 vm.message = 'new message' // 更改数据
 vm.$el.textContent === 'new message' // false  此时DOM还没渲染
-Vue.nextTick(function () {
+Vue.nextTick(function() {
   vm.$el.textContent === 'new message' // true
 })
 ```
@@ -739,7 +735,7 @@ Vue DOM 的更新是异步的，数据变化后，组件不会立即渲染，而
 
 ```js
 methods: {
-  updateMessage: async function () {
+  updateMessage: async function() {
     this.message = '已更新'
     console.log(this.$el.textContent) // => '未更新'
     await this.$nextTick()
@@ -823,9 +819,9 @@ methods: {
 
 组件使用样式，用三种方式：
 
-- 外部样式；
-- 内部样式；
-- 通过 props 传入 类名，以指定使用内部样式中的哪个类名。
+* 外部样式；
+* 内部样式；
+* 通过 props 传入 类名，以指定使用内部样式中的哪个类名。
 
 外部样式两种方法引入：
 在 `script` 标签中引入和在 `style` 标签中引入。
@@ -884,9 +880,9 @@ $nextTick 原理是什么？
 
 ## 参考
 
-- [详解 vue 组件三大核心概念](https://mp.weixin.qq.com/s?__biz=Mzg5ODA5NTM1Mw==&mid=2247483942&idx=1&sn=bb123cb4d34f94f79881f0fa226da26b&chksm=c06683b0f7110aa6baf6e8ab59870a10fbf9a07083910054a25e67e50d306985103570d88ca2&mpshare=1&scene=24&srcid=&key=ae82afc765e556e1414e399de49e6bc8869fd285d0066971f5cc9b598ff7de811cb0d815acce725f87095b807115ec769907ccf0085d396ef53cc02e077effe6860c3ee0bd74fdf19ca63f73b15a6ba4&ascene=14&uin=MTMzNjE2MjkyMg%3D%3D&devicetype=Windows+7&version=62060833&lang=zh_CN&pass_ticket=ErOTla1jgsmijn6aCklGP3WGqdRSH9bBBL5cgmhDAhNizyP7X0BxM9stZwgKIQOG)
-- [简单理解 Vue 中的 nextTick](https://juejin.im/post/5a6fdb846fb9a01cc0268618)
-- [vue.nextTick 的原理和用途](https://segmentfault.com/a/1190000012861862)
-- [nextTick](https://ustbhuangyi.github.io/vue-analysis/reactive/next-tick.html#js-%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6)
-- [What the Tick is Vue.nextTick?](https://vuejsdevelopers.com/2019/01/22/vue-what-is-next-tick/)
-- [vue 文档 Prop](https://cn.vuejs.org/v2/guide/components-props.html#Prop-%E9%AA%8C%E8%AF%81)
+* [详解 vue 组件三大核心概念](https://mp.weixin.qq.com/s?__biz=Mzg5ODA5NTM1Mw==&mid=2247483942&idx=1&sn=bb123cb4d34f94f79881f0fa226da26b&chksm=c06683b0f7110aa6baf6e8ab59870a10fbf9a07083910054a25e67e50d306985103570d88ca2&mpshare=1&scene=24&srcid=&key=ae82afc765e556e1414e399de49e6bc8869fd285d0066971f5cc9b598ff7de811cb0d815acce725f87095b807115ec769907ccf0085d396ef53cc02e077effe6860c3ee0bd74fdf19ca63f73b15a6ba4&ascene=14&uin=MTMzNjE2MjkyMg%3D%3D&devicetype=Windows+7&version=62060833&lang=zh_CN&pass_ticket=ErOTla1jgsmijn6aCklGP3WGqdRSH9bBBL5cgmhDAhNizyP7X0BxM9stZwgKIQOG)
+* [简单理解 Vue 中的 nextTick](https://juejin.im/post/5a6fdb846fb9a01cc0268618)
+* [vue.nextTick 的原理和用途](https://segmentfault.com/a/1190000012861862)
+* [nextTick](https://ustbhuangyi.github.io/vue-analysis/reactive/next-tick.html#js-%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6)
+* [What the Tick is Vue.nextTick?](https://vuejsdevelopers.com/2019/01/22/vue-what-is-next-tick/)
+* [vue 文档 Prop](https://cn.vuejs.org/v2/guide/components-props.html#Prop-%E9%AA%8C%E8%AF%81)
