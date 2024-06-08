@@ -3,11 +3,12 @@
  * @Hash: ''
  * @Date: 2021-06-01 14:30:02 +0800
  * @Author: JackChou
- * @LastEditTime: 2022-01-16 19:24:00 +0800
- * @LastEditors : JackChou
+ * @LastEditTime: 2024-06-08 20:14:02
+ * @LastEditors : ZhouQiJun
 -->
 <template>
   <div>
+    <Demos />
     <DynamicComponent />
     <el-button type="primary" @click="showConfirm">显示弹窗</el-button>
     <DebounceTest />
