@@ -1,15 +1,22 @@
+<!--
+ * @Author      : ZhouQiJun
+ * @Date        : 2023-07-23 02:16:51
+ * @LastEditors : ZhouQiJun
+ * @LastEditTime: 2024-06-12 23:35:29
+ * @Description : 
+-->
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import MyMessage from './components/MyMessage.vue'
+import ShoeCount from './components/ShoeCount.vue'
 </script>
 
 <template>
   <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
+      <MyMessage type="success" />
+      <ShoeCount />
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
