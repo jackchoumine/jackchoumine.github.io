@@ -1,0 +1,47 @@
+<!--
+ * @Author      : ZhouQiJun
+ * @Date        : 2024-06-12 22:50:51
+ * @LastEditors : ZhouQiJun
+ * @LastEditTime: 2024-06-12 23:36:07
+ * @Description : 
+-->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>shoe-price-count</title>
+    <script src="https://cdn.cdnhub.io/jquery/3.7.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <label for="shoe-count">
+      <input type="number" id="shoe-count" value="8" />
+    </label>
+    <div id="amount"></div>
+    <script>
+      $(document).ready(function () {
+        const $shoeCount = $('#shoe-count')
+
+        showAmount()
+
+        $shoeCount.on('change', showAmount)
+
+        function showAmount() {
+          const shoeCount = $shoeCount.val()
+          const amount = calculateAmount(shoeCount)
+          $('#amount').text(`总价: ￥${amount}`)
+        }
+      })
+
+      const DISCOUNT = 0.8
+      const SHOE_PRICE = 100.0
+      function calculateAmount(shoeCount) {
+        if (shoeCount >= 10) {
+          return shoeCount * SHOE_PRICE * DISCOUNT
+        } else {
+          return shoeCount * SHOE_PRICE
+        }
+      }
+    </script>
+  </body>
+</html>
