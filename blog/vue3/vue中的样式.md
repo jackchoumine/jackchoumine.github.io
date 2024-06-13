@@ -16,15 +16,13 @@
 
 ## scoped 样式
 
-`style` 标签上添加`scoped`标志，可以把样式作用范围限制在组件内，即组件内部的样式不会影响外部的样式。
+`style` 标签上添加 `scoped` 标志，可以把样式作用范围限制在组件内，即组件内部的样式不会影响外部的样式。
 
-原理：组件编译时给标签**添加`data-v-xxx`属性**，选择器附带该属性。
-
-父组件的样式如何作用到子组件内部呢？
+原理：组件编译时给标签**添加 `data-v-xxx` 属性**，选择器附带该属性。
 
 ## deep 样式
 
-vue 提供了特殊的`:deep`选择器，可将父组件的样式作用到子组件内部。
+vue 提供了特殊的 `:deep` 选择器，可将父组件的样式作用到子组件内部。
 
 `v-deep` 已经废弃。
 
@@ -66,9 +64,10 @@ vue 提供了特殊的`:deep`选择器，可将父组件的样式作用到子组
 ## v-bind 绑定动态属性
 
 ```css
-.progress-bar > div {
+.progress-bar>div {
   background-color: #000;
-  width: v-bind('props.progress'); /* props.progress 是 props 属性*/
+  width: v-bind('props.progress');
+  /* props.progress 是 props 属性*/
   height: 8px;
   border-radius: 10px;
   transition-property: width;
