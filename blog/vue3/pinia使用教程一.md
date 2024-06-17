@@ -618,18 +618,17 @@ const createTestStore = (id = 'useTestStore', type) => {
 
   })()
 }
-
 ```
 
 在组件中使用：
 
 ```ts
-  import {
-    createTestStore
-  } from '@/stores'
-  const {
-    adcd
-  } = createTestStore('newID', 'store')
+import {
+  createTestStore
+} from '@/stores'
+const {
+  adcd
+} = createTestStore('newID', 'store')
 ```
 
 > 每次组价挂载，给它传递一个新的 id，就新建一个全新的 store。
