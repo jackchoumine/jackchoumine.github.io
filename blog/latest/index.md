@@ -1,5 +1,7 @@
 # 最新文章
 
+### [像素、位图和矢量图](../web/js/bit-map-and-vertor-map.md)
+
 ### [JSDoc代替typescript语法](../others/ts/JSDoc代替typescript语法.md)
 
 ### [null 和 undefined 的区别](../web/js/null%E5%92%8Cundefined%E7%9A%84%E5%8C%BA%E5%88%AB.md)
