@@ -2,11 +2,11 @@
  * @Author      : ZhouQiJun
  * @Date        : 2022-12-26 17:59:30
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-01-30 17:15:18
+ * @LastEditTime: 2024-06-22 18:17:53
  * @Description : 
 -->
 <script setup lang="ts" name="AntDesignPage">
-import { AntDesignDemos, UseRequestDemos } from '../components'
+import { AntDesignDemos, UseRequestDemos } from '@/components'
 </script>
 
 <template>
