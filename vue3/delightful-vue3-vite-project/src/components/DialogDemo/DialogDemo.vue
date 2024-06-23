@@ -3,8 +3,7 @@ import { QBtn } from 'quasar'
 import { provide } from 'vue'
 
 export default {
-  // eslint-disable-next-line vue/no-reserved-component-names
-  name: 'Dialog',
+  name: 'DialogDemo',
   components: {
     QBtn,
   },
@@ -17,9 +16,17 @@ export default {
       type: String,
       default: '这是弹窗标题',
     },
+    size: {
+      type: Object,
+      default: () => ({ width: '100px', height: '100px' }),
+    },
     position: {
       type: Object,
       default: () => ({ left: '100px', top: '100px' }),
+    },
+    zIndex: {
+      type: Number,
+      default: 101,
     },
     /**
      * 设置dialog是否可以移动，可选值：
@@ -34,12 +41,12 @@ export default {
         return value === false || value === 'header' || value === 'body'
       },
     },
-    // // 设置是否显示最大化按钮
+    // 是否显示最大化按钮
     maximum: {
       type: Boolean,
       default: true,
     },
-    // 设置是否显示关闭按钮
+    // 是否显示关闭按钮
     closer: {
       type: Boolean,
       default: true,
@@ -77,10 +84,25 @@ export default {
     const onClose = () => context.emit('close', { id: props.id })
 
     const positionStyle = computed(() => {
+      if (props.position.bottom && props.position.right) {
+        return {
+          position: 'fixed',
+          bottom: props.position.bottom,
+          right: props.position.right,
+          zIndex: props.zIndex,
+        }
+      }
       return {
         position: 'fixed',
         left: props.position.left,
         top: props.position.top,
+        zIndex: props.zIndex,
+      }
+    })
+    const sizeStyle = computed(() => {
+      return {
+        width: props.size.width,
+        height: props.size.height,
       }
     })
     provide('dialog', {
@@ -90,7 +112,8 @@ export default {
       switcher,
       innerCloser,
       onClose,
-      positionStyle
+      positionStyle,
+      sizeStyle,
     }
   },
 }
@@ -98,20 +121,19 @@ export default {
 
 <template>
   <!-- style="position: fixed; top: 11rem; left: 27.5rem; z-index: 1001" -->
-  <div
-    class="component modal dialog"
-    :style="positionStyle"
-    >
+  <div class="component modal dialog" :style="positionStyle">
     <!-- 
       :enter-active-class="animation?.enter || 'window--enter-active'"
       :leave-active-class="animation?.leave || 'window--leave-active'"
      -->
     <transition appear>
-      <div ref="body" class="modal--container" style="width: 56vw; height: 66vh">
+      <div ref="body" class="modal--container" :style="sizeStyle">
         <div v-if="!!header" class="header">
           <slot name="header">
             <div class="header--left">
-              <slot name="left"> <ElButton @click.stop="onCancel">左侧按钮1</ElButton> </slot>
+              <slot name="left">
+                <!-- <ElButton @click.stop="onClose">左侧按钮1</ElButton> -->
+              </slot>
             </div>
             <div class="header--title">
               <slot name="title">{{ title }}</slot>

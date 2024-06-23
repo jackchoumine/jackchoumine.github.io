@@ -2,12 +2,11 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-16 19:21:09
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-05-09 19:18:44
+ * @LastEditTime: 2024-06-23 19:24:52
  * @Description : 管理弹窗的 pinia 插件
  */
-import type { PiniaPlugin, PiniaPluginContext } from 'pinia';
-import type { ShallowReactive } from 'vue';
-
+import type { PiniaPlugin, PiniaPluginContext } from 'pinia'
+import type { ShallowReactive } from 'vue'
 
 type DialogOptions = {
   id?: string | number //  | symbol TODO  vue prop type 不支持 symbol
@@ -21,7 +20,7 @@ export type Dialog = {
   items: ShallowReactive<DialogOptions>[]
   frontDialog: string | number | symbol | null // 靠近用户的弹窗
   zIndex: number
-  onClose: (id) => void
+  close: (id) => void
   open: (options: DialogOptions) => void
 }
 
@@ -35,20 +34,20 @@ export default function pluginDialog(): PiniaPlugin {
   }
   // 弹窗操作
   const actions = {
-    onClose: id => {
+    close: id => {
       console.log('关闭弹窗', id)
       const item = dialogState.items.find(item => item.id === id)
-      // const index = dialogState.items.findIndex(item => item.id === id)
+      const index = dialogState.items.findIndex(item => item.id === id)
       item.onClose?.()
       nextTick(() => {
-        dialogState.items.splice(item.index, 1)
+        dialogState.items.splice(index, 1)
       })
     },
     open: (options: DialogOptions) => {
       console.log('打开弹窗')
       console.log(options)
       if (!options.id) {
-        options.id = new Date().toString()
+        options.id = Math.random().toString(36).slice(3)
         dialogState.items.push(options)
         return
       }
@@ -58,7 +57,10 @@ export default function pluginDialog(): PiniaPlugin {
         dialogState.frontDialog = exist.id
       } else {
         const index = dialogState.items.length
-        dialogState.items.push({ ...options, index: index })
+        dialogState.items.push({
+          ...options,
+          zIndex: index + 1 + dialogState.zIndex,
+        })
       }
     },
   }
