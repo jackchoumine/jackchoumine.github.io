@@ -2,16 +2,19 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-16 19:51:00
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-06-23 19:22:03
+ * @LastEditTime: 2024-06-23 20:27:23
  * @Description : pinia 管理弹窗
 -->
 <script setup lang="ts">
 import { useTodosStore } from '@/stores'
 
+import useModal, { modalState } from '../Modal/useModal'
+
+const modal = useModal()
 const todosStore = useTodosStore()
 
 function openDialog() {
-  todosStore.dialog.open({
+  const modalOptions = {
     id: 'test-id',
     title: '弹窗1',
     size: {
@@ -24,17 +27,15 @@ function openDialog() {
     },
     props: {},
     // body:()=>
-    onCancel: () => {
-      console.log('点击了取消按钮')
-    },
     onClose: data => {
       console.log('点击了关闭按钮', data)
     },
-  })
+  }
+  modal.open(modalOptions)
 }
 
 function openDialog2() {
-  todosStore.dialog.open({
+  const modalOptions = {
     // id: 'test-id-2',
     title: '弹窗2',
     size: {
@@ -46,14 +47,23 @@ function openDialog2() {
       right: '50px',
     },
     props: {},
-    // onCancel: () => {
-    //   console.log('点击了取消按钮')
-    // },
     onClose: data => {
       console.log('点击了关闭按钮', data)
     },
-  })
+  }
+  modal.open(modalOptions)
 }
+
+// const modal = useModal()
+// modal.open({
+//  title: '弹窗',
+//  content: '内容',
+//  onClose: () => {
+//    console.log('点击了确定按钮')
+//  },
+// })
+// modal.close(id)
+// const { openDialog } = useDialog()
 </script>
 
 <template>
@@ -62,6 +72,9 @@ function openDialog2() {
     <button @click="openDialog2">打开弹窗2</button>
     <ul>
       <li v-for="item in todosStore.dialog.items" :key="item.id">{{ item }}</li>
+    </ul>
+    <ul>
+      <li v-for="item in modalState.items" :key="item.id">{{ item }}</li>
     </ul>
   </div>
 </template>

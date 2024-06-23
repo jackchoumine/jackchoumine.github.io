@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-03-13 20:21:08
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-16 20:43:42
+ * @LastEditTime: 2024-06-23 20:07:13
  * @Description : 
 -->
 <script setup lang="ts">
@@ -12,6 +12,8 @@ import { DialogContainer } from '@/components/PiniaDemos'
 import { useEvent, useEventBus } from '@/hooks'
 import { useTodosStore } from '@/stores'
 
+import ModalContainer from './components/Modal/ModalContainer'
+import { modalState } from './components/Modal/useModal'
 import { generateRoutes } from './routers'
 import { USER_KEY } from './utils/injectionKey'
 
@@ -28,6 +30,7 @@ on('ant-btn-mounted', (name: string) => {
 </script>
 
 <template>
+  <ModalContainer :items="modalState.items" />
   <DialogContainer
     :dialogs="todosStore.dialog.items"
     :front-dialog="todosStore.dialog.frontDialog"

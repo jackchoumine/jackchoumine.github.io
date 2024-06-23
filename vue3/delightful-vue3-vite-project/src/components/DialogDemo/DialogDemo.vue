@@ -80,7 +80,6 @@ export default {
             color: 'transparent', // options['modal.closer.color'],
           }
 
-    const onCancel = () => context.emit('cancel')
     const onClose = () => context.emit('close', { id: props.id })
 
     const positionStyle = computed(() => {
@@ -105,9 +104,11 @@ export default {
         height: props.size.height,
       }
     })
+
     provide('dialog', {
-      onCancel,
+      close: () => onClose(),
     })
+
     return {
       switcher,
       innerCloser,
