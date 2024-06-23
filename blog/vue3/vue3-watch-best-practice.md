@@ -53,7 +53,8 @@ watch 的第一个参数是监听的数据源，有四种形式：
   const numList = shallowRef([1, 2, 3])
 
   function changeNumList() {
-    // numList.value.push(10, 20, 30)  // NOTE 无法改变 ❌
+    // numList.value.push(10, 20, 30)  
+    // NOTE shallowRef 的数组，使用 push pop 等方法修改 无法监测到 ❌
     numList.value = [...numList.value, 10, 20, 30]
   }
 
@@ -114,14 +115,14 @@ watch 的第一个参数是监听的数据源，有四种形式：
 
 2. 监听 shallowRef：`watch(ref)` 或者 `watch(computedRef)`
 
-3. 关于 ref 的修改，使用`ref.value = newValue`，即直接重置，可有效降低心智负担。
+3. 关于 ref和 shallowRef 的修改，使用`xxx.value = newValue`，即直接重置，可有效降低心智负担。
 
 比如上面的数组添加，numList 是一个 `shallowRef` ，使用数组方法 `numList.value.push(10, 20, 30)` 添加元素，无法监测到 `numList` 的改变 。使用 `push` 、 `pop` 等改变数组类型的 ref，是能监听到的。
 
 修改数组，推荐都这样改：
 
 ```js
-numList.value = [...numList.value, 10, 20, 30] // 直接重置数组
+numList.value = [...numList.value, 10, 20, 30] // 直接重置数组 shallowRef 也是如此
 ```
 
 修改对象某个属性：
@@ -139,7 +140,7 @@ shallowA.value = {
 
 ### 关于 reactive 和 shallowReactive 的监听
 
-* 监听整个 reactive，直接写，`watch(person)`，不添加 `{deep: true}`，是默认深度监听的；
+* 监听整个 reactive，直接写，`watch(person)`，不用添加 `{deep: true}`，是默认深度监听的；
 * 使用函数返回整个 reactive：`watch(()=>({..person}))`, 默认浅层监听的，监听深层属性，添加`{deep:true}`；
 * 监听 reactive 的单个属性，使用函数返回，监听多个属性，使用数组：`watch(person.age) watch([()=>person.age, ()=>person.name])`
 
@@ -173,28 +174,17 @@ watch 的第三个参数，是一个配置对象
 watch(reactiveVariable, effectCallback, {
   deep: true, // 监听深层属性
   immediate: true， // 立即执行 effectCallback
-  flush: 'post', // vue 组件更新后执行 effectFn，默认 vue 组件更新之前执行 effectCallback
+  flush: 'post', // vue 组件更新后执行 effectCallback，默认 vue 组件更新之前执行 effectCallback
 })
 ```
 
 > flush?: 'pre' | 'post' | 'sync'; 
 
-> 何时使用 `{flush:'post'}` ？希望在 `effectCallback` 中获取到新的 DOM 时，比如 effectCallback 中涉及 DOM 的操作。
+> 何时使用 `{flush:'post'}` ？希望在 `effectCallback` 中获取到最新的 DOM 时，比如 effectCallback 中涉及 DOM 的操作。
 
 ## watchEffect
 
-侦听器的回调使用与依赖源完全相同的响应式状态是很常见的，此时可使用 watchEffect：
-
-```js
-watchEffect(async () => {
-  const response = await fetch(
-    `https://jsonplaceholder.typicode.com/todos/${todoId.value}`
-  )
-  data.value = await response.json()
-})
-```
-
-watchEffect 立即执行的特点相当于立即执行的 `watch` 。
+监听器的**回调函数使用到的变量**与**依赖源**完全相同是很常见的，比如这样：
 
 ```js
 watch(todoId, async (newTodoId) => {
@@ -208,7 +198,7 @@ watch(todoId, async (newTodoId) => {
 })
 ```
 
-> 侦听器是如何两次使用 todoId ? 一次是作为依赖源，另一次是在回调中，可使用 `watchEffect` 简化：
+> todoId 在监听器中被使用了两次：一次是作为依赖源，另一次是在回调中，可使用 `watchEffect` 简化：
 
 ```js
 watchEffect(async () => {
@@ -218,6 +208,8 @@ watchEffect(async () => {
   data.value = await response.json()
 })
 ```
+
+> watchEffect 立即执行的特点相当于立即执行的 `watch` 。
 
 > watchEffect 不会深度监听
 
@@ -272,7 +264,7 @@ setTimeout(() => {
 }, 4000)
 ```
 
-> 四个 watchEffect 的回调都会立即执行，两秒后，只有第三个 watchEffect 的回调执行。
+> 4 个 watchEffect 的回调都会立即执行，2 秒后，只有第三个 watchEffect 的回调执行。
 
 > 注意，watchEffect 不支持深度监听，需要深度监听，使用 `toRefs` 。
 
@@ -312,11 +304,13 @@ watchEffect(
 
 1. 对于依赖项多：有**多个依赖项**的侦听器来说，使用 watchEffect，可以消除手动维护依赖列表的负担。
 
-2. 深层监听： 侦听一个**嵌套数据结构**中的**几个属性**，watchEffect 可能会比深度侦听器更有效，因为它将只跟踪回调中被**使用到的属性**，而不是递归地跟踪所有的属性。
+2. 深层监听： 监听一个**嵌套数据结构**中的**几个属性**，watchEffect 可能会比深度侦听器更有效，因为它将只跟踪回调中被**使用到的属性**，而不是递归地跟踪所有的属性。
 
 3. 立即执行：希望监听器回调立即执行时使用。
 
 4. **惰性执行**副作用和希望**获取旧值**时，不要使用。
+
+5. 深度监听，使用 `toRefs`。
 
 ## ref vs reactive
 
@@ -347,7 +341,7 @@ watchEffect(
 因为只有 `箭头函数` + `deep` 的组合，才能监听到 reactive 和计算属性。
 
 ```js
-// NOTE obj 是一个计算属性，监听不到  是 reactive 能监听 ❌
+// NOTE obj 是一个计算属性，监听不到  是 reactive 却能监听 ❌
 watch(props.obj, (val, old) => {
   console.log('props.obj', val, old)
 })
@@ -369,7 +363,7 @@ watch(
 )
 ```
 
-> 关于这个差异，vue3 文档没有给出解释。
+> 关于这个怪异的行为，vue3 文档没有给出解释。我们都是 `监听函数` + `deep:true` 的组合，这样就能监听到 reactive 和计算属性，减少心智负担。
 
 ## watch vs watchEffect
 
@@ -493,7 +487,8 @@ setTimeout(function() {
 
 1. 依赖源对多 3 个的**立即执行**；
 2. 不需要旧的**立即执行**；
-3. 深层监听比较麻烦的时候。
+3. 深层监听比较麻烦的时候；
+4. 依赖源和回调函数用到的变量一样的时候。
 
 > watchEffect 的副作用是立即执行的。
 
@@ -515,8 +510,8 @@ watch(() => source.value,
 
 ## 小结
 
-1. 优先使用 ref：心智负担小，监听和重置都很方便，一眼能看出是响应式变量；
+1. 优先使用 ref：心智负担小，监听和重置都很方便，一眼能看出是响应式变量，shallowRef 修改数据也是重置；
 2. watchEffect 和 watch 的 cleanUp 回调里可清除副作用；
 3. 惰性执行副作用和获取旧值，必须使用 watch;
 4. 当需要执行**深层监听**和**依赖源较多**的**立即执行**的副作用，watchEffect 更好；
-5. 监听props，都使用箭头函数，监听对象和数组时，使用深度监听。
+5. 监听 props，都使用箭头函数，监听对象和数组时，使用深度监听。
