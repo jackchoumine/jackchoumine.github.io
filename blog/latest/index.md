@@ -1,10 +1,12 @@
 # 最新文章
 
+### [常用的 js 代码片段](../web/js/useful-js-snippet.md) 
+
 ### [vue 如何监听组件生命周期钩子事件](../vue3/如何监听组件生命周期钩子事件.md)
 
 ### [地图投影](../web-gis/地图投影.md)
 
-### [像素、位图和矢量图](../web/js/bit-map-and-vertor-map.md)
+### [像素、位图和矢量图](../web/js/bit-map-and-vertor-map.md) 
 
 ### [JSDoc代替typescript语法](../others/ts/JSDoc代替typescript语法.md)
 
