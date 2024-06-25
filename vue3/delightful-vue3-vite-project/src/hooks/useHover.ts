@@ -4,7 +4,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-26 18:16:09
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-09-11 02:06:21
+ * @LastEditTime: 2024-06-25 10:22:14
  * @Description : 可代替 hover 事件的 hook
  */
 import hoverIntent from 'hoverintent'
@@ -21,6 +21,19 @@ const options = {
 /**
  * 鼠标移入移出 hook，可设置鼠标停留时间。
  * hover 事件瞬间触发，不能设置停留时间
+ * @example
+ * ```js
+ * const {isHover, setHoverTarget} = useHover({
+ *   in: (target) => {
+ *     console.log('in', target)
+ *   },
+ *   out: (target) => {
+ *    console.log('out', target)
+ *   }
+ * })
+ * // 模板中设置 hover 的目标元素 ref 前面有冒号
+ * // <div :ref="setHoverTarget">hover的目标元素</div>
+ * ```
  * @param target 目标元素
  * @param inAndOut 移入移除回调
  * @param inAndOut.in 移入回调
