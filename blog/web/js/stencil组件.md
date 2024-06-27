@@ -6,14 +6,14 @@ stencil 提供一些装饰器、生命周期钩子和渲染函数去编写一个
 
 装饰器是一组用于声明组件元数据的函数，会在构建产物中移除，所以不会有运行时开销。
 
-- @Component() 声明一个类是组件
-- @Prop() 声明一个组件的特性或者属性
-- @State() 声明组件内部状态
-- @Watch() 监听 prop 或者 state 的改变，然后执行副作用
-- @Listen() 监听组件内部的 DOM 事件
-- @Event() 声明自定义事件
-- @Method() 暴露组件方法
-- @Element() 声明组件变化的自定义标签
+* @Component() 声明一个类是组件
+* @Prop() 声明一个组件的特性或者属性
+* @State() 声明组件内部状态
+* @Watch() 监听 prop 或者 state 的改变，然后执行副作用
+* @Listen() 监听组件内部的 DOM 事件
+* @Event() 声明自定义事件
+* @Method() 暴露组件方法
+* @Element() 声明组件变化的自定义标签
 
 ### 生命周期
 
@@ -59,7 +59,7 @@ disconnectedCallback # 组件被移除
 
 常用的：
 
-`connectedCallback`会调用多次：首次和移除后再添加到 DOM 都会调用，可设置定时器、监听原生事件等。
+`connectedCallback` 会调用多次：首次和移除后再添加到 DOM 都会调用，可设置定时器、监听原生事件等。
 
 ```js
 const el = document.createElement('my-cmp')
@@ -76,10 +76,10 @@ document.body.appendChild(el)
 
 `disconnectedCallback` 组件从 DOM 中移除时调用，可在此做一些收尾工作。
 
-`componentWillLoad` 在 render 之前调用，`调用一次`。
+`componentWillLoad` 在 render 之前调用， `调用一次` 。
 可再次发送 ajax 请求获取数据。
 
-`componentShouldUpdate(newValue,oldValue,property)`
+ `componentShouldUpdate(newValue,oldValue,property)`
 
 返回布尔值，决定组件是否重新渲染。
 
@@ -92,7 +92,7 @@ componentWillUpdate
 componentWillRender
 ```
 
-`componentDidLoad(), componentDidUpdate() and componentDidRender()`更新状态，会导致再次渲染。
+`componentDidLoad(), componentDidUpdate() and componentDidRender()` 更新状态，会导致再次渲染。
 
 `componentDidUpdate()、componentDidRender()` 可能导致无限渲染。
 
@@ -165,11 +165,11 @@ export class MyInput {
 
 解读：
 
-- `@Component`装饰器声明该类是一个组件，传递一些元数据，比如组件的标签，标签必须`全局唯一，且含有-`，样式，是否开启 shadow 等。
+* `@Component`装饰器声明该类是一个组件，传递一些元数据，比如组件的标签，标签必须`全局唯一，且含有-`，样式，是否开启 shadow 等。
 
 tag 属性必需，[更多参数](https://stenciljs.com/docs/component)
 
-- `@Prop`声明组件的属性
+* `@Prop`声明组件的属性
 
 > 关于命名
 
@@ -206,9 +206,9 @@ export interface PropOptions {
 }
 ```
 
-prop 默认是组件内部不可变更的，否则触发警告通过`mutable`修改这个默认行为。
+prop 默认是组件内部不可变更的，否则触发警告通过 `mutable` 修改这个默认行为。
 
-reflect：声明 DOM `prop`是否对应到标签特性上，设置为 true，在 html 标签上，会显示该属性。
+reflect：声明 DOM `prop` 是否对应到标签特性上，设置为 true，在 html 标签上，会显示该属性。
 
 ```tsx
 @Component({ tag: 'my-cmp' })
@@ -237,9 +237,9 @@ class Cmp {
 
 都默认可选，可在 Watch 验证是否必须。
 
-- `@Event`声明组件触发的事件，后面是事件名称
+* `@Event`声明组件触发的事件，后面是事件名称
 
-`this.eventName.emit(data)` 触发自定义事件，data 是发送到父组件的数据，监听 eventName 事件时通过 `event.detail` 获取到 `data`。
+`this.eventName.emit(data)` 触发自定义事件，data 是发送到父组件的数据，监听 eventName 事件时通过 `event.detail` 获取到 `data` 。
 
 > 在自定义标签上仍然能监听到原生事件，如何避免监听到原生事件呢？
 
@@ -247,12 +247,12 @@ class Cmp {
 
 > 如何监听？
 
-- `@Listen(eventName)`监听事件，绑定到组件上，可通过第二个参数配置绑定的元素。
-  `@Listen`监听全局事件很有用。
+* `@Listen(eventName)`监听事件，绑定到组件上，可通过第二个参数配置绑定的元素。
+`@Listen` 监听全局事件很有用。
 
-- 在 jsx 中，通过`onXxx`监听
+* 在 jsx 中，通过`onXxx`监听
 
-- html 中通过`addEventListener`
+* html 中通过`addEventListener`
 
 [更多事件信息](https://stenciljs.com/docs/events#listen-decorator)
 
@@ -341,7 +341,7 @@ export class AppHome {
 
 ### 如何暴露组件内部的方法供外部使用？
 
-通过`@Method`暴露方法，`ref`获取组件实例，调用组件方法。
+通过 `@Method` 暴露方法， `ref` 获取组件实例，调用组件方法。
 
 ```tsx
   @Method() // @Method 装饰器要求方法返回Promise
@@ -350,7 +350,7 @@ export class AppHome {
   }
 ```
 
-在父组件通过`ref`调用组件方法
+在父组件通过 `ref` 调用组件方法
 
 ```tsx
 @Component({
@@ -385,7 +385,7 @@ export class AppHome {
 
 在组件内部获取自组件实例。
 
-和在组件外部通过`ref`获取组件实例，值是同一个。
+和在组件外部通过 `ref` 获取组件实例，值是同一个。
 
 ## Host 组件
 
@@ -393,7 +393,7 @@ Host 组件一个内置组件，不会渲染到页面上。
 
 常用的场景：
 
-- 在组件内部设置自定义标签的属性
+* 在组件内部设置自定义标签的属性
 
 ```tsx
 import { Component, Host, h } from '@stencil/core'
@@ -415,7 +415,7 @@ export class TodoList {
 }
 ```
 
-- 作为`Fragment`
+* 作为`Fragment`
 
 ## 样式
 
@@ -431,9 +431,9 @@ stencil 使用 Shadow DOM 要封装 DOM 和样式，内部样式不泄露到外�
 
 启用后：
 
-- 样式隔离：内外部样式不相互影响。
+* 样式隔离：内外部样式不相互影响。
 
-- 设置样式的选择改变
+* 设置样式的选择改变
 
 启用前，可通过自定义标签获取到 DOM
 
@@ -449,13 +449,13 @@ app-input {
 }
 ```
 
-启用后，对`:host`选择器有影响，目前还不清楚是什么影响。
+启用后，对 `:host` 选择器有影响，目前还不清楚是什么影响。
 
 <!-- TODO -->
 
 > 都使用 `:host`
 
-- 获取 DOM 的方式改变
+* 获取 DOM 的方式改变
 
 ```js
 this.el.querySelector('div') // 启用前
@@ -464,7 +464,7 @@ this.el.shadowRoot.querySelector('div') // 启用后
 
 > 如何从外部改变内部的样式？
 
-- [CSS custom 变量](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties）
+* [CSS custom 变量](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)
 
 <!-- FIXME -->
 
@@ -472,11 +472,11 @@ CSS 变量往往设置成全局的，但是全局样式文件只能导入一个�
 
 和
 
-- [::part and ::theme, an ::explainer](https://meowni.ca/posts/part-theme-explainer/)
+* [::part and ::theme, an ::explainer](https://meowni.ca/posts/part-theme-explainer/)
 
 <!-- TODO -->
 
-- 全局样式
+* 全局样式
 
 哪些情况该考虑使用全局样式：
 
@@ -502,10 +502,10 @@ export const Hello = props => <h1>Hello, {props.name}!</h1>
 
 函数组件还有以下限制：
 
-- 不会被编译成 web component，故无法在 html 中使用
-- 不能使用生命周期函数
-- 不会创建 DOM 节点
-- 无法使用 shadow DOM 和 scoped style，其实无法应用样式
+* 不会被编译成 web component，故无法在 html 中使用
+* 不能使用生命周期函数
+* 不会创建 DOM 节点
+* 无法使用 shadow DOM 和 scoped style，其实无法应用样式
 
 这些特点，限制了函数组件的使用场景，除了 renderProp ，几乎无用。
 
