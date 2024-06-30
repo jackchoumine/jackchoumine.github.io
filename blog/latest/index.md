@@ -1,5 +1,7 @@
 # 最新文章
 
+### [npm ci vs npm i](../node/ci-vs-i.md) 
+
 ### [常用的 js 代码片段](../web/js/useful-js-snippet.md) 
 
 ### [vue 如何监听组件生命周期钩子事件](../vue3/如何监听组件生命周期钩子事件.md)

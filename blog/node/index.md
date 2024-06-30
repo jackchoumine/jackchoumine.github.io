@@ -1,5 +1,7 @@
 # node 学习记录
 
+### [npm ci vs npm i](./ci-vs-i.md)
+
 ### [什么是 npmrc ](./what-is-npmrc.md)
 
 ### [pnpm 的使用](./how-to-use-pnpm.md)
