@@ -1,1 +1,0 @@
-import{_ as s,o as n,c as a,a as e}from"./app.84270dca.js";const y=JSON.parse('{"title":"Centos 云主机安装 node","description":"","frontmatter":{},"headers":[],"relativePath":"node/Centos云主机安装node.md"}'),l={name:"node/Centos云主机安装node.md"},p=e("",13),o=[p];function t(c,r,i,d,C,u){return n(),a("div",null,o)}const b=s(l,[["render",t]]);export{y as __pageData,b as default};
