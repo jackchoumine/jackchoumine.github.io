@@ -2,12 +2,12 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-11-06 12:17:37
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-11-06 12:30:50
+ * @LastEditTime: 2024-06-24 02:57:26
  * @Description : 异步组件
 -->
 <script setup>
 const rightComponent = shallowRef()
-const menuList = ref([
+const menuList = [
   {
     label: '菜单1',
     // path: () => import('./MenuList/TestOne.vue'),
@@ -19,9 +19,9 @@ const menuList = ref([
     // path: () => import('./MenuList/TestTwo.vue'),
     path: defineAsyncComponent(() => import('./MenuList/TestTwo.vue')),
   },
-])
+]
 
-onSelectMenu(menuList.value[0])
+onSelectMenu(menuList[0])
 
 function onSelectMenu(menu) {
   //   import(menu.path).then(component => {

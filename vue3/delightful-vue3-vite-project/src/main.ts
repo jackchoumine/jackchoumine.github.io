@@ -2,7 +2,7 @@
  * @Date        : 2022-08-08 14:23:25
  * @Author      : ZhouQijun
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-05-15 14:49:37
+ * @LastEditTime: 2024-07-02 00:27:03
  * @Description :
  */
 // import { default as jackComponents }from '@jack/components'
@@ -11,58 +11,51 @@
 // Import icon libraries
 // import ECUI from '@jackzhoumine/ec-ui';
 // import '@jackzhoumine/ec-ui/style.css';
-import '@quasar/extras/material-icons/material-icons.css';
+import '@quasar/extras/material-icons/material-icons.css'
 // @ts-ignore
 // import { MyRating } from 'jack-web-ui/dist/components/index'
-import { ELineChart, HelloStencil // defineCustomElementELineChart,
-} from 'echarts-web-components/dist/components';
+import {
+  ELineChart,
+  HelloStencil, // defineCustomElementELineChart,
+} from 'echarts-web-components/dist/components'
 // web component
 // app.config.compilerOptions.isCustomElement = tag =>
 //   /^([a-z][a-z0-9]*)(-[a-z0-9]+)*$/.test(tag)
-import { ElLoading } from 'element-plus';
+import { ElLoading } from 'element-plus'
 // NOTE 不到如这个，在jsx中使用指令，无效。
-import 'element-plus/theme-chalk/el-loading.css';
-import 'element-plus/theme-chalk/src/base.scss';
+import 'element-plus/theme-chalk/el-loading.css'
+import 'element-plus/theme-chalk/src/base.scss'
 // customElements.define('count-to', CountTo as unknown as CustomElementConstructor)
-import { CountTo } from 'jack-web-ui/dist/components';
+import { CountTo } from 'jack-web-ui/dist/components'
 // import { defineCustomElements } from 'jack-ui/loader'
 // defineCustomElements()
 // import './assets/styles/style.css'
-import 'jack-web-ui/dist/jack-web-ui/jack-web-ui.css';
-import 'leaflet/dist/leaflet.css';
-import { Quasar } from 'quasar';
+import 'jack-web-ui/dist/jack-web-ui/jack-web-ui.css'
+import 'leaflet/dist/leaflet.css'
+import { Quasar } from 'quasar'
 // Import Quasar css
-import 'quasar/dist/quasar.css';
-import quasarIconSet from 'quasar/icon-set/svg-material-icons';
-import quasarLang from 'quasar/lang/zh-CN';
-import { createApp } from 'vue/dist/vue.esm-bundler.js';
-
-
+import 'quasar/dist/quasar.css'
+import quasarIconSet from 'quasar/icon-set/svg-material-icons'
+import quasarLang from 'quasar/lang/zh-CN'
+import { createApp } from 'vue/dist/vue.esm-bundler.js'
 
 // NOTE 重置leaflet的样式
-import '@/components/LeafletDemos/reset.scss';
-
-
+import '@/components/LeafletDemos/reset.scss'
 
 // openlayers css
-import 'ol/ol.css';
-
-
+import 'ol/ol.css'
 
 // @ts-ignore
 // import Antd from 'ant-design-vue'
 // import 'ant-design-vue/dist/antd.css'
-import App from './App.vue';
+import App from './App.vue'
 // 导入 haunted 创建的 web component
-import './components/HauntedComponent/haunt-counter';
-import globalDirectives from './directives';
-import router from './routers';
-import piniaStore from './stores';
+import './components/HauntedComponent/haunt-counter'
+import globalDirectives from './directives'
+import router from './routers'
+import piniaStore from './stores'
 
-
-
-import './assets/styles/global.scss';
-
+import './assets/styles/global.scss'
 
 // console.log(piniaStore, 'zqj log')
 
@@ -111,4 +104,4 @@ app.config.globalProperties.globalFn = function testGlobal(name: string) {
   console.log(name)
 }
 
-app.mount('#app')
+app.mount('.gui-zhou-sy-app')
