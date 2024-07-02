@@ -5,11 +5,11 @@
 为了在软件版本号中包含更多意义，反映代码所做的修改，产生了语义化版本，软件的使用者能从版本号中推测软件做的修改。npm 包使用语义化版控制，我们可安装一定版本范围的 npm 包，npm 会选择和你指定的版本相**匹配**的 **(latest)最新版本** 安装。
 
 npm 的版本号由三部分组成：
-`主版本号`、`次版本号`、`补丁版本号`。变更不同的版本号，表示不同的意义：
+`主版本号` 、 `次版本号` 、 `补丁版本号` 。变更不同的版本号，表示不同的意义：
 
-- 主版本号（major）：软件做了不兼容的变更（breaking change 重大变更）；
-- 次版本号（minor）：添加功能或者废弃功能，向下兼容；
-- 补丁版本号（patch）：bug 修复，向下兼容。
+* 主版本号（major）：软件做了不兼容的变更（breaking change 重大变更）；
+* 次版本号（minor）：添加功能或者废弃功能，向下兼容；
+* 补丁版本号（patch）：bug 修复，向下兼容。
 
 有时候为了表达更加确切的版本，还会在版本号后面添加**标签**或者**扩展**，来说明是预发布版本或者测试版本等。比如 **3.2.3-beta-3**。
 
@@ -72,7 +72,7 @@ npm i vue@beta # 安装 2.6.0-beta.3
 
 弃用现存的功能是软件开发中的家常便饭，也通常是向前发展所必须的。但当你弃用公共 API 的一部分时，你应该做两件事：
 （1）更新**文档**以便使用者知道这个变化。
-（2）发行不包含弃用功能的**次版本**。在新的主版本中完全移除弃用功能前，至少应有一个不包含弃用功能的副版本发布，以便使用者能够平滑过渡到新 API。
+（2）发行不包含弃用功能的**次版本**。在新的主版本中完全移除弃用功能前，至少应有一个包含弃用功能的副版本发布，以便使用者能够平滑过渡到新 API。
 
 如何更新版本号？不用手动修改 package.json。而是用如下命令：
 
@@ -89,25 +89,25 @@ npm version [<newversion> | major | minor | patch | premajor | preminor | prepat
 
 ### 手动更改版本号
 
-执行 `npm version <version> -m 'xx %s xx'` 改变 npm 版本的同时，会执行一次 `git commit -m 'xx %s xx'`并用版本号打一个**tag**，%s 会替换成版本号，前提是版本库是**干净的（clean）**。
+执行 `npm version <version> -m 'xx %s xx'` 改变 npm 版本的同时，会执行一次 `git commit -m 'xx %s xx'` 并用版本号打一个**tag**，%s 会替换成版本号，前提是版本库是**干净的（clean）**。
 
 ### 自动更新版本
 
-在 `.git/hooks`目录内，新建`post-commit`,输入以下内容：
+在 `.git/hooks` 目录内，新建 `post-commit` , 输入以下内容：
 
-```js
+```bash
 #!/bin/sh
-COMMIT_MSG="$(git log --pretty=format:"%s" -1 head)"
-echo "$COMMIT_MSG" | grep  -q  "^[0-9]"
-if [ $? -ne 0 ];then
-   # 自动修改 patch
-  echo $(npm version patch)
+COMMIT_MSG = "$(git log --pretty=format:" % s " -1 head)"
+echo "$COMMIT_MSG" | grep - q "^[0-9]"
+if [$ ? -ne 0]; then
+# 自动修改 patch
+echo $(npm version patch)
 fi
 ```
 
-在执行 `git commit -m 'message'`后，会检测 message 是否是版本号（y.x.z 的形式），不是，则执行 `npm version patch`更新补丁版本，打一个 tag。
+在执行 `git commit -m 'message'` 后，会检测 message 是否是版本号（y.x.z 的形式），不是，则执行 `npm version patch` 更新补丁版本，打一个 tag。
 
-如果想自动修改`次版本`，修改 post-commit 的内容即可。
+如果想自动修改 `次版本` ，修改 post-commit 的内容即可。
 
 ## 希望发布一个带有测试功能的版本，如何设置版本号？
 
@@ -203,11 +203,11 @@ npm i lodash@~3.3.0 # 安装 3.3.1
 
 ### 如何优雅地按照版本范围升级依赖
 
-`npm outdated` 可以检查过时的依赖，然后使用`npm up`升级。
+`npm outdated` 可以检查过时的依赖，然后使用 `npm up` 升级。
 
 更加推荐使用[npm-check-updates](https://www.npmjs.com/package/npm-check-updates)按需升级依赖。
 
-安装`npm i npm-check-updates -g`
+安装 `npm i npm-check-updates -g`
 
 基础使用
 
@@ -237,7 +237,7 @@ npm i vue@"1 - 1.9" # 安装 1.0.28
 
 > 该使用哪种版本呢？
 
-npm 默认使用`^`，我们可以修改：
+npm 默认使用 `^` ，我们可以修改：
 
 ```bash
 npm config set save-prefix="~" # 使用 ~
