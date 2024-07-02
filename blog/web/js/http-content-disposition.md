@@ -46,7 +46,7 @@ Content-Disposition: form-data; name="fieldName"; filename="filename.jpg"
 
 ## a 标签的 download 属性
 
-`download` 属性是 `a` 标签的属性，用于指定下载或者指定文件的名字。
+`download` 是 `a` 标签的属性，用于指定下载动作或者指定文件的名字。
 
 ```html
 <!-- 下载 -->
@@ -83,7 +83,7 @@ export function downloadFile(fileId, fileName = '', path = FILE_PATH) {
 指定文件名字成功的两个条件：
 
 * 同源
-* 而且，接口**没设置** `Content-Disposition` 的 `filename` 属性
+* 接口**没设置** `Content-Disposition` 的 `filename` 属性
 
 ## 小结
 
