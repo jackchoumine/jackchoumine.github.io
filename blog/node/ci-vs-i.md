@@ -39,7 +39,6 @@
 ```json
 {
   "scripts": {
-    "preci": "rm -rf node_modules",
     "ci": "pnpm install --frozen-lockfile"
   }
 }
