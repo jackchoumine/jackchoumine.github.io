@@ -19,6 +19,32 @@
 
 > npm ci 保证了依赖的一致性和可预测性，适合CI/CD环境。npm install 则无法保证。
 
+## yarn 和 pnpm 有类似的命令吗？
+
+没有，通过自定义脚本来实现类似的功能。
+
+> yarn
+
+```json
+{
+  "scripts": {
+    "preci": "rm -rf node_modules",
+    "ci": "yarn install --frozen-lockfile"
+  }
+}
+```
+
+> pnpm
+
+```json
+{
+  "scripts": {
+    "preci": "rm -rf node_modules",
+    "ci": "pnpm install --frozen-lockfile"
+  }
+}
+```
+
 ## 该选择哪个？
 
 * 如果你是在CI/CD环境中，推荐使用 `npm ci` 以确保依赖的一致性和安装的速度。
