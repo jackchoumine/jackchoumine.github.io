@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-06-05 10:14:53
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-07-05 16:11:01
+ * @LastEditTime: 2024-07-05 18:03:03
  * @Description : 并发控制-示例一
 -->
 <script lang="ts" setup>
@@ -37,33 +37,40 @@ const tasks = new Array(10).fill(0).map((v, i) => {
 // })
 
 // sendRequest()
-function sendRequest() {
+async function sendRequest() {
   // const concurrencyControl = new ConcurrencyControl({
   //   maxConcurrencyLimit: 3,
   //   callback: res => {
   //     console.log(res)
   //   },
   // })
-
   // tasks.forEach(task => {
   //   concurrencyControl.push({ fn: getTodo, params: task })
   // })
   // concurrencyControl.run()
-  const p = pControl(3)
-  tasks.forEach(task => {
-    p.add(getTodo, task)
-  })
-  p.start(res => {
-    console.log(res)
-  }).then(res => {
-    console.log(res)
-  })
+  // p control
+  // const p = pControl(3)
+  // tasks.forEach(task => {
+  //   p.add(getTodo, task)
+  // })
+  // p.start(res => {
+  //   console.log(res)
+  // }).then(res => {
+  //   console.log(res)
+  // })
+  // p limit
   // const limitList = tasks.map(task => {
   //   return limit(() => getTodo(task))
   // })
   // Promise.all(limitList).then(res => {
   //   console.log(res)
   // })
+  const iterator = tasks.entries()
+  const limitList = []
+  for (const [index, task] of iterator) {
+    const res = await getTodo(task)
+    console.log(res)
+  }
 }
 </script>
 
