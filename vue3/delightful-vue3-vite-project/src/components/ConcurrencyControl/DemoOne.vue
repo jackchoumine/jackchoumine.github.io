@@ -2,10 +2,11 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-06-05 10:14:53
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-07-05 12:54:32
+ * @LastEditTime: 2024-07-05 16:11:01
  * @Description : 并发控制-示例一
 -->
 <script lang="ts" setup>
+import pControl from 'p-control'
 import pLimit from 'p-limit'
 
 import { useHttp } from '@/hooks'
@@ -37,17 +38,26 @@ const tasks = new Array(10).fill(0).map((v, i) => {
 
 // sendRequest()
 function sendRequest() {
-  const concurrencyControl = new ConcurrencyControl({
-    maxConcurrencyLimit: 3,
-    callback: res => {
-      console.log(res)
-    },
-  })
+  // const concurrencyControl = new ConcurrencyControl({
+  //   maxConcurrencyLimit: 3,
+  //   callback: res => {
+  //     console.log(res)
+  //   },
+  // })
 
+  // tasks.forEach(task => {
+  //   concurrencyControl.push({ fn: getTodo, params: task })
+  // })
+  // concurrencyControl.run()
+  const p = pControl(3)
   tasks.forEach(task => {
-    concurrencyControl.push({ fn: getTodo, params: task })
+    p.add(getTodo, task)
   })
-  concurrencyControl.run()
+  p.start(res => {
+    console.log(res)
+  }).then(res => {
+    console.log(res)
+  })
   // const limitList = tasks.map(task => {
   //   return limit(() => getTodo(task))
   // })

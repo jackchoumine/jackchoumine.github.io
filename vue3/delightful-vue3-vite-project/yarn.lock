@@ -4388,6 +4388,11 @@ optionator@^0.9.3:
     prelude-ls "^1.2.1"
     type-check "^0.4.0"
 
+p-control@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/p-control/-/p-control-1.0.0.tgz#7896b5fd0c89eb2ca559cc39c4e74b1435f0d3e7"
+  integrity sha512-DBhILRUCGigPl9hrfhs3IwpYEXdK1gUjJ6bpXgsfnonq7DBKg0YCnzJVq3UrzNHoFSJNGJ1J6UeaFg2tS8quqg==
+
 p-limit@^2.2.0:
   version "2.3.0"
   resolved "https://registry.npmmirror.com/p-limit/-/p-limit-2.3.0.tgz"
