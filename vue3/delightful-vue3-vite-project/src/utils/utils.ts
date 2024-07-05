@@ -52,13 +52,14 @@ class ConcurrencyControl {
   maxConcurrencyLimit: number
   taskQueue: any[]
   callback: any
-  constructor({ maxConcurrencyLimit = 3, callback = void 0 } = {}) {
+  lastTaskFinished: boolean
+  constructor({ maxConcurrencyLimit = 6, callback = void 0 } = {}) {
     this.maxConcurrencyLimit = maxConcurrencyLimit
     this.taskQueue = []
     this.callback = callback
-    setTimeout(() => {
-      this._runTask()
-    })
+    // setTimeout(() => {
+    //   this._runTask()
+    // })
   }
 
   push(task: any) {
@@ -70,14 +71,19 @@ class ConcurrencyControl {
     // console.log(this.taskQueue.length)
     if (!this.taskQueue.length) return // 任务队列为空，直接返回
     // const task = this.taskQueue.shift() // 取出当前队头任务
+    // if (!this.lastTaskFinished) {
     const needRunTaskCount = Math.min(this.taskQueue.length, this.maxConcurrencyLimit) // 需要执行的任务数量
     const tasks = this.taskQueue.splice(0, needRunTaskCount) // 取出需要执行的任务
     // const taskPromises = tasks.map(task => task()) // 执行任务
     // console.log(tasks)
-    Promise.all(tasks).then(res => {
+    Promise.all(tasks.map(task => task.fn(task.params))).then(res => {
       this._finishTask(res)
       this._runTask()
     })
+  }
+
+  run() {
+    this._runTask()
   }
 
   _finishTask(res) {
