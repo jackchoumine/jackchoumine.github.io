@@ -1,5 +1,7 @@
 # js 学习
 
+### [常用的 js 代码片段](./前端如何控制并发请求.md)
+
 ### [常用的 js 代码片段](./useful-js-snippet.md)
 
 ### [像素、位图和矢量图](./bit-map-and-vertor-map.md)

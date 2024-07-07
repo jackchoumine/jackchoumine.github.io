@@ -1,5 +1,7 @@
 # 最新文章
 
+### [常用的 js 代码片段](../web/js/前端如何控制并发请求.md)
+
 ### [npm ci vs npm i](../node/ci-vs-i.md) 
 
 ### [常用的 js 代码片段](../web/js/useful-js-snippet.md) 
