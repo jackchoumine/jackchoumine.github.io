@@ -1,6 +1,6 @@
 # tailwind 和组件库样式冲突
 
-tailwind  在组件库样式之前引入，会导致 tailwind 样式被组件库样式覆盖，比如 `flex` 添加到 `el-col` 组件上，flex 样式会被 `el-col` 样式覆盖。
+tailwind 在组件库样式之前引入，会导致 tailwind 样式被组件库样式覆盖，比如 `flex` 添加到 `el-col` 组件上，flex 样式会被 `el-col` 样式覆盖。
 
 ## 解决方案
 
