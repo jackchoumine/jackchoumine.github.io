@@ -233,10 +233,10 @@ component;
 
 ### 外部样式的优先级如何修改？
 
-使用 `@import url layer(layer-name)` 为外部样式表指定级联层，再使用上面的方式修改。
+使用 `@import url(path) layer(layer-name)` 为外部样式表指定级联层，再使用上面的方式修改。
 
 ```css
-@import 'http://127.0.0.1:5500/blog/web/css/import.css'layer(import-layer);
+@import url('./import.css') layer(importLayer);
 
 @layer component {
   .box p {
@@ -261,21 +261,24 @@ component;
 }
 ```
 
-> `@import` 只能在样式表的顶部使用。
+<!-- > `@import` 只能在样式表的顶部使用。 -->
 
 `component-1` 的 `color: blue` 生效。
 
 希望 `import.css` 的 `color: yellow` 生效，需要修改 `import.css` 的级联层：
 
-我希望 import.css 的优先级最高。
+我希望 import.css 的优先级最高，把 `importLayer` 放在最后。
 
 ```css
 @layer component-1,
 component,
 importLayer;
 
-// @import './import.css';
 @import url('./import.css') layer(importLayer);
+
+/**
+...
+*/
 ```
 
 这样不生效，不知道为何。
