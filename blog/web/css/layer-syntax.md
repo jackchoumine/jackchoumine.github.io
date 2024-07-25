@@ -233,7 +233,7 @@ component;
 
 ### 外部样式的优先级如何修改？
 
-使用 `@import url(path) layer(layer-name)` 为外部样式表指定级联层，再使用上面的方式修改。
+使用 `@import url(path.css) layer(layer-name)` 或者 `@import path.css layer(layer-name)` 为外部样式表指定级联层，再使用上面的方式修改。
 
 ```css
 @import url('./import.css') layer(importLayer);
