@@ -45,12 +45,9 @@ export function useCheckUpdate() {
       location.reload()
     }
     function updateIn5min() {
-      setTimeout(
-        () => {
-          location.reload()
-        },
-        5 * 60 * 1000
-      )
+      setTimeout(() => {
+        location.reload()
+      }, 5 * 60 * 1000)
     }
   }
 }
