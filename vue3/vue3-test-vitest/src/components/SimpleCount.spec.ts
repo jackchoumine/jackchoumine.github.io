@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-07-26 11:20:55
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-07-26 12:12:44
+ * @LastEditTime: 2024-07-26 12:27:35
  * @Description :
  */
 import { describe, it, expect, beforeEach } from 'vitest'
@@ -23,12 +23,6 @@ describe('SimpleCount.vue', () => {
 
     expect(emit.submit[0]).toEqual([0])
   })
-
-  // it('未登录', () => {
-  //   const wrapper = renderComponent({ logined: false })
-
-  //   expect(wrapper.text()).toContain('登录')
-  // })
 })
 
 function renderComponent(props?: any) {

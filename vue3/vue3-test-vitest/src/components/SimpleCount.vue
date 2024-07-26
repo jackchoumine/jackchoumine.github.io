@@ -1,13 +1,27 @@
+<!--
+ * @Author      : ZhouQiJun
+ * @Date        : 2024-07-26 11:20:33
+ * @LastEditors : ZhouQiJun
+ * @LastEditTime: 2024-07-26 12:40:31
+ * @Description : 
+-->
 <script setup>
 import { ref } from 'vue'
 const count = ref(0)
+const emit = defineEmits(['submit'])
+function onEmitSubmit() {
+  emit('submit', count.value)
+}
+function onClickPlus() {
+  ++count.value
+}
 </script>
 
 <template>
   <div class="simple-count">
-    <button @click="count + 1">+</button>
+    <button @click="onClickPlus">+</button>
     <span>{{ count }}</span>
-    <button @click="$emit('submit', count)" role="submit">submit</button>
+    <button @click="onEmitSubmit" role="submit">submit</button>
   </div>
 </template>
 
