@@ -96,12 +96,12 @@ function renderMyMessage(type?: string) {
 }
 ```
 
-> 普通写法和进阶写法存在什么问题？
+> 普通写法和进阶写法相比，存在什么问题？
 
 1. type 的验证逻辑和 UI 逻辑耦合在一起，无法单独测试 type 是否必需。
 2. 验证逻辑和UI逻辑耦合，无法复用 type 的验证逻辑。
 
-## 如何解决这个问题？
+## 进阶写法如何解决这两个问题的？
 
 `分离关注点` 。
 上面的例子中，我们通过测试 UI 逻辑来验证 props 是否正确，然后我们发现无法测试 props 是否必需。
@@ -118,6 +118,7 @@ function renderMyMessage(type?: string) {
 export function validateType(type: string) {
   const typeList = ['success', 'info', 'warning', 'error']
   if (!typeList.includes(type)) {
+   // 两种处理办法
    // 1. 返回 false
    // 2. 抛错
     throw new Error(`type must be one of ${typeList.join(',')}, you passed ${type}`)
