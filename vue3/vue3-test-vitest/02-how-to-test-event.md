@@ -101,3 +101,77 @@ function renderComponent(props?: any) {
 > 事件处理函数和自定义事件关联：要是事件处理函数需要触发自定义事件，命名为 `onEmitXXX` 或者 `onHandleXXX` , `XXX` 是自定义名称。
 
 这是我个人的偏好，你可选一种你的偏好，并一如既往的执行，从而保证这种风格的统一性。
+
+### 声明事件
+
+上面的组件，事件声明简单使用了数组。
+
+像 `props` 一样，可使用对象语法对事件验证。
+
+重构事件声明：
+
+```ts
+import { isNumber } from 'petite-utils'
+
+const emit = defineEmits({
+  submit: isNumber
+})
+```
+
+> 不能在 `script setup` 语法中引入本地变量，这点体验很差：
+
+```ts
+function submitValidator(count) {
+  return isNumber(count)
+}
+const emit = defineEmits({
+  submit: submitValidator
+})
+```
+
+这种非法会报错，使用 `setup` 函数不会报错：
+
+```html
+<script>
+  import {
+    isNumber
+  } from 'petite-utils'
+  import {
+    ref
+  } from 'vue'
+
+  export function submitValidator(count) {
+    return isNumber(count)
+  }
+
+  export default {
+    name: 'SimpleCount',
+    props: {},
+    emit: {
+      submit: submitValidator
+    },
+    setup(props, {
+      emit
+    }) {
+      const count = ref(0)
+
+      function onEmitSubmit() {
+        emit('submit', count.value)
+      }
+
+      function onClickPlus() {
+        ++count.value
+      }
+      return {
+        count,
+        onClickPlus,
+        onEmitSubmit
+      }
+    }
+  }
+</script>
+```
+
+> 实践建议：验证合法性时，使用 `xxxValidator` 。
+
+按照最佳实践，应该需要测试 `submitValidator` ，但是我们使用了第三方库，就不测试了。

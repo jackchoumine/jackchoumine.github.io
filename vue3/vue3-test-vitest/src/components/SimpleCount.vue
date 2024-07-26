@@ -2,18 +2,37 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-07-26 11:20:33
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-07-26 12:40:31
+ * @LastEditTime: 2024-07-26 13:09:19
  * @Description : 
 -->
-<script setup>
+<script>
+import { isNumber } from 'petite-utils'
 import { ref } from 'vue'
-const count = ref(0)
-const emit = defineEmits(['submit'])
-function onEmitSubmit() {
-  emit('submit', count.value)
+
+export function submitValidator(count) {
+  return isNumber(count)
 }
-function onClickPlus() {
-  ++count.value
+
+export default {
+  name: 'SimpleCount',
+  props: {},
+  emit: {
+    submit: submitValidator
+  },
+  setup(props, { emit }) {
+    const count = ref(0)
+    function onEmitSubmit() {
+      emit('submit', count.value)
+    }
+    function onClickPlus() {
+      ++count.value
+    }
+    return {
+      count,
+      onClickPlus,
+      onEmitSubmit
+    }
+  }
 }
 </script>
 
