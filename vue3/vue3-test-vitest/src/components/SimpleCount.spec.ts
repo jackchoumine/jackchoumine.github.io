@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-07-26 11:20:55
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-07-26 13:36:10
+ * @LastEditTime: 2024-07-26 14:54:11
  * @Description :
  */
 import { describe, it, expect, beforeEach } from 'vitest'
@@ -25,10 +25,15 @@ describe('SimpleCount.vue', () => {
   })
   it('测试原生事件', async () => {
     const plusBtn = wrapper.find('button[role=plus]')
+    const span = wrapper.find('span')
+    // 点击前的输出
+    const text = span.text()
+    expect(text).toContain('0')
 
     await plusBtn.trigger('click')
-    const count = wrapper.find('span').text()
 
+    // 点击后的输出
+    const count = span.text()
     expect(count).toContain('1')
   })
 })

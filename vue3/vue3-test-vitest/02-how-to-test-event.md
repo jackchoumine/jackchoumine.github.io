@@ -182,15 +182,18 @@ const emit = defineEmits({
 
 使用 `trigger` 触发原生事件，然后断言组件输出。
 
-测试 `click` 事件：
-
 ```ts
 it('测试原生事件', async () => {
   const plusBtn = wrapper.find('button[role=plus]')
+  const span = wrapper.find('span')
+  // 点击前的输出
+  const text = span.text()
+  expect(text).toContain('0')
 
   await plusBtn.trigger('click')
-  const count = wrapper.find('span').text()
-   // 点击后断言组件输出
+
+  // 点击后的输出
+  const count = span.text()
   expect(count).toContain('1')
 })
 ```
