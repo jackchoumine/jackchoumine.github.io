@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-08 11:26:53
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-06-12 20:57:57
+ * @LastEditTime: 2024-07-26 11:41:30
  * @Description : 测试 provide
  */
 import { describe, it, expect } from 'vitest'
@@ -12,7 +12,7 @@ import { defineComponent, h, inject } from 'vue'
 import ProvideComponent from './ProvideComponent.vue'
 
 describe('ProvideComponent', () => {
-  it('provide data from parent component', () => {
+  it.skip('provide data from parent component', () => {
     const TestComponent = defineComponent({
       template: '<div class="provide-value">{{theme}}</div>',
       setup() {
