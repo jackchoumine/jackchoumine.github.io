@@ -1,6 +1,6 @@
 # 如何测试 props
 
-如何测试组件的 props , 是一个很重要的问题。好的测试方式可以让代码更加容易维护，验证关注点是否分离。
+如何测试组件的 props , 是一个很重要的问题。好的测试方式可以让代码更加容易维护，能验证代码设计是否做到了关注点是否分离。
 
 在测试 props 时，我们需要考虑以下几个方面：
 
@@ -96,12 +96,12 @@ function renderMyMessage(type?: string) {
 }
 ```
 
-> 普通写法和进阶写法存在什么问题？
+> 普通写法和进阶写法相比，存在什么问题？
 
 1. type 的验证逻辑和 UI 逻辑耦合在一起，无法单独测试 type 是否必需。
 2. 验证逻辑和UI逻辑耦合，无法复用 type 的验证逻辑。
 
-## 如何解决这个问题？
+## 进阶写法如何解决这两个问题的？
 
 `分离关注点` 。
 上面的例子中，我们通过测试 UI 逻辑来验证 props 是否正确，然后我们发现无法测试 props 是否必需。
@@ -118,6 +118,9 @@ function renderMyMessage(type?: string) {
 export function validateType(type: string) {
   const typeList = ['success', 'info', 'warning', 'error']
   if (!typeList.includes(type)) {
+   // 两种处理办法
+   // 1. 返回 false
+   // 2. 抛错
     throw new Error(`type must be one of ${typeList.join(',')}, you passed ${type}`)
   }
   return true
@@ -182,10 +185,10 @@ describe('MyMessage.vue', () => {
 
 通过测试代码，发现组件的 type 验证逻辑和 UI 逻辑耦合了，促使我们把验证逻辑提取出来，就可以单独测试验证逻辑了，达到了分离关注点的目的。
 
-### 如何找到关注点的分界线？
+### 如何衡量是否做到了关注点分离？
 
-1. 试着把逻辑放到不同的框架中，看看是否能正常运行。比如 vue 组件的 prop 验证逻辑就可以在 react 中复用，而模板相关的逻辑就不行。
-2. 通过测试代码：要是发现测试代码写不出来，那就说明极可能把两种逻辑耦合在一起了。比如前面的例子，我们无法测试 prop 是否必需，就说明验证逻辑和 UI 逻辑耦合在一起。
+1. 把逻辑移到别的框架：试着把逻辑放到不同的框架中，看看是否能正常运行。比如 vue 组件的 prop 验证逻辑就可以在 react 中复用，而模板相关的逻辑就不行。
+2. 检查是否容易测试：要是发现你很难写测试，那就说明极可能把两种逻辑耦合在一起了。比如前面的例子，我们无法测试 prop 是否必需，就说明验证逻辑和 UI 逻辑耦合在一起。
 
 ### 常见的关注点分界线
 
@@ -208,6 +211,7 @@ describe('MyMessage.vue', () => {
 <div id="amount"></div>
 <script>
   $(document).ready(function() {
+
     const $shoeCount = $('#shoe-count')
     showAmount()
     $shoeCount.on('change', showAmount)
@@ -287,7 +291,7 @@ vue 重构的代码：
 </template>
 ```
 
-> 理解和区分关注点，并合理组织它们，是写出可维护的代码的关键，也是普通程序员和优秀程序员的重要区别。
+> 理解和区分关注点，并合理组织它们，是写出可维护代码的关键，也是普通程序员和优秀程序员的重要区别。
 
 ## 再看一个例子
 
@@ -296,6 +300,7 @@ vue 重构的代码：
 ```html
 <script setup>
   const props = defineProps({
+    // loggedIn
     logined: {
       type: Boolean,
       default: false
@@ -316,6 +321,7 @@ vue 重构的代码：
 import { describe, it, expect } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
 import NavBar from './NavBar.vue'
+
 describe('NavBar.vue', () => {
   it('已经登录', () => {
     const wrapper = renderNavBar({ logined: true })
@@ -326,6 +332,7 @@ describe('NavBar.vue', () => {
     expect(wrapper.text()).toContain('登录')
   })
 })
+
 function renderNavBar(props: { logined: boolean }) {
   return shallowMount(NavBar, {
     props
@@ -383,9 +390,9 @@ function renderNavBar(props: { logined: boolean }) {
 
 ## 小结
 
-1. 使用对象 + 验证器的方式声明组件的 props;
-2. 分离 props 的验证逻辑和 UI 逻辑，让测试验证逻辑方便和易复用；
+1. 鼓励使用`对象 + 验证器`的方式声明组件的 props;
+2. 分离 props 的验证逻辑和 UI 逻辑，让测试验证逻辑更加方便和易复用；
 3. 测试组件的行为：根据组件输入，测试输出，而不是测试组件的实现细节。可通过重构来验证测试代码是否健壮；
 4. 测试一个函数是否抛错：`箭头函数` + `toThrow`；
 5. 理解和找到关注点的分界线，并合理组织不同关注点的逻辑，对写好易维护的代码至关重要；
-6. 通过代码**是否容易测试**，来验证代码设计得是否合理，关注点是否耦合或者分离了。
+6. 通过代码**是否容易测试**和**纯js逻辑是否快速移植到其他框架**，来验证代码设计得是否合理，关注点是否耦合或者分离了。

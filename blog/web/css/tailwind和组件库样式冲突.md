@@ -16,6 +16,10 @@ tailwind 在组件库样式之前引入，会导致 tailwind 样式被组件库�
 @tailwind utilities;
 ```
 
+> 如何查看 `@tailwind base` 重置了哪些样式呢？
+
+打开链接，把版本号修改为你使用的版本： `https://unpkg.com/tailwindcss@3.4.6/src/css/preflight.css`
+
 ## 相似的问题
 
 [remove specific style from tailwind base](https://stackoverflow.com/questions/71783177/remove-specific-style-from-tailwind-base)

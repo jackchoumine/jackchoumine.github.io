@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>home</h1>
+    <TestLayer/>
     <span class="rating">hello web component in stencil!</span>
     <!-- BUG 无法监听事件 -->
     <!-- https://github.com/ionic-team/stencil/issues/2804 -->
@@ -49,6 +50,7 @@
 import { onMounted, ref, nextTick } from 'vue'
 import HelloWorld from '../components/HelloWorld.vue'
 import TestStencil from './TestStencil.vue'
+import TestLayer from './TestLayer.vue'
 import StencilRender from './StencilRender.jsx'
 
 const maxValue = ref(5)
