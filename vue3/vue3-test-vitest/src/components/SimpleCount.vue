@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-07-26 11:20:33
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-07-26 13:09:19
+ * @LastEditTime: 2024-07-26 13:21:58
  * @Description : 
 -->
 <script>
@@ -38,7 +38,7 @@ export default {
 
 <template>
   <div class="simple-count">
-    <button @click="onClickPlus">+</button>
+    <button @click="onClickPlus" role="plus">+</button>
     <span>{{ count }}</span>
     <button @click="onEmitSubmit" role="submit">submit</button>
   </div>

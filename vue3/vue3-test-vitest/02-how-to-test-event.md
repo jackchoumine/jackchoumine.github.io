@@ -175,3 +175,28 @@ const emit = defineEmits({
 > 实践建议：验证合法性时，使用 `xxxValidator` 。
 
 按照最佳实践，应该需要测试 `submitValidator` ，但是我们使用了第三方库，就不测试了。
+
+上面的代码测试自定义事件，如何测试原生事件呢？
+
+## 测试原生事件
+
+使用 `trigger` 触发原生事件，然后断言组件输出。
+
+测试 `click` 事件：
+
+```ts
+it('测试原生事件', async () => {
+  const plusBtn = wrapper.find('button[role=plus]')
+
+  await plusBtn.trigger('click')
+  const count = wrapper.find('span').text()
+   // 点击后断言组件输出
+  expect(count).toContain('1')
+})
+```
+
+再给组件内部的 `button` 添加 `role=plus` :
+
+```HTML
+<button @click="onClickPlus" role="plus">+</button>
+```
