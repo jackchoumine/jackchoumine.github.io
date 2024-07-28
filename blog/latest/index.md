@@ -1,5 +1,7 @@
 # 最新文章
 
+### [CSS 选择器特异性](../web/css/selector-specificity.md)
+
 ### [20个编写现代CSS的进阶技巧](../web/css/20个编写现代CSS的进阶技巧.md)
 
 ### [前端如何控制并发请求](../web/js/前端如何控制并发请求.md)
