@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-07-28 20:58:01
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-07-29 02:40:58
+ * @LastEditTime: 2024-07-29 02:45:33
  * @Description : 
 -->
 
@@ -61,7 +61,7 @@ p.my-p {
 
 > chrome 开发者工具中，鼠标移动到选择器上可以查看特异性，不会显示行内样式的特异性。
 
-![查看特异性](https://cdn.jsdelivr.net/npm/zqj-pics/css/chrome-dev-tool-特异性.png.png)
+![查看特异性](https://cdn.jsdelivr.net/npm/zqj-pics/css/chrome-dev-tool-特异性.png)
 
 > 常见的选择器特异性
 
@@ -128,3 +128,11 @@ style=""          /* a=1 b=0 c=0 d=0 -> specificity = 1,0,0,0 */
 ID 选择器的特异性很高，难以被覆盖，无法复用。
 
 > 慎用行内样式、ID 选择器和 `!important` 。
+
+## 小结
+
+* 特异性是一个四元组，每个元素的值都是一个非负整数，从左到右依次是：行内样式、ID 选择器、类选择器、元素选择器。
+* 特异性高的规则会覆盖特异性低的规则。
+* 通配选择器、组合选择器和一些伪类选择器不影响特异性。
+* 慎用行内样式、ID 选择器和 `!important` 。
+* 应该多用类选择器。
