@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-07-28 20:58:01
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-07-29 02:35:03
+ * @LastEditTime: 2024-07-29 02:40:58
  * @Description : 
 -->
 
@@ -59,7 +59,24 @@ p.my-p {
 3. **类选择器、属性选择器、伪类**：类选择器、属性选择器、伪类的特异性是 `0, 0, 1, 0`。
 4. **元素选择器、伪元素**：元素选择器、伪元素的特异性是 `0, 0, 0, 1`。
 
-> chrome 开发者工具中，鼠标移动到选择器上可以查看特异性。
+> chrome 开发者工具中，鼠标移动到选择器上可以查看特异性，不会显示行内样式的特异性。
+
+![查看特异性](https://cdn.jsdelivr.net/npm/zqj-pics/css/chrome-dev-tool-特异性.png.png)
+
+> 常见的选择器特异性
+
+```bash
+*             {}  /* a=0 b=0 c=0 d=0 -> specificity = 0,0,0,0 */
+li            {}  /* a=0 b=0 c=0 d=1 -> specificity = 0,0,0,1 */
+li:first-line {}  /* a=0 b=0 c=0 d=2 -> specificity = 0,0,0,2 */
+ul li         {}  /* a=0 b=0 c=0 d=2 -> specificity = 0,0,0,2 */
+ul ol+li      {}  /* a=0 b=0 c=0 d=3 -> specificity = 0,0,0,3 */
+h1 + *[rel=up]{}  /* a=0 b=0 c=1 d=1 -> specificity = 0,0,1,1 */
+ul ol li.red  {}  /* a=0 b=0 c=1 d=3 -> specificity = 0,0,1,3 */
+li.red.level  {}  /* a=0 b=0 c=2 d=1 -> specificity = 0,0,2,1 */
+#x34y         {}  /* a=0 b=1 c=0 d=0 -> specificity = 0,1,0,0 */
+style=""          /* a=1 b=0 c=0 d=0 -> specificity = 1,0,0,0 */
+```
 
 ### 特异性应用规则
 
