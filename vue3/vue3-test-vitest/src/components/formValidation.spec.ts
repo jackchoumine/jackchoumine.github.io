@@ -2,11 +2,11 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-07-29 09:53:45
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-07-29 10:16:32
+ * @LastEditTime: 2024-07-30 11:13:55
  * @Description :
  */
 import { describe, expect, it } from 'vitest'
-import { isRequired, isBetween } from './formValidation'
+import { isRequired, isBetween, isFormValid, patientForm } from './formValidation'
 
 describe('formValidation.isRequired', () => {
   it(`''非法`, () => {
@@ -70,5 +70,46 @@ describe('formValidation.isBetween', () => {
       valid: false,
       message: '必须在2和10之间'
     })
+  })
+})
+
+describe('formValidation.isFormValid', () => {
+  it(`所有字段都合法才合法`, () => {
+    expect(isFormValid({ name: { valid: true }, age: { valid: true } })).toEqual(true)
+  })
+  it(`有一字段不合法就不合法`, () => {
+    expect(isFormValid({ name: { valid: false } })).toEqual(false)
+  })
+})
+
+describe('patientForm', () => {
+  const formValue = {
+    name: 'some name',
+    age: 10
+  }
+  it(`快乐路径`, () => {
+    const result = patientForm(formValue)
+    expect(result.name).toEqual({ valid: true })
+    expect(result.age).toEqual({ valid: true })
+  })
+  it(`name为空`, () => {
+    const result = patientForm({ ...formValue, name: '' })
+    expect(result.name).toEqual({ valid: false, message: '请输入必填' })
+    expect(result.age).toEqual({ valid: true })
+  })
+  it(`age不是数字`, () => {
+    const result = patientForm({ ...formValue, age: NaN })
+    expect(result.name).toEqual({ valid: true })
+    expect(result.age).toEqual({ valid: false, message: '请输入数字' })
+  })
+  it(`age小于最小值`, () => {
+    const result = patientForm({ ...formValue, age: -1 })
+    expect(result.name).toEqual({ valid: true })
+    expect(result.age).toEqual({ valid: false, message: '必须在0和150之间' })
+  })
+  it(`age大于最大值`, () => {
+    const result = patientForm({ ...formValue, age: 151 })
+    expect(result.name).toEqual({ valid: true })
+    expect(result.age).toEqual({ valid: false, message: '必须在0和150之间' })
   })
 })

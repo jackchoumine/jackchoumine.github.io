@@ -4,7 +4,7 @@ import { isNumerical } from 'petite-utils'
  * @Author      : ZhouQiJun
  * @Date        : 2024-07-29 09:53:45
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-07-29 10:07:35
+ * @LastEditTime: 2024-07-30 11:10:48
  * @Description :
  */
 export interface ValidationResult {
@@ -50,5 +50,24 @@ function isBetween(input: number, between: Between): ValidationResult {
     valid: true
   }
 }
+export interface FormValidation {
+  [key: string]: ValidationResult
+}
 
-export { isRequired, isBetween }
+function isFormValid(validation: FormValidation): boolean {
+  return Object.values(validation).every((v) => v.valid)
+}
+
+interface PatientForm {
+  name: string
+  age: number
+}
+
+function patientForm(formValue: PatientForm): FormValidation {
+  return {
+    name: isRequired(formValue.name),
+    age: isBetween(formValue.age, { min: 0, max: 150 })
+  }
+}
+
+export { isRequired, isBetween, isFormValid, patientForm }
