@@ -4,6 +4,9 @@
  * @LastEditors : ZhouQiJun
  * @LastEditTime: 2024-07-30 11:33:43
  * @Description : 病人表单
+ NOTE:
+ 如何测试表单？
+
 -->
 <script setup>
 import { reactive, ref, computed } from 'vue'
