@@ -2,19 +2,20 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-23 02:16:51
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-06-12 23:35:29
+ * @LastEditTime: 2024-07-30 11:28:16
  * @Description : 
 -->
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import MyMessage from './components/MyMessage.vue'
 import ShoeCount from './components/ShoeCount.vue'
+import PatientForm from './components/PatientForm.vue'
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
     <div class="wrapper">
+      <PatientForm />
       <MyMessage type="success" />
       <ShoeCount />
       <nav>

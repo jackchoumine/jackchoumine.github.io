@@ -2,28 +2,46 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-07-29 09:41:27
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-07-29 09:41:39
+ * @LastEditTime: 2024-07-30 11:33:43
  * @Description : 病人表单
 -->
 <script setup>
-import { ref } from 'vue'
-
-// 不超过 20 个字 必填
-const name = ref('')
-// 0 - 150 之间 必填
-const age = ref()
+import { reactive, ref, computed } from 'vue'
+import { patientForm, isFormValid } from './formValidation'
 
 function onSubmit() {
   console.log('submit')
 }
+const formValue = reactive({
+  name: '',
+  age: ''
+})
+const formValidation = computed(() => {
+  return patientForm(formValue)
+})
+const isValid = computed(() => {
+  return isFormValid(formValidation.value)
+})
 </script>
 
 <template>
   <form>
-    <label for="name">Name</label>
-    <input id="name" v-model="name" />
-    <label for="age">Age</label>
-    <input id="age" v-model="age" range />
-    <button @click="onSubmit">Submit</button>
+    <div class="prop">
+      <div class="error" v-if="!formValidation.name.valid">
+        {{ formValidation.name.message }}
+      </div>
+      <label for="name">Name</label>
+      <input id="name" v-model="formValue.name" />
+    </div>
+    <div class="prop">
+      <div class="error" v-if="!formValidation.age.valid">
+        {{ formValidation.age.message }}
+      </div>
+      <label for="age">Age</label>
+      <input id="age" v-model="formValue.age" type="number" />
+    </div>
+    <button @click="onSubmit" :disabled="!isValid">Submit</button>
+    <pre>formValue {{ formValue }}</pre>
+    <pre>formValidation {{ formValidation }}</pre>
   </form>
 </template>
