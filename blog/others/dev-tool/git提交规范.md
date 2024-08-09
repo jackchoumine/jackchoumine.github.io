@@ -152,10 +152,6 @@ npx commitizen init cz-customizable
 }
 ```
 
-> 验证配置是否成功
-
-执行 `git cz` ，会出现交互式提交信息的界面。
-
 > 自定义约定式提交格式
 
 新建 `.cz-config.cjs` ：
@@ -258,7 +254,7 @@ module.exports = {
 npm i -D release-it @release-it/conventional-changelog
 ```
 
-创建配置文件 `release-it.json` ：
+创建配置文件 `.release-it.json` ：
 
 ```json
 {
@@ -315,6 +311,12 @@ npx release-it --dry-run # --dry-run 表示不发布
 npx release-it
 ```
 
+### 一些问题
+
+> 公司使用 gitlab，如何配置发布到 gitlab？
+
+> 如何配置发布到公司的私有 npm 仓库？
+
 ### 使用 commitlint 和 husky 检查提交信息是否符合规范
 
 为了实现规范，我们使用 `commitlint` 和 `husky` 来进行提交检查，当执行 git commit 时会在对应的 git 钩子上做校验，只有符合格式的 commit message 才能提交成功。
@@ -353,6 +355,8 @@ module.exports = {
 执行 `npx husky init` , 会生成 `.husky` 文件夹，里面有 git 钩子的配置文件。
 
 执行 `echo "npx --no -- commitlint --edit \$1" > .husky/commit-msg` , 删除 `pre-commit` 文件内的 `npm` 。
+
+> 重新保存 `.husky/commit-msg` 文件为 utf-8 格式，不然会报错。
 
 > 验证配置是否可用：
 
@@ -418,3 +422,5 @@ module.exports = {
 * [Commit message 和 Change log 编写指南](https://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html)
 
 * [超详细的Git提交规范引入指南](https://juejin.cn/post/6844903793033756680)
+
+* [自动生成变更日志及规范git提交记录(release-it+husky+ commitizen+ commitlint)](https://juejin.cn/post/7114673069293043719)
