@@ -1,5 +1,7 @@
 # 最新文章
 
+### [git 提交规范](../others/dev-tool/git提交规范.md)
+
 ### [CSS 选择器特异性](../web/css/selector-specificity.md)
 
 ### [20个编写现代CSS的进阶技巧](../web/css/20个编写现代CSS的进阶技巧.md)
