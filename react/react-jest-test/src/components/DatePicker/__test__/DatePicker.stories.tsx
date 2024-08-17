@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-16 03:08:07
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-18 01:44:04
+ * @LastEditTime: 2024-08-18 02:52:41
  * @Description : DatePicker 组件
  */
 import type { Meta, StoryObj } from '@storybook/react'
@@ -28,6 +28,7 @@ export const Primary: Story = {
       year: 2024,
       month: 8,
     },
+    selectedDate: new Date(2024, 7, 17),
   },
 }
 
