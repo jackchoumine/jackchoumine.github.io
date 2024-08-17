@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-20 01:31:00
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-08-25 01:03:29
+ * @LastEditTime: 2024-08-18 00:13:35
  * @Description :
  */
 import { sayHello } from './sayHello-3'
@@ -51,7 +51,7 @@ describe('sayHello', () => {
   test("don't mock", () => {
     jest.requireActual('./config-default-fn')
 
-    expect(sayHello('john')).toBe('Hi, John')
+    expect(sayHello('john')).toBe('Hi, john')
   })
 })
 // 参考
