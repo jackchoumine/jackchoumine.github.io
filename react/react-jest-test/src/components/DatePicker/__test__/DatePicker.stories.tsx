@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-16 03:08:07
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-18 02:52:41
+ * @LastEditTime: 2024-08-18 03:23:05
  * @Description : DatePicker 组件
  */
 import type { Meta, StoryObj } from '@storybook/react'
@@ -22,8 +22,6 @@ type Story = StoryObj<typeof meta>
 
 export const Primary: Story = {
   args: {
-    primary: true,
-    label: 'Button',
     calendar: {
       year: 2024,
       month: 8,

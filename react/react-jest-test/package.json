@@ -59,6 +59,7 @@
     "date-fns": "^3.6.0",
     "es-toolkit": "^1.16.0",
     "lodash-es": "^4.17.21",
-    "petite-utils": "^0.0.5-2"
+    "petite-utils": "^0.0.5-2",
+    "styled-components": "^6.1.12"
   }
 }
