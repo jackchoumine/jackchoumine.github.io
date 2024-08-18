@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-16 03:08:07
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-18 02:54:41
+ * @LastEditTime: 2024-08-18 18:18:00
  * @Description : DatePicker 组件
  */
 import { getDate, isSameDay } from 'date-fns'
@@ -57,14 +57,6 @@ const Td = styled.td`
 `
 
 export type DatePickerProps = {
-  /**
-   * 是否为主题按钮
-   */
-  primary?: boolean
-  /**
-   * 按钮文字
-   */
-  label: string
   calendar: Calendar
   selectedDate: Date
 }
@@ -75,37 +67,34 @@ export function DatePicker(props: DatePickerProps): JSX.Element {
   const weeks = useMemo(() => buildWeeks(year, month), [year, month])
   const days = useMemo(() => buildDayName(0), [])
   return (
-    <div>
-      <input type='text' placeholder='YYYY-MM-DD' />
-      <table>
-        <thead>
-          <tr>
-            {days.map((day, index) => (
-              <th key={index}>{day}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {weeks.map((week, index) => (
-            <tr key={index}>
-              {week.map((day, index) => {
-                const isToday = getDate(day) === new Date().getDate()
-                const isInCurMonth = day.getMonth() + 1 === month
-                const isSelected = isSameDay(day, selectedDate)
-                return (
-                  <Td
-                    key={index}
-                    isSelected={isSelected}
-                    isToday={isToday}
-                    isInCurMonth={isInCurMonth}>
-                    {getDate(day)}
-                  </Td>
-                )
-              })}
-            </tr>
+    <table>
+      <thead>
+        <tr>
+          {days.map((day, index) => (
+            <th key={index}>{day}</th>
           ))}
-        </tbody>
-      </table>
-    </div>
+        </tr>
+      </thead>
+      <tbody>
+        {weeks.map((week, index) => (
+          <tr key={index}>
+            {week.map((day, index) => {
+              const isToday = isSameDay(day, new Date())
+              const isInCurMonth = day.getMonth() + 1 === month
+              const isSelected = isSameDay(day, selectedDate)
+              return (
+                <Td
+                  key={index}
+                  isSelected={isSelected}
+                  isToday={isToday}
+                  isInCurMonth={isInCurMonth}>
+                  {getDate(day)}
+                </Td>
+              )
+            })}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   )
 }
