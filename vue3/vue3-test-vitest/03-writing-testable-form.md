@@ -1,10 +1,10 @@
 # 编写可测试的表单
 
-表单是web应用中最常见的输入方式，因此能正确使用它们非常重要。在这一节中，我们将学习如何编写可测试的表单。
+表单是 web 应用中最常见的输入方式，因此能正确使用它们非常重要。在这一节中，我们将学习如何编写可测试的表单。
 
 ## 什么是好的表单？
 
-确保表单逻辑从vue组件分离，这能保证单独测试表单逻辑。还希望输入验证逻辑也从组件中分离，这样可以确保验证逻辑的正确性。
+确保表单逻辑从 vue 组件分离，这能保证单独测试表单逻辑。还希望输入验证逻辑也从组件中分离，这样可以确保验证逻辑的正确性。
 
 两级验证：
 
@@ -87,68 +87,84 @@ describe('formValidation.isRequired', () => {
 })
 describe('formValidation.isBetween', () => {
   it(`在最大最小之间，合法`, () => {
-    expect(isBetween(4, {
-      min: 2,
-      max: 10
-    })).toEqual({
+    expect(
+      isBetween(4, {
+        min: 2,
+        max: 10
+      })
+    ).toEqual({
       valid: true
     })
   })
   it(`等于最小值，合法`, () => {
-    expect(isBetween(2, {
-      min: 2,
-      max: 10
-    })).toEqual({
+    expect(
+      isBetween(2, {
+        min: 2,
+        max: 10
+      })
+    ).toEqual({
       valid: true
     })
   })
   it(`等于最大值，合法`, () => {
-    expect(isBetween(10, {
-      min: 2,
-      max: 10
-    })).toEqual({
+    expect(
+      isBetween(10, {
+        min: 2,
+        max: 10
+      })
+    ).toEqual({
       valid: true
     })
   })
   it(`不是数字，非法`, () => {
-    expect(isBetween(NaN, {
-      min: 2,
-      max: 10
-    })).toEqual({
+    expect(
+      isBetween(NaN, {
+        min: 2,
+        max: 10
+      })
+    ).toEqual({
       valid: false,
       message: '请输入数字'
     })
     // @ts-ignore
-    expect(isBetween(void 0, {
-      min: 2,
-      max: 10
-    })).toEqual({
+    expect(
+      isBetween(void 0, {
+        min: 2,
+        max: 10
+      })
+    ).toEqual({
       valid: false,
       message: '请输入数字'
     })
     // @ts-ignore
-    expect(isBetween(null, {
-      min: 2,
-      max: 10
-    })).toEqual({
+    expect(
+      isBetween(null, {
+        min: 2,
+        max: 10
+      })
+    ).toEqual({
       valid: false,
       message: '请输入数字'
     })
   })
   it(`大于最大值，非法`, () => {
-    expect(isBetween(10.5, {
-      min: 2,
-      max: 10
-    })).toEqual({
+    expect(
+      isBetween(10.5, {
+        min: 2,
+        max: 10
+      })
+    ).toEqual({
       valid: false,
       message: '必须在2和10之间'
     })
   })
   it(`小于最小值，非法`, () => {
-    expect(isBetween(1.9, {
-      min: 2,
-      max: 10
-    })).toEqual({
+    expect(
+      isBetween(1.9, {
+        min: 2,
+        max: 10
+      })
+    ).toEqual({
       valid: false,
       message: '必须在2和10之间'
     })
