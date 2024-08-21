@@ -2,6 +2,14 @@
 
 后续补充
 
+## 测试表单
+
+<!-- vue3/vue3-test-vitest/src/components/PatientForm.spec.ts  -->
+
+## 测试自定义事件
+
+<!-- vue3/vue3-test-vitest/src/components/PatientForm.spec.ts -->
+
 ## 参考
 
 [testing-components-with-vitest](https://mayashavin.com/articles/testing-components-with-vitest)
