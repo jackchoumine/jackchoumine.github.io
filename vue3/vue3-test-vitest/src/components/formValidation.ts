@@ -4,7 +4,7 @@ import { isNumerical } from 'petite-utils'
  * @Author      : ZhouQiJun
  * @Date        : 2024-07-29 09:53:45
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-07-30 11:10:48
+ * @LastEditTime: 2024-08-21 21:46:29
  * @Description :
  */
 export interface ValidationResult {
@@ -32,6 +32,13 @@ function isRequired(value?: string): ValidationResult {
     valid: true
   }
 }
+
+// function isNumerical(value: any) {
+//   if (typeof +value === 'number') {
+//     return +value * 0 === 0
+//   }
+//   return false
+// }
 
 function isBetween(input: number, between: Between): ValidationResult {
   if (!isNumerical(input)) {
@@ -66,7 +73,7 @@ interface PatientForm {
 function patientForm(formValue: PatientForm): FormValidation {
   return {
     name: isRequired(formValue.name),
-    age: isBetween(formValue.age, { min: 0, max: 150 })
+    age: isBetween(+formValue.age, { min: 0, max: 150 })
   }
 }
 
