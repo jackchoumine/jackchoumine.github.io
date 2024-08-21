@@ -1,10 +1,10 @@
-import { isNumerical } from 'petite-utils'
+import { isEmptyStr, isNumerical } from 'petite-utils'
 
 /*
  * @Author      : ZhouQiJun
  * @Date        : 2024-07-29 09:53:45
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-21 21:46:29
+ * @LastEditTime: 2024-08-21 22:52:16
  * @Description :
  */
 export interface ValidationResult {
@@ -40,14 +40,21 @@ function isRequired(value?: string): ValidationResult {
 //   return false
 // }
 
-function isBetween(input: number, between: Between): ValidationResult {
+function isBetween(input: number | string, between: Between): ValidationResult {
+  // console.log(input, 'input')
+  if (!input) {
+    return {
+      valid: false,
+      message: '请输入数字'
+    }
+  }
   if (!isNumerical(input)) {
     return {
       valid: false,
       message: '请输入数字'
     }
   }
-  if (input < between.min || input > between.max) {
+  if (+input < between.min || +input > between.max) {
     return {
       valid: false,
       message: `必须在${between.min}和${between.max}之间`

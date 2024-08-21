@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-07-29 09:53:45
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-21 21:14:19
+ * @LastEditTime: 2024-08-21 22:29:07
  * @Description :
  */
 import { describe, expect, it } from 'vitest'
@@ -54,10 +54,10 @@ describe('formValidation.isBetween', () => {
       message: '请输入数字'
     })
     // @ts-ignore
-    // expect(isBetween(null, { min: 2, max: 10 })).toEqual({
-    //   valid: false,
-    //   message: '请输入数字'
-    // })
+    expect(isBetween(null, { min: 2, max: 10 })).toEqual({
+      valid: false,
+      message: '请输入数字'
+    })
   })
   it(`大于最大值，非法`, () => {
     expect(isBetween(10.5, { min: 2, max: 10 })).toEqual({

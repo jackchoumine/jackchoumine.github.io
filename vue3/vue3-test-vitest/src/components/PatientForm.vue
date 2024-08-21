@@ -2,13 +2,14 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-21 20:40:40
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-21 21:49:50
+ * @LastEditTime: 2024-08-21 22:50:46
  * @Description : 
 -->
 <script setup>
 import { ref, computed, reactive } from 'vue'
 import { isFormValid, patientForm } from './formValidation'
 
+const emit = defineEmits(['submit-form'])
 const formValue = reactive({
   name: '',
   age: undefined
@@ -21,6 +22,10 @@ const validatedForm = computed(() => {
 const valid = computed(() => {
   return isFormValid(validatedForm.value)
 })
+
+function onEmitSubmitForm() {
+  emit('submit-form')
+}
 </script>
 
 <template>
@@ -42,7 +47,7 @@ const valid = computed(() => {
         <input type="text" id="age" v-model="formValue.age" />
       </div>
       <div class="filed">
-        <button :disabled="!valid">保存</button>
+        <button :disabled="!valid" type="submit" @click.stop="onEmitSubmitForm">保存</button>
       </div>
     </form>
     <pre>
@@ -51,6 +56,8 @@ const valid = computed(() => {
     <hr />
     <pre>
       {{ validatedForm }}
+      <br/>
+      {{ valid }}
     </pre>
   </div>
 </template>
