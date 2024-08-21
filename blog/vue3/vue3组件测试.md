@@ -10,6 +10,10 @@
 
 <!-- vue3/vue3-test-vitest/src/components/PatientForm.spec.ts -->
 
+## 测试 http
+
+## 定时器
+
 ## 参考
 
 [testing-components-with-vitest](https://mayashavin.com/articles/testing-components-with-vitest)
