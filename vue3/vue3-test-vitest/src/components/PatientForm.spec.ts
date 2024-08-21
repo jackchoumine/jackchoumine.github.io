@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-21 20:56:09
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-21 22:51:19
+ * @LastEditTime: 2024-08-21 22:58:18
  * @Description : 表单测试
  */
 import { shallowMount, type VueWrapper } from '@vue/test-utils'
@@ -65,16 +65,23 @@ describe('PatientForm', () => {
   })
 
   it('submit-form 事件', async () => {
+    const formValue = {
+      name: 'some text',
+      age: '20'
+    }
     const nameInput = wrapper.find('#name')
     const ageInput = wrapper.find('#age')
     const btn = wrapper.find('button')
 
-    await nameInput.setValue('some value')
-    await ageInput.setValue(12)
+    await nameInput.setValue(formValue.name)
+    await ageInput.setValue(formValue.age)
     await btn.trigger('click')
 
-    // console.log(wrapper.emitted())
+    // console.log(wrapper.emitted('submit-form')![0])
     // NOTE 测试自定义事件
+    // toHaveProperty 检测事件存在
     expect(wrapper.emitted()).toHaveProperty('submit-form')
+    // 检测事件抛出的参数
+    expect(wrapper.emitted('submit-form')![0]).toEqual([formValue])
   })
 })

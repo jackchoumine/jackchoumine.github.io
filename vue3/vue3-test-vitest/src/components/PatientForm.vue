@@ -2,11 +2,11 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-21 20:40:40
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-21 22:50:46
+ * @LastEditTime: 2024-08-21 22:53:25
  * @Description : 
 -->
 <script setup>
-import { ref, computed, reactive } from 'vue'
+import { ref, computed, reactive, toRaw } from 'vue'
 import { isFormValid, patientForm } from './formValidation'
 
 const emit = defineEmits(['submit-form'])
@@ -24,7 +24,7 @@ const valid = computed(() => {
 })
 
 function onEmitSubmitForm() {
-  emit('submit-form')
+  emit('submit-form', toRaw(formValue))
 }
 </script>
 
