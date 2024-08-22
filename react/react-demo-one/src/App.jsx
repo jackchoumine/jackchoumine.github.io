@@ -2,7 +2,7 @@
  * @Date        : 2022-09-01 15:09:07
  * @Author      : ZhouQijun
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-19 11:54:40
+ * @LastEditTime: 2024-08-22 09:53:45
  * @Description :
  */
 import './App.css'
@@ -22,6 +22,7 @@ import {
   // RxjsHooksDemo,
 } from './components'
 import CallMethod from './demos/CallMethod'
+import ContainerAndDisplay from './components/DesignPattern/ContainerAndDisplay'
 const themes = {
   light: { foreground: '#000000', background: '#eeeeee' },
   dark: { foreground: '#ffffff', background: '#222222' },
@@ -33,6 +34,7 @@ function App() {
   return (
     <ThemeContext.Provider value={themes.light}>
       <div className='App'>
+        <ContainerAndDisplay />
         <CallMethod />
         <UseCallbackDemo />
         <UseAddDemo />
