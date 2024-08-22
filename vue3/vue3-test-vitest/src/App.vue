@@ -2,19 +2,21 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-23 02:16:51
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-07-30 11:28:16
- * @Description : 
+ * @LastEditTime: 2024-08-22 21:50:17
+ * @Description :
 -->
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import MyMessage from './components/MyMessage.vue'
 import ShoeCount from './components/ShoeCount.vue'
 import PatientForm from './components/PatientForm.vue'
+import JokeContainer from './components/JokeContainer.vue'
 </script>
 
 <template>
   <header>
     <div class="wrapper">
+      <JokeContainer />
       <PatientForm />
       <MyMessage type="success" />
       <ShoeCount />
@@ -79,6 +81,7 @@ nav a:first-of-type {
     display: flex;
     place-items: flex-start;
     flex-wrap: wrap;
+    flex-direction: column;
   }
 
   nav {
