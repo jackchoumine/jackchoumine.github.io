@@ -4,7 +4,7 @@
 
 * 组件内部
 * pinia actions
-* ts 文件，比如 useHttp hook
+* ts 文件，比如自定义 hook 中
 
 需要如何测试它们呢？
 
