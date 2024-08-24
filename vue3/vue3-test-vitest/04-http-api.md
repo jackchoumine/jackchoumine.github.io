@@ -359,6 +359,28 @@ function setupHook(hook: Function, params ? : any) {
 
 这个测试依然模拟了 `fetch` 。
 
+上面的例子使用 createApp 创建组件，还可以使用 `defineComponent` 和 `shallowMount` 创建组件。
+
+```js
+function setupHook(hook: Function, params ? : any) {
+  let result: any
+
+  const HelperComponent = defineComponent({
+    setup() {
+      result = hook(params)
+      return () => null
+    }
+  })
+
+  const wrapper = shallowMount(HelperComponent)
+
+  return {
+    result,
+    wrapper
+  }
+}
+```
+
 使用 `axios` 调用 api，要如何测试呢？
 
 需要模拟 axios 模块
