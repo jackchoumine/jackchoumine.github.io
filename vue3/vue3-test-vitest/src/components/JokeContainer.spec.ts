@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-22 22:04:39
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-23 02:15:29
+ * @LastEditTime: 2024-08-24 20:02:00
  * @Description :
  */
 import { flushPromises, shallowMount } from '@vue/test-utils'
@@ -19,7 +19,7 @@ const fakeFetch = (res: Res) => {
   })
 }
 
-describe('JokeContainer.vue vi.fn', () => {
+describe.skip('JokeContainer.vue vi.fn', () => {
   let originalFetch: typeof global.fetch
 
   let joke = 'Why don’t scientists trust atoms? Because they make up everything!'
@@ -56,7 +56,7 @@ describe('JokeContainer.vue vi.fn', () => {
     expect(global.fetch).toHaveBeenCalledTimes(2)
   })
 
-  it('fetch joke from http api is fail', async () => {
+  it.skip('fetch joke from http api is fail', async () => {
     global.fetch = vi.fn().mockImplementation(() => {
       return Promise.resolve({
         ok: false

@@ -359,6 +359,159 @@ function setupHook(hook: Function, params ? : any) {
 
 这个测试依然模拟了 `fetch` 。
 
+使用 `axios` 调用 api，要如何测试呢？
+
+需要模拟 axios 模块
+
+vitest 模拟外部模块的方式：
+
+先导入外部模块，再使用 `vi.mock` 模块外部模块依赖。
+
+```js
+vi.mock('path', factoryFunction)
+```
+
+第一个参数为模块的导入路径，第二个参数是一个模块对象的工厂函数，工厂函数返回的对象有一 `default` 属性，用于模拟模块的默认导出。
+
+> 模拟模块，通常需要写在测试文件顶部。
+
+模拟 axios:
+
+```js
+vi.mock('axios', () => {
+  return {
+    default: {
+      get: vi.fn() // get 方法通过 vi.fn 模拟
+    }
+  }
+})
+```
+
+修改测试 useJoke.spec.ts：
+
+```ts
+//...和之前一样
+import axios from 'axios'
+import useJoke from './useJoke'
+// 模拟 axios
+vi.mock('axios', () => {
+  return {
+    default: {
+      get: vi.fn()
+    }
+  }
+})
+
+it('useJoke', async () => {
+  const joke = 'this is a joke'
+  const getRes = {
+    data: {
+      joke
+    },
+    status: 200
+  }
+  // @ts-ignore
+  axios.get.mockResolvedValue(getRes)
+  const { result } = setupHook(useJoke)
+  await flushPromises()
+
+  expect(result.loading.value).toBe(false)
+  expect(result.joke.value).toBe(joke)
+  expect(result.fetchJoke).instanceOf(Function)
+})
+```
+
+> axios.get 返回的数据结构为 `{data,status}` ，是 `mockResolvedValue` 模拟接口的返回值。
+
+修改 `useJoke.ts` ，让测试用例通过：
+
+两处修改
+
+```ts
+// useJoke.ts
+// 1. 导入外部依赖
+import axios from 'axios'
+import { ref } from 'vue'
+export default function useJoke() {
+  const loading = ref(false)
+  const joke = ref('')
+
+  fetchJoke()
+
+  return {
+    loading,
+    joke,
+    fetchJoke
+  }
+
+  function fetchJoke() {
+    const headers = {
+      accept: 'application/json'
+    }
+    loading.value = true
+    // 2. 修改获取接口返回的方式
+    axios
+      .get('https://icanhazdadjoke.com', {
+        headers
+      })
+      .then((res) => {
+        // console.log(res)
+        if (200 <= res.status && res.status < 299) {
+          return res.data
+        }
+        return Promise.reject(new Error('获取笑话失败'))
+      })
+      .then((data) => {
+        joke.value = data.joke
+      })
+      .catch((err) => {
+        joke.value = err.message
+      })
+      .finally(() => {
+        loading.value = false
+      })
+  }
+}
+```
+
+对 axios 模块的模拟被放在 `it` 测试用例里面，其实可以放在 `beforeEach` 钩子中，当有多个测试用例时，特别有用，因为可通钩子函数清除模拟。
+
+### 更好的组织模拟
+
+希望在每个测试用例之前，设置 axios 模拟，在每个测试用例之后撤销模拟，可使用 `beforeEach` 和 `afterEach` ：
+
+```ts
+// useJoke.spec.ts
+
+// ... 其他不变
+
+let _app = null
+const joke = 'this is a joke'
+
+beforeEach(() => {
+  // @ts-ignore
+  axios.get.mockResolvedValue({ data: { joke }, status: 200 })
+})
+
+it('useJoke', async () => {
+  const { result, app } = setupHook(useJoke)
+  _app = app
+  await flushPromises()
+
+  expect(result.loading.value).toBe(false)
+  expect(result.joke.value).toBe(joke)
+  expect(result.fetchJoke).instanceOf(Function)
+})
+
+afterEach(() => {
+  // @ts-ignore
+  axios.get.mockReset()
+  // @ts-ignore
+  _app.unmount()
+})
+// ... 其他不变
+```
+
 ## 参考
 
 * [stop mocking fetch](https://kentcdodds.com/blog/stop-mocking-fetch)

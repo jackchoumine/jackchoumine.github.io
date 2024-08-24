@@ -2,11 +2,11 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-23 01:54:24
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-23 01:59:42
+ * @LastEditTime: 2024-08-24 19:59:26
  * @Description :
  */
+import axios from 'axios'
 import { ref } from 'vue'
-
 export default function useJoke() {
   const loading = ref(false)
   const joke = ref('')
@@ -24,15 +24,16 @@ export default function useJoke() {
       accept: 'application/json'
     }
     loading.value = true
-    fetch('https://icanhazdadjoke.com/hello', {
-      headers
-    })
+    axios
+      .get('https://icanhazdadjoke.com', {
+        headers
+      })
       .then((res) => {
         // console.log(res)
-        if (!res.ok) {
-          return Promise.reject(new Error('获取笑话失败'))
+        if (200 <= res.status && res.status < 299) {
+          return res.data
         }
-        return res.json()
+        return Promise.reject(new Error('获取笑话失败'))
       })
       .then((data) => {
         joke.value = data.joke
