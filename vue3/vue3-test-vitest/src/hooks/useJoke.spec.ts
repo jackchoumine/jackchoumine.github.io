@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-23 02:01:25
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-24 20:21:52
+ * @LastEditTime: 2024-08-25 01:47:27
  * @Description : 测试 useJoke
  */
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
@@ -34,6 +34,11 @@ beforeEach(() => {
 it('useJoke', async () => {
   const { result, app } = setupHook(useJoke)
   _app = app
+
+  expect(result.loading.value).toBe(true)
+  expect(result.joke.value).toBe('')
+
+  // 接口请求完成后
   await flushPromises()
 
   expect(result.loading.value).toBe(false)
