@@ -517,3 +517,4 @@ afterEach(() => {
 * [stop mocking fetch](https://kentcdodds.com/blog/stop-mocking-fetch)
 * [how-to-mock-fetch-api-with-vites](https://runthatline.com/how-to-mock-fetch-api-with-vitest)
 * [testing-components-with-vitest](https://mayashavin.com/articles/testing-components-with-vitest)
+* [Guide to Unit Testing Vue Components](https://testdriven.io/blog/vue-unit-testing/)
