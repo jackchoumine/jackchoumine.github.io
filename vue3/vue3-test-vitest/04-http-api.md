@@ -4,7 +4,7 @@
 
 * 组件内部
 * 自定义 hook
-* pinia actions
+* pinia store
 
 需要如何测试它们呢？
 
