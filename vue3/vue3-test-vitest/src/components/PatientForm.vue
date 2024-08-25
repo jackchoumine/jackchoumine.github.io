@@ -2,12 +2,17 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-21 20:40:40
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-21 22:53:25
- * @Description : 
+ * @LastEditTime: 2024-08-25 18:37:14
+ * @Description :
 -->
 <script setup>
 import { ref, computed, reactive, toRaw } from 'vue'
+import { useJokeStore } from '@/stores/jokeStore'
 import { isFormValid, patientForm } from './formValidation'
+
+import { storeToRefs } from 'pinia'
+// import useJoke from '../hooks/useJoke'
+const { joke } = storeToRefs(useJokeStore())
 
 const emit = defineEmits(['submit-form'])
 const formValue = reactive({
@@ -30,7 +35,7 @@ function onEmitSubmitForm() {
 
 <template>
   <div class="FormValidation">
-    <h3>病人信息</h3>
+    <h3>病人信息 {{ joke }}</h3>
     <form>
       <div class="field">
         <div v-if="!validatedForm.name.valid" class="error name">

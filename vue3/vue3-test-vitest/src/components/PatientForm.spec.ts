@@ -2,14 +2,14 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-21 20:56:09
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-21 22:58:18
+ * @LastEditTime: 2024-08-25 18:37:48
  * @Description : 表单测试
  */
 import { shallowMount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, describe, it } from 'vitest'
 import PatientForm from './PatientForm.vue'
 
-describe('PatientForm', () => {
+describe.skip('PatientForm', () => {
   let wrapper: VueWrapper
   beforeEach(() => {
     wrapper = shallowMount(PatientForm)

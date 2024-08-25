@@ -2,12 +2,15 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-22 21:45:45
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-23 02:00:31
+ * @LastEditTime: 2024-08-25 18:35:47
  * @Description :
 -->
 <script setup>
-import useJoke from '../hooks/useJoke'
-const { loading, joke, fetchJoke } = useJoke()
+import { useJokeStore } from '@/stores/jokeStore'
+import { storeToRefs } from 'pinia'
+// import useJoke from '../hooks/useJoke'
+const { loading, joke } = storeToRefs(useJokeStore())
+const { fetchJoke } = useJokeStore()
 </script>
 
 <template>
