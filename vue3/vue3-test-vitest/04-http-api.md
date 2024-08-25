@@ -691,6 +691,100 @@ describe('CounterComponent.', () => {
 
 * [Unit Testing a Pinia Component](https://fadamakis.com/unit-testing-a-pinia-component-37d045582aed)
 
+### 含有异步操作的 store 如何测试？
+
+有一 `jokeStore.ts` :
+
+```ts
+// jokeStore.ts
+import { defineStore } from 'pinia'
+import { computed, ref } from 'vue'
+
+export const useJokeStore = defineStore('jokeStore', () => {
+  const joke = ref('')
+  const jokeLetterCount = computed(() => {
+    return joke.value?.length ?? 0
+  })
+
+  function fetchJoke() {
+    const headers = {
+      accept: 'application/json'
+    }
+    fetch('https://icanhazdadjoke.com', {
+      headers
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        joke.value = data.joke
+      })
+  }
+
+  return {
+    joke,
+    jokeLetterCount,
+    fetchJoke
+  }
+})
+```
+
+这里的关键是 `fetchJoke` 函数，它是一个异步函数，如何测试呢？
+
+还是使用 `vi.fn` 模拟 `fetch` 函数。
+
+```ts
+/*
+ * @Author      : ZhouQiJun
+ * @Date        : 2024-08-25 01:03:13
+ * @LastEditors : ZhouQiJun
+ * @LastEditTime: 2024-08-25 18:14:00
+ * @Description : 使用 vitest 测试 store
+ */
+import { afterEach, describe, vi } from 'vitest'
+
+import { setActivePinia, createPinia } from 'pinia'
+import { beforeEach, it, expect } from 'vitest'
+import { useJokeStore } from './jokeStore'
+import { flushPromises } from '@vue/test-utils'
+
+let joke = 'joke'
+let globalFetch: any
+
+function mockFetch() {
+  return Promise.resolve({
+    json: () => Promise.resolve({ joke })
+  })
+}
+
+describe('jokeStore', () => {
+  beforeEach(() => {
+    setActivePinia(createPinia())
+    globalFetch = global.fetch
+    global.fetch = vi.fn().mockImplementation(() => mockFetch())
+  })
+  afterEach(() => {
+    global.fetch = globalFetch
+  })
+
+  it('joke 默认状态', () => {
+    const jokeStore = useJokeStore()
+    // store 状态
+    expect(jokeStore.joke).toBe('')
+    expect(jokeStore.jokeLetterCount).toBe(0)
+  })
+
+  it('请求接口后的状态', async () => {
+    const jokeStore = useJokeStore()
+
+    jokeStore.fetchJoke()
+
+    await flushPromises()
+
+    expect(jokeStore.joke).toBe(joke)
+    expect(jokeStore.jokeLetterCount).toBe(joke.length)
+  })
+})
+```
+
 ## 参考
 
 * [stop mocking fetch](https://kentcdodds.com/blog/stop-mocking-fetch)
