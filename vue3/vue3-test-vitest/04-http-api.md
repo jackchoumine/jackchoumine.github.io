@@ -685,17 +685,11 @@ describe('CounterComponent.', () => {
 
 > 我认为这不是问题，而是优点，因为完全按照使用组件的方式测试组件，这样更加真实，更加贴近实际开发。
 
-依然看看如何模拟 store：
+我模拟 store，并没有成功，有兴趣的可看看两篇参考文章，实现模拟 store。
 
-安装 `@pinia/testing`
+* [store 测试](https://pinia.vuejs.org/zh/cookbook/testing.html#testing-stores)
 
-```bash
-npm i @pinia/testing
-```
-
-```ts
-
-```
+* [Unit Testing a Pinia Component](https://fadamakis.com/unit-testing-a-pinia-component-37d045582aed)
 
 ## 参考
 
