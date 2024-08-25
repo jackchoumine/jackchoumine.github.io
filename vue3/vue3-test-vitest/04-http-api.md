@@ -3,8 +3,8 @@
 哪里会发起 http 请求？
 
 * 组件内部
-* pinia actions
 * 自定义 hook
+* pinia actions
 
 需要如何测试它们呢？
 
@@ -359,7 +359,7 @@ function setupHook(hook: Function, params ? : any) {
 
 这个测试依然模拟了 `fetch` 。
 
-上面的例子使用 createApp 创建组件，还可以使用 `defineComponent` 和 `shallowMount` 创建组件。
+上面的例子使用 createApp 创建 useJoke 的执行环境，还可以使用 `defineComponent` 和 `shallowMount` 创建执行环境。
 
 ```js
 function setupHook(hook: Function, params ? : any) {
@@ -532,6 +532,169 @@ afterEach(() => {
   _app.unmount()
 })
 // ... 其他不变
+```
+
+## pinia
+
+有一 `counterStore.ts` :
+
+```ts
+import { ref, computed } from 'vue'
+import { defineStore } from 'pinia'
+
+export const useCounterStore = defineStore('counter', () => {
+  const count = ref(0)
+
+  const doubleCount = computed(() => count.value * 2)
+
+  function increment(amount = 1) {
+    count.value += amount
+  }
+
+  return { count, doubleCount, increment }
+})
+```
+
+如何单独测试这个 store 呢？
+
+```ts
+// counterStore.spec.ts
+import { describe } from 'vitest'
+
+import { setActivePinia, createPinia } from 'pinia'
+import { useCounterStore } from './counterStore'
+import { beforeEach, it, expect } from 'vitest'
+
+describe('counterStore', () => {
+  beforeEach(() => {
+    // 创建一个新 pinia，并使其处于激活状态，这样它就会被任何 useStore() 调用自动接收
+    // 而不需要手动传递： `useStore(pinia)`
+    setActivePinia(createPinia())
+    // 在 beforeEach 钩子中，创建并激活了一个 pinia 实例。没有它，商店就无法工作，抛出错误。
+    // [🍍]: "getActivePinia()" was called but there was no active Pinia. Are you trying to use a store before calling "app.use(pinia)"?
+  })
+
+  it('increment 没有参数，默认加 1', () => {
+    const counter = useCounterStore()
+    // store 状态
+    expect(counter.count).toBe(0)
+
+    counter.increment()
+
+    expect(counter.count).toBe(1)
+  })
+
+  it('increment 有参数，使用参数修改状态', () => {
+    const counter = useCounterStore()
+
+    counter.increment(10)
+
+    expect(counter.count).toBe(10)
+  })
+
+  it('doubleCount 是 count 的两倍', () => {
+    const counter = useCounterStore()
+
+    expect(counter.doubleCount).toBe(0)
+
+    counter.increment()
+
+    expect(counter.count).toBe(1)
+    expect(counter.doubleCount).toBe(2)
+  })
+})
+```
+
+关键代码就是 `setActivePinia(createPinia())` ，在每个测试用例之前，创建一个新的 pinia 实例，并激活它，否则会报错。
+
+###  counterStore 用到组件，如何组件？
+
+有一组件 `CounterComponent.vue` :
+
+```html
+<!-- CounterComponent.vue -->
+<script setup>
+  import {
+    useCounterStore
+  } from '@/stores/counterStore'
+  const counterStore = useCounterStore()
+</script>
+
+<template>
+  <div class="CounterComponent">
+    <h3>count: {{ counterStore.count }}</h3>
+    <h3>doubleCount: {{ counterStore.doubleCount }}</h3>
+    <button @click="counterStore.increment(2)">Increment</button>
+  </div>
+</template>
+
+<style scoped lang="scss">
+  .CounterComponent {
+    // scss code
+  }
+</style>
+```
+
+关键部分和上面一样：
+
+```ts
+/*
+ * @Author      : ZhouQiJun
+ * @Date        : 2024-08-25 01:25:52
+ * @LastEditors : ZhouQiJun
+ * @LastEditTime: 2024-08-25 16:45:37
+ * @Description : 测试含有 pinia store 的 CounterComponent 组件
+ */
+import { shallowMount } from '@vue/test-utils'
+import { createPinia, setActivePinia } from 'pinia'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import CounterComponent from './CounterComponent.vue'
+
+describe('CounterComponent.', () => {
+  beforeEach(() => {
+    setActivePinia(createPinia())
+  })
+
+  it('测试组件初始状态', async () => {
+    const wrapper = shallowMount(CounterComponent)
+    const countH3 = wrapper.findAll('h3').at(0)
+    const doubleCountH3 = wrapper.findAll('h3').at(1)
+
+    expect(countH3?.text()).contains('0')
+    expect(doubleCountH3?.text()).contains('0')
+  })
+
+  it('测试 调用 increment(2) 函数后的状态', async () => {
+    const wrapper = shallowMount(CounterComponent)
+    const countH3 = wrapper.findAll('h3').at(0)
+    const doubleCountH3 = wrapper.findAll('h3').at(1)
+
+    expect(countH3?.text()).contains('0')
+    expect(doubleCountH3?.text()).contains('0')
+
+    const btn = wrapper.find('button')
+    await btn.trigger('click')
+
+    expect(countH3?.text()).contains('2')
+    expect(doubleCountH3?.text()).contains('4')
+  })
+})
+```
+
+测试组件 `CounterComponent.vue` ，使用的是真实的 `counterStore` , 有的文章说不应该使用真实的 store，而是使用模拟的 store，这样测试更加独立，不会受到 store 的影响。
+
+> 我认为这不是问题，而是优点，因为完全按照使用组件的方式测试组件，这样更加真实，更加贴近实际开发。
+
+依然看看如何模拟 store：
+
+安装 `@pinia/testing`
+
+```bash
+npm i @pinia/testing
+```
+
+```ts
+
 ```
 
 ## 参考
