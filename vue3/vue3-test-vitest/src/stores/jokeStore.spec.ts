@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-25 01:03:13
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-25 18:14:00
+ * @LastEditTime: 2024-08-25 18:20:29
  * @Description : 使用 vitest 测试 store
  */
 import { afterEach, describe, vi } from 'vitest'
@@ -63,3 +63,5 @@ describe('jokeStore', () => {
     expect(jokeStore.jokeLetterCount).toBe(joke.length)
   })
 })
+// 参考链接
+// https://runthatline.com/vitest-test-pinia-store-actions-getters/
