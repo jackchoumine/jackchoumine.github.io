@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-23 02:16:51
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-22 21:50:17
+ * @LastEditTime: 2024-08-25 01:23:18
  * @Description :
 -->
 <script setup lang="ts">
@@ -11,11 +11,13 @@ import MyMessage from './components/MyMessage.vue'
 import ShoeCount from './components/ShoeCount.vue'
 import PatientForm from './components/PatientForm.vue'
 import JokeContainer from './components/JokeContainer.vue'
+import CounterComponent from './components/CounterComponent.vue'
 </script>
 
 <template>
   <header>
     <div class="wrapper">
+      <CounterComponent />
       <JokeContainer />
       <PatientForm />
       <MyMessage type="success" />
