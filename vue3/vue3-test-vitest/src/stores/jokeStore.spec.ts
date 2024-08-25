@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-25 01:03:13
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-26 00:26:08
+ * @LastEditTime: 2024-08-26 00:40:40
  * @Description : 使用 vitest 测试 store
  */
 import { afterEach, describe, vi } from 'vitest'
@@ -70,3 +70,6 @@ describe('jokeStore', () => {
 // 1、 单独测试 store 的状态：重点关注 store 的状态是否正确
 // 2、 测试 store 在 vue 组件中的使用：重点关注 store 与组件的交互是否正确，即 store 的 action 是否被正确调用，store 的状态是否被正确更新
 // https://testdriven.io/blog/vue-pinia-testing/
+
+// NOTE 如何修改 store 的状态，让修改反馈到组件中
+// https://github.com/vuejs/pinia/discussions/1130
