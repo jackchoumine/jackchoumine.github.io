@@ -899,6 +899,43 @@ function setupHook(hook: Function, params?: any) {
 
 [模拟响应 -- 官方文档](https://mswjs.io/docs/basics/mocking-responses)
 
+## 如何模拟外部依赖？
+
+经过上面的测试，我们发现模拟外部依赖是一个很重要的事情，因为外部依赖可能会导致测试不稳定，比如网络不稳定、数据不稳定等。
+
+但是模拟也是有代价的，模拟代码量大，不够直观，不够真实，不恰当的模拟会让代码不够健壮等。
+
+要是有可能，尽量别模拟，直接使用真实的外部依赖，这样测试更加真实。
+
+怎样的模拟是合适的呢？
+
+分析一下 `JokeContainer.vue` 组件的依赖关系和分别模拟不同的依赖，用例的可靠性：
+
+JokeContainer 组件的依赖关系如下：
+
+```bash
+JokeContainer.vue --> pinia(useJokeStore) --> axios --> server
+```
+
+在测试模拟 `pinia` , 要是 useCounterStore 和 axios 和 server 出现问题， JokeContainer 组件的测试不会失败，但是这不是接近真实的使用场景，测试不可靠。
+
+在测试模拟 `axios` , 要是 useCounterStore 和 JokeContainer.vue 出现问题，测试失败，稍微可靠一点，但是也不够接近真实的使用场景。
+
+在测试中模拟 `server` ，要是 useCounterStore 和 JokeContainer.vue 和 axios 出现问题，测试失败，这是最接近真实的使用场景，测试最可靠。
+
+经过分析，可以得出结论：
+
+> 模拟越少越好，模拟的越多，测试就越不真实，测试就越不可靠。
+
+> 模拟越靠近底层，测试越可靠，测试越接近真实的使用场景。
+
+## 小结
+
+* 测试组件内部的 http 请求，需要模拟 fetch 函数，模拟请求参数、返回值、调用次数等。
+* 恰当的模拟，可以让测试更加真实，更加可靠。
+* 测试自定义 hook，需要提供执行环境，确保 hook 内部的生命周期、watch 等顺利执行。
+* 使用 `wms` 模拟服务器，可以模拟服务器，返回模拟数据，测试更加真实。
+
 ## 参考
 
 * [stop mocking fetch](https://kentcdodds.com/blog/stop-mocking-fetch)
