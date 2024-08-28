@@ -2,38 +2,55 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-23 02:01:25
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-25 01:47:27
+ * @LastEditTime: 2024-08-27 09:50:07
  * @Description : 测试 useJoke
  */
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import { flushPromises } from '@vue/test-utils'
 import { createApp } from 'vue'
-import axios from 'axios'
+import type { App } from 'vue'
+// import axios from 'axios'
+import { http, HttpResponse } from 'msw'
+import { setupServer } from 'msw/node'
+import type { SetupServer } from 'msw/node'
 import useJoke from './useJoke'
 
 // 第一个参数为模块的导入路径，第二个参数是一个模块对象的工厂函数
 // 工厂函数返回的对象有一`default`属性，用于模拟模块的默认导出
 // vi.mock('path',factoryFunction)
 // axios.get
-vi.mock('axios', () => {
-  return {
-    default: {
-      get: vi.fn()
-    }
-  }
-})
+// vi.mock('axios', () => {
+//   return {
+//     default: {
+//       get: vi.fn()
+//     }
+//   }
+// })
 
-let _app = null
+let app: App | null = null
 const joke = 'this is a joke'
 
+let server: SetupServer
+
 beforeEach(() => {
-  // @ts-ignore
-  axios.get.mockResolvedValue({ data: { joke }, status: 200 })
+  server = setupServer(
+    http.get('https://icanhazdadjoke.com', () => {
+      return HttpResponse.json({
+        joke
+      })
+    })
+  )
+  server.listen()
+})
+
+afterEach(() => {
+  server.close()
+  app!.unmount()
 })
 
 it('useJoke', async () => {
-  const { result, app } = setupHook(useJoke)
-  _app = app
+  const { result, app: _app } = setupHook(useJoke)
+  app = _app as App
 
   expect(result.loading.value).toBe(true)
   expect(result.joke.value).toBe('')
@@ -44,13 +61,6 @@ it('useJoke', async () => {
   expect(result.loading.value).toBe(false)
   expect(result.joke.value).toBe(joke)
   expect(result.fetchJoke).instanceOf(Function)
-})
-
-afterEach(() => {
-  // @ts-ignore
-  axios.get.mockReset()
-  // @ts-ignore
-  _app.unmount()
 })
 
 function setupHook(hook: Function, params?: any) {

@@ -83,6 +83,12 @@
 
 通过 `vi.fn` 来 mock 掉 fetch，即创建一个假的 fetch 代替真的。
 
+当模拟 fetch 时，需要测试三点：
+
+* 请求路径；
+* 请求参数；
+* 请求返回后对组件渲染的影响。
+
 ```ts
 // JokeContainer.spec.ts
 /*
@@ -607,7 +613,7 @@ describe('counterStore', () => {
 
 关键代码就是 `setActivePinia(createPinia())` ，在每个测试用例之前，创建一个新的 pinia 实例，并激活它，否则会报错。
 
-###  counterStore 用到组件，如何组件？
+###  counterStore 用到组件中，如何测试组件？
 
 有一组件 `CounterComponent.vue` :
 
@@ -683,7 +689,7 @@ describe('CounterComponent.', () => {
 
 测试组件 `CounterComponent.vue` ，使用的是真实的 `counterStore` , 有的文章说不应该使用真实的 store，而是使用模拟的 store，这样测试更加独立，不会受到 store 的影响。
 
-> 我认为这不是问题，而是优点，因为完全按照使用组件的方式测试组件，这样更加真实，更加贴近实际开发。
+> 我认为这不是问题，而是优点，因为完全按照使用组件的方式测试组件，这样更加真实使用这个组件的情况。
 
 我模拟 store，并没有成功，有兴趣的可看看两篇参考文章，实现模拟 store。
 
@@ -784,6 +790,151 @@ describe('jokeStore', () => {
   })
 })
 ```
+
+前面使用到 fetch 请求服务器数据时，都是使用了把 fetch 模拟掉的方式，但是模拟也是有代价的：
+
+1. 模拟 fetch 代码量较大，需要模拟请求参数、返回值、调用次数等
+2. 模拟 fetch 代码不够直观，不够真实
+3. 不恰当的模拟，不能让代码更健壮，反而给人虚假的安全感
+
+有没有更好的方式呢？ 直接使用真实的 fetch 请求**模拟的服务器**，这样测试更加真实 。
+
+### 使用 `msw` 模拟服务器
+
+[wms](https://mswjs.io/) 是 Mock Service Worker 的缩写，是一个用于模拟服务器的库，可以拦截请求，返回模拟数据。Service Worker 是浏览器的一个特性， WMS 实现了 node 环境下的 Service Worker。
+
+在 `useJoke.spec.ts` 中使用 `msw` 模拟服务器：
+
+安装依赖： `npm i -D msw`
+
+> 此时版本为 2.3.5
+
+修改 `useJoke.spec.ts` :
+
+```ts
+/*
+ * @Author      : ZhouQiJun
+ * @Date        : 2024-08-23 02:01:25
+ * @LastEditors : ZhouQiJun
+ * @LastEditTime: 2024-08-27 09:50:07
+ * @Description : 测试 useJoke
+ */
+import { afterEach, beforeEach, expect, it, vi } from 'vitest'
+import { flushPromises } from '@vue/test-utils'
+import { createApp } from 'vue'
+import type { App } from 'vue'
+import { http, HttpResponse } from 'msw'
+import { setupServer } from 'msw/node'
+import type { SetupServer } from 'msw/node'
+import useJoke from './useJoke'
+
+let app: App | null = null
+const joke = 'this is a joke'
+
+let server: SetupServer
+
+beforeEach(() => {
+  // 创建一个模拟服务器
+  server = setupServer(
+    http.get('https://icanhazdadjoke.com', () => {
+      return HttpResponse.json({
+        joke
+      })
+    })
+  )
+  server.listen()
+})
+
+afterEach(() => {
+  // 关闭服务器
+  server.close()
+  app!.unmount()
+})
+
+it('useJoke', async () => {
+  const { result, app: _app } = setupHook(useJoke)
+  app = _app as App
+
+  expect(result.loading.value).toBe(true)
+  expect(result.joke.value).toBe('')
+
+  // 接口请求完成后
+  await flushPromises()
+
+  expect(result.loading.value).toBe(false)
+  expect(result.joke.value).toBe(joke)
+  expect(result.fetchJoke).instanceOf(Function)
+})
+
+function setupHook(hook: Function, params?: any) {
+  let result: any
+
+  const app = createApp({
+    setup() {
+      result = hook(params)
+      return () => null
+    }
+  })
+
+  app.mount(document.createElement('div'))
+
+  return {
+    result,
+    app
+  }
+}
+```
+
+关键代码解读：
+
+`setupServer` 的参数是一系列请求处理方法，返回一个模拟服务器。
+
+`http.get` 拦截请求，返回模拟数据。
+
+`HttpResponse.json()` 返回 json 数据， `HttpResponse.text()` 返回文本数据， `HttpResponse.formData` 返回表单数据。
+
+`server.listen()` 启动服务器。
+
+`server.close()` 关闭服务器。
+
+[模拟响应 -- 官方文档](https://mswjs.io/docs/basics/mocking-responses)
+
+## 如何模拟外部依赖？
+
+经过上面的测试，我们发现模拟外部依赖是一个很重要的事情，因为外部依赖可能会导致测试不稳定，比如网络不稳定、数据不稳定等。
+
+但是模拟也是有代价的，模拟代码量大，不够直观，不够真实，不恰当的模拟会让代码不够健壮等。
+
+要是有可能，尽量别模拟，直接使用真实的外部依赖，这样测试更加真实。
+
+怎样的模拟是合适的呢？
+
+分析一下 `JokeContainer.vue` 组件的依赖关系和分别模拟不同的依赖，用例的可靠性：
+
+JokeContainer 组件的依赖关系如下：
+
+```bash
+JokeContainer.vue --> pinia(useJokeStore) --> axios --> server
+```
+
+在测试模拟 `pinia` , 要是 useCounterStore 和 axios 和 server 出现问题， JokeContainer 组件的测试不会失败，但是这不是接近真实的使用场景，测试不可靠。
+
+在测试模拟 `axios` , 要是 useCounterStore 和 JokeContainer.vue 出现问题，测试失败，稍微可靠一点，但是也不够接近真实的使用场景。
+
+在测试中模拟 `server` ，要是 useCounterStore 和 JokeContainer.vue 和 axios 出现问题，测试失败，这是最接近真实的使用场景，测试最可靠。
+
+经过分析，可以得出结论：
+
+> 模拟越少越好，模拟的越多，测试就越不真实，测试就越不可靠。
+
+> 模拟越靠近底层，测试越可靠，测试越接近真实的使用场景。
+
+## 小结
+
+* 测试组件内部的 http 请求，需要模拟 fetch 函数，模拟请求参数、返回值、调用次数等。
+* 恰当的模拟，可以让测试更加真实，更加可靠。
+* 测试自定义 hook，需要提供执行环境，确保 hook 内部的生命周期、watch 等顺利执行。
+* 使用 `msw` 模拟服务器，可以模拟服务器，返回模拟数据，测试更加真实。
 
 ## 参考
 

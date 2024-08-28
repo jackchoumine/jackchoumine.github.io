@@ -2,34 +2,41 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-23 02:16:51
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-25 01:23:18
+ * @LastEditTime: 2024-08-28 11:39:06
  * @Description :
 -->
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import { ref, provide } from 'vue'
 import MyMessage from './components/MyMessage.vue'
 import ShoeCount from './components/ShoeCount.vue'
 import PatientForm from './components/PatientForm.vue'
 import JokeContainer from './components/JokeContainer.vue'
 import CounterComponent from './components/CounterComponent.vue'
+import { TheThemeProvider } from './hooks/useTheme'
+const theme = ref('light')
+// provide('my-data', {
+//   hello: 'world'
+// })
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <CounterComponent />
-      <JokeContainer />
-      <PatientForm />
-      <MyMessage type="success" />
-      <ShoeCount />
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <TheThemeProvider :theme="theme">
+    <header>
+      <div class="wrapper">
+        <CounterComponent />
+        <JokeContainer />
+        <PatientForm />
+        <MyMessage type="success" />
+        <ShoeCount />
+        <nav>
+          <RouterLink to="/">Home</RouterLink>
+          <RouterLink to="/about">About</RouterLink>
+        </nav>
+      </div>
+    </header>
+    <RouterView />
+  </TheThemeProvider>
 </template>
 
 <style scoped>
