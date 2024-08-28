@@ -2,7 +2,7 @@
  * @Date        : 2022-09-01 15:09:07
  * @Author      : ZhouQijun
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-22 09:53:45
+ * @LastEditTime: 2024-08-28 10:53:10
  * @Description :
  */
 import './App.css'
@@ -28,31 +28,32 @@ const themes = {
   dark: { foreground: '#ffffff', background: '#222222' },
 }
 
-const ThemeContext = React.createContext(themes.light)
+// const ThemeContext = React.createContext(themes.light)
+import { useTheme } from './components/ThemeContext'
 
 function App() {
+  const [theme, toggleTheme] = useTheme()
   return (
-    <ThemeContext.Provider value={themes.light}>
-      <div className='App'>
-        <ContainerAndDisplay />
-        <CallMethod />
-        <UseCallbackDemo />
-        <UseAddDemo />
-        <PopperDemo />
-        <UseHttpGetDemo />
-        <h4>useWindowResize</h4>
-        <WindowResize />
-        <hr />
-        <h4>useCounter</h4>
-        <SimpleCounter />
-        <hr />
-        <KnowUseRef />
-        <TimeInterval />
-        <RememberLastState />
-        <hr />
-        <PrimeApp />
-      </div>
-    </ThemeContext.Provider>
+    <div className='App'>
+      <button onClick={toggleTheme}>切换主题 {theme}</button>
+      <ContainerAndDisplay />
+      <CallMethod />
+      <UseCallbackDemo />
+      <UseAddDemo />
+      <PopperDemo />
+      <UseHttpGetDemo />
+      <h4>useWindowResize</h4>
+      <WindowResize />
+      <hr />
+      <h4>useCounter</h4>
+      <SimpleCounter />
+      <hr />
+      <KnowUseRef />
+      <TimeInterval />
+      <RememberLastState />
+      <hr />
+      <PrimeApp />
+    </div>
   )
 }
 
