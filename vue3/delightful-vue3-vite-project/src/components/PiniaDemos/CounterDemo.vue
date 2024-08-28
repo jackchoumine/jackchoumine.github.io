@@ -1,9 +1,9 @@
 <!--
- * @Description : 
+ * @Description :
  * @Date        : 2023-01-05 01:34:31 +0800
  * @Author      : JackChou
- * @LastEditTime: 2023-01-07 14:25:01 +0800
- * @LastEditors : JackChou
+ * @LastEditTime: 2024-08-28 22:07:33
+ * @LastEditors : ZhouQiJun
 -->
 <template>
   <div>
@@ -19,7 +19,7 @@
     <hr />
     <button @click="changeMulti2">$patch使用接收函数</button>
     <hr />
-    <button @click="changeByAaction">action 修改</button>
+    <button @click="changeByAction">action 修改</button>
     <hr />
     <ul>
       <li v-for="todo in finishedTodos" :key="todo">
@@ -77,9 +77,37 @@ function changeMulti() {
 }
 
 // 方式4：封装 actions，适合复杂操作
-function changeByAaction() {
+function changeByAction() {
   counter.complexChange(10)
 }
+
+// NOTE 如何监听 store 里的数据
+// 1. 监听单个属性
+watchEffect(() => {
+  console.log('watchEffect count:', counter.count)
+})
+
+watch(
+  () => counter.count,
+  count => {
+    console.log('watch () => counter.count, count:', count)
+  }
+)
+watch(count, count => {
+  console.log('watch count:', count)
+})
+// 2. 监听多状态属性的变化
+watch([() => counter.count, () => counter.age], ([count, age]) => {
+  console.log('count age ', { count, age })
+})
+// 3. $subscribe 多个属性修改，只触发一次
+// 响应 store 变化
+// 比起普通的 watch()，使用 $subscribe() 的好处是 subscriptions 在 patch 后只触发一次
+counter.$subscribe((mutation, state) => {
+  console.log('组件中 订阅 state 变化')
+  console.log(mutation)
+  console.log(state)
+})
 </script>
 
 <style scoped lang="scss"></style>
