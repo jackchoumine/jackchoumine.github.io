@@ -2,10 +2,12 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-06-12 21:04:24
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-06-12 21:21:56
+ * @LastEditTime: 2024-08-28 11:55:27
  * @Description : Message 组件
 -->
 <script lang="ts">
+import { inject } from 'vue'
+import { useTheme } from '../hooks/useTheme'
 export function validatorType(type) {
   const typeList = ['success', 'info', 'warning', 'error']
   if (!typeList.includes(type)) {
@@ -22,6 +24,13 @@ export default {
       required: true,
       validator: validatorType
     }
+  },
+  setup() {
+    const { theme, toggleTheme } = useTheme()
+    return {
+      theme,
+      toggleTheme
+    }
   }
 }
 </script>
@@ -29,5 +38,6 @@ export default {
 <template>
   <div :class="['message', type]">
     <slot></slot>
+    <button @click="toggleTheme">toggleTheme {{ theme }}</button>
   </div>
 </template>
