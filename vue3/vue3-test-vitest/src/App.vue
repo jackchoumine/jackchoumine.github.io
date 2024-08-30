@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-23 02:16:51
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-30 12:04:38
+ * @LastEditTime: 2024-08-30 12:32:07
  * @Description :
 -->
 <script setup lang="ts">
@@ -24,7 +24,7 @@ const theme = ref('light')
 
 <template>
   <TheThemeProvider :theme="theme">
-    <p>he</p>
+    <p>he3</p>
     <TabsDemo />
     <ThemeSwitcher />
     <CounterComponent />

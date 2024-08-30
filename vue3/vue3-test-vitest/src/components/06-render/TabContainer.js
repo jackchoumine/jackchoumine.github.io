@@ -2,13 +2,13 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-30 11:02:05
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-30 12:14:33
+ * @LastEditTime: 2024-08-30 12:34:26
  * @Description : tabs 组件
  */
 import { defineComponent, h, computed, onMounted, onUnmounted } from 'vue'
 import './TabContainer.scss'
 
-function withTabId(name: string) {
+function withTabId(name) {
   return defineComponent({
     name,
     props: {
@@ -44,14 +44,18 @@ export const TabContainer = defineComponent({
   setup(props, { slots, emit }) {
     // 获取子组件
     // @ts-ignore
-    const children: Array<typeof Tab | typeof TabContent> = slots.default?.() ?? []
+    // const children: Array<typeof Tab | typeof TabContent> = slots.default?.() ?? []
+    const children = slots.default?.() ?? []
     console.log(children)
     /**
      * 过滤 Tab 组件
      * @param component 组件
      * @returns 返回是否是 Tab 组件
      */
-    const tabFilter = (component: any): boolean => component.type === Tab // NOTE 可使用 === 判断组件类型
+    // const tabFilter = (component: any): boolean => component.type === Tab // NOTE 可使用 === 判断组件类型
+    function tabFilter(component) {
+      return component.type === Tab
+    }
     const tabs = computed(() => {
       const tabVNodes = children.filter(tabFilter).map((Tab) => {
         return h(Tab, {
@@ -70,10 +74,13 @@ export const TabContainer = defineComponent({
       return tabVNodes
     })
 
-    const contentFilter = (component: any): component is typeof TabContent =>
-      component.type === TabContent && component.props.id === props.modelValue
+    // const contentFilter = (component: any): component is typeof TabContent =>
+    //   component.type === TabContent && component.props.id === props.modelValue
+    function contentFilter(component) {
+      return component.type === TabContent && component.props.id === props.modelValue
+    }
     const activeContent = computed(() => {
-      const activeContent = children.find(contentFilter)!
+      const activeContent = children.find(contentFilter)
       const activeContentVNode = h(activeContent, {
         ...activeContent.props,
         key: activeContent.props.id
