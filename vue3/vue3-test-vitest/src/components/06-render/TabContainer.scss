@@ -1,0 +1,21 @@
+.tab-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: aliceblue;
+  .tabs {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 50px;
+    background-color: #f0f0f0;
+    .tab {
+      cursor: pointer;
+      padding: 0 10px;
+      &.active {
+        background-color: lightblue;
+      }
+    }
+  }
+}

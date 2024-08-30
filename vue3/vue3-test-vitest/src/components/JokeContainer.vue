@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-22 21:45:45
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-29 09:27:01
+ * @LastEditTime: 2024-08-30 10:46:13
  * @Description :
 -->
 <script setup>
@@ -15,13 +15,13 @@ import FetchJoke from './FetchJoke.vue'
 </script>
 
 <template>
-  <FetchJoke v-slot="{ loading, joke, fetchJoke }">
+  <!-- <FetchJoke v-slot="{ loading, joke, fetchJoke }">
     <div class="JokeContainer">
       <h3>笑话大全</h3>
       <p>{{ loading ? 'loading' : joke }}</p>
       <button @click="fetchJoke">获取笑话</button>
     </div>
-  </FetchJoke>
+  </FetchJoke> -->
 </template>
 
 <style scoped lang="scss">
