@@ -2,10 +2,10 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-30 11:02:05
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-30 12:34:26
+ * @LastEditTime: 2024-09-02 10:02:14
  * @Description : tabs 组件
  */
-import { defineComponent, h, computed, onMounted, onUnmounted } from 'vue'
+import { defineComponent, h, computed, onMounted, onUnmounted, KeepAlive } from 'vue'
 import './TabContainer.scss'
 
 function withTabId(name) {
@@ -38,6 +38,10 @@ export const TabContainer = defineComponent({
     modelValue: {
       type: String || Number,
       required: true
+    },
+    keepAlive: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['update:modelValue'],
@@ -88,10 +92,15 @@ export const TabContainer = defineComponent({
       return activeContentVNode
     })
 
-    return () =>
-      h('div', { class: 'tab-container' }, [
+    return () => {
+      let CurrContent = activeContent.value
+      if (props.keepAlive) {
+        CurrContent = h(KeepAlive, activeContent.value)
+      }
+      return h('div', { class: 'tab-container' }, [
         h('div', { class: 'tabs' }, tabs.value),
-        h('div', { class: 'tab-content' }, activeContent.value)
+        h('div', { class: 'tab-content' }, CurrContent)
       ])
+    }
   }
 })
