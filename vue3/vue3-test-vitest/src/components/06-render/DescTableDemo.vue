@@ -2,12 +2,12 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-09-02 14:38:13
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-09-02 15:13:07
+ * @LastEditTime: 2024-09-02 15:46:39
  * @Description :
 -->
 <script setup lang="jsx">
 import { h, reactive, shallowRef } from 'vue'
-import FormTable from './FormTable.vue'
+import DescTable from './DescTable.vue'
 const dataInfo = {
   gifts: 'https://cdn.jsdelivr.net/npm/zqj-pics/vue3/form-table.png',
   name: '张三'
@@ -37,5 +37,5 @@ const cols = [
 </script>
 
 <template>
-  <FormTable :data="dataInfo" :cols="cols" />
+  <DescTable :data="dataInfo" :cols="cols" />
 </template>

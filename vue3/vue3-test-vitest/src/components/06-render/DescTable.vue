@@ -3,36 +3,10 @@ import { clone as deepClone } from 'petite-utils'
 
 import RenderContainer from './RenderContainer'
 
-function vTitle(el, bindings) {
-  const { value, instance } = bindings
-  // console.log('vTitle', value, instance)
-  if (typeof value === 'function') {
-    instance.setTile(el, value(instance.data))
-  } else if (value) {
-    instance.setTile(el, value)
-  } else {
-    const content = el.querySelector('.es-form-table-key').textContent.trim()
-    // console.log('content', content)
-    instance.setTile(el, content !== '--' ? content : '暂无数据')
-  }
-}
-
 export default {
-  name: 'ESDesc',
+  name: 'DescTable',
   components: {
     Container: RenderContainer
-  },
-  directives: {
-    title: {
-      mounted(el, bindings, vnode) {
-        // console.log('mounted')
-        vTitle(el, bindings)
-      },
-      updated(el, bindings, vnode) {
-        // console.log('updated')
-        vTitle(el, bindings)
-      }
-    }
   },
   props: {
     title: {
@@ -79,8 +53,6 @@ export default {
   },
   computed: {
     titleInfo() {
-      // NOTE 使用 JSON.stringify 深度复制丢失方法,此处勿用
-      // const titleInfo = JSON.parse(JSON.stringify(this.colList))
       const titleInfo = deepClone(this.cols).map((item) => {
         const { labelWidth } = item
         return {
@@ -101,46 +73,27 @@ export default {
         titleInfo[titleInfo.length - 1].span = labelNumPreRow - remainder + 1
       }
       return titleInfo
-    },
-    hasTitleSlot() {
-      return this.$slots.title
-    },
-    updateKey() {
-      return JSON.stringify(deepClone(this.data))
-    }
-  },
-  methods: {
-    setTile(el, titleValue) {
-      const textContent = el.textContent
-      const label = textContent.trim() || '暂无数据'
-      el.title = typeof titleValue === 'string' ? titleValue : label
     }
   }
 }
 </script>
 
 <template>
-  <div :key="updateKey" class="component form-table">
+  <div class="component form-table">
     <ul v-if="cols.length" class="item-list">
       <li
         v-for="(item, index) in titleInfo"
         :key="index"
-        v-title="item?.labelTips"
         :style="{ width: ((item.span || 1) / labelNumPreRow) * 100 + '%' }"
         class="item"
       >
-        <div class="item-label" :class="item.labelClassName" :style="`width: ${item.labelWidth};`">
+        <div class="item-label" :style="`width: ${item.labelWidth};`">
           <Container v-if="typeof item.label === 'function'" :render="item.label" :data="data" />
           <span v-else>
             {{ item.label }}
           </span>
         </div>
-        <div
-          v-copy="item?.enableCopy ?? true"
-          class="item-value"
-          :class="item.valueClassName"
-          :style="`width:calc(100% - ${item.labelWidth});`"
-        >
+        <div class="item-value" :style="`width:calc(100% - ${item.labelWidth});`">
           <Container
             v-if="typeof item.render === 'function'"
             :render="item.render"

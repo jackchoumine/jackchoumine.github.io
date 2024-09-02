@@ -8,7 +8,7 @@
 <script setup>
 import { ref } from 'vue'
 import { Tab, TabContainer, TabContent } from './TabContainer'
-import FormTableDemo from './FormTableDemo.vue'
+import FormTableDemo from './DescTableDemo.vue'
 const activeTabId = ref('1')
 const inputText = ref('')
 const myInput = ref('')
