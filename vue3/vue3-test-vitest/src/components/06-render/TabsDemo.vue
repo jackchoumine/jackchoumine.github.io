@@ -2,13 +2,13 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-30 11:28:29
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-09-02 14:55:07
+ * @LastEditTime: 2024-09-02 16:10:44
  * @Description :
 -->
 <script setup>
 import { ref } from 'vue'
 import { Tab, TabContainer, TabContent } from './TabContainer'
-import FormTableDemo from './DescTableDemo.vue'
+import DescTableDemo from './DescTableDemo.vue'
 const activeTabId = ref('1')
 const inputText = ref('')
 const myInput = ref('')
@@ -16,7 +16,7 @@ const myInput = ref('')
 
 <template>
   <div class="TabsDemo">
-    <FormTableDemo />
+    <DescTableDemo />
     <h3>tabs demo - 301 activeTabId {{ activeTabId }}</h3>
     <TabContainer v-model="activeTabId" keep-alive>
       <p>无效的节点</p>

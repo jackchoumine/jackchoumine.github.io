@@ -1,86 +1,84 @@
-<script>
+<script setup>
 import { clone as deepClone } from 'petite-utils'
+import { computed } from 'vue'
 
-import RenderContainer from './RenderContainer'
+import Container from './RenderContainer'
 
-export default {
-  name: 'DescTable',
-  components: {
-    Container: RenderContainer
-  },
-  props: {
-    cols: {
-      type: Array,
-      default: () => {
-        return []
-      },
-      validator: (value) => {
-        const validate = value.every((item) => {
-          const { label, prop } = item
-          return label && prop
-        })
-        if (!validate) {
-          console.log('传入的 colList 属性的元素必须包含 label  和 prop 属性')
-        }
-        return validate
-      }
+const props = defineProps({
+  cols: {
+    type: Array,
+    default: () => {
+      return []
     },
-    data: {
-      type: Object,
-      default: () => {
-        return {}
+    validator: (value) => {
+      const validate = value.every((item) => {
+        const { label, prop } = item
+        return label && prop
+      })
+      if (!validate) {
+        console.log('传入的 colList 属性的元素必须包含 label  和 prop 属性')
       }
-    },
-    labelWidth: {
-      type: String,
-      default: '7.5rem'
-    },
-    labelNumPreRow: {
-      type: Number,
-      default: 3,
-      validator: (value) => {
-        const validate = [1, 2, 3, 4, 5, 6].includes(value)
-        if (!validate) {
-          console.error('labelNumPreRow 表示一行有标题字段对,只能时 1 -- 6,默认 3')
-        }
-        return validate
-      }
+      return validate
     }
   },
-  computed: {
-    titleInfo() {
-      const titleInfo = deepClone(this.cols).map((item) => {
-        const { labelWidth } = item
-        return {
-          ...item,
-          labelWidth: labelWidth || /* this.$formTableOptions?.labelWidth || */ this.labelWidth
-        }
-      })
-      if (titleInfo.some((item) => !!item.span)) {
-        // NOTE 如何用户有设置每个标题的宽度,就不适配最后一个
-        return titleInfo
+  data: {
+    type: Object,
+    default: () => {
+      return {}
+    }
+  },
+  labelWidth: {
+    type: String,
+    default: '7.5rem'
+  },
+  labelNumPreRow: {
+    type: Number,
+    default: 3,
+    validator: (value) => {
+      const validate = [1, 2, 3, 4, 5, 6].includes(value)
+      if (!validate) {
+        console.error('labelNumPreRow 表示一行有标题字段对,只能时 1 -- 6,默认 3')
       }
-      const labelNumPreRow = this.labelNumPreRow
-      const remainder = titleInfo.length % labelNumPreRow
-      if (remainder === 1) {
-        titleInfo[titleInfo.length - 1].span = labelNumPreRow
-      }
-      if (remainder > 1 && remainder < labelNumPreRow) {
-        titleInfo[titleInfo.length - 1].span = labelNumPreRow - remainder + 1
-      }
-      return titleInfo
+      return validate
     }
   }
+})
+
+const colList = computed(() => {
+  return toColList(props.cols, props.labelWidth, props.labelNumPreRow)
+})
+
+function toColList(cols, labelWidth, labelNumPreRow) {
+  console.log('cols:', cols)
+  const titleInfo = deepClone(cols).map((item) => {
+    const { labelWidth: itemLabelWidth } = item
+    return {
+      ...item,
+      labelWidth: itemLabelWidth || /* this.$formTableOptions?.labelWidth || */ labelWidth
+    }
+  })
+  if (titleInfo.some((item) => !!item.span)) {
+    // NOTE 如何用户有设置每个标题的宽度,就不适配最后一个
+    return titleInfo
+  }
+  const remainder = titleInfo.length % labelNumPreRow
+  if (remainder === 1) {
+    titleInfo[titleInfo.length - 1].span = labelNumPreRow
+  }
+  if (remainder > 1 && remainder < labelNumPreRow) {
+    titleInfo[titleInfo.length - 1].span = labelNumPreRow - remainder + 1
+  }
+  return titleInfo
 }
 </script>
 
 <template>
   <div class="component form-table">
-    <ul v-if="cols.length" class="item-list">
+    <ul v-if="colList.length" class="item-list">
       <li
-        v-for="(item, index) in titleInfo"
+        v-for="(item, index) in colList"
         :key="index"
-        :style="{ width: ((item.span || 1) / labelNumPreRow) * 100 + '%' }"
+        :style="{ width: ((item.span || 1) / props.labelNumPreRow) * 100 + '%' }"
         class="item"
       >
         <div class="item-label" :style="`width: ${item.labelWidth};`">
