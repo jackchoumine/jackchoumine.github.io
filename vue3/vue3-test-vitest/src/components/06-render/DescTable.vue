@@ -2,7 +2,7 @@
 import { clone as deepClone } from 'petite-utils'
 import { computed } from 'vue'
 
-import Container from './RenderContainer'
+import RenderContainer from './RenderContainer'
 
 const props = defineProps({
   cols: {
@@ -82,13 +82,17 @@ function toColList(cols, labelWidth, labelNumPreRow) {
         class="item"
       >
         <div class="item-label" :style="`width: ${item.labelWidth};`">
-          <Container v-if="typeof item.label === 'function'" :render="item.label" :data="data" />
+          <RenderContainer
+            v-if="typeof item.label === 'function'"
+            :render="item.label"
+            :data="data"
+          />
           <span v-else>
             {{ item.label }}
           </span>
         </div>
         <div class="item-value" :style="`width:calc(100% - ${item.labelWidth});`">
-          <Container
+          <RenderContainer
             v-if="typeof item.render === 'function'"
             :render="item.render"
             :data="data ?? {}"
