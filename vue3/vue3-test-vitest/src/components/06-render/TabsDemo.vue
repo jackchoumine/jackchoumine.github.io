@@ -2,12 +2,12 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-30 11:28:29
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-09-02 10:03:04
+ * @LastEditTime: 2024-09-02 10:46:00
  * @Description :
 -->
 <script setup>
 import { ref } from 'vue'
-import { Tab, TabContainer, TabContent } from './TabContainer.js'
+import { Tab, TabContainer, TabContent } from './TabContainer'
 const activeTabId = ref('1')
 const inputText = ref('')
 const myInput = ref('')

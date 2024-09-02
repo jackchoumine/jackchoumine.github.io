@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-30 11:02:05
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-09-02 10:02:14
+ * @LastEditTime: 2024-09-02 10:44:53
  * @Description : tabs 组件
  */
 import { defineComponent, h, computed, onMounted, onUnmounted, KeepAlive } from 'vue'
@@ -60,6 +60,7 @@ export const TabContainer = defineComponent({
     function tabFilter(component) {
       return component.type === Tab
     }
+
     const tabs = computed(() => {
       const tabVNodes = children.filter(tabFilter).map((Tab) => {
         return h(Tab, {
@@ -97,10 +98,16 @@ export const TabContainer = defineComponent({
       if (props.keepAlive) {
         CurrContent = h(KeepAlive, activeContent.value)
       }
-      return h('div', { class: 'tab-container' }, [
-        h('div', { class: 'tabs' }, tabs.value),
-        h('div', { class: 'tab-content' }, CurrContent)
-      ])
+      return (
+        <div class="tab-container">
+          <div class="tabs">{tabs.value}</div>
+          <div class="tab-content">{CurrContent}</div>
+        </div>
+      )
+      // return h('div', { class: 'tab-container' }, [
+      //   h('div', { class: 'tabs' }, tabs.value),
+      //   h('div', { class: 'tab-content' }, CurrContent)
+      // ])
     }
   }
 })
