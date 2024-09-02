@@ -9,25 +9,6 @@ export default {
     Container: RenderContainer
   },
   props: {
-    title: {
-      type: String,
-      default: ''
-    },
-    labelWidth: {
-      type: String,
-      default: '7.5rem'
-    },
-    labelNumPreRow: {
-      type: Number,
-      default: 3,
-      validator: (value) => {
-        const validate = [1, 2, 3, 4, 5, 6].includes(value)
-        if (!validate) {
-          console.error('labelNumPreRow 表示一行有标题字段对,只能时 1 -- 6,默认 3')
-        }
-        return validate
-      }
-    },
     cols: {
       type: Array,
       default: () => {
@@ -48,6 +29,21 @@ export default {
       type: Object,
       default: () => {
         return {}
+      }
+    },
+    labelWidth: {
+      type: String,
+      default: '7.5rem'
+    },
+    labelNumPreRow: {
+      type: Number,
+      default: 3,
+      validator: (value) => {
+        const validate = [1, 2, 3, 4, 5, 6].includes(value)
+        if (!validate) {
+          console.error('labelNumPreRow 表示一行有标题字段对,只能时 1 -- 6,默认 3')
+        }
+        return validate
       }
     }
   },
@@ -183,10 +179,6 @@ export default {
     border: 1px solid #ebeef5;
     line-height: var(--item-height + 1px);
     text-align: center;
-  }
-
-  .zm-copy {
-    cursor: copy;
   }
 }
 </style>
