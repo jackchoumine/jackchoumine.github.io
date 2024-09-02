@@ -97,6 +97,7 @@ function toColList(cols, labelWidth, labelNumPreRow) {
             :render="item.render"
             :data="data ?? {}"
           />
+          <slot v-else-if="item.slot" :name="item.prop" :data="props.data" />
           <span v-else>
             {{ data[item.prop] ?? '--' }}
           </span>
