@@ -120,25 +120,16 @@ export default {
 </script>
 
 <template>
-  <div :key="updateKey" class="form-table">
-    <div v-if="hasTitleSlot" class="form-table-title-box">
-      <slot name="title"></slot>
-    </div>
-    <div v-else-if="title" class="form-table-title-box text-primary">
-      <span class="title-text">{{ title }}</span>
-    </div>
-    <ul v-if="cols.length">
+  <div :key="updateKey" class="component form-table">
+    <ul v-if="cols.length" class="item-list">
       <li
         v-for="(item, index) in titleInfo"
         :key="index"
         v-title="item?.labelTips"
         :style="{ width: ((item.span || 1) / labelNumPreRow) * 100 + '%' }"
+        class="item"
       >
-        <div
-          class="form-table-label"
-          :class="item.labelClassName"
-          :style="`width: ${item.labelWidth};`"
-        >
+        <div class="item-label" :class="item.labelClassName" :style="`width: ${item.labelWidth};`">
           <Container v-if="typeof item.label === 'function'" :render="item.label" :data="data" />
           <span v-else>
             {{ item.label }}
@@ -146,7 +137,7 @@ export default {
         </div>
         <div
           v-copy="item?.enableCopy ?? true"
-          class="form-table-key"
+          class="item-value"
           :class="item.valueClassName"
           :style="`width:calc(100% - ${item.labelWidth});`"
         >
@@ -167,7 +158,7 @@ export default {
 
 <style lang="scss">
 // NOTE 不加 scoped 方便在父组件使用 es-form-table 修改内部样式
-.form-table {
+.component.form-table {
   --item-height: 39px;
   --label-padding: 0 10px;
 
@@ -182,21 +173,7 @@ export default {
   margin: 20px 0;
   background-color: #fff;
 
-  &-title-box {
-    display: flex;
-    align-items: center;
-    height: 40px;
-    padding: 5px 10px;
-    background-color: #fff;
-
-    .title-text {
-      display: inline-block;
-      font-size: 16px;
-      font-weight: bolder;
-    }
-  }
-
-  ul {
+  .item-list {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
@@ -204,12 +181,12 @@ export default {
     border-top: 1px solid#ebeef5;
     border-left: 1px solid #ebeef5;
 
-    li {
+    .item {
       display: flex;
       flex-wrap: wrap;
       list-style-type: none;
 
-      .form-table-label {
+      &-label {
         display: flex;
         display: inline-block;
         justify-content: flex-end;
@@ -229,7 +206,7 @@ export default {
         background-color: #cdcdcd3f;
       }
 
-      .form-table-key {
+      &-value {
         display: inline-block;
         box-sizing: border-box;
         height: 100%;
