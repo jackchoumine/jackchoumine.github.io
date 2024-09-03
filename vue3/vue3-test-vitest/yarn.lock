@@ -2983,7 +2983,7 @@ pathval@^2.0.0:
 
 petite-utils@^0.0.4:
   version "0.0.4"
-  resolved "https://registry.npmjs.org/petite-utils/-/petite-utils-0.0.4.tgz"
+  resolved "https://registry.npmmirror.com/petite-utils/-/petite-utils-0.0.4.tgz"
   integrity sha512-PlbPLUOMaVLuiGzAycL7QK6N7sVEKTPLU35zaTqBGj/gdw6sjs/m0159RGeGnbccrCdj2WCYZKfAaA6ab4+74w==
 
 picocolors@^1.0.0:

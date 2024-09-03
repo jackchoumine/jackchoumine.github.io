@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-02-19 17:36:55
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-25 18:42:52
+ * @LastEditTime: 2024-09-03 09:49:05
  * @Description :
  */
 // import './assets/main.css'
@@ -13,7 +13,7 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 import App from './App.vue'
 import router from './router'
-
+// import './components/06-render/render'
 const app = createApp(App)
 
 const pinia = createPinia()
