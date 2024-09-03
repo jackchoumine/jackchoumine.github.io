@@ -38,7 +38,7 @@
     "axios": "1.4.0",
     "dayjs": "1.11.9",
     "echarts-web-components": "~0.0.3",
-    "element-plus": "^2.3.9",
+    "element-plus": "~2.8.1",
     "graphql": "16.7.1",
     "haunted": "^5.0.0",
     "hoverintent": "2.2.1",

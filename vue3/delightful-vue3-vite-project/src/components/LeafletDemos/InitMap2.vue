@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-17 09:48:25
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-07-18 21:27:02
+ * @LastEditTime: 2024-09-04 00:57:47
  * @Description : 使用ES6模块化引入leaflet
  * 参考例子：https://stackblitz.com/@shengzheng1981
  【Leaflet_D2】 https://www.bilibili.com/video/BV1kX4y1y7Gq/?share_source=copy_web&vd_source=c23ab500627f369ceee9c74b051e83b6
@@ -139,7 +139,7 @@ function toggleLayer(selectIDs: string[]) {
 <template>
   <div class="init-map-2 h-full" ref="mapContainer">
     <ElCheckboxGroup v-model="currentLayerId" @change="toggleLayer">
-      <ElCheckbox v-for="layer in layerOptions" :key="layer.id" :label="layer.id">
+      <ElCheckbox v-for="layer in layerOptions" :key="layer.id" :value="layer.id">
         {{ layer.name }}
       </ElCheckbox>
     </ElCheckboxGroup>
