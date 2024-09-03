@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-30 10:19:57
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-30 10:52:15
+ * @LastEditTime: 2024-09-03 09:48:38
  * @Description : 渲染函数学习
  * more info https://cn.vuejs.org/api/render-function
  */
@@ -45,8 +45,16 @@ const FetchJokeVNode = h(FetchJoke, ({ loading, joke }) =>
   h('div', [h('p', loading ? 'loading...' : joke)])
 )
 
+// NOTE type 是组件对象的引用，可使用 === 判断组件是否相同
+// 普通的 html 标签的 type 是字符串
 console.log(FetchJokeVNode.type === FetchJoke)
 const mountDiv = document.createElement('div')
 const obj = createApp(FetchJokeVNode).mount(mountDiv)
 // console.log(obj.$el)
 console.log(FetchJokeVNode)
+
+// h 函数还能接受一个函数作为参数, 此时 h 函数的参数就变成一个匿名函数组件
+// 此时 type 是一个函数 这种方式很少使用
+const FetchJokeVNode2 = h(() => FetchJokeVNode)
+console.log('FetchJokeVNode2')
+console.log(FetchJokeVNode2.type)

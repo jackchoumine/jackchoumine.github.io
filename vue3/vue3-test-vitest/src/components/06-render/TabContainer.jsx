@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-30 11:02:05
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-09-02 10:44:53
+ * @LastEditTime: 2024-09-03 09:43:46
  * @Description : tabs 组件
  */
 import { defineComponent, h, computed, onMounted, onUnmounted, KeepAlive } from 'vue'
@@ -56,7 +56,8 @@ export const TabContainer = defineComponent({
      * @param component 组件
      * @returns 返回是否是 Tab 组件
      */
-    // const tabFilter = (component: any): boolean => component.type === Tab // NOTE 可使用 === 判断组件类型
+    // NOTE type 是组件对象的直接引用 可使用 === 判断组件类型
+    // const tabFilter = (component: any): boolean => component.type === Tab
     function tabFilter(component) {
       return component.type === Tab
     }
@@ -98,16 +99,13 @@ export const TabContainer = defineComponent({
       if (props.keepAlive) {
         CurrContent = h(KeepAlive, activeContent.value)
       }
-      return (
-        <div class="tab-container">
-          <div class="tabs">{tabs.value}</div>
-          <div class="tab-content">{CurrContent}</div>
-        </div>
-      )
-      // return h('div', { class: 'tab-container' }, [
-      //   h('div', { class: 'tabs' }, tabs.value),
-      //   h('div', { class: 'tab-content' }, CurrContent)
-      // ])
+      // return (
+      //   <div class="tab-container">
+      //     <div class="tabs">{tabs.value}</div>
+      //     <div class="tab-content">{CurrContent}</div>
+      //   </div>
+      // )
+      return h(() => CurrContent)
     }
   }
 })
