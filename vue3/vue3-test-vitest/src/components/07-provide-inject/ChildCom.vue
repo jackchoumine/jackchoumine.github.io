@@ -2,15 +2,15 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-09-08 16:55:13
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-09-08 21:47:30
+ * @LastEditTime: 2024-09-08 22:08:38
  * @Description :
 -->
-<script setup>
+<script setup lang="ts">
 import { inject } from 'vue'
-import { name_key } from './provide_keys'
+import { name_key, type AgeType, type NameType } from './provide_keys'
 import { useAge } from './useAge'
-const { name, changeName } = inject(name_key)
-const { age, changeAge } = useAge()
+const { name, changeName } = inject<NameType>(name_key) as NameType
+const { age, changeAge } = useAge<AgeType>()
 </script>
 
 <template>
