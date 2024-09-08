@@ -2,13 +2,14 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-30 11:28:29
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-09-02 16:10:44
+ * @LastEditTime: 2024-09-08 17:00:48
  * @Description :
 -->
 <script setup>
 import { ref } from 'vue'
 import { Tab, TabContainer, TabContent } from './TabContainer'
 import DescTableDemo from './DescTableDemo.vue'
+import ChildCom from '../07-provide-inject/ChildCom.vue'
 const activeTabId = ref('1')
 const inputText = ref('')
 const myInput = ref('')
@@ -16,6 +17,7 @@ const myInput = ref('')
 
 <template>
   <div class="TabsDemo">
+    <ChildCom />
     <DescTableDemo />
     <h3>tabs demo - 301 activeTabId {{ activeTabId }}</h3>
     <TabContainer v-model="activeTabId" keep-alive>
@@ -37,7 +39,6 @@ const myInput = ref('')
         <div>
           <input type="text" v-model="myInput" />
           <p>myInput : {{ myInput }}</p>
-          <h3>Tab 3</h3>
         </div>
       </TabContent>
     </TabContainer>

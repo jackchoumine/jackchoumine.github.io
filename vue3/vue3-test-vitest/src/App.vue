@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-23 02:16:51
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-30 12:32:07
+ * @LastEditTime: 2024-09-08 17:16:16
  * @Description :
 -->
 <script setup lang="ts">
@@ -16,6 +16,8 @@ import CounterComponent from './components/CounterComponent.vue'
 import ThemeSwitcher from './components/ThemeSwitcher.vue'
 import { TheThemeProvider } from './hooks/useTheme'
 import TabsDemo from './components/06-render/TabsDemo.vue'
+import ProvideCom from './components/07-provide-inject/ProvideCom.vue'
+
 const theme = ref('light')
 // provide('my-data', {
 //   hello: 'world'
@@ -24,15 +26,17 @@ const theme = ref('light')
 
 <template>
   <TheThemeProvider :theme="theme">
-    <p>he3</p>
-    <TabsDemo />
-    <ThemeSwitcher />
-    <CounterComponent />
-    <JokeContainer />
-    <PatientForm />
-    <MyMessage type="success" />
-    <ShoeCount />
-    <!-- <RouterView /> -->
+    <ProvideCom>
+      <p>he3</p>
+      <TabsDemo />
+      <ThemeSwitcher />
+      <CounterComponent />
+      <JokeContainer />
+      <PatientForm />
+      <MyMessage type="success" />
+      <ShoeCount />
+      <!-- <RouterView /> -->
+    </ProvideCom>
   </TheThemeProvider>
 </template>
 
