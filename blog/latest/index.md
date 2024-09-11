@@ -1,5 +1,7 @@
 # 最新文章
 
+### [技术债务和工程文化](../others/functional-programming/技术债务和工程文化.md)
+
 ### [git 提交规范](../others/dev-tool/git提交规范.md)
 
 ### [CSS 选择器特异性](../web/css/selector-specificity.md)
@@ -8,15 +10,15 @@
 
 ### [前端如何控制并发请求](../web/js/前端如何控制并发请求.md)
 
-### [npm ci vs npm i](../node/ci-vs-i.md) 
+### [npm ci vs npm i](../node/ci-vs-i.md)
 
-### [常用的 js 代码片段](../web/js/useful-js-snippet.md) 
+### [常用的 js 代码片段](../web/js/useful-js-snippet.md)
 
 ### [vue 如何监听组件生命周期钩子事件](../vue3/如何监听组件生命周期钩子事件.md)
 
 ### [地图投影](../web-gis/地图投影.md)
 
-### [像素、位图和矢量图](../web/js/bit-map-and-vertor-map.md) 
+### [像素、位图和矢量图](../web/js/bit-map-and-vertor-map.md)
 
 ### [JSDoc代替typescript语法](../others/ts/JSDoc代替typescript语法.md)
 
