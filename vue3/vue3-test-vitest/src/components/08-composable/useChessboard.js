@@ -2,12 +2,12 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-09-13 23:18:34
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-09-14 02:54:33
+ * @LastEditTime: 2024-09-14 03:39:47
  * @Description : 棋盘 hook
  */
 import { shallowRef, ref, readonly } from 'vue'
 
-const initBoard = [
+let initBoard = [
   ['-', '-', '-', '-', '-', '-', '-', '-'],
   ['-', '-', '-', '-', '-', '-', '-', '-'],
   ['-', '-', '-', '-', '-', '-', '-', '-'],
@@ -37,8 +37,19 @@ export function useChessboard() {
     O: '蓝方'
   }
   const curPlayer = ref('X')
+  let set = false
   function moveChessboard({ row, col }) {
-    if (winner.value) return
+    if (!set) {
+      initBoard = curBoard.value
+      set = true
+    }
+    console.log('moveChessboard')
+
+    if (winner.value) {
+      console.log('游戏结束')
+      console.log(initBoard)
+      return
+    }
     // 如果当前位置已经有棋子，则不允许再次放置
     if (curBoard.value[row][col] !== '-') return
     curBoard.value[row][col] = curPlayer.value
@@ -48,6 +59,10 @@ export function useChessboard() {
     } else {
       curPlayer.value = 'X'
     }
+    console.log('curBoard.value')
+    console.log(curBoard.value)
+    console.log('initBoard')
+    console.log(initBoard)
   }
   function whoWin(player, row, col) {
     // 横向 row 不变 col 变化
@@ -75,18 +90,14 @@ export function useChessboard() {
     // [0][3] [1][4] 【[2][5]】 [3][6] [4][7]
     // 左上
     count = 0
-    console.log('当前')
-    console.log({
-      x: row,
-      y: col
-    })
-    console.log('左上')
+    // console.log('当前')
+    // console.log({
+    //   x: row,
+    //   y: col
+    // })
+    // console.log('左上')
     for (let i = row - 1; i > -1; i--) {
       let j = i - row + col
-      console.log({
-        i,
-        j
-      })
       if (j < 0 || j > 7) break
       if (curBoard.value[i][j] === player) {
         count++
@@ -97,13 +108,8 @@ export function useChessboard() {
     }
     // 右下
     count = 0
-    console.log('右下')
     for (let i = row + 1; i < 8; i++) {
       let j = i - row + col
-      console.log({
-        i,
-        j
-      })
       if (j < 0 || j > 7) break
       if (curBoard.value[i][j] === player) {
         count++
@@ -116,13 +122,8 @@ export function useChessboard() {
     // [0][7] [1][6] 【[2][5]】 [3][4] [4][3] [5][2] [6][1] [7][0]
     // 左下
     count = 0
-    console.log('左下')
     for (let i = row + 1; i < 8; i++) {
       let j = row + col - i
-      console.log({
-        i,
-        j
-      })
       if (j < 0 || j > 7) continue
       if (curBoard.value[i][j] === player) {
         count++
@@ -133,13 +134,8 @@ export function useChessboard() {
     }
     // 右上
     count = 0
-    console.log('右上')
     for (let i = row - 1; i > -1; i--) {
       let j = row + col - i
-      console.log({
-        i,
-        j
-      })
       if (j < 0 || j > 7) continue
       if (curBoard.value[i][j] === player) {
         count++
@@ -163,12 +159,31 @@ export function useChessboard() {
     for (let i = 0; i < 8; i++) {
       for (let j = 0; j < 8; j++) {
         // console.log(initBoard[i][j])
-        curBoard.value[i][j] = '-'
+        // curBoard.value[i][j] = '-'
       }
     }
+    winner.value = ''
     curPlayer.value = 'X'
     // NOTE 操作得快，会导致数据同步错乱, 无法重置
-    // curBoard.value = initBoard
-    winner.value = ''
+    // FIXME ref 和 reactive 都是对象，再使用另一个对象赋值时，修改响应式对象的值，会导致另一个对象的值也发生变化
+    // 为了避免这种情况，1. 赋值是使用深度拷贝 2. 修改响应式对象（数组和对象）的值时，重新赋新的值
+    // const arr = ref([1, 2])
+    // const initArr = ['X', 'O']
+    // setTimeout(() => {
+    //   arr.value = initArr
+    // }, 100)
+    // setTimeout(() => {
+    //   // NOTE 不要直接修改数组的元素，而是赋值新数组
+    //   // arr.value[0] = 'hello' // ❌ initArr 被修改
+    //   const [first, ...rest] = arr.value // 👌
+    //   arr.value = ['hello', ...rest]
+    //   // arr.value.push('A') // ❌ initArr 被修改
+    //   arr.value = [...arr.value, 'A'] // 👌
+    //   setTimeout(() => {
+    //     console.log('arr', arr.value)
+    //     console.log('initArr', initArr)
+    //   }, 10)
+    // }, 200)
+    curBoard.value = initBoard
   }
 }
