@@ -2,14 +2,13 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-09-13 23:34:04
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-09-14 00:41:20
+ * @LastEditTime: 2024-09-14 01:38:26
  * @Description : 棋盘组件
 -->
 <script setup>
 import { computed, ref } from 'vue'
 import { useChessboard } from './useChessboard'
-const { curBoard, curPlayer, moveChessboard } = useChessboard()
-const player = ref('')
+const { curBoard, winner, moveChessboard } = useChessboard()
 </script>
 
 <template>
@@ -24,6 +23,17 @@ const player = ref('')
         <input type="radio" value="blue" v-model="player" name="player" id="blue" />
       </label>
     </div> -->
+    <p>
+      获胜方：
+      <span
+        :class="{
+          red: winner === '红方',
+          blue: winner === '蓝方'
+        }"
+      >
+        {{ winner }}
+      </span>
+    </p>
     <table>
       <tr v-for="(row, index) in curBoard" :key="index">
         <td v-for="(cell, i) in row" :key="i" @click="moveChessboard({ row: index, col: i })">
@@ -50,7 +60,19 @@ const player = ref('')
       }
     }
   }
-
+  p {
+    text-align: center;
+    margin-bottom: 10px;
+    span {
+      font-weight: bold;
+    }
+    .red {
+      color: #f00;
+    }
+    .blue {
+      color: #00f;
+    }
+  }
   table {
     border-collapse: collapse;
     margin: 0 auto;
