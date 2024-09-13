@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-09-13 23:18:34
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-09-14 02:24:06
+ * @LastEditTime: 2024-09-14 02:54:33
  * @Description : 棋盘 hook
  */
 import { shallowRef, ref, readonly } from 'vue'
@@ -38,8 +38,8 @@ export function useChessboard() {
   }
   const curPlayer = ref('X')
   function moveChessboard({ row, col }) {
-    // 如果当前位置已经有棋子，则不允许再次放置
     if (winner.value) return
+    // 如果当前位置已经有棋子，则不允许再次放置
     if (curBoard.value[row][col] !== '-') return
     curBoard.value[row][col] = curPlayer.value
     winner.value = playerMap[whoWin(curPlayer.value, row, col)]
@@ -159,8 +159,16 @@ export function useChessboard() {
     nextRound
   }
   function nextRound() {
+    console.log('nextRound')
+    for (let i = 0; i < 8; i++) {
+      for (let j = 0; j < 8; j++) {
+        // console.log(initBoard[i][j])
+        curBoard.value[i][j] = '-'
+      }
+    }
     curPlayer.value = 'X'
-    curBoard.value = initBoard
+    // NOTE 操作得快，会导致数据同步错乱, 无法重置
+    // curBoard.value = initBoard
     winner.value = ''
   }
 }
