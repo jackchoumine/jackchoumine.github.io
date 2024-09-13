@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-23 02:16:51
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-09-08 17:16:16
+ * @LastEditTime: 2024-09-13 23:43:58
  * @Description :
 -->
 <script setup lang="ts">
@@ -17,6 +17,7 @@ import ThemeSwitcher from './components/ThemeSwitcher.vue'
 import { TheThemeProvider } from './hooks/useTheme'
 import TabsDemo from './components/06-render/TabsDemo.vue'
 import ProvideCom from './components/07-provide-inject/ProvideCom.vue'
+import Chessboard from './components/08-composable/Chessboard.vue'
 
 const theme = ref('light')
 // provide('my-data', {
@@ -27,6 +28,7 @@ const theme = ref('light')
 <template>
   <TheThemeProvider :theme="theme">
     <ProvideCom>
+      <Chessboard />
       <p>he3</p>
       <TabsDemo />
       <ThemeSwitcher />
