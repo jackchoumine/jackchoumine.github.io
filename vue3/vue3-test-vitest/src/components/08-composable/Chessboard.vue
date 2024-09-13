@@ -2,13 +2,13 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-09-13 23:34:04
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-09-14 01:38:26
+ * @LastEditTime: 2024-09-14 01:40:40
  * @Description : 棋盘组件
 -->
 <script setup>
 import { computed, ref } from 'vue'
 import { useChessboard } from './useChessboard'
-const { curBoard, winner, moveChessboard } = useChessboard()
+const { curBoard, winner, moveChessboard, nextRound } = useChessboard()
 </script>
 
 <template>
@@ -33,6 +33,7 @@ const { curBoard, winner, moveChessboard } = useChessboard()
       >
         {{ winner }}
       </span>
+      <button v-if="winner" @click="nextRound">再来一局</button>
     </p>
     <table>
       <tr v-for="(row, index) in curBoard" :key="index">

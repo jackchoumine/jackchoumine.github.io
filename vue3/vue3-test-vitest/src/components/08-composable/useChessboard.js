@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-09-13 23:18:34
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-09-14 01:35:52
+ * @LastEditTime: 2024-09-14 02:24:06
  * @Description : 棋盘 hook
  */
 import { shallowRef, ref, readonly } from 'vue'
@@ -50,7 +50,7 @@ export function useChessboard() {
     }
   }
   function whoWin(player, row, col) {
-    // 横向
+    // 横向 row 不变 col 变化
     let count = 0
     for (let i = 0; i < 8; i++) {
       if (curBoard.value[row][i] === player) {
@@ -60,7 +60,7 @@ export function useChessboard() {
         count = 0
       }
     }
-    // 纵向
+    // 纵向 col 不变 row 变化
     count = 0
     for (let i = 0; i < 8; i++) {
       if (curBoard.value[i][col] === player) {
@@ -70,22 +70,80 @@ export function useChessboard() {
         count = 0
       }
     }
-    // 左上到右下
+    // 左上到右下 差固定  i + j = row + col => j = row + col - i
+    // [0][0] [1][1] 【[2][2]】 [3][3] [4][4] [5][5] [6][6] [7][7]
+    // [0][3] [1][4] 【[2][5]】 [3][6] [4][7]
+    // 左上
     count = 0
-    for (let i = 0; i < 8; i++) {
-      if (curBoard.value[i][i] === player) {
+    console.log('当前')
+    console.log({
+      x: row,
+      y: col
+    })
+    console.log('左上')
+    for (let i = row - 1; i > -1; i--) {
+      let j = i - row + col
+      console.log({
+        i,
+        j
+      })
+      if (j < 0 || j > 7) break
+      if (curBoard.value[i][j] === player) {
         count++
-        if (count === 5) return player
+        if (count === 4) return player
       } else {
         count = 0
       }
     }
-    // 右上到左下
+    // 右下
     count = 0
-    for (let i = 0; i < 8; i++) {
-      if (curBoard.value[i][7 - i] === player) {
+    console.log('右下')
+    for (let i = row + 1; i < 8; i++) {
+      let j = i - row + col
+      console.log({
+        i,
+        j
+      })
+      if (j < 0 || j > 7) break
+      if (curBoard.value[i][j] === player) {
         count++
-        if (count === 5) return player
+        if (count === 4) return player
+      } else {
+        count = 0
+      }
+    }
+    // 左下到右上 和固定 row + col = i + j => j = row + col - i
+    // [0][7] [1][6] 【[2][5]】 [3][4] [4][3] [5][2] [6][1] [7][0]
+    // 左下
+    count = 0
+    console.log('左下')
+    for (let i = row + 1; i < 8; i++) {
+      let j = row + col - i
+      console.log({
+        i,
+        j
+      })
+      if (j < 0 || j > 7) continue
+      if (curBoard.value[i][j] === player) {
+        count++
+        if (count === 4) return player
+      } else {
+        count = 0
+      }
+    }
+    // 右上
+    count = 0
+    console.log('右上')
+    for (let i = row - 1; i > -1; i--) {
+      let j = row + col - i
+      console.log({
+        i,
+        j
+      })
+      if (j < 0 || j > 7) continue
+      if (curBoard.value[i][j] === player) {
+        count++
+        if (count === 4) return player
       } else {
         count = 0
       }
@@ -97,6 +155,12 @@ export function useChessboard() {
     winner: readonly(winner),
     curBoard: readonly(curBoard),
     curPlayer: readonly(curPlayer),
-    moveChessboard
+    moveChessboard,
+    nextRound
+  }
+  function nextRound() {
+    curPlayer.value = 'X'
+    curBoard.value = initBoard
+    winner.value = ''
   }
 }
