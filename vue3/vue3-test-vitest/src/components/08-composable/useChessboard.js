@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-09-13 23:18:34
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-09-14 03:39:47
+ * @LastEditTime: 2024-09-14 03:43:36
  * @Description : 棋盘 hook
  */
 import { shallowRef, ref, readonly } from 'vue'
@@ -37,19 +37,9 @@ export function useChessboard() {
     O: '蓝方'
   }
   const curPlayer = ref('X')
-  let set = false
-  function moveChessboard({ row, col }) {
-    if (!set) {
-      initBoard = curBoard.value
-      set = true
-    }
-    console.log('moveChessboard')
 
-    if (winner.value) {
-      console.log('游戏结束')
-      console.log(initBoard)
-      return
-    }
+  function moveChessboard({ row, col }) {
+    if (winner.value) return
     // 如果当前位置已经有棋子，则不允许再次放置
     if (curBoard.value[row][col] !== '-') return
     curBoard.value[row][col] = curPlayer.value
@@ -59,11 +49,8 @@ export function useChessboard() {
     } else {
       curPlayer.value = 'X'
     }
-    console.log('curBoard.value')
-    console.log(curBoard.value)
-    console.log('initBoard')
-    console.log(initBoard)
   }
+
   function whoWin(player, row, col) {
     // 横向 row 不变 col 变化
     let count = 0
@@ -155,11 +142,10 @@ export function useChessboard() {
     nextRound
   }
   function nextRound() {
-    console.log('nextRound')
     for (let i = 0; i < 8; i++) {
       for (let j = 0; j < 8; j++) {
         // console.log(initBoard[i][j])
-        // curBoard.value[i][j] = '-'
+        curBoard.value[i][j] = '-'
       }
     }
     winner.value = ''
@@ -184,6 +170,6 @@ export function useChessboard() {
     //     console.log('initArr', initArr)
     //   }, 10)
     // }, 200)
-    curBoard.value = initBoard
+    // curBoard.value = initBoard
   }
 }
