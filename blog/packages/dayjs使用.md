@@ -43,6 +43,15 @@ console.log(ts2, 'zqj log')
 const t2 = dayjs('2020-12-18').format('YYYY-MM-DD HH:mm:ss')
 const t3 = dayjs('2020-12').format('YYYY-MM-DD HH:mm:ss')
 const t5 = dayjs('2020-12-18T08:24:35').format('YYYY-MM-DD HH:mm:ss')
+const t4 = dayjs('2020-12-18 08:24:35').format('YYYY-MM-DD HH:mm:ss')
+// 注意 ISO 要求 年份为 4 位，范围 0000 - 9999，月份和日期为 2 位，范围 01 - 12 和 01 - 31
+// 时为 2 位，范围为 01 - 12   分秒为 2 位，范围 00 - 59
+// 毫秒为 3 位，范围 000 - 999
+// 但是 dayjs 并不严格要求，只要符合格式即可 比如 2020-1-9 8:4:5.123 也是合法的
+const t5 = dayjs('2020-1-9 8:4:5.123').format('YYYY-MM-DD HH:mm:ss.SSS')
+// 当年这些时间单位不在规定的范围内，会自动进位
+const t6 = dayjs('2020-0-0 0:0:0.0').format('YYYY-MM-DD HH:mm:ss.SSS')
+const t7 = dayjs('2020-13-32') // 没有 13 月 进位，年份加一年，2021 月份变成 1 月。 没有32号，月份进位，变2月，日期为1号
 ```
 
 > string + format 格式，依赖 CustomParseFormat 插件，才能正常运行
@@ -115,7 +124,7 @@ console.log(newTime2, ' newTime2 zqj log')
 
 ### 时间计算
 
-> 加减 `add(number, unit)` `subtract(number, unit)`
+> 加减 `add(number, unit)`  `subtract(number, unit)`
 
 ```js
 // 加减年月日时分秒毫秒
@@ -127,14 +136,14 @@ const newTime2 = dayjs().subtract(1, 'year').format('YYYY-MM-DD HH:mm:ss')
 
 | 单位          | 缩写 | 详情                            |
 | ------------- | ---- | ------------------------------- |
-| `year`        | `y`  | 年                              |
-| `quarter`     | `Q`  | 季度(依赖 `QuarterOfYear` 插件) |
-| `month`       | `M`  | 月                              |
-| `week`        | `w`  | 周                              |
-| `day`         | `d`  | 天                              |
-| `hour`        | `h`  | 小时                            |
-| `minute`      | `m`  | 分钟                            |
-| `second`      | `s`  | 秒                              |
+| `year` | `y` | 年                              |
+| `quarter` | `Q` | 季度(依赖 `QuarterOfYear` 插件) |
+| `month` | `M` | 月                              |
+| `week` | `w` | 周                              |
+| `day` | `d` | 天                              |
+| `hour` | `h` | 小时                            |
+| `minute` | `m` | 分钟                            |
+| `second` | `s` | 秒                              |
 | `millisecond` | `ms` | 毫秒                            |
 
 > 时间间隔
@@ -150,7 +159,7 @@ const diff4 = day2.diff(day1, 'd'，
   true) // 天 小数
 ```
 
-> 时间比较 -- `isBefore` `isSame` `isAfter` 默认按照毫秒比较
+> 时间比较 -- `isBefore`  `isSame`  `isAfter` 默认按照毫秒比较
 
 ```js
 const day1 = dayjs('2020-12-18')
@@ -171,25 +180,25 @@ const isBetween = day2.isBetween(day1, day2, 'd', '[)') // true 依赖于 isBetw
 | 占位符 | 输出          | 详情                      |
 | ------ | ------------- | ------------------------- |
 | `YYYY` | 2013          | 四位年份                  |
-| `MM`   | 01            | 两位月份                  |
-| `M`    | 1             | 一位月份                  |
-| `D`    | 1             | 一位日期                  |
-| `DD`   | 01            | 两位月份                  |
-| `HH`   | 08            | 两位小时，24 小时制       |
-| `H`    | 8             | 一位小时，24 小时制       |
-| `hh`   | 08            | 两位小时，12 小时制       |
-| `h`    | 8             | 一位小时，12 小时制       |
-| `mm`   | 08            | 两位分                    |
-| `m`    | 8             | 两位分钟                  |
-| `ss`   | 08            | 两位秒                    |
-| `s`    | 8             | 一位秒                    |
-| `SSS`  | 008           | 三位毫秒                  |
-| `X`    | 1234554321    | Unix 时间戳, 十位, 秒     |
-| `x`    | 1234554321000 | Unix 时间戳, 十三位, 毫秒 |
+| `MM` | 01            | 两位月份                  |
+| `M` | 1             | 一位月份                  |
+| `D` | 1             | 一位日期                  |
+| `DD` | 01            | 两位月份                  |
+| `HH` | 08            | 两位小时，24 小时制       |
+| `H` | 8             | 一位小时，24 小时制       |
+| `hh` | 08            | 两位小时，12 小时制       |
+| `h` | 8             | 一位小时，12 小时制       |
+| `mm` | 08            | 两位分                    |
+| `m` | 8             | 两位分钟                  |
+| `ss` | 08            | 两位秒                    |
+| `s` | 8             | 一位秒                    |
+| `SSS` | 008           | 三位毫秒                  |
+| `X` | 1234554321    | Unix 时间戳, 十位, 秒     |
+| `x` | 1234554321000 | Unix 时间戳, 十三位, 毫秒 |
 
 > `X` 和 `x` 依赖于 `advancedFormat` 插件, 时间戳的其他获取方式：
 
-`dayjs().valueOf()` `+dayjs()` -- 毫秒 `dayjs().unix()` -- 秒。
+`dayjs().valueOf()`  `+dayjs()` -- 毫秒 `dayjs().unix()` -- 秒。
 
 > 常见的时间格式
 
