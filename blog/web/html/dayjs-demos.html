@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-12-18 15:53:53
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-12-19 11:00:12
+ * @LastEditTime: 2024-09-25 22:25:27
  * @Description : dayjs学习
 -->
 <!DOCTYPE html>
@@ -11,10 +11,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>dayjs学习</title>
-    <script
-      src="https://jsd.cdn.zzko.cn/npm/dayjs@1.11.10/dayjs.min.js"
-      integrity="sha256-nP25Pzivzy0Har7NZtMr/TODzfGWdlTrwmomYF2vQXM="
-      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
     <script
       src="https://jsd.cdn.zzko.cn/npm/dayjs@1.11.10/plugin/isBetween.js"
       integrity="sha256-nP25Pzivzy0Har7NZtMr/TODzfGWdlTrwmomYF2vQXM="
@@ -40,10 +37,12 @@
       console.log(ts2,'zqj log')
       console.log('----','时间戳转换为时间对象','----')
       // dayjs('ISOString')
-      const t2 = dayjs('2020-12-18').format('YYYY-MM-DD HH:mm:ss')
-      console.log(t2,'zqj log')
+      const t2 = dayjs('2021-2-8 8:7:4').format('YYYY-MM-DD HH:mm:ss.SSS')
+      console.log(t2,'zqj log 12345678')
       const t3 = dayjs('2020-12').format('YYYY-MM-DD HH:mm:ss')
       console.log(t3,'zqj log')
+      const trr = dayjs('2020-13-32 0:0:0.0').format('YYYY-MM-DD HH:mm:ss.SSS')
+      console.log(trr,'zqj log ****')
       // const t4 = dayjs('08:20:15').format('YYYY-MM-DD HH:mm:ss')
       // console.log(t4,'zqj log')
       const t5 = dayjs('2020-12-18T08:24:35').format('YYYY-MM-DD HH:mm:ss')
