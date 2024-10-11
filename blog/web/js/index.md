@@ -1,5 +1,11 @@
 # js 学习
 
+### [AbortController 用法](./AbortController使用.md)
+
+### [再学跨域（三）-- html 标签上的跨域](./再学跨域2-html标签上的跨域.md)
+
+### [再学跨域（二）-- CORS 启用跨域](./再学跨域1.md)
+
 ### [再学跨域（一） -- 同源策略](./再学跨域0.md)
 
 ### [说说日期时间格式](../../packages/说说日期格式.md)
@@ -10,7 +16,7 @@
 
 ### [像素、位图和矢量图](./bit-map-and-vertor-map.md)
 
-### [如何选择一个npm库](./how-select-teck-stack.md)
+### [如何选择一个 npm 库](./how-select-teck-stack.md)
 
 ### [null 和 undefined 的区别](./null%E5%92%8Cundefined%E7%9A%84%E5%8C%BA%E5%88%AB.md)
 
@@ -24,7 +30,7 @@
 
 ### [Jest 学习笔记（三）-- jest + ts + react + sass 测试环境搭建](./jest-setup-2.md)
 
-### [Jest 学习笔记（二）-- jest +  node 和 ESM 环境搭建](./jest-setup-1.md)
+### [Jest 学习笔记（二）-- jest + node 和 ESM 环境搭建](./jest-setup-1.md)
 
 ### [Jest 学习笔记（一）-- 前端学习测试的好处](./jest-note-1.md)
 

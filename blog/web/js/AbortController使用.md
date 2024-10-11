@@ -1,6 +1,8 @@
 # AbortController 使用
 
-前端开发中，取消请求、移除时间监听以及取消promise都是非常常见的需求，以前完成这些事情比较复杂，现在有了 AbortController，可以轻易做到，更加符合直觉。
+> 关于博主：前端程序员，最近专注于 webGis 开发。加微信：MasonChou123，进技术交流群。
+
+前端开发中，取消请求、移除事件监听器以及取消 promise 都是非常常见的需求，以前完成这些事情比较复杂，现在有了 AbortController，可以轻易做到，更加符合直觉。
 
 本文介绍 AbortController 如何做到这些。
 
@@ -14,11 +16,11 @@ const controller = new AbortController()
 
 实例具有两个属性
 
-* `abort`，一个方法，调用它，触发 abort 事件，signal 对象的 aborted 属性变成  true；
-* `signal`，普通属性，只读，一个对象，可添加事件监听。
+- `abort`，一个方法，调用它，触发 abort 事件，signal 对象的 aborted 属性变成 true；
+- `signal`，只读属性，一个对象，可添加事件监听。
 
 ```bash
-# signal 对象具有属性
+# signal 对象具有的属性
 reason: 'AbortError' # 从 abort 方法传入， 默认 AbortError
 aborted: false # 是否已取消，取消后会变成 true
 ```
@@ -43,11 +45,11 @@ console.log(abortSignal);
 controller.abort()
 ```
 
-> AbortController  如何与需要取消的操作关联呢？
+> AbortController 如何与需要取消的操作关联呢？
 
 ## 取消 fetch
 
-```JS
+```js
 function sentHttp() {
   const url = 'https://jsonplaceholder.typicode.com/todos'
   const params = {
@@ -83,7 +85,7 @@ btn.onclick = sentHttp
 
 ## 取消事件监听
 
-```JS
+```js
 const controller = new AbortController();
 eventTarget.addEventListener('event-type', handler, {
   signal: controller.signal
@@ -94,7 +96,7 @@ controller.abort();
 
 拖拽功能，需要先监听鼠标按下事件，在鼠标按下事件处理器中监听鼠标移动和鼠标放开事件，需要在鼠标松开事件处理器中移除鼠标按下和鼠标移动事件。
 
-```JS
+```js
 el.addEventListener('mousedown', e => {
   if (e.buttons !== 1) return;
 
@@ -117,7 +119,7 @@ el.addEventListener('mousedown', e => {
 
 使用 AbortController 移除两个事件监听
 
-```JS
+```js
 const el = document.querySelector('div');
 
 el.addEventListener('mousedown', e => {
@@ -151,7 +153,7 @@ el.addEventListener('mousedown', e => {
 
 ## 取消 promise
 
-```JS
+```js
 function timeout(duration, signal) {
   return new Promise((resolve, reject) => {
     const handle = setTimeout(resolve, duration);
@@ -175,8 +177,15 @@ setTimeout(() => {
 }, 99);
 ```
 
-## 参考 
+## 参考
 
-![The AbortController, and Aborting Fetch Requests in Javascrip](https://asleepysamurai.com/articles/abortcontroller-and-aborting-fetch-requests)
+![The AbortController, and Aborting Fetch Requests in Javascript](https://asleepysamurai.com/articles/abortcontroller-and-aborting-fetch-requests)
 
 ![https://css-tricks.com/using-abortcontroller-as-an-alternative-for-removing-event-listeners/](Using AbortController as an Alternative for Removing Event Listeners)
+
+## 小结
+
+- AbortController 是一个非常实用的工具，可以轻松取消请求、移除事件监听器以及取消 promise，更加符合直觉。
+- 本文介绍了 AbortController 的基本用法，以及如何取消 fetch、事件监听和 promise。
+
+> 关于博主：前端程序员，最近专注于 webGis 开发。加微信：MasonChou123，进技术交流群。
