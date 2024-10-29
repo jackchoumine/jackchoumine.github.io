@@ -30,22 +30,24 @@ aborted: false # 是否已取消，取消后会变成 true
 1. 在`signal`监听 abort 事件，在事件处理器中执行取消操作；
 2. 调用`abort`方法，触发 abort 事件，参数为取消的原因，无返回值。
 
-```JS
+```js
 const controller = new AbortController()
 const abortSignal = controller.signal
 
 // 监听取消事件
-abortSignal.addEventListener('abort', (event) => {
+abortSignal.addEventListener('abort', event => {
   console.log('zqj log 执行取消操作', event)
-  console.log(abortSignal);
+  console.log(abortSignal)
 })
 
-console.log(abortSignal);
+console.log(abortSignal)
 // 触发取消事件
 controller.abort()
 ```
 
-> AbortController 如何与需要取消的操作关联呢？
+AbortController 如何与需要取消的操作关联呢？
+
+先看如何取消 fetch 、事件监听和 promise。
 
 ## 取消 fetch
 
@@ -53,7 +55,7 @@ controller.abort()
 function sentHttp() {
   const url = 'https://jsonplaceholder.typicode.com/todos'
   const params = {
-    title: 'to'
+    title: 'to',
   }
   const queryUrl = `${url}?${new URLSearchParams(params)}`
 
@@ -66,122 +68,142 @@ function sentHttp() {
   // 10 毫秒后取消
   setTimeout(() => {
     controller.abort('abort')
-  }, 10);
+  }, 10)
 
   fetch(queryUrl, {
-    signal: abortSignal
-  }).then(res => res.json()).then(data => {
-    console.log(data, 'zqj log')
-  }).catch(err => {
-    console.log(err, 'zqj log')
+    signal: abortSignal,
   })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data, 'zqj log')
+    })
+    .catch(err => {
+      console.log(err, 'zqj log')
+    })
 }
 btn.onclick = sentHttp
 ```
 
-执行 `controller.abort` ，fetch 会 reject。
-
-> 超时自动取消
+在一个定时器中执行 `controller.abort` ，fetch 会 reject，实现了 fetch 的超时功能。
 
 ## 取消事件监听
 
 ```js
-const controller = new AbortController();
+const controller = new AbortController()
 eventTarget.addEventListener('event-type', handler, {
-  signal: controller.signal
-});
+  signal: controller.signal,
+})
 // 取消事件监听
-controller.abort();
+controller.abort()
 ```
 
-拖拽功能，需要先监听鼠标按下事件，在鼠标按下事件处理器中监听鼠标移动和鼠标放开事件，需要在鼠标松开事件处理器中移除鼠标按下和鼠标移动事件。
+以拖拽事件为例，看看如何取消事件监听。
+
+拖拽功能，需要先监听鼠标按下事件，在鼠标按下事件处理器中监听鼠标移动和鼠标松开事件，需要在鼠标松开事件处理器中移除鼠标按下和鼠标移动事件。
 
 ```js
 el.addEventListener('mousedown', e => {
-  if (e.buttons !== 1) return;
+  // 希望只有鼠标左键按下时才触发
+  if (e.buttons !== 1) return
 
   const onMousemove = e => {
-    if (e.buttons !== 1) return;
+    if (e.buttons !== 1) return
     /* work */
   }
 
   const onMouseup = e => {
-    if (e.buttons & 1) return;
+    if (e.buttons !== 1) return
     // 鼠标松开，移除两个事件监听
-    window.removeEventListener('mousemove', onMousemove);
-    window.removeEventListener('mouseup', onMouseup);
+    window.removeEventListener('mousemove', onMousemove)
+    window.removeEventListener('mouseup', onMouseup)
   }
 
-  window.addEventListener('mousemove', onMousemove);
-  window.addEventListener('mouseup', onMouseup); // Can’t use `once: true` here because we want to remove the event only when primary button is up
-});
+  window.addEventListener('mousemove', onMousemove)
+  window.addEventListener('mouseup', onMouseup) // Can’t use `once: true` here because we want to remove the event only when primary button is up
+})
 ```
+
+上面使用两个 removeEventListener 移除两个事件监听，使用 AbortController 可一次性移除多个事件监听。
+
+addEventListener 的第三个参数传递 signal 对象，当调用 controller.abort() 时，监听器被移除。
 
 使用 AbortController 移除两个事件监听
 
 ```js
-const el = document.querySelector('div');
+const el = document.querySelector('div')
 
 el.addEventListener('mousedown', e => {
   console.log(e, 'zqj log')
   // https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent/buttons
   // buttons 为 1 表示鼠标左键按下
-  if (e.buttons !== 1) return;
-  const {
-    offsetX,
-    offsetY
-  } = e;
+  if (e.buttons !== 1) return
+  const { offsetX, offsetY } = e
 
-  const controller = new AbortController();
+  const controller = new AbortController()
 
-  window.addEventListener('mousemove', e => {
-    if (e.buttons !== 1) return;
-    el.style.left = e.pageX - offsetX + 'px';
-    el.style.top = e.pageY - offsetY + 'px';
-  }, {
-    signal: controller.signal
-  });
+  window.addEventListener(
+    'mousemove',
+    e => {
+      if (e.buttons !== 1) return
+      el.style.left = e.pageX - offsetX + 'px'
+      el.style.top = e.pageY - offsetY + 'px'
+    },
+    {
+      // 传递信号
+      signal: controller.signal,
+    }
+  )
 
-  window.addEventListener('mouseup', e => {
-    if (e.buttons & 1) return;
-    controller.abort();
-  }, {
-    signal: controller.signal
-  });
-});
+  window.addEventListener(
+    'mouseup',
+    e => {
+      if (e.buttons !== 1) return
+      controller.abort()
+    },
+    {
+      // 传递信号
+      signal: controller.signal,
+    }
+  )
+})
 ```
+
+上面的例子中，添加鼠标移动和鼠标松开事件时，都传递了相同的 signal 对象，当调用 controller.abort() 时，移除所有监听器。
 
 ## 取消 promise
 
 ```js
 function timeout(duration, signal) {
   return new Promise((resolve, reject) => {
-    const handle = setTimeout(resolve, duration);
+    const handle = setTimeout(resolve, duration)
     signal?.addEventListener('abort', e => {
-      clearTimeout(handle);
-      reject(new Error('aborted-->'));
-    });
-  });
+      clearTimeout(handle)
+      reject(new Error('aborted-->'))
+    })
+  })
 }
 // Usage
-const controller = new AbortController();
-timeout(100, controller.signal).then(res => {
-  console.log(res, 'zqj log')
-}).catch(err => {
-  console.log(err, 'zqj log')
-  console.log(err.name, 'zqj log')
-  console.log(err.message, 'zqj log')
-});
+const controller = new AbortController()
+
+timeout(100, controller.signal)
+  .then(res => {
+    console.log(res, 'zqj log')
+  })
+  .catch(err => {
+    console.log(err, 'zqj log')
+    console.log(err.name, 'zqj log')
+    console.log(err.message, 'zqj log')
+  })
 setTimeout(() => {
-  controller.abort('abort');
-}, 99);
+  controller.abort('abort')
+}, 99)
 ```
 
 ## 参考
 
-![The AbortController, and Aborting Fetch Requests in Javascript](https://asleepysamurai.com/articles/abortcontroller-and-aborting-fetch-requests)
+[The AbortController, and Aborting Fetch Requests in Javascript](https://asleepysamurai.com/articles/abortcontroller-and-aborting-fetch-requests)
 
-![https://css-tricks.com/using-abortcontroller-as-an-alternative-for-removing-event-listeners/](Using AbortController as an Alternative for Removing Event Listeners)
+[Using AbortController as an Alternative for Removing Event Listeners](https://css-tricks.com/using-abortcontroller-as-an-alternative-for-removing-event-listeners/)
 
 ## 小结
 
