@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-12-01 18:44:43
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-12-01 20:18:01
+ * @LastEditTime: 2024-10-29 12:59:52
  * @Description :
 -->
 <!doctype html>
@@ -141,7 +141,36 @@
       setTimeout(() => {
         controller.abort('abort')
       }, 99)
-      //   console.log(promise);
+      function setIntervalWithAbort(fn, interval) {
+        const controller = new AbortController()
+        const signal = controller.signal
+        let timer2
+        let times = 0
+        setTimeout(function repeat() {
+          if (signal.aborted) return
+          ++times
+          fn()
+          setTimeout(repeat, interval)
+        }, interval)
+        const abort = callback => {
+          controller.abort()
+          callback && callback(times)
+        }
+        return {
+          abort,
+        }
+      }
+      // Usage
+      const controller2 = setIntervalWithAbort(() => {
+        console.log('zqj log')
+      }, 1000)
+      // 5 秒后取消
+      // 0 1 2 3 4 5
+      setTimeout(() => {
+        controller2.abort(times => {
+          console.log(times, 'zqj log')
+        })
+      }, 5000)
     </script>
   </body>
 </html>

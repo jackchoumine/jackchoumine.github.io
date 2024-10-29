@@ -1,4 +1,4 @@
-# AbortController 使用
+# AbortController 可终止任何行为
 
 > 关于博主：前端程序员，最近专注于 webGis 开发。加微信：MasonChou123，进技术交流群。
 
@@ -199,15 +199,133 @@ setTimeout(() => {
 }, 99)
 ```
 
+## AbortSignal 静态方法
+
+AbortSignal 有两个静态方法，无需创建实例，直接调用。
+
+### AbortSignal.timeout(n) 超时终止信号
+
+200 毫秒取消 fetch 请求
+
+```js
+fetch('https://jsonplaceholder.typicode.com/todos', {
+  signal: AbortSignal.timeout(200),
+})
+  .then(res => res.json())
+  .then(data => {
+    console.log(data, 'zqj log')
+  })
+  .catch(err => {
+    console.log(err, 'zqj log')
+  })
+```
+
+### AbortSignal.any([signal1,signal2,...])
+
+signal1,signal2 ... 任意一个信号触发终止信号，使用 AbortSignal.any 的行为都被取消。
+
+fetch 可能需要超时取消，也可能需要手动取消，使用 AbortSignal.any 可以同时取消。
+
+```js
+const timeoutSignal = AbortSignal.timeout(2000) // 2 秒后超时取消
+const manualSignal = new AbortController().signal
+fetch('https://jsonplaceholder.typicode.com/todos', {
+  signal: AbortSignal.any([timeoutSignal, manualSignal]),
+})
+  .then(res => res.json())
+  .then(data => {
+    console.log(data, 'zqj log')
+  })
+  .catch(err => {
+    console.log(err, 'zqj log')
+  })
+// 1 秒后手动取消
+setTimeout(() => {
+  manualSignal.abort() // fetch 请求被取消
+}, 1000)
+```
+
+## 使得任何行为都可以取消
+
+经过上面的介绍，AbortController 可以取消 fetch、事件监听和 promise，其实不难发现，它可取消任何行为，只要该行为提供了 signal 接口。
+
+### 封装一个取消的 setInterval
+
+setInterval 在时间无法做到精确，且取消比较麻烦，使用 AbortController 可以轻松取消。
+
+封装一个取消的 setInterval，解决这两个问题。
+
+```js
+function setIntervalWithAbort(fn, interval) {
+  const controller = new AbortController()
+  const signal = controller.signal
+  setTimeout(function repeat() {
+    if (signal.aborted) return
+    fn()
+    setTimeout(repeat, interval)
+  }, interval)
+  return controller
+}
+// Usage
+const controller = setIntervalWithAbort(() => {
+  console.log('zqj log')
+}, 1000)
+// 5 秒后取消
+setTimeout(() => {
+  controller.abort()
+}, 5000)
+```
+
+返回 controller，调用 controller.abort() 取消函数。
+
+setTimeout + 递归解决了 setInterval 的时间不准确问题。
+
+setIntervalWithAbort 被取消时，外部希望收到通知，还可以包装一下 abort 函数，让外部传递函数进来，取消时调用。
+
+```js
+function setIntervalWithAbort(fn, interval) {
+  const controller = new AbortController()
+  const signal = controller.signal
+  let timer2
+  let times = 0
+  setTimeout(function repeat() {
+    if (signal.aborted) return
+    ++times // 记录次数 取消时通知外部
+    fn()
+    setTimeout(repeat, interval)
+  }, interval)
+  const abort = callback => {
+    controller.abort()
+    callback && callback(times)
+  }
+  return {
+    abort,
+  }
+}
+// Usage
+const controller2 = setIntervalWithAbort(() => {
+  console.log('zqj log')
+}, 1000)
+
+setTimeout(() => {
+  controller2.abort(times => {
+    console.log(times, 'zqj log')
+  })
+}, 5000)
+```
+
 ## 参考
 
 [The AbortController, and Aborting Fetch Requests in Javascript](https://asleepysamurai.com/articles/abortcontroller-and-aborting-fetch-requests)
 
 [Using AbortController as an Alternative for Removing Event Listeners](https://css-tricks.com/using-abortcontroller-as-an-alternative-for-removing-event-listeners/)
 
+[Don't Sleep on AbortController](https://kettanaito.com/blog/dont-sleep-on-abort-controller)
+
 ## 小结
 
 - AbortController 是一个非常实用的工具，可以轻松取消请求、移除事件监听器以及取消 promise，更加符合直觉。
-- 本文介绍了 AbortController 的基本用法，以及如何取消 fetch、事件监听和 promise。
+- 两个静态方法 AbortSignal.timeout 和 AbortSignal.any，可以实现超时取消和任意一个信号触发取消。
+- 使用 AbortController 可以终止任何行为，只要该行为提供了 signal 接口。
 
 > 关于博主：前端程序员，最近专注于 webGis 开发。加微信：MasonChou123，进技术交流群。
