@@ -3,9 +3,9 @@
  * @Date        : 2024-01-05 16:08:57
  * @LastEditors : ZhouQiJun
  * @LastEditTime: 2024-01-05 16:39:16
- * @Description : 
+ * @Description :
 -->
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -14,8 +14,8 @@
 
     <style>
       .result {
-          background-color:aliceblue;
-          height: 100px;
+        background-color: aliceblue;
+        height: 100px;
       }
     </style>
   </head>
@@ -36,45 +36,45 @@
     <!-- https://juejin.cn/post/7104263047648116749 -->
     <!-- https://code.juejin.cn/pen/7320512078878834738 -->
     <script>
-          const result = document.querySelector(".result");
+      const result = document.querySelector('.result')
 
-           const dialog = document.querySelector(".example-dialog");
+      const dialog = document.querySelector('.example-dialog')
 
-           dialog.addEventListener("cancel", (event) => {
-             alert(1)
-             console.log(event)
-             result.textContent = "dialog was canceled";
-           });
+      dialog.addEventListener('cancel', event => {
+        alert(1)
+        console.log(event)
+        result.textContent = 'dialog was canceled'
+      })
 
-           const openDialog = document.querySelector(".open-dialog");
-           openDialog.addEventListener("click", () => {
-             if (typeof dialog.showModal === "function") {
-               dialog.showModal();
-               result.textContent = "";
-             } else {
-               result.textContent = "The dialog API is not supported by this browser";
-             }
-           });
-
-           const closeButton = document.querySelector(".close");
-           closeButton.addEventListener("click", () => {
-             dialog.close();
-           });
-           //  file
-      const elem = document.getElementById("file");
-
-      const result1 = document.getElementById("result");
-
-      elem.addEventListener("cancel", (event) => {
-        console.log(event);
-        result1.textContent = "Cancelled.";
-      });
-
-      elem.addEventListener("change", () => {
-        if (elem.files.length == 1) {
-          result1.textContent = "File Selected.";
+      const openDialog = document.querySelector('.open-dialog')
+      openDialog.addEventListener('click', () => {
+        if (typeof dialog.showModal === 'function') {
+          dialog.showModal()
+          result.textContent = ''
+        } else {
+          result.textContent = 'The dialog API is not supported by this browser'
         }
-      });
+      })
+
+      const closeButton = document.querySelector('.close')
+      closeButton.addEventListener('click', () => {
+        dialog.close()
+      })
+      //  file
+      const elem = document.getElementById('file')
+
+      const result1 = document.getElementById('result')
+
+      elem.addEventListener('cancel', event => {
+        console.log(event)
+        result1.textContent = 'Cancelled.'
+      })
+
+      elem.addEventListener('change', () => {
+        if (elem.files.length == 1) {
+          result1.textContent = 'File Selected.'
+        }
+      })
     </script>
   </body>
 </html>

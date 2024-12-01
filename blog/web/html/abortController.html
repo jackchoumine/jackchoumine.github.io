@@ -2,10 +2,10 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-12-01 18:44:43
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-12-01 20:18:01
- * @Description : 
+ * @LastEditTime: 2024-10-29 12:59:52
+ * @Description :
 -->
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -13,7 +13,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AbortController</title>
     <style>
-
       div {
         width: 100px;
         height: 100px;
@@ -31,106 +30,147 @@
     <button id="btn">发送</button>
     <div>DRAG ME</div>
     <script>
-                      function sentHttp(){
-                          const url = 'https://jsonplaceholder.typicode.com/todos'
-                          const params = {
-                              title: 'to'
-                          }
-                          const queryUrl = `${url}?${new URLSearchParams(params)}`
-                          const controller = new AbortController()
-                          const abortSignal = controller.signal
-                          abortSignal.addEventListener('abort',event=>{
-                            // console.log(event,'zqj log')
-                            console.log(abortSignal,'zqj log')
-                          })
-                          setTimeout(() => {
-                            // controller.abort()
-                            // controller.abort('abort')
-                          }, 10);
-                          // 超时自动取消请求
-                          const timeOutSignal = AbortSignal.timeout(100)
-                          timeOutSignal.onabort = (event)=>{
-                            console.log('超时取消')
-                            console.log(event,'zqj log')
-                            console.log(timeOutSignal.aborted,'zqj log')
-                            console.log(timeOutSignal.reason,'zqj log')
-                            console.log('超时取消 -->')
-                          }
-                          const userAbortController = new AbortController()
+      function sentHttp() {
+        const url = 'https://jsonplaceholder.typicode.com/todos'
+        const params = {
+          title: 'to',
+        }
+        const queryUrl = `${url}?${new URLSearchParams(params)}`
+        const controller = new AbortController()
+        const abortSignal = controller.signal
+        abortSignal.addEventListener('abort', event => {
+          // console.log(event,'zqj log')
+          console.log(abortSignal, 'zqj log')
+        })
+        setTimeout(() => {
+          // controller.abort()
+          // controller.abort('abort')
+        }, 10)
+        // 超时自动取消请求
+        const timeOutSignal = AbortSignal.timeout(100)
+        timeOutSignal.onabort = event => {
+          console.log('超时取消')
+          console.log(event, 'zqj log')
+          console.log(timeOutSignal.aborted, 'zqj log')
+          console.log(timeOutSignal.reason, 'zqj log')
+          console.log('超时取消 -->')
+        }
+        const userAbortController = new AbortController()
 
-                          // 联合取消
-                          const combinedSignal = AbortSignal.any([
-                              userAbortController.signal,
-                              timeOutSignal,
-                          ])
-                          combinedSignal.onabort = ()=>{
-                            console.log(combinedSignal,'combinedSignal zqj log')
-                          }
-
-                          setTimeout(() => {
-                            userAbortController.abort('user abort')
-                          }, 110);
-                          fetch(queryUrl,{
-                            // signal: timeOutSignal,
-                            // signal: abortSignal
-                            signal: combinedSignal
-                        }).then(res=>res.json()).then(data=>{
-                              console.log(data,'zqj log')
-                          }).catch(err=>{
-                            console.log('err')
-                            console.log(err.name)
-                            console.log(err.message)
-                          })
-                      }
-                    //   sentHttp()
-                      btn.onclick = sentHttp
-
-                      const el = document.querySelector('div');
-
-
-              el.addEventListener('mousedown', e => {
-                  console.log(e,'zqj log')
-                if (e.buttons !== 1) return;
-                const { offsetX, offsetY } = e;
-
-                const controller = new AbortController();
-
-                window.addEventListener('mousemove', e => {
-                  if (e.buttons !== 1) return;
-                  el.style.left = e.pageX - offsetX + 'px';
-                  el.style.top = e.pageY - offsetY + 'px';
-                }, { signal: controller.signal });
-
-                window.addEventListener('mouseup', e => {
-                  if (e.buttons & 1) return;
-                  controller.abort();
-                }, { signal: controller.signal });
-              });
-
-          function timeout(duration, signal) {
-          return new Promise((resolve, reject) => {
-            const handle = setTimeout(resolve, duration);
-            signal?.addEventListener('abort', e => {
-              clearTimeout(handle);
-              reject(new Error('aborted-->'));
-            });
-          });
+        // 联合取消
+        const combinedSignal = AbortSignal.any([
+          userAbortController.signal,
+          timeOutSignal,
+        ])
+        combinedSignal.onabort = () => {
+          console.log(combinedSignal, 'combinedSignal zqj log')
         }
 
-        // Usage
-        const controller = new AbortController();
-
-        timeout(100, controller.signal).then(res=>{
-            console.log(res,'zqj log')
-        }).catch(err=>{
-            console.log(err,'zqj log')
-            console.log(err.name,'zqj log')
-            console.log(err.message,'zqj log')
-        });
         setTimeout(() => {
-            controller.abort('abort');
-        }, 99);
-      //   console.log(promise);
+          userAbortController.abort('user abort')
+        }, 110)
+        fetch(queryUrl, {
+          // signal: timeOutSignal,
+          // signal: abortSignal
+          signal: combinedSignal,
+        })
+          .then(res => res.json())
+          .then(data => {
+            console.log(data, 'zqj log')
+          })
+          .catch(err => {
+            console.log('err')
+            console.log(err.name)
+            console.log(err.message)
+          })
+      }
+      //   sentHttp()
+      btn.onclick = sentHttp
+
+      const el = document.querySelector('div')
+
+      el.addEventListener('mousedown', e => {
+        console.log(e, 'zqj log')
+        if (e.buttons !== 1) return
+        const { offsetX, offsetY } = e
+
+        const controller = new AbortController()
+
+        window.addEventListener(
+          'mousemove',
+          e => {
+            if (e.buttons !== 1) return
+            el.style.left = e.pageX - offsetX + 'px'
+            el.style.top = e.pageY - offsetY + 'px'
+          },
+          { signal: controller.signal }
+        )
+
+        window.addEventListener(
+          'mouseup',
+          e => {
+            if (e.buttons & 1) return
+            controller.abort()
+          },
+          { signal: controller.signal }
+        )
+      })
+
+      function timeout(duration, signal) {
+        return new Promise((resolve, reject) => {
+          const handle = setTimeout(resolve, duration)
+          signal?.addEventListener('abort', e => {
+            clearTimeout(handle)
+            reject(new Error('aborted-->'))
+          })
+        })
+      }
+
+      // Usage
+      const controller = new AbortController()
+
+      timeout(100, controller.signal)
+        .then(res => {
+          console.log(res, 'zqj log')
+        })
+        .catch(err => {
+          console.log(err, 'zqj log')
+          console.log(err.name, 'zqj log')
+          console.log(err.message, 'zqj log')
+        })
+      setTimeout(() => {
+        controller.abort('abort')
+      }, 99)
+      function setIntervalWithAbort(fn, interval) {
+        const controller = new AbortController()
+        const signal = controller.signal
+        let timer2
+        let times = 0
+        setTimeout(function repeat() {
+          if (signal.aborted) return
+          ++times
+          fn()
+          setTimeout(repeat, interval)
+        }, interval)
+        const abort = callback => {
+          controller.abort()
+          callback && callback(times)
+        }
+        return {
+          abort,
+        }
+      }
+      // Usage
+      const controller2 = setIntervalWithAbort(() => {
+        console.log('zqj log')
+      }, 1000)
+      // 5 秒后取消
+      // 0 1 2 3 4 5
+      setTimeout(() => {
+        controller2.abort(times => {
+          console.log(times, 'zqj log')
+        })
+      }, 5000)
     </script>
   </body>
 </html>
