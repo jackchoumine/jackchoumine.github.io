@@ -2,8 +2,8 @@
  * @Author      : ZhouQiJun
  * @Date        : 2022-12-26 17:59:30
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-10-09 16:53:03
- * @Description : 
+ * @LastEditTime: 2025-02-26 18:19:08
+ * @Description :
 -->
 <script setup lang="ts" name="HookPage">
 import {
@@ -25,6 +25,8 @@ function onAddCount(count) {
 }
 
 const countOne = ref()
+const key1 = ref(1)
+const key2 = ref(2)
 onMounted(() => {
   console.log(countOne.value, 'zqj log')
 })
@@ -33,8 +35,10 @@ onMounted(() => {
 <template>
   <div class="page">
     <h3>hook 共享状态</h3>
-    <CountOne @add-count="onAddCount" ref="countOne" />
-    <CountTwo />
+    <CountOne :key="key1" @add-count="onAddCount" ref="countOne" />
+    <CountTwo :key="key2" />
+    <button @click="key1 = Math.random()">销毁CountOne</button>
+    <button @click="key2 = Math.random()">销毁CountTwo</button>
     <p>count1:{{ count1 }}</p>
     <hr />
     <button @click="draggable = !draggable">
