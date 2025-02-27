@@ -2,11 +2,11 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-26 19:01:00
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-12-07 17:37:16
+ * @LastEditTime: 2025-02-27 12:15:15
  * @Description : 拖拽元素 hook
  */
+import type { MaybeRef } from '@vueuse/core'
 import type { VNodeRef } from 'vue'
-import { MaybeRef } from 'vue'
 
 import { useHover } from './useHover'
 
@@ -40,12 +40,22 @@ function useDraggable(
   const dragging = ref(false)
   // 拖拽元素
   const dragEle = ref(null)
+  /**
+   * 设置拖拽元素，必需设置
+   * @param ele 拖拽元素，绑定到 ref 的 DOM 或者组件
+   * @example <div :ref="setDragEle">我是被拖拽的元素</div>
+   */
   const setDragEle: VNodeRef = ele => {
     if (dragEle.value) return
     dragEle.value = ele
   }
   // 拖拽 dragEle.value 时需要定位的元素
   const positionEle = ref(null)
+  /**
+   * 拖拽时需要定位的元素。如果不设置，则默认是拖拽元素 dragEle.value
+   * @param ele 拖拽 dragEle.value 时需要定位的元素，绑定到 ref 的 DOM 或者组件
+   * @example <div :ref="setPositionEle">我是拖拽时需要被定位的元素</div>
+   */
   const setPositionEle: VNodeRef = ele => {
     if (positionEle.value) return
     positionEle.value = ele
@@ -57,6 +67,7 @@ function useDraggable(
       if (!unref(enable)) {
         if (bindEvent) {
           dragEle.value.removeEventListener('mousedown', onMousedown)
+          onMouseup()
           bindEvent = false
         }
         return
@@ -90,7 +101,8 @@ function useDraggable(
     setPositionEle,
   }
   function onMousedown(event) {
-    if (event.buttons !== 1) return
+    // 限制按下右键可，拖拽
+    // if (event.buttons !== 1) return
     // 鼠标相对于header的初始便宜位置
     shiftX = event.clientX - dragEle.value.getBoundingClientRect().left
     shiftY = event.clientY - dragEle.value.getBoundingClientRect().top
@@ -116,8 +128,8 @@ function useDraggable(
   function onMove(event) {
     moveAt(event)
   }
-  function onMouseup(event) {
-    if (event.buttons !== 1) return
+  function onMouseup() {
+    // if (event.buttons !== 1) return
     document.removeEventListener('mousemove', onMove)
     dragEle.value.removeEventListener('dragstart', disableDrag)
     document.body.style.userSelect = ''
