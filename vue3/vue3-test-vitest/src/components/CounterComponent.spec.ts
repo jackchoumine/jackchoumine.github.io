@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-25 01:25:52
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-25 16:45:37
+ * @LastEditTime: 2025-03-22 19:30:46
  * @Description : 测试含有 pinia store 的 CounterComponent 组件
  */
 import { shallowMount } from '@vue/test-utils'
@@ -15,7 +15,7 @@ describe('CounterComponent.', () => {
     setActivePinia(createPinia())
   })
 
-  it('测试组件初始状态', async () => {
+  it('组件初始状态', async () => {
     const wrapper = shallowMount(CounterComponent)
     const countH3 = wrapper.findAll('h3').at(0)
     const doubleCountH3 = wrapper.findAll('h3').at(1)
@@ -24,10 +24,11 @@ describe('CounterComponent.', () => {
     expect(doubleCountH3?.text()).contains('0')
   })
 
-  it('测试 调用 increment(2) 函数后的状态', async () => {
+  it('调用 increment(2) 函数后的状态', async () => {
     const wrapper = shallowMount(CounterComponent)
     const countH3 = wrapper.findAll('h3').at(0)
     const doubleCountH3 = wrapper.findAll('h3').at(1)
+
     expect(countH3?.text()).contains('0')
     expect(doubleCountH3?.text()).contains('0')
 
