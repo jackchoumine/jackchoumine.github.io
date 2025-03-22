@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-08 10:30:21
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-03-22 18:18:44
+ * @LastEditTime: 2025-03-22 18:30:17
  * @Description : 测试依赖组件的 hooks -- 依赖生命周期
  */
 import { describe, it, expect, vi } from 'vitest'
@@ -53,7 +53,9 @@ function setupHook(hook: Function, params?: any) {
   })
 
   // NOTE shallowMount 提示没有活动的组件实例
-  //const wrapper = shallowMount(HelperComponent)
+  //const wrapper = shallowMount(HelperComponent, {
+  //  attachTo: document.body
+  //})
 
   const app = createApp({
     setup() {
