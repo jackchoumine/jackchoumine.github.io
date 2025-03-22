@@ -1,6 +1,6 @@
 # 编写可测试的表单
 
-表单是 web 应用中最常见的输入方式，因此能正确使用它们非常重要。在这一节中，我们将学习如何编写可测试的表单。
+表单是 web 应用中最常见的输入方式，因此能正确使用它们非常重要。在这一节中，将学习如何编写可测试的表单。
 
 ## 什么是好的表单？
 
@@ -8,21 +8,19 @@
 
 两级验证：
 
-* 字段验证：在单个表单字段中验证输入是否符合要求，错误时显示提示信息。
-* 表单验证：验证表单中的所有字段，都正确后才启用提交按钮。
+- 字段验证：在单个表单字段中验证输入是否符合要求，错误时显示提示信息。
+- 表单验证：验证表单中的所有字段，都正确后才启用提交按钮。
 
 需要两种测试：
 
-* 测试业务逻辑：哪些字段是必填的，哪些字段是可选的，哪些字段需要特定格式等。
-* 测试交互逻辑：输入错误时，显示错误信息，所有字段都正确时，提交按钮可用。
+- 测试业务逻辑：哪些字段是必填的，哪些字段是可选的，哪些字段需要特定格式等。
+- 测试交互逻辑：输入错误时，显示错误信息，所有字段都正确时，提交按钮可用。
 
 ### 有一病人信息表单
 
 ```html
 <script setup>
-  import {
-    ref
-  } from 'vue'
+  import { ref } from 'vue'
 
   const name = ref('')
   const age = ref()
@@ -56,15 +54,8 @@
  * @LastEditTime: 2024-07-29 10:16:32
  * @Description :
  */
-import {
-  describe,
-  expect,
-  it
-} from 'vitest'
-import {
-  isRequired,
-  isBetween
-} from './formValidation'
+import { describe, expect, it } from 'vitest'
+import { isRequired, isBetween } from './formValidation'
 
 describe('formValidation.isRequired', () => {
   it(`''非法`, () => {

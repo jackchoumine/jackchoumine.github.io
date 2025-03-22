@@ -1,6 +1,6 @@
 # 如何测试 props
 
-如何测试组件的 props , 是一个很重要的问题。好的测试方式可以让代码更加容易维护，能验证代码设计是否做到了关注点是否分离。
+如何测试组件的 props ，是一个很重要的问题。好的测试方式可以让代码更加容易维护，能验证代码设计是否做到了**关注点分离**。
 
 在测试 props 时，我们需要考虑以下几个方面：
 
@@ -32,21 +32,17 @@
     }
   }
 </script>
-<template>
-  <div :class="['message',type]">
-  </div>
+<template> <div :class="['message',type]"></div></template>
 ```
 
-数组写法和不加验证器的写法，不推荐。
+不加验证器的写法，不推荐。
 
 ## 测试 props
 
 > 普通写法
 
 ```ts
-import {
-  shallowMount
-} from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import MyMessage from './MyMessage.vue'
 describe('MyMessage.vue', () => {
   it('type 的值必须是 success info warning error 之一', () => {
@@ -67,7 +63,7 @@ describe('MyMessage.vue', () => {
   })
   it('type 的值必需的', () => {
     const type = 'success'
-   // 如何测试 prop 是必需的呢？
+    // 如何测试 prop 是必需的呢？
   })
 })
 ```
@@ -75,52 +71,53 @@ describe('MyMessage.vue', () => {
 > 进阶写法：shallowMount 多次调用，封装一个函数
 
 ```ts
-import {
-  shallowMount
-} from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import MyMessage from './MyMessage.vue'
+
 describe('MyMessage.vue', () => {
   it('type 的值必须是 success info warning error 之一', () => {
-     ;['success', 'info', 'warning', 'error'].forEach(type => {
-       const wrapper = renderMyMessage(type)
-       expect(wrapper.classes()).toContain(type)
-     })
+    ;['success', 'info', 'warning', 'error'].forEach((type) => {
+      const wrapper = renderMyMessage(type)
+      expect(wrapper.classes()).toContain(type)
+    })
   })
 })
+
 function renderMyMessage(type?: string) {
- return shallowMount(MyMessage, {
-   props: {
-     type
-   }
- })
+  return shallowMount(MyMessage, {
+    props: {
+      type
+    }
+  })
 }
 ```
 
-> 普通写法和进阶写法相比，存在什么问题？
+> 普通写法和进阶写法相，都存在什么问题？
 
 1. type 的验证逻辑和 UI 逻辑耦合在一起，无法单独测试 type 是否必需。
-2. 验证逻辑和UI逻辑耦合，无法复用 type 的验证逻辑。
+2. 验证逻辑和 UI 逻辑耦合，无法复用 type 的验证逻辑。
 
 ## 进阶写法如何解决这两个问题的？
 
 `分离关注点` 。
-上面的例子中，我们通过测试 UI 逻辑来验证 props 是否正确，然后我们发现无法测试 props 是否必需。
+
+上面的例子中，通过测试 UI 逻辑来验证 props 是否正确，然后发现无法测试 props 是否必需。
 造成这个问题的根源是我们的组件没有分离关注点 -- 把 props 的验证逻辑和 UI 逻辑耦合在一起，导致无法单独测试。
 
 > 如何找到关注点的分界线呢？或者如何区分两种不同的逻辑呢？
 
 找到关注点的**分界线**，是我们分离关注点的第一步。
 `MyMessage.vue` 中，验证 type 的逻辑是纯 js 代码，而把 type 作为类名放到模板中，它就和样式相关，属于 UI 逻辑。
-明白了组件中有两种不同的关注点后，我们就把验证 type 的逻辑提取出来，放到一个函数中。
+明白了组件中有两种不同的关注点后，就把验证 type 的逻辑提取出来，放到一个函数中。
 
 ```ts
 // validateType.ts
 export function validateType(type: string) {
   const typeList = ['success', 'info', 'warning', 'error']
   if (!typeList.includes(type)) {
-   // 两种处理办法
-   // 1. 返回 false
-   // 2. 抛错
+    // 两种处理办法
+    // 1. 返回 false
+    // 2. 抛错
     throw new Error(`type must be one of ${typeList.join(',')}, you passed ${type}`)
   }
   return true
@@ -162,7 +159,7 @@ export function validateType(type: string) {
 
 ```ts
 // MyMessage.spec.ts
-import  { validatorType } from './MyMessage.vue'
+import { validatorType } from './MyMessage.vue'
 import { describe, it, expect } from 'vitest'
 describe('MyMessage.vue', () => {
   describe('测试 props -- type', () => {
@@ -193,13 +190,14 @@ describe('MyMessage.vue', () => {
 ### 常见的关注点分界线
 
 1. JS 逻辑
-比如数据验证，数据处理等。
+   比如数据验证，数据处理等。
 2. UI 逻辑 -- 模板相关的逻辑
 3. 样式逻辑
 
 ## 看一个分离关注点的例子
 
 使用 `jQuery` 写的代码，非常容易把**业务逻辑**和**UI逻辑**耦合在一起。
+
 功能描述：一双鞋的价格是 100 元，购买超过 9 双，可打 8 折。
 
 > 业务逻辑和 UI 逻辑耦合在一起的代码
@@ -210,8 +208,7 @@ describe('MyMessage.vue', () => {
 </label>
 <div id="amount"></div>
 <script>
-  $(document).ready(function() {
-
+  $(document).ready(function () {
     const $shoeCount = $('#shoe-count')
     showAmount()
     $shoeCount.on('change', showAmount)
@@ -234,7 +231,7 @@ describe('MyMessage.vue', () => {
 我们把计算价格的逻辑提取出来，放到一个函数中。
 
 ```js
-$(document).ready(function() {
+$(document).ready(function () {
   const $shoeCount = $('#shoe-count')
   showAmount()
   $shoeCount.on('change', showAmount)
@@ -246,7 +243,7 @@ $(document).ready(function() {
   }
 })
 const DISCOUNT = 0.8
-const SHOE_PRICE = 100.00
+const SHOE_PRICE = 100.0
 // 业务逻辑
 function calculateAmount(shoeCount) {
   if (shoeCount >= 10) {
@@ -262,10 +259,7 @@ vue 重构的代码：
 
 ```html
 <script setup lang="ts">
-  import {
-    ref,
-    computed
-  } from 'vue'
+  import { ref, computed } from 'vue'
   const shoeCount = ref(8)
   const amount = computed(() => {
     return calculateAmount(shoeCount.value)
@@ -340,7 +334,7 @@ function renderNavBar(props: { logined: boolean }) {
 }
 ```
 
-已经登录，测试是否包含 `退出` 文本，没有登录，测试是否包含 `登录` 文本，没有测试是否是 button 按钮，且包含 `退出` 或者 `登录` 文本。即没有测试具体的实现，而是测试功能，也就是测试做了什么，而是测试如何做。
+已经登录，测试是否包含 `退出` 文本，没有登录，测试是否包含 `登录` 文本，没有测试是否存在 button 按钮，且包含 `退出` 或者 `登录` 文本。即没有测试具体的实现，而是测试功能，也就是测试做了什么，而是测试如何做。
 
 > 测试做了啥，而不是测试如何做，可以让测试代码更加健壮，重构代码不会让代码测试失败。
 
@@ -386,7 +380,7 @@ function renderNavBar(props: { logined: boolean }) {
 
 即使把 `button` 标签，改成 `a` 标签，添加一个 span 标签，用例依然通过。
 
-检测测试代码是否健壮的方式，或者测试方式是否正确的：被测试代码重构后测试用例是否失败。
+检测测试代码是否健壮的方式：被测试代码重构后测试用例是否失败。
 
 ## 小结
 

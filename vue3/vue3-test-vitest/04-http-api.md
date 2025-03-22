@@ -2,11 +2,9 @@
 
 哪里会发起 http 请求？
 
-* 组件内部
-* 自定义 hook
-* pinia store
-
-需要如何测试它们呢？
+- 组件内部;
+- 自定义 hook;
+- pinia store。
 
 ## 组件内部
 
@@ -21,9 +19,7 @@
  * @Description :
 -->
 <script setup>
-  import {
-    ref
-  } from 'vue'
+  import { ref } from 'vue'
 
   const loading = ref(false)
   const joke = ref('')
@@ -36,8 +32,8 @@
     }
     loading.value = true
     fetch('https://icanhazdadjoke.com/hello', {
-        headers
-      })
+      headers
+    })
       .then((res) => {
         // console.log(res)
         if (!res.ok) {
@@ -78,16 +74,16 @@
 
 不可靠主要有以下几点：
 
-* 依赖外部服务器，网络不稳定，可能会导致测试失败，比如网络超时
-* 依赖外部服务器，可能会导致测试数据不稳定，比如数据变化
+- 依赖外部服务器，网络不稳定，可能会导致测试失败，比如网络超时
+- 依赖外部服务器，可能会导致测试数据不稳定，比如数据变化
 
 通过 `vi.fn` 来 mock 掉 fetch，即创建一个假的 fetch 代替真的。
 
 当模拟 fetch 时，需要测试三点：
 
-* 请求路径；
-* 请求参数；
-* 请求返回后对组件渲染的影响。
+- 请求路径；
+- 请求参数；
+- 请求返回后组件的渲染结果。
 
 ```ts
 // JokeContainer.spec.ts
@@ -98,18 +94,8 @@
  * @LastEditTime: 2024-08-23 00:53:15
  * @Description :
  */
-import {
-  flushPromises,
-  shallowMount
-} from '@vue/test-utils'
-import {
-  afterAll,
-  beforeAll,
-  describe,
-  expect,
-  it,
-  vi
-} from 'vitest'
+import { flushPromises, shallowMount } from '@vue/test-utils'
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import JokeContainer from './JokeContainer.vue'
 
 type Res = {
@@ -191,7 +177,7 @@ const fakeFetch = (res: Res) => {
 }
 
 // 模拟 fetch
-global.fetch =  vi.fn().mockImplementation(() => {
+global.fetch = vi.fn().mockImplementation(() => {
   return fakeFetch({
     joke
   })
@@ -221,7 +207,7 @@ it('randomStr', () => {
 })
 ```
 
-这个例子似乎和 `randomStr` 函数没有关联起来，可能不够恰到。
+这个例子似乎和 `randomStr` 函数没有关联起来，可能不够恰当。
 
 ```ts
 let originalFetch: typeof global.fetch
@@ -258,9 +244,7 @@ afterAll(() => {
 
 ```js
 // useJoke.js
-import {
-  ref
-} from 'vue'
+import { ref } from 'vue'
 
 export default function useJoke() {
   const loading = ref(false)
@@ -280,8 +264,8 @@ export default function useJoke() {
     }
     loading.value = true
     fetch('https://icanhazdadjoke.com/hello', {
-        headers
-      })
+      headers
+    })
       .then((res) => {
         // console.log(res)
         if (!res.ok) {
@@ -306,17 +290,9 @@ export default function useJoke() {
 
 ```ts
 // useJoke.spec.ts
-import {
-  expect,
-  it,
-  vi
-} from 'vitest'
-import {
-  flushPromises
-} from '@vue/test-utils'
-import {
-  createApp
-} from 'vue'
+import { expect, it, vi } from 'vitest'
+import { flushPromises } from '@vue/test-utils'
+import { createApp } from 'vue'
 
 import useJoke from './useJoke'
 
@@ -326,15 +302,14 @@ it('useJoke', async () => {
   global.fetch = vi.fn().mockImplementation(() => {
     return Promise.resolve({
       ok: true,
-      json: () => Promise.resolve({
-        joke
-      })
+      json: () =>
+        Promise.resolve({
+          joke
+        })
     })
   })
 
-  const {
-    result
-  } = setupHook(useJoke)
+  const { result } = setupHook(useJoke)
   await flushPromises()
 
   expect(result.loading.value).toBe(false)
@@ -342,7 +317,7 @@ it('useJoke', async () => {
   expect(result.fetchJoke).instanceOf(Function)
 })
 
-function setupHook(hook: Function, params ? : any) {
+function setupHook(hook: Function, params?: any) {
   let result: any
 
   const app = createApp({
@@ -576,7 +551,7 @@ describe('counterStore', () => {
     // 创建一个新 pinia，并使其处于激活状态，这样它就会被任何 useStore() 调用自动接收
     // 而不需要手动传递： `useStore(pinia)`
     setActivePinia(createPinia())
-    // 在 beforeEach 钩子中，创建并激活了一个 pinia 实例。没有它，商店就无法工作，抛出错误。
+    // 在 beforeEach 钩子中，创建并激活了一个 pinia 实例。没有它，store 就无法工作，抛出错误。
     // [🍍]: "getActivePinia()" was called but there was no active Pinia. Are you trying to use a store before calling "app.use(pinia)"?
   })
 
@@ -613,16 +588,14 @@ describe('counterStore', () => {
 
 关键代码就是 `setActivePinia(createPinia())` ，在每个测试用例之前，创建一个新的 pinia 实例，并激活它，否则会报错。
 
-###  counterStore 用到组件中，如何测试组件？
+### counterStore 用到组件中，如何测试组件？
 
 有一组件 `CounterComponent.vue` :
 
 ```html
 <!-- CounterComponent.vue -->
 <script setup>
-  import {
-    useCounterStore
-  } from '@/stores/counterStore'
+  import { useCounterStore } from '@/stores/counterStore'
   const counterStore = useCounterStore()
 </script>
 
@@ -689,13 +662,13 @@ describe('CounterComponent.', () => {
 
 测试组件 `CounterComponent.vue` ，使用的是真实的 `counterStore` , 有的文章说不应该使用真实的 store，而是使用模拟的 store，这样测试更加独立，不会受到 store 的影响。
 
-> 我认为这不是问题，而是优点，因为完全按照使用组件的方式测试组件，这样更加真实使用这个组件的情况。
+> 我认为这不是问题，而是优点，因为完全按照使用组件的方式测试组件，这样更加真实测试这个组件的使用情况。
 
 我模拟 store，并没有成功，有兴趣的可看看两篇参考文章，实现模拟 store。
 
-* [store 测试](https://pinia.vuejs.org/zh/cookbook/testing.html#testing-stores)
+- [store 测试](https://pinia.vuejs.org/zh/cookbook/testing.html#testing-stores)
 
-* [Unit Testing a Pinia Component](https://fadamakis.com/unit-testing-a-pinia-component-37d045582aed)
+- [Unit Testing a Pinia Component](https://fadamakis.com/unit-testing-a-pinia-component-37d045582aed)
 
 ### 含有异步操作的 store 如何测试？
 
@@ -793,9 +766,9 @@ describe('jokeStore', () => {
 
 前面使用到 fetch 请求服务器数据时，都是使用了把 fetch 模拟掉的方式，但是模拟也是有代价的：
 
-1. 模拟 fetch 代码量较大，需要模拟请求参数、返回值、调用次数等
-2. 模拟 fetch 代码不够直观，不够真实
-3. 不恰当的模拟，不能让代码更健壮，反而给人虚假的安全感
+1. 模拟 fetch 代码量较大，需要模拟请求参数、返回值、调用次数等；
+2. 模拟 fetch 代码不够直观，不够真实；
+3. 不恰当的模拟，不能让代码更健壮，反而给人虚假的安全感。
 
 有没有更好的方式呢？ 直接使用真实的 fetch 请求**模拟的服务器**，这样测试更加真实 。
 
@@ -917,29 +890,31 @@ JokeContainer 组件的依赖关系如下：
 JokeContainer.vue --> pinia(useJokeStore) --> axios --> server
 ```
 
-在测试模拟 `pinia` , 要是 useCounterStore 和 axios 和 server 出现问题， JokeContainer 组件的测试不会失败，但是这不是接近真实的使用场景，测试不可靠。
+不同的莫模拟，测试失败和是否接近真实使用的情况：
 
-在测试模拟 `axios` , 要是 useCounterStore 和 JokeContainer.vue 出现问题，测试失败，稍微可靠一点，但是也不够接近真实的使用场景。
-
-在测试中模拟 `server` ，要是 useCounterStore 和 JokeContainer.vue 和 axios 出现问题，测试失败，这是最接近真实的使用场景，测试最可靠。
+| 模拟的对象 | 测试失败情况                                              | 是否接近真实   | 测试可靠性 |
+| ---------- | --------------------------------------------------------- | -------------- | ---------- |
+| pinia      | useJokeStore、axios 和 sever 出问题，测试用例不会失败     | 不接近真实情况 | 不可靠     |
+| axios      | useJokeStore 和 JokeContainer.vue 出问题，测试失败        | 不接近真实情况 | 稍微可靠   |
+| sever      | useJokeStore、JokeContainer.vue 和 axios 出问题，测试失败 | 接近真实情况   | 可靠       |
 
 经过分析，可以得出结论：
 
-> 模拟越少越好，模拟的越多，测试就越不真实，测试就越不可靠。
+> 模拟越少越好，模拟得越多，就越不真实，测试就越不可靠。
 
 > 模拟越靠近底层，测试越可靠，测试越接近真实的使用场景。
 
 ## 小结
 
-* 测试组件内部的 http 请求，需要模拟 fetch 函数，模拟请求参数、返回值、调用次数等。
-* 恰当的模拟，可以让测试更加真实，更加可靠。
-* 测试自定义 hook，需要提供执行环境，确保 hook 内部的生命周期、watch 等顺利执行。
-* 学习了模拟外部依赖的方式，分析了模拟的可靠性，模拟越少越好，模拟越靠近底层，测试越可靠。
-* 使用 `msw` 模拟服务器，返回模拟数据，测试更加真实。
+- 测试组件内部的 http 请求，需要模拟 fetch 函数，模拟请求参数、返回值、调用次数等。
+- 恰当的模拟，可以让测试更加真实，更加可靠。
+- 测试自定义 hook，需要提供执行环境，确保 hook 内部的生命周期、watch 等顺利执行。
+- 学习了模拟外部依赖的方式，分析了模拟的可靠性，模拟越少越好，模拟越靠近底层，测试越可靠。
+- 使用 `msw` 模拟服务器，返回模拟数据，测试更加真实。
 
 ## 参考
 
-* [stop mocking fetch](https://kentcdodds.com/blog/stop-mocking-fetch)
-* [how-to-mock-fetch-api-with-vites](https://runthatline.com/how-to-mock-fetch-api-with-vitest)
-* [testing-components-with-vitest](https://mayashavin.com/articles/testing-components-with-vitest)
-* [Guide to Unit Testing Vue Components](https://testdriven.io/blog/vue-unit-testing/)
+- [stop mocking fetch](https://kentcdodds.com/blog/stop-mocking-fetch)
+- [how-to-mock-fetch-api-with-vites](https://runthatline.com/how-to-mock-fetch-api-with-vitest)
+- [testing-components-with-vitest](https://mayashavin.com/articles/testing-components-with-vitest)
+- [Guide to Unit Testing Vue Components](https://testdriven.io/blog/vue-unit-testing/)

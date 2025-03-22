@@ -2,11 +2,9 @@
 
 有一组件： `SimpleCount.vue` :
 
-```HTML
+```html
 <script setup>
-  import {
-    ref
-  } from 'vue'
+  import { ref } from 'vue'
   const count = ref(0)
 </script>
 
@@ -64,9 +62,7 @@ function renderComponent(props?: any) {
 
 ```html
 <script setup>
-  import {
-    ref
-  } from 'vue'
+  import { ref } from 'vue'
   const count = ref(0)
   const emit = defineEmits(['submit'])
 
@@ -133,12 +129,8 @@ const emit = defineEmits({
 
 ```html
 <script>
-  import {
-    isNumber
-  } from 'petite-utils'
-  import {
-    ref
-  } from 'vue'
+  import { isNumber } from 'petite-utils'
+  import { ref } from 'vue'
 
   export function submitValidator(count) {
     return isNumber(count)
@@ -150,9 +142,7 @@ const emit = defineEmits({
     emit: {
       submit: submitValidator
     },
-    setup(props, {
-      emit
-    }) {
+    setup(props, { emit }) {
       const count = ref(0)
 
       function onEmitSubmit() {
@@ -188,6 +178,7 @@ it('测试原生事件', async () => {
   const span = wrapper.find('span')
   // 点击前的输出
   const text = span.text()
+
   expect(text).toContain('0')
 
   await plusBtn.trigger('click')
@@ -200,6 +191,8 @@ it('测试原生事件', async () => {
 
 再给组件内部的 `button` 添加 `role=plus` :
 
-```HTML
+```html
 <button @click="onClickPlus" role="plus">+</button>
 ```
+
+## 小结
