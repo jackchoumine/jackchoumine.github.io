@@ -2,13 +2,13 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-08-08 10:30:21
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-25 00:55:07
+ * @LastEditTime: 2025-03-22 18:18:44
  * @Description : 测试依赖组件的 hooks -- 依赖生命周期
  */
 import { describe, it, expect, vi } from 'vitest'
-import { defineComponent } from 'vue'
+import { createApp, defineComponent, h } from 'vue'
 import { useTodo } from './useTodo'
-import { shallowMount, flushPromises } from '@vue/test-utils'
+import { shallowMount, flushPromises, mount } from '@vue/test-utils'
 
 const todo = {
   userId: 1,
@@ -24,14 +24,14 @@ global.fetch = vi.fn().mockResolvedValue({
 describe('useTodo', () => {
   it('call useTodo in onMounted', async () => {
     const {
-      result: { todo: _todos }
+      result: { todo: _todo }
     } = setupHook(useTodo, 3)
 
-    // expect(_todos.value).toBeUndefined()
+    expect(_todo.value).toBeUndefined()
 
     await flushPromises()
 
-    expect(_todos.value).toEqual(todo)
+    expect(_todo.value).toEqual(todo)
   })
 })
 
@@ -41,6 +41,10 @@ describe('useTodo', () => {
 function setupHook(hook: Function, params?: any) {
   let result: any
 
+  //const HelperComponent = defineComponent(() => {
+  //  result = hook(params)
+  //  return () => null
+  //})
   const HelperComponent = defineComponent({
     setup() {
       result = hook(params)
@@ -48,10 +52,20 @@ function setupHook(hook: Function, params?: any) {
     }
   })
 
-  const wrapper = shallowMount(HelperComponent)
+  // NOTE shallowMount 提示没有活动的组件实例
+  //const wrapper = shallowMount(HelperComponent)
+
+  const app = createApp({
+    setup() {
+      result = hook(params)
+      return () => null
+    }
+  })
+
+  app.mount(document.createElement('div'))
 
   return {
-    result,
-    wrapper
+    result
+    // wrapper: app
   }
 }
