@@ -29,7 +29,6 @@
   },
   "dependencies": {
     "@geoman-io/leaflet-geoman-free": "~2.14.2",
-    "@jackzhoumine/ec-ui": "~1.0.1",
     "@panzhiyue/leaflet-canvaslabel": "~1.2.0",
     "@popperjs/core": "~2.11.8",
     "@quasar/extras": "1.16.5",
