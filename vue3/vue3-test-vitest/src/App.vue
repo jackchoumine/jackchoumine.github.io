@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-23 02:16:51
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-09-13 23:43:58
+ * @LastEditTime: 2025-03-24 23:43:55
  * @Description :
 -->
 <script setup lang="ts">
@@ -10,6 +10,7 @@ import { RouterLink, RouterView } from 'vue-router'
 import { ref, provide } from 'vue'
 import MyMessage from './components/MyMessage.vue'
 import ShoeCount from './components/ShoeCount.vue'
+import MSWTest from './components/MSWTest.vue'
 import PatientForm from './components/PatientForm.vue'
 import JokeContainer from './components/JokeContainer.vue'
 import CounterComponent from './components/CounterComponent.vue'
@@ -38,6 +39,7 @@ const theme = ref('light')
       <MyMessage type="success" />
       <ShoeCount />
       <!-- <RouterView /> -->
+      <MSWTest />
     </ProvideCom>
   </TheThemeProvider>
 </template>
