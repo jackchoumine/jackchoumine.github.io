@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-02-19 17:36:55
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-09-09 10:39:01
+ * @LastEditTime: 2025-03-24 18:33:42
  * @Description :
  */
 // import './assets/main.css'
@@ -33,4 +33,11 @@ app.provide(age_key, {
   changeAge
 })
 
-app.mount('#app')
+setupWorker().then(() => {
+  app.mount('#app')
+})
+
+async function setupWorker() {
+  const { worker } = await import('../mocks/browser')
+  return worker.start()
+}
