@@ -5,6 +5,7 @@
 ```bash
 pnpm i package-name
 pnpm i package-name -w # 安装到根工作空间
+pnpm i package-name --workspace # 从本地工作目录安装子包
 pnpm i package-name -r number # 递归目录安装依赖，number 为递归层数
 pnpm i -r 2 # 当前目录和子目录递归安装依赖，递归层数为 2
 pnpm i -r 3 # 当前目录和子目录递归安装依赖，递归层数为 3
@@ -49,3 +50,36 @@ ln 是 Linux 系统中用于创建文件链接的命令。它有以下主要功�
 Linux中的符号链接，就是我们平时说的软连接，可以针对文件、目录创建，但是源文件删除后链接不可用，命令: `ln -s xxx xxx`
 
 Linux中的硬链接，只能针对文件，但是文件删除仍可使用，命令: `ln xxx xxx`
+
+## pnpm + workspaces 搭建 monorepo 项目
+
+### 什么是 monorepo
+
+monorepo 是指在一个仓库中管理多个项目，这些项目之间可能有依赖关系，也可能没有。Monorepo 项目的好处是可以统一管理依赖，方便代码复用和维护。
+pnpm 提供了 workspaces 功能，可以很方便地搭建 monorepo 项目。
+
+### 搭建 monorepo 项目
+
+1. 创建一个空目录，进入该目录，执行 `pnpm init -y` 初始化项目。
+
+2. 在项目根目录下创建 packages 目录，用于存放子项目。
+
+3. 在 packages 目录下创建子项目目录，每个子项目目录都是一个独立的项目。
+
+4. 在项目根目录下创建 package.json 文件，配置 workspaces 字段，指定子项目目录。
+
+5. 在项目根目录下执行 `pnpm i` 安装依赖。
+
+6. 在子项目目录下执行 `pnpm i` 安装依赖。
+
+7. 在子项目目录下执行 `pnpm run dev` 启动项目。
+
+8. 在项目根目录下执行 `pnpm run dev` 启动所有子项目。
+
+### workspaces 配置
+
+```json
+{
+  "workspaces": ["packages/*"]
+}
+```
