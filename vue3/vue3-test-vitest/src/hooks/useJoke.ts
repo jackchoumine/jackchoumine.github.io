@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-08-23 01:54:24
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-08-24 19:59:26
+ * @LastEditTime: 2025-03-24 18:20:16
  * @Description :
  */
 import axios from 'axios'
@@ -26,6 +26,7 @@ export default function useJoke() {
     loading.value = true
     axios
       .get('https://icanhazdadjoke.com', {
+        //.get('/api/jokes', {
         headers
       })
       .then((res) => {
