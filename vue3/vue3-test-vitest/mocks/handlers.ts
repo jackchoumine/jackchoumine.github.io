@@ -2,11 +2,10 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-03-24 15:19:29
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-03-24 18:30:03
+ * @LastEditTime: 2025-03-25 22:32:39
  * @Description : mock api
  */
 import { http, HttpResponse } from 'msw'
-import { json } from 'stream/consumers'
 
 const joke = 'this is a joke'
 
