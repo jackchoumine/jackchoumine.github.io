@@ -109,7 +109,9 @@ Hi jackchoumine! You've successfully authenticated, but GitHub does not provide 
 
 成功了！
 
-### 可能的报错
+> 在 window 上执行上述命令，可能报错：`Could not open a connection to your authentication agent.`
+
+那么再执行 'eval `ssh-agent -s`'， eval 后有空格，后面是反引号，再次执行`ssh-add ~/.ssh/gitee_id_rsa`，再次测试，应该就成功了。
 
 `but GitHub does not provide shell access.` ，出现这个，使用 https 设置远程的 origin，会推送失败，两种解决办法：
 
