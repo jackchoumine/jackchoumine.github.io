@@ -89,6 +89,22 @@ const hello = within(messages).getByText('hello')
 
 ## 页面元素的断言
 
+| 使用场景       | 断言 API                                                                                                       |
+| -------------- | -------------------------------------------------------------------------------------------------------------- |
+| 可见性         | `toBeEmptyDOMElement`、`toBeVisible`、`toBeInTheDocument`、`toHaveTextContent`                                 |
+| 表单验证       | `toBeDisabled`、`toBeEnabled`、`toBeRequired`、`toHaveFocus`、`toBeChecked`、`toHaveFormValues`、`toHaveValue` |
+| 代码层面的验证 | `toHaveAttribute`、`toHaveClass`、`toHaveStyle`                                                                |
+
+### 可见性断言
+
+toBeEmptyDOMElement、toBeVisible和toBeInTheDocument 含义接近：
+
+| 断言                | 含义                               | 使用场景                               |
+| ------------------- | ---------------------------------- | -------------------------------------- |
+| toBeInTheDocument   | 存在文档中                         | 添加渲染                               |
+| toBeEmptyDOMElement | 标签之间是否有可见内，空格也算内容 | 子元素                                 |
+| toBeVisible         | 是否可见                           | display 为 none , visibility 为 hidden |
+
 ## 模拟用户操作
 
 ```js
