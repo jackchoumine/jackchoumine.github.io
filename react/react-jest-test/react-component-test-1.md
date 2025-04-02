@@ -99,11 +99,23 @@ const hello = within(messages).getByText('hello')
 
 toBeEmptyDOMElement、toBeVisible和toBeInTheDocument 含义接近：
 
-| 断言                | 含义                               | 使用场景                               |
+| 匹配器              | 含义                               | 使用场景                               |
 | ------------------- | ---------------------------------- | -------------------------------------- |
 | toBeInTheDocument   | 存在文档中                         | 添加渲染                               |
 | toBeEmptyDOMElement | 标签之间是否有可见内，空格也算内容 | 子元素                                 |
 | toBeVisible         | 是否可见                           | display 为 none , visibility 为 hidden |
+
+### 表单验证
+
+| 匹配器           | 含义                                   |
+| ---------------- | -------------------------------------- |
+| toBeDisabled     | 检查 disable 属性                      |
+| toBeEnabled      | 是否未被禁用，等同于 .not.toBeDisabled |
+| toBeRequired     | 是否必填                               |
+| toHaveFocus      | 是否聚焦                               |
+| toBeChecked      | checkbox 或者是 radio 是否被选中       |
+| toHaveValue      | 单个表单先的值                         |
+| toHaveFormValues | 整体表单的值是否和预期值匹配           |
 
 ## 模拟用户操作
 
