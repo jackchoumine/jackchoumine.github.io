@@ -21,27 +21,44 @@ testing-library 倡导以用户实际使用软件的方式来测试组件，所�
 
 ### 查询渲染输出
 
-| type       | no match | 1 match | 1+ match | await |
-| ---------- | -------- | ------- | -------- | ----- |
-| getBy*      | throw    | return  | throw    | No    |
-| getAllBy*   | throw    | array   | array    | No    |
-| findBy*     | throw    | return  | throw    | Yes   |
-| findAllBy*  | throw    | array   | array    | Yes   |
-| queryBy*    | null     | return  | throw    | NO    |
-| queryAllBy* | []       | array   | array    | NO    |
+根据行为可分四种
 
-> 异步使用 findBy，同步使用 getBy。
+| type         | no match | 1 match | 1+ match | await |
+| ------------ | -------- | ------- | -------- | ----- |
+| getBy\*      | throw    | return  | throw    | No    |
+| getAllBy\*   | throw    | array   | array    | No    |
+| queryBy\*    | null     | return  | throw    | NO    |
+| queryAllBy\* | []       | array   | array    | NO    |
+| findBy\*     | throw    | return  | throw    | Yes   |
+| findAllBy\*  | throw    | array   | array    | Yes   |
+
+> 异步使用 findBy，同步使用 getBy 和 query。
+> 元素必须存在，用例才通过，使用 getBy, 不存在也通过，使用 queryBy
 
 具体的查询DOM的方法：
 
-1. getByRole
+根据查询参照物可分为 8 种，看 get 的例子。
+
+1. getByText
 2. getByLabelText
 3. getByPlaceholderText
-4. getByText
-5. getByDisplayValue
+4. getByDisplayValue
+5. getByRole
 6. getByAltText
 7. getByTitle
 8. getByTestId
+
+> 行为决定查询前缀，参照物决定后缀。
+
+该如何选择查询函数呢？
+
+> 单测的越接近用户的使用方式，单侧越稳定越可靠，只要需要不变，单测就无需调整。
+
+基于这样的原则，把查询参照分成三类：
+
+可见的参照，推荐使用：getByText、getByLabelText、getByPlaceholderText、getByDisplayValue、getByRole
+条件可见的参照，可使用：getByAltText、getByTitle
+不建议使用: getByTestId
 
 等待元素出现
 
@@ -57,20 +74,22 @@ await waitForElementToBeRemove(() => screen.queryByText('hello'))
 
 开启调试
 
-```js 
+```js
 screen.debug()
-
 ```
 
 通过父元素查询 DOM
 
 ```js
-import { screen,within } from '@testing-library/react';
+import { screen, within } from '@testing-library/react'
+
 const messages = screen.getById('messages')
 const hello = within(messages).getByText('hello')
 ```
 
-### 模拟用户操作
+## 页面元素的断言
+
+## 模拟用户操作
 
 ```js
 userEvent.click()
@@ -90,7 +109,7 @@ userEvent.clear()
 使用 `userEvent` 提换MyInput测试用例中的 `fireEvent` ，安装依赖
 
 ```bash
-npm i -D @testing-library/user-event 
+npm i -D @testing-library/user-event
 ```
 
 ```tsx
@@ -98,6 +117,7 @@ npm i -D @testing-library/user-event
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React, { ReactElement } from 'react'
+
 import { MyInput } from './MyInput'
 
 describe('MyInput.tsx', () => {
