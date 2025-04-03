@@ -276,6 +276,80 @@ Error: Timed out in waitForElementToBeRemoved.
 
 - 配合 queryBy 检查消失后的状态。
 
+## 测试实时任务
+
+定时功能也是很常见的，如何对定时任务进行测试呢？比如一个定时任务需要一个小时执行一次，真实的去测试这个定时任务，就需要等待一个小时，单元测试要求快速得到反馈，这样显然不可取。
+
+好在 jest 提供快速推进时间的 api -- 使用假的定时器来代替真实的定时器。
+
+| api                  | 作用               |
+| -------------------- | ------------------ |
+| useFakeTimers        | 启用假的定时器     |
+| useRealTimers        | 启用真的定时器     |
+| runAllTimers         | 启用真的定时器     |
+| runOnlyPendingTimers | 只执行等待的定时器 |
+| advanceTimersByTime  | 前进 x 毫秒        |
+
+有两个函数等待函数需要测试：
+
+```js
+function sleep(millisecond: number) {
+  return new Promise(resolve => {
+    setTimeout(resolve, millisecond)
+  })
+}
+
+function loopSleep(millisecond: number, result: string) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(result)
+      setTimeout(() => {
+        loopSleep(millisecond, result)
+      }, millisecond)
+    }, millisecond)
+  })
+}
+```
+
+测试用例：
+
+```js
+describe('定时器', () => {
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
+  afterEach(() => {
+    jest.useRealTimers()
+  })
+
+  it('执行所有定时器', async () => {
+    const fn = jest.fn()
+    sleep(1000).then(fn)
+    jest.runAllTimers()
+    await Promise.resolve()
+    expect(fn).toHaveBeenCalled()
+    expect(fn).toHaveBeenCalledTimes(1)
+  })
+
+  it('递归定时器', async () => {
+    const result = 'hello jest'
+    const res = loopSleep(1000, result)
+    //jest.runAllTimers() // ❌️ 栈溢出
+    jest.runOnlyPendingTimers() // 清除所有在等待中的定时器
+    await expect(res).resolves.toBe(result)
+  })
+
+  it('推进时间', async () => {
+    const fn = jest.fn()
+    sleep(1000).then(fn)
+    jest.advanceTimersByTime(1000)
+    await Promise.resolve()
+    expect(fn).toHaveBeenCalled()
+    expect(fn).toHaveBeenCalledTimes(1)
+  })
+})
+```
+
 ## 模拟用户操作
 
 ```js
