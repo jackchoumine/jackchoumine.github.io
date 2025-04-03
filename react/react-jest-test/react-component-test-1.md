@@ -526,7 +526,7 @@ function useCounter(init = 0) {
 
 ### 通过组件测试
 
-hook 用在组件顶部，自然想到写一个组件来测试：
+hook 只能在组件顶部，自然想到写一个组件来测试：
 
 ```jsx
 function CounterDemo() {
@@ -578,6 +578,33 @@ function setup(com: ReactElement) {
   }
 }
 ```
+
+### 单独测试
+
+testing-library 提供了`renderHook`，用它可单独测试 hook。
+
+```js
+import { act, renderHook } from '@testing-library/react'
+
+import { useCounter } from './CounterDemo'
+
+it('单独测试', () => {
+  //const result = renderHook(() => useCounter(10))
+  //console.log(result)
+  const { result } = renderHook(() => useCounter(10))
+  expect(result.current[0]).toBe(10)
+  //plus(100)
+  //expect(count).toBe(100)
+  // renderHook 没有触发 rerender 因为需要使用 act 包裹 plus
+  act(() => {
+    result.current[1](100)
+  })
+  expect(result.current[0]).toBe(110)
+})
+```
+
+> act 触发组件更新。
+> react hook 是特殊的函数，必须在组件顶部调用，因此不能像测试普通函数那样单独测试。
 
 ## 模拟用户操作
 
