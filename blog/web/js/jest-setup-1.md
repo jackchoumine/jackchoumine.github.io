@@ -30,7 +30,7 @@ test('可用吗？', () => {
 
 两种搭建办法：
 
-###  babel 转换
+### babel 转换
 
 jest 在是 node 下使用的，只能使用 CJS 模块，希望使用 ES6 模块语法，需要 babel 转化。
 
@@ -47,7 +47,7 @@ module.exports = {
       '@babel/preset-env',
       {
         targets: {
-          node: 'current'
+          node: 'current',
         },
       },
     ],
@@ -59,9 +59,7 @@ module.exports = {
 
 ```js
 // tests/can-use.spec.js
-import {
-  sum
-} from '../src/es6.sum.js'
+import { sum } from '../src/es6.sum.js'
 
 test('可用吗？', () => {
   expect(sum(1, 2)).toBe(3)
@@ -74,7 +72,7 @@ test('可用吗？', () => {
 
 报错：
 
- `Error while loading config - You appear to be using a native ECMAScript module configuration file, which is only supported when running Babel asynchronously.`
+`Error while loading config - You appear to be using a native ECMAScript module configuration file, which is only supported when running Babel asynchronously.`
 
 两个办法解决：
 
@@ -93,4 +91,4 @@ test('可用吗？', () => {
 }
 ```
 
-> 采用这个方式，需要保证所有用到的依赖采用 ESM 模块。
+> 此方式，需要保证所有用到的依赖都是支持 ESM 规范。
