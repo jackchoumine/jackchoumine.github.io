@@ -1,8 +1,8 @@
-#  jest + ts + react + sass 测试环境搭建
+# jest + ts + react + sass 测试环境搭建
 
 ## 配置环境
 
-```BASH
+```bash
 npm init -y
 ```
 
@@ -18,14 +18,14 @@ registry=https://registry.npmmirror.com/
 
 > 指定项目的 `npmrc` 只是个人习惯，不是必须的。
 
-```BASH
+```bash
 npm i -D jest@27.5.1
 npx jest --init # 初始化 jest 配置
 ```
 
 我的 jest 选项：
 
-```BASH
+```bash
 ✔ Would you like to use Typescript for the configuration file? … no
 ✔ Choose the test environment that will be used for testing › jsdom (browser-like)
 ✔ Do you want Jest to add coverage reports? … yes
@@ -50,7 +50,7 @@ module.exports = sum
 
 测试用例：
 
-```JS
+```js
 // src/utils/sum.test.js
 const sum = require('../../src/utils/sum')
 
@@ -63,7 +63,7 @@ describe('sum', () => {
 
 执行测试：
 
-```BASH
+```bash
 npm run test
 ```
 
@@ -83,7 +83,7 @@ npm run test
 
 ## 配置 ts
 
-```BASH
+```bash
 npm i -D typescript@">=3.8 <5.0" ts-jest@27.1.5 @types/jest@27.5.2
 ```
 
@@ -132,7 +132,7 @@ describe('sum', () => {
 
 ## 搭建 react 测试环境
 
-```BASH
+```bash
 npm i -D webpack webpack-cli webpack-dev-server html-webpack-plugin ts-loader
 
 # React 以及业务
@@ -148,7 +148,7 @@ npm i -D sass sass-loader style-loader css-loader # 使用 sass
 ```json
 {
   "scripts": {
-    "start": "webpack serve",
+    "start": "webpack serve"
   }
 }
 ```
@@ -175,17 +175,21 @@ module.exports = {
       // 解析 CSS
       {
         test: /\.css$/i,
-        use: [{
-          loader: 'style-loader'
-        }, {
-          loader: 'css-loader'
-        }],
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+          },
+        ],
       },
       // 解析 scss
       {
         test: /\.scss$/i,
-        use: [{
-            loader: 'style-loader'
+        use: [
+          {
+            loader: 'style-loader',
           },
           {
             loader: 'css-loader',
@@ -205,7 +209,7 @@ module.exports = {
             // },
           },
           {
-            loader: 'sass-loader'
+            loader: 'sass-loader',
           },
         ],
       },
@@ -249,10 +253,11 @@ module.exports = {
 添加 `src/main.tsx` :
 
 ```tsx
+import 'assets/main.scss'
 import React from 'react'
 import ReactDOM from 'react-dom'
+
 import App from './App'
-import 'assets/main.scss'
 
 ReactDOM.render(<App />, document.querySelector('#root'))
 ```
@@ -260,9 +265,9 @@ ReactDOM.render(<App />, document.querySelector('#root'))
 添加 `src/App.tsx` :
 
 ```tsx
-import React from 'react'
 import { Button } from 'antd'
 import classnames from 'classnames'
+import React from 'react'
 import { sum } from 'utils'
 
 const App = () => {
@@ -297,16 +302,14 @@ body {
 ```html
 <!DOCTYPE html>
 <html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>React App</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <title>React App</title>
-</head>
-
-<body>
-  <div id="root"></div>
-</body>
-
+  <body>
+    <div id="root"></div>
+  </body>
 </html>
 ```
 
@@ -323,7 +326,7 @@ body {
     "apis/*": ["apis/*"],
     "hooks/*": ["hooks/*"],
     "store/*": ["store/*"]
-  },
+  }
 }
 ```
 
@@ -338,11 +341,10 @@ body {
 import React from 'react'
 
 function HelloJest({ name = 'Hello Jest' }: { name?: string } = {}) {
-  return <div className='hello-jest'>{name}!</div>
+  return <div className="hello-jest">{name}!</div>
 }
 
 export { HelloJest }
-
 ```
 
 测试用例：
@@ -351,6 +353,7 @@ export { HelloJest }
 // src/components/HelloJest.test.tsx
 import { render, screen } from '@testing-library/react'
 import React from 'react'
+
 import { HelloJest } from './HelloJest'
 
 describe('HelloJest.tsx', () => {
@@ -410,8 +413,9 @@ npm i -D jest-transform-stub
 
 ```tsx
 // MyInput.test.tsx
-import { render, screen, fireEvent } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
+
 import { MyInput } from './MyInput'
 
 describe('MyInput.tsx', () => {
@@ -445,7 +449,7 @@ function MyInput() {
     <div>
       <input
         value={name}
-        placeholder='请输入名字'
+        placeholder="请输入名字"
         onChange={e => setName(e.target.value)}
       />
       <p>
@@ -507,4 +511,4 @@ export { MyInput }
 
 ## 小结
 
-* 搭建 jest + ts + react + sass 测试环境；
+- 搭建 jest + ts + react + sass 测试环境；
