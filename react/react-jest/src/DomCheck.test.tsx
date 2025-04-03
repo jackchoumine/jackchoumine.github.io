@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-04-02 21:52:34
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-04-02 23:22:18
+ * @LastEditTime: 2025-04-03 09:11:19
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -30,5 +30,15 @@ describe('检测DOM', () => {
     //expect(hiddenEle).not.toBeInTheDocument()
     expect(hiddenEle).toBeInTheDocument()
     expect(hiddenEle).not.toBeVisible()
+  })
+  it('textContent检查', () => {
+    render(<DomCheck />)
+    const hiddenEle = screen.queryByText('1234', {
+      selector: 'div.hidden',
+    })
+
+    expect(hiddenEle).toBeInTheDocument()
+    expect(hiddenEle).not.toBeVisible()
+    expect(hiddenEle).toHaveTextContent(/1/i)
   })
 })

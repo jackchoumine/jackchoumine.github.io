@@ -101,7 +101,7 @@ toBeEmptyDOMElement、toBeVisible和toBeInTheDocument 含义接近：
 
 | 匹配器              | 含义                               | 使用场景                               |
 | ------------------- | ---------------------------------- | -------------------------------------- |
-| toBeInTheDocument   | 存在文档中                         | 添加渲染                               |
+| toBeInTheDocument   | 存在文档中                         | 条件渲染                               |
 | toBeEmptyDOMElement | 标签之间是否有可见内，空格也算内容 | 子元素                                 |
 | toBeVisible         | 是否可见                           | display 为 none , visibility 为 hidden |
 
