@@ -149,6 +149,16 @@ toBeEmptyDOMElement、toBeVisible和toBeInTheDocument 含义接近：
 | toHaveValue      | 单个表单先的值                         |
 | toHaveFormValues | 整体表单的值是否和预期值匹配           |
 
+## 元素属性验证
+
+除了从用户交互角度对页面进行验证，有时还需要验证元素的属性，比如验证某个类名、属性或者样式。
+
+| 匹配器          | 用途         | 注意点   |
+| --------------- | ------------ | -------- |
+| toHaveClass     | 验证类名     |          |
+| toHaveAttribute | 验证属性     |          |
+| toHaveStyle     | 验证内联样式 | 精准匹配 |
+
 ## 模拟用户操作
 
 ```js

@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-04-02 21:52:34
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-04-03 10:22:55
+ * @LastEditTime: 2025-04-03 10:40:17
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -68,5 +68,32 @@ describe('表单测试', () => {
     const ageInput = screen.getByLabelText('age')
 
     expect(ageInput).toHaveFocus()
+  })
+})
+
+describe('验证元素属性', () => {
+  it('类名', () => {
+    const { container } = render(<FormCheck />)
+
+    const form = container.querySelector('form')
+
+    expect(form).toHaveClass('test-form')
+  })
+  it('属性', () => {
+    render(<FormCheck />)
+
+    const ageInput = screen.getByLabelText('age')
+
+    expect(ageInput).toHaveAttribute('required')
+    expect(ageInput).toHaveAttribute('id')
+  })
+  it('内联样式', () => {
+    render(<FormCheck />)
+
+    const span = screen.getByText('none')
+
+    //screen.debug(span)
+    expect(span).toHaveStyle('display:none')
+    expect(span).not.toHaveStyle('display:none;color:red')
   })
 })
