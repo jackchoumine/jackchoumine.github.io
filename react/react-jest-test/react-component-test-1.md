@@ -350,6 +350,162 @@ describe('定时器', () => {
 })
 ```
 
+## 模拟外部模块
+
+依赖外部模块在实际开发中也非常常见，比如组件依赖http接口、依赖 axios 第三方模块，这些外部依赖不是单元测试关注点，被测试代码本身才是关注点。
+
+此时就需要把这些外部依赖在测试用例中 mock 掉 -- 使用假的依赖代替，外部依赖的内部实现不需要关系，模拟外部依赖的对外接口即可。
+
+### 全局 mock
+
+```js
+// 传入模块导入路径和可选的模块工厂函数
+jest.mock(modulePath, moduleFactory)
+```
+
+moduleFactory 要求和模块的api 保持一致或者兼容，mock 的外部依赖会被提升到真正的依赖之前。
+
+开发中常常使用 axios 发起网络请求，以 axios 为例子，看看如何做全局 mock。
+
+```bash
+npm i axios # 安装依赖
+```
+
+```js
+import axios from 'axios'
+
+jest.mock('axios')
+
+describe('模拟外部依赖', () => {
+  it('axios.get函数', async () => {
+    const result = 'hello mock'
+    axios.get.mockResolvedValue(result)
+    // 发起请求
+    const data = await axios.get('/')
+    expect(data).toBe(result)
+  })
+})
+```
+
+mockResolvedValue 提示类型错误，使用`jest-mock`解决：
+
+```bash
+npm i jest-mock -D
+```
+
+修改测试用例：
+
+```js
+import axios from 'axios'
+import { mocked } from 'jest-mock'
+
+jest.mock('axios')
+
+describe('模拟外部依赖', () => {
+  it('axios.get函数', async () => {
+    const result = 'hello mock'
+    //axios.get.mockResolvedValue(result)
+    mocked(axios.get).mockResolvedValue(result)
+    const data = await axios.get('/')
+    expect(data).toBe(result)
+  })
+})
+```
+
+把 axios 用假的模块代替，背离了用户真实的使用情况，太假了。
+
+确实很假。
+
+> mock 越多，意味着我们越关注测代码的实现细节，就难以反映用户使用软件的真实场景。应该尽量少模拟。
+
+实际上，上面测试用例仅仅是模拟了 axios 中的get函数，没有真的发起请求，也不能返回 http herder 的情况。
+
+对于发起网络请求这类外部依赖，后续我们使用 mws 代替，真实地测试 http 请求。
+
+### 单次 mock
+
+除全局的 mock 外，还可以单次 mock，jest 提供了 doMock 做单次 mock。
+
+```js
+jest.doMock(modulePath, moduleFactory)
+```
+
+```js
+it('单次mock', () => {
+  jest.doMock('./helloMock', () => ({
+    __esModule: true,
+    sayHello: () => {
+      return 'sayHello'
+    },
+  }))
+  const mock = require('./helloMock')
+  expect(mock.sayHello()).toBe('sayHello')
+})
+```
+
+### mock 函数
+
+除了需要模拟外部依赖，还需要模拟函数。
+
+jest 提供了 jest.fn 和 jest.spyOn 来实现这一需求：
+
+```js
+jest.fn(fnImplementation) // 传入可选的函数实现
+jest.spyOn(mockObject, methodName)
+```
+
+上面的 axios.get ，改用 jest.spyOn 实现：
+
+```js
+it('模拟 axios 对象上 get ', async () => {
+  const result = 'hello mock'
+  jest.spyOn(axios, 'get').mockResolvedValue(result)
+  const data = await axios.get('/')
+  expect(data).toBe(result)
+})
+```
+
+模拟函数：
+
+有一 http 函数，会调用回调函数：
+
+```js
+function http(callback) {
+  setTimeout(() => {
+    const res = '123'
+    callback(res)
+  }, 500)
+}
+```
+
+如何测试这个回调调用时的情况呢？ 比如是否调用、调用次数和返回值呢？
+
+```js
+it('模拟函数', () => {
+  const returnValue = 'hello jest.fn'
+  const fn = jest.fn(() => returnValue)
+  jest.useFakeTimers()
+
+  http(fn)
+  jest.advanceTimersByTime(500)
+
+  expect(fn).toHaveBeenCalled()
+  expect(fn).toHaveBeenCalledTimes(1)
+  expect(fn).toHaveBeenCalledWith('123')
+  expect(fn).toHaveReturnedWith(returnValue)
+})
+```
+
+常用的验证函数调用情况的匹配器：
+
+| 匹配器                | 作用         |
+| --------------------- | ------------ |
+| toHaveBeenCalled      | 检查是否调用 |
+| toHaveBeenCalledTimes | 检查调用次数 |
+| toHaveBeenCalledWith  | 检查调用参数 |
+| toHaveReturnedWith    | 检查返回值   |
+| fn.calls              | 所有调用记录 |
+
 ## 模拟用户操作
 
 ```js
