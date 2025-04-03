@@ -506,6 +506,79 @@ it('模拟函数', () => {
 | toHaveReturnedWith    | 检查返回值   |
 | fn.calls              | 所有调用记录 |
 
+## 测试 hook
+
+有一 userCounter 如下：
+
+```js
+function useCounter(init = 0) {
+  const [count, setCount] = useState(init)
+
+  function plus(step: number) {
+    setCount(count + step)
+  }
+
+  return [count, plus]
+}
+```
+
+如何测试它呢？
+
+### 通过组件测试
+
+hook 用在组件顶部，自然想到写一个组件来测试：
+
+```jsx
+function CounterDemo() {
+  const [count, plus] = useCounter()
+  return (
+    <div>
+      <p>{count}</p>
+      <button onClick={() => plus(10)}>plus</button>
+    </div>
+  )
+}
+```
+
+测试用例`CounterDemo.test.tsx`：
+
+```jsx
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import type { ReactElement } from 'react'
+
+import CounterDemo from './CounterDemo'
+
+describe('测试hook', () => {
+  it('通过组件测试', async () => {
+    const { user } = setup(<CounterDemo />)
+    // 初始状态
+    const count = screen.getByText('0')
+    expect(count).toBeInTheDocument()
+    // 用户点击
+    const btn = screen.getByText('plus')
+    await user.click(btn)
+    const oldCount = screen.queryByText('0')
+
+    expect(count).toHaveTextContent('10')
+    // 原来的 0 不在文档中
+    expect(oldCount).not.toBeInTheDocument()
+
+    // 再次点击
+    await user.click(btn)
+    expect(count).toHaveTextContent('20')
+  })
+})
+
+function setup(com: ReactElement) {
+  const result = render(com)
+  return {
+    user: userEvent.setup(),
+    ...result,
+  }
+}
+```
+
 ## 模拟用户操作
 
 ```js
