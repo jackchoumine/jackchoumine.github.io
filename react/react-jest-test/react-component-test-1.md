@@ -23,14 +23,14 @@ testing-library 倡导以用户实际使用软件的方式来测试组件，所�
 
 根据行为可分四种
 
-| type         | no match | 1 match | 1+ match | await |
-| ------------ | -------- | ------- | -------- | ----- |
-| getBy\*      | throw    | return  | throw    | No    |
-| getAllBy\*   | throw    | array   | array    | No    |
-| queryBy\*    | null     | return  | throw    | NO    |
-| queryAllBy\* | []       | array   | array    | NO    |
-| findBy\*     | throw    | return  | throw    | Yes   |
-| findAllBy\*  | throw    | array   | array    | Yes   |
+| type         | no match | 1 match | 1+ match | await | 使用场景               |
+| ------------ | -------- | ------- | -------- | ----- | ---------------------- |
+| queryBy\*    | null     | return  | throw    | NO    | 元素可不存在           |
+| queryAllBy\* | []       | array   | array    | NO    | 元素可不存在           |
+| getBy\*      | throw    | return  | throw    | No    | 元素一定存在           |
+| getAllBy\*   | throw    | array   | array    | No    | 元素一定存在           |
+| findBy\*     | throw    | return  | throw    | Yes   | 元素一定存在，异步更新 |
+| findAllBy\*  | throw    | array   | array    | Yes   | 元素一定存在，异步更新 |
 
 > 异步使用 findBy，同步使用 getBy 和 query。
 > 元素必须存在，用例才通过，使用 getBy, 不存在也通过，使用 queryBy
@@ -86,6 +86,38 @@ import { screen, within } from '@testing-library/react'
 const messages = screen.getById('messages')
 const hello = within(messages).getByText('hello')
 ```
+
+> 其他查询方法？
+
+通过父元素
+
+```jsx
+const { container } = render(
+  <form>
+    <input type="text" />
+  </form>
+)
+const input = container.querySelector('input') // 直接查找 DOM
+expect(input).toBeInTheDocument()
+```
+
+container vs screen
+
+| 特性   | container            | screen   |
+| ------ | -------------------- | -------- |
+| 来源   | render 返回          | 直接导入 |
+| 用途   | 通过父元素查询子元素 | 任何查询 |
+| 推荐度 | 谨慎使用 ❌️         | 首选 ✅  |
+
+什么时候可以用 container？
+
+- 需要直接操作 DOM（如测试 document.title 变化）。
+
+- 某些特殊元素（如 svg、canvas）无法用常规查询方法获取时。
+
+- 调试时快速检查渲染的 HTML 结构。
+
+React Testing Library 的设计哲学是 模拟用户交互，而不是依赖实现细节（如 DOM 结构），而 container 依赖于实现细节，会导致测试代码不稳定。
 
 ## 页面元素的断言
 
