@@ -159,6 +159,123 @@ toBeEmptyDOMElement、toBeVisible和toBeInTheDocument 含义接近：
 | toHaveAttribute | 验证属性     |          |
 | toHaveStyle     | 验证内联样式 | 精准匹配 |
 
+## 测试异步函数
+
+组件中异步函数很常见，比如调用 http 接口后，再更新页面。
+
+有一组件如下：
+
+```jsx
+import { useEffect, useMemo, useState } from 'react'
+
+export default function AsyncUpdate() {
+  const [todo, setTodo] = useState('nothing')
+  const loading = useMemo(() => {
+    return todo === 'nothing'
+  }, [todo])
+
+  useEffect(() => {
+    setTimeout(() => {
+      setTodo('code')
+    }, 200)
+  }, [])
+
+  return (
+    <div>
+      <span>{todo}</span>
+      {loading && <span>loading</span>}
+    </div>
+  )
+}
+```
+
+200 毫秒接口返回，页面更新。
+
+测试方法：先判断 loading 和 nothing 一定存在，等待 200 毫秒，loading 消失，code 存在。
+
+```js
+it('异步查询 DOM', async () => {
+  render(<AsyncUpdate />)
+
+  const nothing = screen.getByText('nothing')
+  const loading = screen.getByText('loading')
+
+  expect(loading).toBeInTheDocument()
+  expect(nothing).toBeInTheDocument()
+
+  const code = await screen.findByText('code')
+  const loading2 = screen.queryByText('loading')
+
+  expect(code).toBeInTheDocument()
+  expect(loading2).not.toBeInTheDocument()
+})
+```
+
+没有使用类似 setTimeout 等待 200 毫秒，因为 findByText 默认等待 1000 毫秒了。
+
+### waitFor
+
+等待异步操作在测试中非常常见，因为测试库提供了专门的函数`waitFor`：
+
+```js
+waitFor(callback, options)
+// options 的常用属性：
+// {timeout:1000, interval: 50, onTimeout:e => e}
+```
+
+findBy 函数就是基于 waitFor + getBy 实现的。
+
+使用 waitFor 实现上面的测试用例：
+
+```js
+it('waitFor', async () => {
+  render(<AsyncUpdate />)
+
+  const nothing = screen.getByText('nothing')
+  const loading = screen.getByText('loading')
+  expect(loading).toBeInTheDocument()
+  expect(nothing).toBeInTheDocument()
+
+  await waitFor(
+    () => {
+      const code = screen.getByText('code')
+      const loading2 = screen.queryByText('loading')
+
+      expect(code).toBeInTheDocument()
+      expect(loading2).not.toBeInTheDocument()
+    },
+    {
+      timeout: 500,
+      interval: 100,
+      // onTimeout
+    }
+  )
+})
+```
+
+### 移除DOM
+
+waitForElementToBeRemoved 是 React Testing Library 提供的一个异步工具，用于等待某个元素从 DOM 中被移除或消失。它通常用于测试动态行为（如加载状态隐藏、模态框关闭、数据更新后元素卸载等场景）。
+
+```js
+waitForElementToBeRemoved(ele || callback, options)
+// options 和 waitFor 的 options 一致
+```
+
+如果元素始终存在，会抛出超时错误：
+
+```bash
+Error: Timed out in waitForElementToBeRemoved.
+```
+
+> 涉及异步 dom 更新的最佳实践
+
+- 优先使用 getBy 获取初始元素（确保它存在）。
+
+- 避免无限等待：合理设置 timeout（默认 1 秒）。
+
+- 配合 queryBy 检查消失后的状态。
+
 ## 模拟用户操作
 
 ```js
