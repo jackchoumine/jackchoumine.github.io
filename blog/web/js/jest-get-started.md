@@ -12,7 +12,7 @@ jest 提供了丰富的匹配器，用来判断值是否符合预期。
 
 > toBe 引用比较 或者 `===`
 
-> toEqual 值比较，值相同，就相等
+> toEqual 值比较，值相同，就相等，会递归地比较。
 
 > toBeNull 检查 `null`
 
@@ -387,7 +387,7 @@ console.log(myMock2.mock.contexts) //  [ { name: 'b' } ]
 
 2. `mock.calls[0][0]` 第一次被调用的第一个参数
 
-3.  `mock.results[0].value` 第一次被调用的返回值
+3. `mock.results[0].value` 第一次被调用的返回值
 
 4. `mock.lastCall[0]` 最后一次调用的第一个参数
 
@@ -441,16 +441,19 @@ export default Users
 
 ```js
 import axios from 'axios'
+
 import Users from './users'
 
 jest.mock('axios')
 
 test('should fetch users', () => {
-  const users = [{
-    name: 'Bob'
-  }]
+  const users = [
+    {
+      name: 'Bob',
+    },
+  ]
   const resp = {
-    data: users
+    data: users,
   }
 
   axios.get.mockResolvedValue(resp) // NOTE 模拟 promise resolve
@@ -504,14 +507,14 @@ function set<V = unknown>(key: string, value: V, type: StorageType = 'session') 
 function get(key: string, type: StorageType = 'session') {
   if (type === 'local') {
     try {
-      let value = JSON.parse(localStorage.getItem(key) !)
+      let value = JSON.parse(localStorage.getItem(key)!)
       return value
     } catch (error) {
       return localStorage.getItem(key)
     }
   } else if (type === 'session') {
     try {
-      let value = JSON.parse(sessionStorage.getItem(key) !)
+      let value = JSON.parse(sessionStorage.getItem(key)!)
       return value
     } catch (error) {
       return sessionStorage.getItem(key)
@@ -548,9 +551,7 @@ const storage = {
   remove,
 }
 
-export {
-  storage
-}
+export { storage }
 ```
 
 测试代码：
@@ -770,8 +771,8 @@ it 的第一个参数是测试用例的名字，在同一个测试套件里要�
 
 ## 小结
 
-* 学习了常用的匹配器
-* 学习了测试异步代码的方法
-* 学习如何模拟依赖
-* 使用钩子函数组织测试用例
-* 封装了 storage 工具类，学习了如何测试 js 函数
+- 学习了常用的匹配器
+- 学习了测试异步代码的方法
+- 学习如何模拟依赖
+- 使用钩子函数组织测试用例
+- 封装了 storage 工具类，学习了如何测试 js 函数
