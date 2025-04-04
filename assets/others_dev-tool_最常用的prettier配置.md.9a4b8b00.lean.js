@@ -1,1 +1,0 @@
-import{_ as s,o as a,c as n,a as l}from"./app.25772d94.js";const A=JSON.parse('{"title":"最常用的配置项","description":"","frontmatter":{},"headers":[],"relativePath":"others/dev-tool/最常用的prettier配置.md"}'),p={name:"others/dev-tool/最常用的prettier配置.md"},e=l("",2),o=[e];function t(r,c,i,y,D,F){return a(),n("div",null,o)}const d=s(p,[["render",t]]);export{A as __pageData,d as default};
