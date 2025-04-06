@@ -136,9 +136,67 @@ describe('对象匹配器', () => {
 
 toEqual 会忽略值为 undefined 的属性，而 toStrictEqual 不会。
 
-### 数组匹配器
+### 数组、set 匹配器
+
+| 匹配器                    | 用途                                              | 示例                                                  |
+| ------------------------- | ------------------------------------------------- | ----------------------------------------------------- |
+| `toEqual()`               | 深度比较数组的值是否相等                          | `expect(arr).toEqual([1, 2, 3])`                      |
+| `toStrictEqual()`         | 深度比较数组的值和结构(包括`undefined`或稀疏数组) | `expect(arr).toStrictEqual([1, 2])`                   |
+| `toContain(item)`         | 检查数组是否包含某个值(适用于基本类型)            | `expect(arr).toContain(2)`                            |
+| `toContainEqual(item)`    | 检查数组是否包含某个对象/数组(深度匹配)           | `expect(arr).toContainEqual({ a: 1 })`                |
+| `toHaveLength(n)`         | 检查数组长度                                      | `expect(arr).toHaveLength(3)`                         |
+| `arrayContaining(array)`  | 检查数组是否包含子集                              | `expect(arr).toEqual(expect.arrayContaining([1, 2]))` |
+| `expect.any(constructor)` | 匹配数组元素是否为指定类型                        | `expect(arr[0]).toEqual(expect.any(Number))`          |
+
+```ts
+import { describe, expect, it } from 'vitest'
+
+const shallowArr = [1, 2, 3]
+const deepArr = [
+  { name: 'vite', age: 5 },
+  { name: 'vue', age: 15, info: { rate: 5, user: 100 } },
+]
+
+describe('数组匹配器', () => {
+  it('宽松深度比较', () => {
+    // 元素为 undefined 视为有
+    expect(shallowArr).toEqual([1, 2, 3])
+    expect(shallowArr).not.toEqual([1, 2, 3, undefined])
+    const result = [
+      { name: 'vite', age: 5 },
+      { name: 'vue', age: 15, info: { rate: 5, user: 100 } },
+    ]
+    expect(deepArr).toEqual(result)
+  })
+  it.skip('严格深度比较', () => {
+    const result = [
+      { name: 'vite', age: 5 },
+      { name: 'vue', age: 15, info: { rate: 5, user: 100 } },
+    ]
+    expect(deepArr).toStrictEqual(result)
+  })
+  it('是否包含给定对象', () => {
+    // 值比较
+    expect(deepArr).toContainEqual({ name: 'vite', age: 5 })
+    // 引用比较
+    expect(deepArr).not.toContain({ name: 'vite', age: 5 })
+    expect(deepArr).toContain(deepArr[0])
+  })
+  it('是否包含子集', () => {
+    expect(deepArr).toEqual(expect.arrayContaining([{ name: 'vite', age: 5 }]))
+  })
+  it('检查长度', () => {
+    expect(deepArr).toHaveLength(2)
+  })
+})
+```
 
 ### 字符串匹配器
+
+| 匹配器              | 用途                   | 示例                               |
+| ------------------- | ---------------------- | ---------------------------------- |
+| `toMatch(regex)`    | 检查字符串是否匹配正则 | `expect('hello').toMatch(/^hel/)`  |
+| `toContain(subStr)` | 检查字符串是否匹配正则 | `expect('hello').toContain('ell')` |
 
 ### 数值匹配器
 
