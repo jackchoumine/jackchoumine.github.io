@@ -1,0 +1,1 @@
+import{_ as e,o as s,c as a,a as n}from"./app.367771f0.js";const u=JSON.parse('{"title":"如可快速新建一个项目","description":"","frontmatter":{},"headers":[],"relativePath":"others/ts/如可快速新建一个项目.md"}'),t={name:"others/ts/如可快速新建一个项目.md"},o=n("",2),r=[o];function _(c,i,l,p,d,h){return s(),a("div",null,r)}const b=e(t,[["render",_]]);export{u as __pageData,b as default};
