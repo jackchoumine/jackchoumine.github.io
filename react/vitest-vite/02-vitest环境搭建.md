@@ -2,6 +2,10 @@
 
 使用 vite 搭建 vitest node 运行环境。
 
+为何使用 vite?
+
+> vitest 旨在将自己定位为 vite 项目的首选测试框架，即使对于不使用 vite 的项目也是一个可靠的替代方案。
+
 ## 创建一个 ts 项目
 
 ```bash
