@@ -1,6 +1,8 @@
 # jest 中的模拟
 
-被代码会依赖一些外部环境，比如 http 接口，npm 模块、数据库等，集成这些环境往往会使得测试用例不可控，真实环境也许是缓慢和脆弱的，比如真实环境要求定时器的间隔为 20 分钟，测试不可能等待 20 分钟，需要使用代码模拟一个稳定的环境，jest 可模拟常见的"环境"，比如**回调函数**、**定时器**、**数据库**等。
+被代码会依赖一些外部环境，比如 http 接口，npm 模块、数据库等，集成这些环境往往会使得测试用例不可控，真实环境也许是缓慢和脆弱的，比如真实环境要求定时器的间隔为 20 分钟，测试不可能等待 20 分钟，这些不稳定不可靠的依赖，需要使用代码模拟掉。
+
+jest 可模拟常见的"环境"，比如**回调函数**、**定时器**、**浏览器环境**和**对象**等。
 
 通过模拟，可以使得测试用例更加可控，更加稳定，更加快速，且能方便的知道依赖的模块的调用情况：
 
@@ -11,15 +13,15 @@
 5. 调用时的 this
 6. 调用顺序
 
-jest 有三种创建模拟函数的方式：
+jest 有三种创建模拟的方式：
 
-* jest.fn() -- 模拟函数
-* jest.spyOn() -- 模拟对象的方法
-* jest.mock() -- 模拟模块
+- jest.fn() -- 模拟函数
+- jest.spyOn() -- 模拟对象的方法
+- jest.mock() -- 模拟模块
 
 先看 jest.fn
 
-## jest.fn
+## jest.fn -- 模拟函数
 
 jest.fn 是最简单的模拟函数的方法。
 
@@ -95,7 +97,7 @@ it('simple jest.fn give implement - 2', () => {
 
 模拟出函数后，就可使用 `toBeCalled` 、 `toBeCalledTimes` 和 `toBeCalledWith` 匹配器断言执行情况。
 
-> 如果不关系某个参数的值，可以使用 `expect.any` 匹配器。
+> 如果不关心某个参数的值，可以使用 `expect.any` 匹配器。
 
 ```js
 describe('The mock function', () => {
@@ -127,6 +129,7 @@ export default class MontyPython {
 ```js
 // MontyPython.spec.js
 import MontyPython from './MontyPython'
+
 it('callFnWithTheMeaningOfLife', () => {
   const mockFn = jest.fn()
   const montyPython = new MontyPython()
@@ -139,7 +142,7 @@ it('callFnWithTheMeaningOfLife', () => {
 
 参数是固定的 42，能预测，但是如果参数或者返回值是随机的，就无法预测了，比如 `getTheMeaningOfLife` , 这时候就需要模替换掉 `Math.random` ，random 是对象上的一个方法，所以需要模拟对象的方法， `jest.spyOn` 出场。
 
-## jest.spyOn
+## jest.spyOn -- 模拟对象
 
 `getTheMeaningOfLife` 的测试用例：
 
@@ -159,7 +162,7 @@ it('getTheMeaningOfLife', () => {
 })
 ```
 
-> jest.spyOn 会返回一个模拟对象，可以使用 `mockImplementation` 重写函数的实现。
+> jest.spyOn 会返回一个模拟对象，可以使用 `mockImplementation` 重写方法的实现。
 
 > mockRandom.mockRestore() 会恢复原来的实现。
 
@@ -169,7 +172,7 @@ it('getTheMeaningOfLife', () => {
 mockRandom.mockReturnValue(10)
 ```
 
-## jest.mock
+## jest.mock -- 模拟模块
 
 学习了如何模拟函数和对象的方法，现在看看如何模拟模块。
 
@@ -177,7 +180,7 @@ jest 提供了 `mock` 和 `doMock` 用于模拟模块。
 
 ```js
 jest.mock('path/to/file', () => ({
-  __esModule: true // 标明是 esm
+  __esModule: true, // 标明是 esm
   // 一个返回对象的函数：工厂函数
 }))
 ```
@@ -190,9 +193,7 @@ jest.mock('path/to/file', () => ({
 // config.ts
 const CAPITALIZE = true
 
-export {
-  CAPITALIZE
-}
+export { CAPITALIZE }
 ```
 
 有一 `sayHello.ts` 模块使用了 `config`
@@ -220,11 +221,9 @@ sayHello 有两个分支，至少需要两个用例来覆盖，而这分支里�
 
 ```ts
 // sayHello.test.ts
-import {
-  sayHello
-} from './sayHello'
 // NOTE 命名导出，合并命名导出到一个对象上，方便在每次用例中重置
 import * as config from './config'
+import { sayHello } from './sayHello'
 
 jest.mock('./config', () => ({
   __esModule: true,
@@ -252,7 +251,7 @@ describe('sayHello', () => {
 })
 ```
 
-> ts 中会把引入的模块视为常量。能重置它的值，否则报错：无法为"CAPITALIZE"赋值，因为它是只读属性。
+> ts 中会把引入的模块视为常量。不能重置它的值，否则报错：无法为"CAPITALIZE"赋值，因为它是只读属性。
 
 > 使用 `const mockConfig = config as {CAPITALIZE: boolean}` 解决。
 
@@ -289,7 +288,7 @@ const shouldCapitalize = () => true
 export default shouldCapitalize
 ```
 
-要如何模拟这个命名导出呢？
+要如何模拟这个默认导出呢？
 
 default 是特殊命名导出，其实和普通命名导出一样，就是重写这个属性。
 
@@ -297,9 +296,9 @@ default 是特殊命名导出，其实和普通命名导出一样，就是重写
 
 ```ts
 // sayHello-3.test.ts
-import { sayHello } from './sayHello-3'
 // NOTE 默认导出，是一个函数
 import * as config from './config-default-fn'
+import { sayHello } from './sayHello-3'
 
 jest.mock('./config-default-fn', () => ({
   __esModule: true,
@@ -326,7 +325,7 @@ describe('sayHello', () => {
 
 在两个用例里，以指定返回值和重新函数实现的方式，替换了 `shouldCapitalize` 。
 
-> 依赖是默认的导出的变量呢？
+> 依赖是默认导出的变量呢？
 
 比如:
 
@@ -546,8 +545,9 @@ describe('math.ts', () => {
 
 ```ts
 // tests/units/mockGlobal.ts
+import { getProfile } from '../../https'
 
-import { getProfile } from '../../https'// 从 src/https/index.ts 导入
+// 从 src/https/index.ts 导入
 
 async function mockGlobal() {
   const profile = await getProfile()
@@ -580,19 +580,18 @@ function getProfile() {
   return jest.fn().mockResolvedValue(dbJson.profile)
 }
 
-export {
-  getProfile
-}
+export { getProfile }
 ```
 
 在测试用例中使用 `jest.mock('../../https')` ，jest 会自动找到 `__mocks__/index.ts` 模块，实现全局模拟。
 
 ```ts
 // tests/units/mockGlobal.test.ts
+import dbJson from '../../../db.json'
 import { getProfile } from '../../https'
 
-import dbJson from '../../../db.json'
 import { mockGlobal } from './globalMock'
+
 jest.mock('../../https')
 
 describe('mock global', () => {
@@ -732,11 +731,9 @@ module.exports = {
 function mockFn() {
   const fn = () => {}
   fn.mock = {
-
     calls: [],
     results: [],
     instances: [],
-
   }
   // 1. mockFn 返回一个函数
   // 2. 函数是一个可调用对象，可有自己得属性，所以可附上 mock 属性
@@ -770,13 +767,13 @@ const fn = (...args) => {
     const value = impl.apply(this, args)
     fn.mock.results.push({
       type: 'return',
-      value
+      value,
     })
     return value
   } catch (error) {
     fn.mock.results.push({
       type: 'throw',
-      value: error
+      value: error,
     })
     return error
   }
@@ -786,21 +783,21 @@ const fn = (...args) => {
 完整的代码：
 
 ```js
-function mockFn(impl = function() {}) {
-  const fn = function(...args) {
+function mockFn(impl = function () {}) {
+  const fn = function (...args) {
     fn.mock.calls.push(args)
     fn.mock.instances.push(this)
     try {
       const value = impl.apply(this, args)
       fn.mock.results.push({
         type: 'return',
-        value
+        value,
       })
       return value
     } catch (error) {
       fn.mock.results.push({
         type: 'throw',
-        value: error
+        value: error,
       })
       return error
     }
@@ -823,7 +820,7 @@ function mockFn(impl = function() {}) {
 测试一下看：
 
 ```js
-const f2 = mockFn(function(n, m) {
+const f2 = mockFn(function (n, m) {
   return n + m
 })
 const r1 = f2(1, 2)
