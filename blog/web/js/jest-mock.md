@@ -670,25 +670,43 @@ module.exports = {
 
 ## 模拟定时器
 
-<!-- TODO -->
+定时功能也是很常见的，如何对定时任务进行测试呢？比如一个定时任务需要一个小时执行一次，真实的去测试这个定时任务，就需要等待一个小时，单元测试要求快速得到反馈，这样显然不可取。
+
+好在 jest 提供快速推进时间的 api -- 使用假的定时器来代替真实的定时器。
+
+| api                  | 作用               |
+| -------------------- | ------------------ |
+| useFakeTimers        | 启用假的定时器     |
+| useRealTimers        | 启用真的定时器     |
+| runAllTimers         | 启用真的定时器     |
+| runOnlyPendingTimers | 只执行等待的定时器 |
+| advanceTimersByTime  | 前进 x 毫秒        |
 
 ## 模拟全局变量
 
 如何模拟 fetch？
 
-<!-- TODO -->
+浏览器中 fetch 函数在 window 对象上，而 node 环境中，有一个 global 对象，可通过模拟它的方法，实现 window 上方法的模拟。
+
+```js
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve({ ok: true, data: [] }),
+  })
+)
+```
+
+或者通过[jest-fetch-mock](https://www.npmjs.com/package/jest-fetch-mock) 模拟。
 
 ## 再谈模拟 http 接口
 
-<!-- TODO -->
+当测试代码中有 http 接口调用时，我们都是把 http 接口 mock 掉，但是这不接近用户使用软件的真实方式，想要让测试接近真实使用方式，就要真实放弃 http 请求，msw 这个库可以在浏览器和node环境下做到。
 
-参考：
-
-[javascript-testing-rest-api-mock-service-worker](https://wanago.io/2022/08/01/javascript-testing-rest-api-mock-service-worker/)
+参考：[javascript-testing-rest-api-mock-service-worker](https://wanago.io/2022/08/01/javascript-testing-rest-api-mock-service-worker/)
 
 ## 模拟 websocket
 
-[javascript-testing-mocking-websockets-mock-socket](https://wanago.io/2022/08/08/javascript-testing-mocking-websockets-mock-socket/)
+参考[javascript-testing-mocking-websockets-mock-socket](https://wanago.io/2022/08/08/javascript-testing-mocking-websockets-mock-socket/)
 
 ## jest.fn 的原理
 
