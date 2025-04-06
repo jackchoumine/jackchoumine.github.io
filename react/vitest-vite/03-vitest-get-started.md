@@ -196,7 +196,24 @@ describe('数组匹配器', () => {
 | 匹配器              | 用途                   | 示例                               |
 | ------------------- | ---------------------- | ---------------------------------- |
 | `toMatch(regex)`    | 检查字符串是否匹配正则 | `expect('hello').toMatch(/^hel/)`  |
-| `toContain(subStr)` | 检查字符串是否匹配正则 | `expect('hello').toContain('ell')` |
+| `toContain(subStr)` | 检查子串               | `expect('hello').toContain('ell')` |
+
+```ts
+import { describe, expect, it } from 'vitest'
+
+describe('字符串匹配器', () => {
+  it('正则验证', () => {
+    expect('hello vitest').toMatch(/vitest/)
+    expect('hello vitest').toMatch(/Vitest/i)
+  })
+  it('检查子串', () => {
+    expect('hello vitest').toContain('hello')
+  })
+  it('检查长度', () => {
+    expect('hello').toHaveLength(5)
+  })
+})
+```
 
 ### 数值匹配器
 
