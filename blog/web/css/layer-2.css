@@ -1,0 +1,9 @@
+input:where([type='text'], [type='email']) {
+  border-color: hwb(0 0% 0%);
+  border-style: solid;
+  border-width: 3px;
+}
+
+.form-item {
+  border-color: hwb(120 0% 40%);
+}

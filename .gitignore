@@ -112,7 +112,7 @@ dist
 
 test.*
 
-*.css
+#*.css
 *.css.map
 
 blog/.vitepress/cache

@@ -1,0 +1,49 @@
+.theme-switch-wrapper {
+  display: flex;
+  align-items: center;
+}
+.theme-switch-wrapper em {
+  margin-left: 10px;
+  font-size: 1rem;
+}
+.theme-switch-wrapper .theme-switch {
+  display: inline-block;
+  height: 34px;
+  position: relative;
+  width: 60px;
+}
+.theme-switch-wrapper .theme-switch > input {
+  display: none;
+}
+.theme-switch-wrapper .slider {
+  background-color: #ccc;
+  bottom: 0;
+  cursor: pointer;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: 0.4s;
+}
+.theme-switch-wrapper .slider:before {
+  background-color: #fff;
+  bottom: 4px;
+  content: "";
+  height: 26px;
+  left: 4px;
+  position: absolute;
+  transition: 0.4s;
+  width: 26px;
+}
+.theme-switch-wrapper input:checked + .slider {
+  background-color: #66bb6a;
+}
+.theme-switch-wrapper input:checked + .slider:before {
+  transform: translateX(26px);
+}
+.theme-switch-wrapper .slider.round {
+  border-radius: 34px;
+}
+.theme-switch-wrapper .slider.round:before {
+  border-radius: 50%;
+}/*# sourceMappingURL=ThemeSwitcher.css.map */

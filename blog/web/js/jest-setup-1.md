@@ -1,10 +1,34 @@
 # jest 测试环境搭建
 
+## 创建一个 vite 项目
+
+```bash
+npm create vite@latest # 选择 Vanilla 就行了
+```
+
+选择 Vanilla 就行了，这里不涉及 ts。
+
+创建成功后，然后安装依赖，执行`npm run dev` 检查环境是否配置好了。
+
+为了拿到代码后能成功运行，把依赖的版本锁定。
+
+根目录下，创建 `.npmrc`:
+
+```bash
+# save-exact 的优先级更加高
+ save-exact=true
+# 相似版本
+#save-prefix=~
+# 从淘宝镜像下载
+registry=https://registry.npmmirror.com
+```
+
 ## node 环境
 
 安装依赖：
 
 ```bash
+npm create vite@latest # 选择 Vanilla 就行了 这里不涉及 ts
 npm i -D jest # 此时版本是 ~28.1.0
 ```
 
