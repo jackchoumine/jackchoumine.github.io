@@ -661,18 +661,12 @@ describe('mock axios', () => {
 使用下面的配置，可在每个测试用例执行前清除模拟，不用手动清除。
 
 ```js
+// jest.config.js
 module.exports = {
   // 在某个测试用例执行之前清除模拟
   clearMocks: true,
 }
 ```
-
-### jest.mock 使用小结
-
-1. `jest.mock('path/to/file')` --- 模拟全局依赖
-2. `jest.mock('path/to/file', factory)` --- 在测试文件中模拟模块
-3. `jest.doMock('path/to/file', () => {})` --- 在某个用例里模拟模块，需要手动清除模拟
-4. 模拟的模块在测试文件中不能省略导入语句
 
 ## 模拟定时器
 
@@ -845,3 +839,10 @@ console.log(f2.mock, 'zqj log')
 [Frontend Unit Testing | Best Practices & Tutorial](https://www.meticulous.ai/blog/frontend-unit-testing-best-practices)
 
 [mocking-default-imports-in-jest-with-typescript](https://ilikekillnerds.com/2019/10/mocking-default-imports-in-jest-with-typescript/)
+
+## 小结
+
+1. `jest.mock('path/to/file')` --- 模拟全局依赖
+2. `jest.mock('path/to/file', factory)` --- 在测试文件中模拟模块
+3. `jest.doMock('path/to/file', () => {})` --- 在某个用例里模拟模块，需要手动清除模拟
+4. 模拟的模块在测试文件中不能省略导入语句
