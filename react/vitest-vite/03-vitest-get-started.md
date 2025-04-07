@@ -399,6 +399,87 @@ describe('模糊匹配器检查 api 返回', () => {
 
 ### 函数匹配器
 
+函数相关的匹配器，有三种：
+
+- 检查函数是否定义：`toBeInstanceOf(Function)`
+- 检查函数是否抛出异常：`toThrow`
+- 调用情况：是否被调用，调用次数，实参，返回值，this 指向
+
+#### 函数是否定义和抛错
+
+```ts
+import { describe, expect, it, vi } from 'vitest'
+
+describe('函数匹配器', () => {
+  it('函数是否定义', () => {
+    const fn = () => {}
+    // 函数是否定义
+    expect(fn).toBeInstanceOf(Function)
+    expect(1).not.toBeInstanceOf(Function)
+    expect(fn).toBeDefined()
+    expect(fn).toEqual(expect.any(Function))
+    // 无法检查函数的形参
+  })
+  it('是否抛出错误', () => {
+    function throwError() {
+      throw new Error('Fail!')
+    }
+
+    // 检查是否抛出错误
+    expect(() => throwError()).toThrow() // ✅
+
+    // 检查错误消息是否匹配
+    expect(() => throwError()).toThrow('Fail!') // ✅
+    expect(() => throwError()).toThrow(/Fail/) // ✅ 正则匹配
+  })
+})
+```
+
+### 函数调用情况
+
+| 匹配器                          | 用途                   | 示例                                    |
+| ------------------------------- | ---------------------- | --------------------------------------- |
+| `toHaveBeenCalled()`            | 检查函数是否被调用     | `expect(fn).toHaveBeenCalled()`         |
+| `toHaveBeenCalledTimes(n)`      | 检查函数被调用次数     | `expect(fn).toHaveBeenCalledTimes(2)`   |
+| `toHaveBeenCalledWith(...args)` | 检查函数被调用时的参数 | `expect(fn).toHaveBeenCalledWith(1, 2)` |
+| `toHaveReturned()`              | 检查函数是否返回值     | `expect(fn).toHaveReturned()`           |
+| `toHaveReturnedTimes(n)`        | 检查函数返回次数       | `expect(fn).toHaveReturnedTimes(2)`     |
+| `toHaveReturnedWith(value)`     | 检查函数返回值         | `expect(fn).toHaveReturnedWith(1)`      |
+
+```ts
+describe('函数执行情况', () => {
+  it('检查是否被调用', () => {
+    const mockCallback = vi.fn()
+    const arr = [1, 2, 3]
+
+    arr.forEach(mockCallback)
+
+    expect(mockCallback).toHaveBeenCalled()
+    expect(mockCallback).toHaveBeenCalledTimes(arr.length)
+    // 调用时传入的参数
+    //console.log(mockCallback.mock.calls) // [[1], [2], [3]]
+    mockCallback.mock.calls.forEach((call, index) => {
+      expect(call[0]).toBe(arr[index])
+      expect(call[1]).toBe(index)
+    })
+  })
+
+  it('检查调用状态', () => {
+    const mockFn = vi.fn()
+    mockFn.mockReturnValue('hello')
+    mockFn('hello', 42)
+    mockFn(true)
+    // 调用时的参数
+    expect(mockFn).toHaveBeenCalledWith('hello', 42)
+    expect(mockFn).toHaveBeenCalledWith(true)
+    // 返回值
+    expect(mockFn).toHaveReturned()
+    expect(mockFn).toReturnWith('hello')
+    expect(mockFn).toHaveReturnedTimes(2)
+  })
+})
+```
+
 ## 钩子函数
 
 ## 小结
