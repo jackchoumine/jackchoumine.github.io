@@ -588,6 +588,84 @@ it('不推荐的测试方式2', () => {
 
 不举例了。
 
-## 钩子函数
+## 测试生命周期函数
+
+测试生命周期函数是指在测试运行的不同阶段自动调用的函数。它们可以用于设置和清理测试环境，或者在测试运行前后执行一些操作，**确保测试环境的一致性和隔离性**。
+
+vitest 提供了以下生命周期函数：
+
+| 生命周期函数 | 执行时机                   | 常见用途                                 |
+| ------------ | -------------------------- | ---------------------------------------- |
+| beforeAll    | 在所有测试用例之前执行一次 | 配置全局资源，比如数据库连接，启动服务器 |
+| beforeEach   | 在每个测试用例之前执行     | 设置模拟函数，比如使用假定时器           |
+| afterEach    | 在每个测试用例之后执行     | 恢复模拟函数，比如使用真定时器           |
+| afterAll     | 在所有测试用例之后执行一次 | 释放全局资源                             |
+
+```ts
+import { afterAll, afterEach, beforeAll, beforeEach, describe, it } from 'vitest'
+
+beforeAll(() => {
+  console.log('beforeAll')
+})
+
+afterAll(() => {
+  console.log('afterAll')
+})
+
+beforeEach(() => {
+  console.log('beforeEach')
+})
+afterEach(() => {
+  console.log('afterEach')
+})
+
+describe('函数调用顺序', () => {
+  it('测试1', () => {
+    console.log('测试1')
+  })
+  it('测试2', () => {
+    console.log('测试2')
+  })
+})
+// 调用顺序：
+// beforeAll -> beforeEach -> 测试1 -> afterEach -> beforeEach -> 测试2 -> afterEach -> afterAll
+```
+
+举例：有一delay 函数，模拟异步请求，使用 fake timers 来测试。
+
+```ts
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+
+function delay(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms, ms))
+}
+
+beforeEach(() => {
+  vi.useFakeTimers()
+})
+afterEach(() => {
+  vi.useRealTimers()
+})
+
+describe('使用生命周期函数', () => {
+  it('测试1', async () => {
+    const p = delay(1000).then(() => '0')
+    vi.advanceTimersByTime(1100)
+
+    await expect(p).resolves.toBe('0')
+  })
+
+  it('测试2', async () => {
+    const p = delay(2000)
+    vi.advanceTimersByTime(2000)
+
+    await expect(p).resolves.toEqual(expect.anything())
+  })
+})
+```
+
+在每个测试用例之前，使用 `beforeEach` 来设置假定时器，测试完成后，使用 `afterEach` 来恢复真定时器。
+
+关于定时器的模拟，后续会单独讲解。
 
 ## 小结
