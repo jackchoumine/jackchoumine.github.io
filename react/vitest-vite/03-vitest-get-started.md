@@ -242,13 +242,17 @@ describe('字符串匹配器', () => {
 
 ### 通用匹配器
 
-| 匹配器            | 用途             | 示例                                |
-| ----------------- | ---------------- | ----------------------------------- |
-| `toBe()`          | 检查引用是否相同 | `expect(obj).toBe(obj)`             |
-| `toBeNull()`      | 是否为 null      | `expect(null).toBeNull()`           |
-| `toBeUndefined()` | 是否为 undefined | `expect(undefined).toBeUndefined()` |
-| `toBeDefined()`   | 是否已定义       | `expect(1).toBeDefined()`           |
-| `toBeNaN()`       | 是否为 NaN       | `expect(NaN).toBeNaN()`             |
+| 匹配器             | 用途             | 示例                                                    |
+| ------------------ | ---------------- | ------------------------------------------------------- |
+| `toBe()`           | 检查引用是否相同 | `expect(obj).toBe(obj)`                                 |
+| `toBeNull()`       | 是否为 null      | `expect(null).toBeNull()`                               |
+| `toBeUndefined()`  | 是否为 undefined | `expect(undefined).toBeUndefined()`                     |
+| `toBeDefined()`    | 是否已定义       | `expect(1).toBeDefined()`                               |
+| `toBeNaN()`        | 是否为 NaN       | `expect(NaN).toBeNaN()`                                 |
+| `toBeInstanceOf()` | 是否为实例       | `expect(fn).toBeInstanceOf(Function)`                   |
+| `toBeOneOf()`      | 数组中一个元素   | `expect(ele).toBeOneOf([expect.any(String),undefined])` |
+| `toBeTypeOf()`     | 检查类型         | `expect(obj).toBeTypeOf('object')`                      |
+| `toSatisfy(fn)`    | 传入函数         | `expect(1).toSatisfy(n=> n % 2 !==0)`                   |
 
 ### 模糊匹配器
 
@@ -437,14 +441,19 @@ describe('函数匹配器', () => {
 
 #### 函数调用情况
 
-| 匹配器                          | 用途                   | 示例                                    |
-| ------------------------------- | ---------------------- | --------------------------------------- |
-| `toHaveBeenCalled()`            | 检查函数是否被调用     | `expect(fn).toHaveBeenCalled()`         |
-| `toHaveBeenCalledTimes(n)`      | 检查函数被调用次数     | `expect(fn).toHaveBeenCalledTimes(2)`   |
-| `toHaveBeenCalledWith(...args)` | 检查函数被调用时的参数 | `expect(fn).toHaveBeenCalledWith(1, 2)` |
-| `toHaveReturned()`              | 检查函数是否返回值     | `expect(fn).toHaveReturned()`           |
-| `toHaveReturnedTimes(n)`        | 检查函数返回次数       | `expect(fn).toHaveReturnedTimes(2)`     |
-| `toHaveReturnedWith(value)`     | 检查函数返回值         | `expect(fn).toHaveReturnedWith(1)`      |
+| 匹配器                              | 用途                               | 示例                                        |
+| ----------------------------------- | ---------------------------------- | ------------------------------------------- |
+| `toHaveBeenCalled()`                | 检查函数是否被调用                 | `expect(fn).toHaveBeenCalled()`             |
+| `toHaveBeenCalledTimes(n)`          | 检查函数被调用次数                 | `expect(fn).toHaveBeenCalledTimes(2)`       |
+| `toHaveBeenCalledWith(...args)`     | 检查函数被调用时的参数             | `expect(fn).toHaveBeenCalledWith(1, 2)`     |
+| `toHaveBeenLastCalledWith(...args)` | 检查函数最后一次调用的参数         | `expect(fn).toHaveBeenLastCalledWith(1, 2)` |
+| `toHaveReturned()`                  | 检查函数是否返回值                 | `expect(fn).toHaveReturned()`               |
+| `toHaveReturnedTimes(n)`            | 检查函数返回次数                   | `expect(fn).toHaveReturnedTimes(2)`         |
+| `toHaveReturnedWith(value)`         | 检查函数返回值                     | `expect(fn).toHaveReturnedWith(1)`          |
+| `toHaveLastReturnedWith(value)`     | 检查函数最后返回值                 | `expect(fn).toHaveLastReturnedWith(1)`      |
+| `toHaveNthReturnedWith(n, value)`   | 检查函数第 n 次返回值              | `expect(fn).toHaveNthReturnedWith(1, 1)`    |
+| `toHaveBeenCalledBefore(fn)`        | 检查函数是否在另一个函数之前被调用 | `expect(fn).toHaveBeenCalledBefore(fn2)`    |
+| `toHaveBeenCalledAfter(fn)`         | 检查函数是否在另一个函数之后被调用 | `expect(fn).toHaveBeenCalledAfter(fn2)`     |
 
 ```ts
 describe('函数执行情况', () => {
@@ -476,6 +485,70 @@ describe('函数执行情况', () => {
     expect(mockFn).toHaveReturned()
     expect(mockFn).toReturnWith('hello')
     expect(mockFn).toHaveReturnedTimes(2)
+  })
+})
+
+describe('函数调用顺序', () => {
+  it('检查调用顺序', () => {
+    const mockFn1 = vi.fn()
+    const mockFn2 = vi.fn()
+
+    mockFn1()
+    mockFn2()
+
+    // 检查调用顺序
+    expect(mockFn1).toHaveBeenCalledBefore(mockFn2)
+    expect(mockFn2).toHaveBeenCalledAfter(mockFn1)
+  })
+})
+```
+
+以上是同步函数的匹配器，现在看看异步函数的匹配器。
+
+#### 异步函数匹配器
+
+> promise 和 async 型
+
+| 匹配器                      | 用途                              | 示例                                            |
+| --------------------------- | --------------------------------- | ----------------------------------------------- |
+| `toHaveResolved()`          | promise 已经 resolved             | `expect(promise).toHaveResolved()`              |
+| `toHaveResolvedWith(value)` | promise 已经 resolved value 值    | `expect(promise).toHaveResolvedWith('2')`       |
+| `toHaveResolvedTimes()`     | promise 已经 resolved 次数        | `expect(promise).toHaveResolvedTimes(2)`        |
+| `toHaveLastResolvedWith()`  | promise 最后 resolved value 值    | `expect(promise).toHaveLastResolvedWith('2')`   |
+| `toHaveNthResolvedWith(n)`  | promise 第 n 次 resolved value 值 | `expect(promise).toHaveNthResolvedWith(1, '2')` |
+| `resolves`                  | 检查 promise 是否成功             | `await expect(promise).resolves.toEqual(value)` |
+| `rejects`                   | 检查 promise 是否失败             | `await expect(promise).rejects.toThrow(error)`  |
+
+```ts
+describe('异步函数匹配器', () => {
+  it('检查异步函数 resolve', async () => {
+    const mockAsyncFn = vi.fn(async () => 'hello')
+
+    const result = await mockAsyncFn()
+
+    // 检查异步函数是否被调用
+    expect(mockAsyncFn).toHaveBeenCalled()
+    expect(mockAsyncFn).toHaveResolvedWith('hello')
+    expect(mockAsyncFn).toHaveResolvedTimes(1)
+    expect(result).toBe('hello')
+    await expect(mockAsyncFn()).resolves.toBe('hello')
+  })
+
+  it('检查异步函数抛出错误', async () => {
+    const mockAsyncFn = vi.fn(async () => {
+      throw new Error('Fail!')
+    })
+
+    // 检查异步函数是否抛出错误
+    await expect(mockAsyncFn()).rejects.toThrow('Fail!')
+
+    const asyncReject = vi.fn(
+      () => new Promise((_, reject) => reject(new Error('Fail!')))
+    )
+    // NOTE 不能这样测试
+    //const result = await asyncReject()
+    // 检查异步函数是否抛出错误
+    await expect(asyncReject()).rejects.toThrow('Fail!')
   })
 })
 ```
