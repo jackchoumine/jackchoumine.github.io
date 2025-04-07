@@ -136,6 +136,8 @@ describe('对象匹配器', () => {
 
 toEqual 会忽略值为 undefined 的属性，而 toStrictEqual 不会。
 
+推荐使用 toEqual，能覆盖大部分场景。
+
 ### 数组、set 匹配器
 
 | 匹配器                    | 用途                                              | 示例                                                  |
