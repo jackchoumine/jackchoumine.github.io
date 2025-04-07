@@ -588,6 +588,99 @@ it('不推荐的测试方式2', () => {
 
 不举例了。
 
+## 相关测试 api
+
+describe、it 都是 vitest 提供的 api，帮助我们组织测试用例，提供了更好的可读性和可维护性，让测试报告更加清晰。
+
+> 会在控制台输出测试结果。
+
+describe 用于分组测试用例，而 it 是 test 的别名，用于定义测试用例。
+
+describe 可以嵌套，it 不可嵌套。
+
+嵌套的 describe 可以共享上下文，比如共享变量、函数、mock 等。
+
+```ts
+import { beforeEach, describe, expect, it } from 'vitest'
+
+describe('用户模块', () => {
+  let user: any
+
+  beforeEach(() => {
+    console.log('beforeEach', 'zqj')
+    user = { name: 'Alice', age: 25 } // 当前分组共享的初始化
+  })
+
+  it('应正确创建用户', () => {
+    console.log('it1', 'zqj log')
+    expect(user.name).toBe('Alice')
+  })
+
+  // 嵌套分组
+  describe('权限检查', () => {
+    beforeEach(() => {
+      console.log('beforeEach inner', 'zqj')
+    })
+    it('年龄应大于18岁', () => {
+      console.log('it2', 'zqj log')
+      expect(user.age).toBeGreaterThan(18)
+    })
+  })
+})
+```
+
+外层 describe 定义的 user 和 beforeEach ，在内层的 describe 可访问。
+
+通常一个测试文件只会有一个 describe，多个 describe 适合用在大型项目中，或者需要分组的场景。
+
+`it(name,fn)`，name 是测试用例的名称，通常是**预期的行为**，比如'1 + 1 应该为 2'、'多次调用，会等待100毫秒不再有新的调用，才执行'。
+
+> 给单元测试起个好名字，能让测试报告更加清晰易读。
+
+### describe 和 it 的扩展和参数
+
+describe 和 it 都提供了一些扩展，帮助我们更好地组织测试用例。
+
+| 扩展                       | 用途                                                |
+| -------------------------- | --------------------------------------------------- |
+| .only                      | 只运行当前测试用例或分组，跳过其他测试,常用于 debug |
+| .skip                      | 跳过当前测试用例或分组，常用在功能废弃后的测试      |
+| .skipIf(condition)('name') | 条件地跳过用例                                      |
+| .runIf(condition)('name')  | 条件地执行用例                                      |
+| .each                      | 运行多个测试用例，传入不同的参数                    |
+| .todo                      | 标记为待办，表示测试用例未完成                      |
+
+```ts
+describe('用户模块2', () => {
+  //@ts-ignore
+  const isProd = process.env.NODE_ENV === 'production'
+  // 正式环境，测试用例才执行
+  it.skipIf(!isProd)('1 + 1 = 2', () => {
+    expect(1 + 1).toBe(2)
+  })
+  it.skip('1 + 100 = 101', () => {
+    expect(1 + 100).toBe(101)
+  })
+
+  it('1 + 1 = 2', () => {
+    expect(1 + 1).toBe(2)
+  })
+
+  it.each([
+    { a: 1, b: 1, expected: 2 },
+    { a: 1, b: 2, expected: 3 },
+    { a: 2, b: 1, expected: 3 },
+  ])('sum($a, $b) = $expected', ({ a, b, expected }) => {
+    function sum(a: number, b: number) {
+      return a + b
+    }
+    expect(sum(a, b)).toBe(expected)
+  })
+})
+```
+
+it 的回调函数的参数叫测试上下文，有 expect、skip 方法，通过 each 传入的参数，也会附加到测试上下文中。
+
 ## 测试生命周期函数
 
 测试生命周期函数是指在测试运行的不同阶段自动调用的函数。它们可以用于设置和清理测试环境，或者在测试运行前后执行一些操作，**确保测试环境的一致性和隔离性**。
