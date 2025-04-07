@@ -170,7 +170,7 @@ describe('数组匹配器', () => {
     ]
     expect(deepArr).toEqual(result)
   })
-  it.skip('严格深度比较', () => {
+  it('严格深度比较', () => {
     const result = [
       { name: 'vite', age: 5 },
       { name: 'vue', age: 15, info: { rate: 5, user: 100 } },
@@ -550,8 +550,43 @@ describe('异步函数匹配器', () => {
     // 检查异步函数是否抛出错误
     await expect(asyncReject()).rejects.toThrow('Fail!')
   })
+
+  it('.then .catch 测试异步函数', () => {
+    const async = async () => {
+      return 'hello'
+    }
+    const reject = () => new Promise((_, reject) => reject(new Error('Fail!')))
+
+    async().then(data => {
+      expect(data).toBe('hello')
+    })
+    reject().catch(err => {
+      expect(err).toEqual(new Error('Fail!'))
+    })
+  })
 })
 ```
+
+> 注意：异步函数的匹配器，必须使用 async/await 来测试。
+
+> 也可以使用 return 的方式，不推荐这样写，扩展性差。
+
+```ts
+it('不推荐的测试方式1', () => {
+  const mockAsyncFn = vi.fn(async () => {
+    throw new Error('Fail!')
+  })
+  return expect(mockAsyncFn()).rejects.toThrow('Fail!') // ✅
+})
+it('不推荐的测试方式2', () => {
+  const mockAsyncFn = vi.fn(async () => 'hello')
+  return expect(mockAsyncFn()).resolves.toBe('hello') // ✅
+})
+```
+
+> vitest 从v0.1.0 起，不再支持 done 来测试回调型异步函数，推荐使用 async/await 来测试异步函数。
+
+不举例了。
 
 ## 钩子函数
 
