@@ -1,0 +1,10 @@
+/* @layer import-layer{
+  .box p {
+    color: yellow;
+  }
+} */
+
+.box p {
+  color: yellow;
+  font-size: 50px;
+}
