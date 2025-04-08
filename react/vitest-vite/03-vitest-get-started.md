@@ -685,6 +685,95 @@ it('检查分页接口返回', () => {
 
 使用了自定义匹配器后，代码简洁多了。
 
+#### 初始化文件
+
+> 想让自定义匹配器在所有文档中可用，可定义在 vitest 的初始化配置文件中。
+
+初始化文件会在运行测试之前自动执行，常用于全局测试环境的初始化：
+
+- 扩展匹配器；
+- 配置全局测试变量；
+- 初始化模拟；
+- 设置生命周期；
+- 加载 polyfill，比如 使用 node-fetch 代替 fetch。
+
+新建配置文件`vitest.setup.ts`:
+
+```ts
+import { expect } from 'vitest'
+
+expect.extend({
+  toBeNullish(received) {
+    const isNullish = received == null // null 和 undefined 都会返回 true
+    return {
+      pass: isNullish,
+      message: () =>
+        `expected to be null or undefined, but got ${this.utils.printReceived(received)}`,
+    }
+  },
+  toBePaginationRes(received) {
+    let isValid = false
+    const { rows, total, pageNow, pageSize } = received ?? {}
+    isValid =
+      Array.isArray(rows) &&
+      typeof total === 'number' &&
+      typeof pageNow === 'number' &&
+      typeof pageSize === 'number'
+
+    return {
+      pass: isValid,
+      message: () =>
+        `expected ${this.utils.printReceived(received)} 符合分页接口返回的返回格式`,
+    }
+  },
+})
+```
+
+在 vitest 配置文件中引入初始化文件：
+
+```ts
+// vitest.config.ts
+import { defineConfig } from 'vitest/config'
+
+export default defineConfig({
+  test: {
+    setupFiles: ['./vitest.setup.ts'], // 可选：全局初始化文档
+  },
+})
+```
+
+删除 `fuzzyMatchers.test.ts` 中的自定义匹配器，执行测试，正常。
+
+定义匹配器还能定义成 async 函数：
+
+```ts
+expect.extend({
+  async toBeAsyncEven(received: number) {
+    const isEven = await Promise.resolve(received % 2 === 0)
+    return {
+      pass: isEven,
+      message: () => `期望 ${received} 是偶数`,
+    }
+  },
+})
+```
+
+> setupFiles vs setupFilesAfterEnv
+
+vitest 的配置中，有 setupFiles 和 setupFilesAfterEnv 选项，它们有什么不同呢？
+
+| 配置项             | 执行时机             | 用途                                           |
+| ------------------ | -------------------- | ---------------------------------------------- |
+| setupFiles         | 所有测试文档执行之前 | 扩展匹配器、全局模拟、全局生命周期、全局变量等 |
+| setupFilesAfterEnv | 所有测试文档执行之后 | 恢复模拟                                       |
+
+自定义匹配器小结：
+
+- 定义匹配器：`expect.extend({ ... })`。
+- 类型扩展：在 vite.env.d.ts 声明 Assertion 接口，匹配器的参数可不声明。
+- 全局共享：通过配置文档或 setupFiles 加载。
+- 异步支持：返回 Promise 即可。
+
 ## 相关测试 api
 
 describe、it 都是 vitest 提供的 api，帮助我们组织测试用例，提供了更好的可读性和可维护性，让测试报告更加清晰。
