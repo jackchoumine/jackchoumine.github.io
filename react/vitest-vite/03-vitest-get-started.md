@@ -724,7 +724,7 @@ describe('函数调用顺序', () => {
 // beforeAll -> beforeEach -> 测试1 -> afterEach -> beforeEach -> 测试2 -> afterEach -> afterAll
 ```
 
-举例：有一delay 函数，模拟异步请求，使用 fake timers 来测试。
+举例：有一 delay 函数，模拟异步请求，使用 fake timers 来测试。
 
 ```ts
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
