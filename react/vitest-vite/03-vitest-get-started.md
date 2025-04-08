@@ -8,19 +8,19 @@ vitest 提供了和 jest 兼容的 api，同时保证了很高的性能，如果
 
 > 匹配器：检查函数执行结果是否符合预期的函数，比如 `toBeTruthy` 检查结果是否为真值。
 
-匹配器（Matcher） 是用来 验证测试结果是否符合预期 的方法。它们通常用于 expect() 语句后，对值进行比较、检查类型或结构，并决定测试是否通过。
+匹配器(Matcher) 是用来 验证测试结果是否符合预期 的方法。它们通常用于 expect() 语句后，对值进行比较、检查类型或结构，并决定测试是否通过。
 
 vitest 有很多匹配，根据数据类型不同，学习常用的就行了。
 
 ### 匹配器的作用
 
-1. 比较值（如 toBe, toEqual）
+1. 比较值(如 toBe, toEqual)
 
-2. 检查类型（如 toBeNull, toBeInstanceOf）
+2. 检查类型(如 toBeNull, toBeInstanceOf)
 
-3. 验证数据结构（如 toContain, toHaveProperty）
+3. 验证数据结构(如 toContain, toHaveProperty)
 
-4. 模糊匹配（如 expect.any(), expect.anything()）
+4. 模糊匹配(如 expect.any(), expect.anything())
 
 5. 异常处理 toThrow
 
@@ -311,7 +311,7 @@ describe('模糊配器', () => {
     )
   })
   it('组合使用', () => {
-    // 匹配一个对象，包含数组（数组包含数字和特定字符串）
+    // 匹配一个对象，包含数组(数组包含数字和特定字符串)
     expect({
       id: expect.any(Number),
       items: expect.arrayContaining([
