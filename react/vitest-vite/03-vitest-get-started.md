@@ -588,6 +588,103 @@ it('不推荐的测试方式2', () => {
 
 不举例了。
 
+### 自定义匹配器
+
+vitest 允许我们自定义匹配器，以满足自定义需求，方便我们在测试中复用。
+
+toBeNull 和 toBeUndefined 是内置的匹配器，我们可以自定义一个匹配器，来检查对象是否为 null 或 undefined。
+
+```ts
+// fuzzyMatchers.test.ts
+expect.extend({
+  toBeNullish(received) {
+    const isNullish = received == null // null 和 undefined 都会返回 true
+    return {
+      pass: isNullish,
+      message: () => `expected to be null or undefined, but got ${received}`,
+    }
+  },
+})
+```
+
+添加类型声明：在 vite-env.d.ts 中添加：
+
+```ts
+import { Assertion } from 'vitest'
+
+declare module 'vitest' {
+  interface Assertion {
+    toBeNullish(): void
+  }
+}
+```
+
+上面测试接口返回分页结构的时候，使用多个匹配器，现在自定义一个分页接口匹配器：
+
+```ts
+// fuzzyMatchers.test.ts
+expect.extend({
+  toBePaginationRes(received) {
+    let isValid = false
+    const { rows, total, pageNow, pageSize } = received ?? {}
+    isValid =
+      Array.isArray(rows) &&
+      typeof total === 'number' &&
+      typeof pageNow === 'number' &&
+      typeof pageSize === 'number'
+
+    return {
+      pass: isValid,
+      message: () =>
+        `expected ${this.utils.printReceived(received)} 符合分页接口返回的返回格式`,
+    }
+  },
+})
+```
+
+使用：
+
+```ts
+it('检查分页接口返回', () => {
+  const tableApiRes = {
+    code: 0,
+    msg: 'success',
+    //✅ 这里需要的数据
+    data: {
+      rows: [], // 数据
+      total: 100, // 总条数
+      pageNow: 1, // 当前页
+      pageSize: 10, // 每页条数
+      a: 1, // 其他字段
+      b: '2',
+    },
+  }
+
+  // 先检查固定的字段
+  expect(tableApiRes).toEqual(
+    expect.objectContaining({
+      code: expect.any(Number), // ✅ 数字
+      msg: expect.any(String), // ✅ 字符串
+      data: expect.any(Object), // ✅ 对象
+    })
+  )
+  // 再检查分页部分
+  expect(tableApiRes?.data).toEqual(expect.anything()) // ✅ 对象
+  // 模糊配器 放在 toEqual 里更加好理解
+  expect(tableApiRes.data).toEqual(
+    expect.objectContaining({
+      rows: expect.any(Array), // ✅ 数组
+      total: expect.any(Number), // ✅ 数字
+      pageNow: expect.any(Number), // ✅ 数字
+      pageSize: expect.any(Number), // ✅ 数字
+    })
+  )
+  expect(tableApiRes.data).toBePaginationRes() // ✅ 自定义配器
+})
+```
+
+使用了自定义匹配器后，代码简洁多了。
+
 ## 相关测试 api
 
 describe、it 都是 vitest 提供的 api，帮助我们组织测试用例，提供了更好的可读性和可维护性，让测试报告更加清晰。

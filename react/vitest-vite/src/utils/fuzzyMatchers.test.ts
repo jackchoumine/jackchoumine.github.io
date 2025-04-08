@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-04-07 10:22:15
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-04-07 11:15:32
+ * @LastEditTime: 2025-04-08 10:18:28
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -12,6 +12,31 @@ const deepArr = [
   { name: 'vite', age: 5 },
   { name: 'vue', age: 15, info: { rate: 5, user: 100 } },
 ]
+
+expect.extend({
+  toBeNullish(received) {
+    const isNullish = received == null // null 和 undefined 都会返回 true
+    return {
+      pass: isNullish,
+      message: () => `expected ${this.utils.printReceived(received)} to be nullish`,
+    }
+  },
+  toBePaginationRes(received) {
+    let isValid = false
+    const { rows, total, pageNow, pageSize } = received ?? {}
+    isValid =
+      Array.isArray(rows) &&
+      typeof total === 'number' &&
+      typeof pageNow === 'number' &&
+      typeof pageSize === 'number'
+
+    return {
+      pass: isValid,
+      message: () =>
+        `expected ${this.utils.printReceived(received)} 符合分页接口返回的返回格式`,
+    }
+  },
+})
 
 describe('模糊配器', () => {
   it('检查数据类型', () => {
@@ -27,6 +52,9 @@ describe('模糊配器', () => {
     expect('test').toEqual(expect.anything()) // ✅ 字符串
     expect(false).toEqual(expect.anything()) // ✅ 布尔值
     expect(null).not.toEqual(expect.anything()) // ❌ null 不匹配
+    expect(1).not.toBeNullish()
+    expect(undefined).toBeNullish()
+    expect(null).toBeNullish()
   })
 
   it('是否包含子集', () => {
@@ -112,6 +140,7 @@ describe('模糊匹配器检查 api 返回', () => {
         pageSize: expect.any(Number), // ✅ 数字
       })
     )
+    expect(tableApiRes.data).toBePaginationRes() // ✅ 自定义配器
     // ok
     //expect(
     //  expect.objectContaining({
