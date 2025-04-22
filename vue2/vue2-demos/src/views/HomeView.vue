@@ -2,7 +2,7 @@
 import { useCounter, useMouse } from '@/hooks'
 
 const { x, y, mixins: mouseMixins } = useMouse()
-const { count, mixins: countMixins } = useCounter(10)
+const { countIn, mixins: countMixins } = useCounter(10)
 
 export default {
   name: 'HomePage',
@@ -13,15 +13,18 @@ export default {
     return {
       mouseX: x,
       mouseY: y,
-      count,
+      countIn,
     }
   },
   watch: {
-    'count.value': {
+    'countIn.value': {
       handler(val) {
-        console.log('count变化：', val)
+        console.log('countIn变化：', val)
       },
     },
+  },
+  mounted() {
+    console.log('component mounted')
   },
 }
 </script>
@@ -29,7 +32,7 @@ export default {
 <template>
   <div class="example">
     <div>({{ mouseX }}, {{ mouseY }})</div>
-    <p>count {{ count }} doubleCount {{ doubleCount }}</p>
-    <button @click="add(1)">+</button>
+    <p>count {{ countIn }} doubleCount {{ doubleCountIn }}</p>
+    <button @click="addIn(1)">+</button>
   </div>
 </template>

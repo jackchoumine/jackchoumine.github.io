@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-04-22 20:00:43
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-04-22 23:14:15
+ * @LastEditTime: 2025-04-23 01:18:31
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -34,22 +34,36 @@ export function useMouse() {
 }
 
 export function useCounter(initVal) {
-  const count = Vue.observable({ value: initVal })
+  const countIn = Vue.observable({ value: initVal })
 
+  /**
+   * 属性冲突：
+   * 1. 生命周期冲突，mixin 中的先执行
+   * 2. 其他属性冲突，mixin 的属性被覆盖
+   * 缓解办法：
+   * 1. mixin 中的属性进行特殊命名，vue 推荐使用 $_xxx 或者 xxxIn 命名 全局 mixin 使用 $g_xxx，优先使用局部混入
+   *    因为 _xxx 是私有属性 $xxx 是 Vue 的特殊属性 其他命名约定可读性不高 比如 xxx
+   * 2. mixin 中使用的方法或者属性应该直接在 mixin 中读取
+   *    不是直接从 mixin 读取，组件就必须提供，否则就会报错，但是从组件提供属性，非常容易引发错误，且团队协作体验差 -- 成员一眼看出属性来自组件
+   *   【隐式依赖】导致依赖来源不明确。团队协作中应该尽量避免隐式依赖
+   */
   const mixins = {
+    mounted() {
+      console.log('mixins mounted')
+    },
     computed: {
-      doubleCount: () => {
-        return count.value * 2
+      doubleCountIn: () => {
+        return countIn.value * 2
       },
     },
     methods: {
-      add: (step = 1) => {
-        count.value += step
+      addIn: (step = 1) => {
+        countIn.value += step
       },
     },
   }
   return {
-    count,
+    countIn,
     mixins,
   }
 }
