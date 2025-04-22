@@ -16,6 +16,13 @@ export default {
       count,
     }
   },
+  watch: {
+    'count.value': {
+      handler(val) {
+        console.log('count变化：', val)
+      },
+    },
+  },
 }
 </script>
 

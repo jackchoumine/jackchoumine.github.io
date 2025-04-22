@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-04-22 20:00:43
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-04-22 22:58:56
+ * @LastEditTime: 2025-04-22 23:14:15
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -35,7 +35,7 @@ export function useMouse() {
 
 export function useCounter(initVal) {
   const count = Vue.observable({ value: initVal })
-  console.log({ count })
+
   const mixins = {
     computed: {
       doubleCount: () => {
