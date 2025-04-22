@@ -1,0 +1,17 @@
+@layer component,importLayer,component-1;
+
+@import './import.css' layer(importLayer);
+
+@layer component {
+  .box p {
+    background-color: lightblue;
+    font-size: 25px;
+    color: red;
+  }
+}
+
+@layer component-1 {
+  .box p {
+    color: blue;
+  }
+}
