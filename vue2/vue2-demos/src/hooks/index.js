@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-04-22 20:00:43
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-04-23 01:18:31
+ * @LastEditTime: 2025-04-23 01:20:03
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -46,6 +46,7 @@ export function useCounter(initVal) {
    * 2. mixin 中使用的方法或者属性应该直接在 mixin 中读取
    *    不是直接从 mixin 读取，组件就必须提供，否则就会报错，但是从组件提供属性，非常容易引发错误，且团队协作体验差 -- 成员一眼看出属性来自组件
    *   【隐式依赖】导致依赖来源不明确。团队协作中应该尽量避免隐式依赖
+   * 3. 组件中的 mixin 不应该超过 2 个
    */
   const mixins = {
     mounted() {
