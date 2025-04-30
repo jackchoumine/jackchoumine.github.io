@@ -1,0 +1,1 @@
+import{_ as o,o as e,c as l,a as s}from"./app.45ad6972.js";const _=JSON.parse('{"title":"css 常见面试题","description":"","frontmatter":{},"headers":[],"relativePath":"web/css/常见面试题.md"}'),c={name:"web/css/常见面试题.md"},a=s("",20),n=[a];function d(t,i,p,r,C,b){return e(),l("div",null,n)}const u=o(c,[["render",d]]);export{_ as __pageData,u as default};
