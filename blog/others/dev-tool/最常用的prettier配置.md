@@ -41,6 +41,8 @@ pnpm i -D lint-staged simple-git-hooks
 
 > pretty-quick 也能起到类似 lint-staged + simple-git-hooks 的作用，但 lint-staged 更加灵活，支持多种文件类型的格式化。
 
+> 修改 simple-git-hooks 配置后，都要执行 `npx simple-git-hooks` 命令，才能生效。
+
 ## 依赖分组
 
 prettier 插件`'@trivago/prettier-plugin-sort-imports'` 能按照依赖距离进行分组，使用时需要安装以下依赖：
