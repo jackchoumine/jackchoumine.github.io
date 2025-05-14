@@ -2,13 +2,14 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-07-23 02:16:51
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-03-24 23:43:55
+ * @LastEditTime: 2025-04-29 14:54:20
  * @Description :
 -->
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import { ref, provide } from 'vue'
 import MyMessage from './components/MyMessage.vue'
+import Counter from './components/Counter/Counter.vue'
 import ShoeCount from './components/ShoeCount.vue'
 import MSWTest from './components/MSWTest.vue'
 import PatientForm from './components/PatientForm.vue'
@@ -29,8 +30,8 @@ const theme = ref('light')
 <template>
   <TheThemeProvider :theme="theme">
     <ProvideCom>
+      <Counter />
       <Chessboard />
-      <p>he3</p>
       <TabsDemo />
       <ThemeSwitcher />
       <CounterComponent />

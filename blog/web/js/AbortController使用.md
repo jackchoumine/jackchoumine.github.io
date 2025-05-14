@@ -314,6 +314,54 @@ setTimeout(() => {
 }, 5000)
 ```
 
+### 取消函数执行
+
+debounce 函数，常规实现：
+
+```js
+export function debounce(fn, wait = 200, immediate = false) {
+  let timer
+  return (...rest) => {
+    immediate && !timer && fn(...rest)
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(() => {
+      fn(...rest)
+    }, wait)
+  }
+}
+```
+
+AbortController 实现：
+
+```js
+export function debounce(fn, wait = 200, immediate = false) {
+  let controller = null
+  return (...rest) => {
+    immediate && !controller && fn(...rest)
+    if (controller) {
+      controller.abort()
+    }
+    controller = new AbortController()
+    const signal = controller.signal
+    setTimeout(() => {
+      // 检查是否被取消
+      if (!signal.aborted) {
+        fn(...rest)
+        controller = null
+      }
+    }, wait)
+  }
+}
+```
+
+> throttle 适合使用 AbortController 实现吗？
+
+不适合。 throttle 的本质是到达某一个时刻才调用，其他时刻**跳过调用**，而是 debounce 是新的调用来了**取消之前的调用**，是取消行为。
+
+throttle 需要记录调用时刻，而 debounce 不需要记录调用时刻。
+
 ## 参考
 
 [The AbortController, and Aborting Fetch Requests in Javascript](https://asleepysamurai.com/articles/abortcontroller-and-aborting-fetch-requests)
