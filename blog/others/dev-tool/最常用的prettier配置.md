@@ -83,6 +83,31 @@ module.exports = {
 
 ```js
 // sort-imports-ignore
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+
+import Antd from 'ant-design-vue'
+import ElementPlus from 'element-plus'
+
+// 顺序重要
+// 选择器特异性相同，后引入的样式会覆盖前面的
+import 'ant-design-vue/dist/reset.css'
+import 'element-plus/dist/index.css'
+import 'ol-popup/dist/ol-popup.css'
+import 'ol/ol.css'
+import './assets/base.css'
+import './assets/main.css'
+import './assets/ol-popup.scss'
+
+import router from './router'
+//import App from './AppBefore.vue'
+import App from './App.vue'
+
+const app = createApp(App)
+app.use(createPinia()).use(ElementPlus)
+app.use(Antd)
+app.use(router)
+app.mount('#app')
 ```
 
 不再进行排序。
