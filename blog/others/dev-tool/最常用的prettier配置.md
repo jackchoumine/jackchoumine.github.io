@@ -59,6 +59,10 @@ module.exports = {
   plugins: ['@trivago/prettier-plugin-sort-imports'],
   // 排序规则
   importOrder: [
+    // 外部依赖 从 node_modules 加载的依赖
+    // NOTE vue 依赖必须放在第一位 否则 main.ts 中 报错
+    '^vue',
+    '<THIRD_PARTY_MODULES>',
     '^@/(.*)$',
     '^#c/(.*)$',
     '^../(.*)',
@@ -74,3 +78,11 @@ module.exports = {
 以便阅读代码时不关注第三方依赖，比如 vue 的依赖。
 
 > 分组后，会改变依赖导入的顺序，若依赖导入顺序很关键，比如 vue 项目的 main 文件，通常 vue 的依赖必须在第一个导入，建议把 main加入 `.prettierignore` 文件。
+
+> 加入到 `.prettierignore` 文件后，可能还是会被 prettier 排序，此时在文件顶部添加以下注释：
+
+```js
+// sort-imports-ignore
+```
+
+不再进行排序。
