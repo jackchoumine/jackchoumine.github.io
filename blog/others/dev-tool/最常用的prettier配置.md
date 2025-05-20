@@ -13,9 +13,9 @@ module.exports = {
 }
 ```
 
-> webStorm 编辑器只支持 `.prettierrc.` 配置文件，为了团队协作中使用 webStorm 的队友能使用 prettier 进行代码格式化，建议使用 `.prettierrc.` 配置文件。
+> prettier 的配置文件有多种，webStorm 编辑器只支持 `.prettierrc.*`，为了团队协作中使用 webStorm 的队友也能使用 prettier 进行格式化，建议使用 `.prettierrc.*` 作为配置文件。
 
-## 在提交之前执行有改动的文件
+## 在提交之前格式化有改动的文件
 
 使用 `lint-staged` 和 `simple-git-hooks` 进行提交前的代码检查和格式化。
 
