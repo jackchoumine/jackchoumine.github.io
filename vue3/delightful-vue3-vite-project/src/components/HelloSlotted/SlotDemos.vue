@@ -5,7 +5,7 @@ import TestSlotted from './TestSlotted.vue'
 <template>
   <div class="slotted-test">
     <TestSlotted>
-      <div class="slot">测试slotted</div>
+      <div class="slot1">测试slotted</div>
     </TestSlotted>
     <div class="slot">slot</div>
   </div>
@@ -15,8 +15,16 @@ import TestSlotted from './TestSlotted.vue'
 .slotted-test {
   background-color: #ccc;
 
-  //   .slot {
-  //     background-color: aquamarine;
-  //   }
+  :deep(.test-slot) {
+    background-color: green;
+  }
+
+  .slot1 {
+    background-color: red;
+  }
+
+  .slot {
+    background-color: lightcoral;
+  }
 }
 </style>
