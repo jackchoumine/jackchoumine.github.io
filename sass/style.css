@@ -1,0 +1,70 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: rgb(203.6129707113, 228.9267782427, 245.8870292887);
+  color: #3498db;
+  font-family: Arial, sans-serif;
+  font-size: 40px;
+}
+body p {
+  font-size: 16px;
+  color: rgb(60.6635983264, 156.3958158996, 220.5364016736);
+  background-color: #f0f0f0;
+  border-color: red;
+  border-style: solid;
+  border-width: 2px;
+  margin-top: 10px;
+  padding-top: 10px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+  padding-left: 40px;
+}
+body p:hover {
+  color: lightgreen;
+  background-color: rgb(60.6635983264, 156.3958158996, 220.5364016736);
+}
+body .info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+  width: 100%;
+  background-color: lightgreen;
+}
+
+.error, .error--serious {
+  border: #f00 solid;
+  background-color: #fdd;
+}
+.error--serious {
+  border-width: 3px;
+}
+
+.btn, .btn-warning, .btn-primary {
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #3498db;
+  color: white;
+}
+.btn-primary:hover {
+  background-color: rgb(33.1380753138, 125.1882845188, 186.8619246862);
+}
+
+.btn-warning {
+  background-color: orange;
+  color: white;
+}
+.btn-warning:hover {
+  background-color: #cc8400;
+}
+
+/*# sourceMappingURL=style.css.map */

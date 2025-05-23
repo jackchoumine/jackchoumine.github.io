@@ -1,0 +1,147 @@
+@charset "UTF-8";
+@use 'sass:color';
+
+$main-color: #3498db;
+$main-color-light: color.adjust($main-color, $lightness: +2%);
+$base-font-size: 16px;
+$base-font-size: 20px !default; // 已经定义了，就使用定义的值
+$primary-bg-color: #f0f0f0;
+* {
+  box-sizing: border-box;
+}
+
+// 混入
+// 无参数
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+// 有参数
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  filter: alpha(opacity=$opacity * 100);
+}
+
+body {
+  background: color.adjust($main-color, $lightness: +35%);
+  color: $main-color;
+  font-family: Arial, sans-serif;
+  font-size: 40px;
+  // 选择器嵌套
+  p {
+    font-size: $base-font-size;
+    color: $main-color-light;
+    background-color: $primary-bg-color;
+    // & -- 父元素
+    &:hover {
+      color: lightgreen;
+      background-color: $main-color-light;
+    }
+    // 属性嵌套 不常用
+    border: {
+      color: red;
+      style: solid;
+      width: 2px;
+    }
+    margin: {
+      top: 10px;
+    }
+    padding: {
+      top: 10px;
+      right: 20px;
+      bottom: 10px;
+      left: 40px;
+    }
+  }
+  .info {
+    @include flex-center;
+    @include opacity(0.5);
+    width: 100%;
+    background-color: lightgreen;
+  }
+}
+
+.error {
+  border: #f00 solid;
+  background-color: #fdd;
+
+  &--serious {
+    @extend .error;
+    border-width: 3px;
+  }
+}
+
+//.button {
+//  padding: 6px 10px;
+//  border-radius: 4px;
+//  font-size: 16px;
+//  border: none;
+//  cursor: pointer;
+//  &--primary {
+//    background-color: $main-color;
+//    color: white;
+//    &:hover {
+//      background-color: color.adjust($main-color, $lightness: -10%);
+//    }
+//  }
+//  &--warning {
+//    background-color: orange;
+//    color: white;
+//    &:hover {
+//      background-color: color.adjust(orange, $lightness: -10%);
+//    }
+//  }
+//}
+
+//@mixin button($p-y: 6px, $p-x: 10px) {
+//  padding: $p-y $p-x;
+//  border-radius: 4px;
+//  font-size: 16px;
+//  border: none;
+//  cursor: pointer;
+//}
+
+//.btn--primary {
+//  @include button();
+//  background-color: $main-color;
+//  color: white;
+//  &:hover {
+//    background-color: color.adjust($main-color, $lightness: -10%);
+//  }
+//}
+
+//.btn--warning {
+//  @include button();
+//  background-color: orange;
+//  color: white;
+//  &:hover {
+//    background-color: color.adjust(orange, $lightness: -10%);
+//  }
+//}
+
+.btn {
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  @extend .btn;
+  background-color: $main-color;
+  color: white;
+  &:hover {
+    background-color: color.adjust($main-color, $lightness: -10%);
+  }
+}
+
+.btn-warning {
+  @extend .btn;
+  background-color: orange;
+  color: white;
+  &:hover {
+    background-color: color.adjust(orange, $lightness: -10%);
+  }
+}
