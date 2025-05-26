@@ -43,12 +43,15 @@ body .info {
   border-width: 3px;
 }
 
-.btn, .btn-warning, .btn-primary {
+.btn-warning, .btn-primary {
   padding: 6px 10px;
   border-radius: 4px;
   font-size: 16px;
   border: none;
   cursor: pointer;
+}
+.btn-warning span, .btn-primary span {
+  color: red;
 }
 
 .btn-primary {

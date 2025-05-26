@@ -307,12 +307,148 @@
 
 通过比较发现，总结如下：
 
-|          | BEM                    | mixin                                  | extend                             |
-| -------- | ---------------------- | -------------------------------------- | ---------------------------------- |
-| 可读性   | 高                     | 中                                     | 低，容易产生多余的分组             |
-| 复用级别 | 样式规则，通过类名复用 | 样式规则                               | 样式声明，通过类名复用             |
-| 使用场景 | 适合复杂的组件         | 不同的选择器具有相同的**样式规则**     | 不同的选择器具有相同的**样式声明** |
-| 冗余程度 | 几乎没有冗余           | 规则冗余，混入的样式规则都会被复制一份 | 选择器冗余                         |
-| 实践难度 | 较难，                 | 较简单                                 | 较简单                             |
+|          | BEM                    | mixin                                  | extend                         |
+| -------- | ---------------------- | -------------------------------------- | ------------------------------ |
+| 可读性   | 高                     | 中                                     | 低，容易产生多余的分组         |
+| 复用级别 | 样式规则，通过类名复用 | 样式规则                               | 样式规则，通过类名复用         |
+| 使用场景 | 适合复杂的组件         | 不同的选择器具有相同的**样式规则**     | 不同的选择器具有相同的样式规则 |
+| 冗余程度 | 几乎没有冗余           | 规则冗余，混入的样式规则都会被复制一份 | 选择器冗余                     |
+| 实践难度 | 较难，不好区分B E M    | 较简单                                 | 较简单                         |
 
-> 不好区分 block element 和 modifier
+extend 容易产生冗余的分组选择器，比如：
+
+```scss
+.btn {
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  span {
+    color: red;
+  }
+}
+
+.btn-primary {
+  @extend .btn;
+  background-color: $main-color;
+  color: white;
+  &:hover {
+    background-color: color.adjust($main-color, $lightness: -10%);
+  }
+}
+
+.btn-warning {
+  @extend .btn;
+  background-color: orange;
+  color: white;
+  &:hover {
+    background-color: color.adjust(orange, $lightness: -10%);
+  }
+}
+```
+
+编译后：
+
+```css
+.btn,
+.btn-warning,
+.btn-primary {
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+.btn span,
+.btn-warning span,
+.btn-primary span {
+  color: red;
+}
+
+.btn-primary {
+  background-color: #3498db;
+  color: white;
+}
+.btn-primary:hover {
+  background-color: rgb(33.1380753138, 125.1882845188, 186.8619246862);
+}
+
+.btn-warning {
+  background-color: orange;
+  color: white;
+}
+.btn-warning:hover {
+  background-color: #cc8400;
+}
+```
+
+html 中只使用到了 `.btn-primary` 和 `.btn-warning`， `.btn` 是冗余的。
+
+`%placeholder` +`@extends` 可减少编译后的分组选择器冗余：
+
+```scss
+%btn {
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  span {
+    color: red;
+  }
+}
+
+.btn-primary {
+  @extend %btn;
+  background-color: $main-color;
+  color: white;
+  &:hover {
+    background-color: color.adjust($main-color, $lightness: -10%);
+  }
+}
+
+.btn-warning {
+  @extend %btn;
+  background-color: orange;
+  color: white;
+  &:hover {
+    background-color: color.adjust(orange, $lightness: -10%);
+  }
+}
+```
+
+编译后：
+
+```css
+.btn-warning,
+.btn-primary {
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+.btn-warning span,
+.btn-primary span {
+  color: red;
+}
+
+.btn-primary {
+  background-color: #3498db;
+  color: white;
+}
+.btn-primary:hover {
+  background-color: rgb(33.1380753138, 125.1882845188, 186.8619246862);
+}
+
+.btn-warning {
+  background-color: orange;
+  color: white;
+}
+.btn-warning:hover {
+  background-color: #cc8400;
+}
+```
+
+分组选择器只包含 `.btn-warning` 和 `.btn-primary`，没有冗余的 `.btn`。

@@ -120,16 +120,19 @@ body {
 //  }
 //}
 
-.btn {
+%btn {
   padding: 6px 10px;
   border-radius: 4px;
   font-size: 16px;
   border: none;
   cursor: pointer;
+  span {
+    color: red;
+  }
 }
 
 .btn-primary {
-  @extend .btn;
+  @extend %btn;
   background-color: $main-color;
   color: white;
   &:hover {
@@ -138,7 +141,7 @@ body {
 }
 
 .btn-warning {
-  @extend .btn;
+  @extend %btn;
   background-color: orange;
   color: white;
   &:hover {
