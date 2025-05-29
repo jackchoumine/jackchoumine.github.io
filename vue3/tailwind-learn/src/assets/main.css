@@ -2,7 +2,8 @@
 @import 'tailwindcss';
 
 #app {
-  width: 100vw;
+  width: 70vw;
+  height: 100vh;
   margin: 0 auto;
   font-weight: normal;
 }
