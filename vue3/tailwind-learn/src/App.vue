@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-05-29 11:32:34
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-05-29 12:06:49
+ * @LastEditTime: 2025-05-29 17:31:35
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
 -->
@@ -16,6 +16,7 @@ import { RouterLink, RouterView } from 'vue-router'
       <HelloWorld msg="You did it!" />
       <nav>
         <RouterLink to="/">背景色</RouterLink>
+        <RouterLink to="/size-space">尺寸和间距</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav>
     </div>
