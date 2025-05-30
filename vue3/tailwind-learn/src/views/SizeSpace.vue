@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-05-29 17:29:48
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-05-29 18:29:48
+ * @LastEditTime: 2025-05-30 11:16:53
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
 -->
@@ -85,6 +85,29 @@
     <div class="w-(--min-w) bg-green-200">使用 --min-w 变量</div>
     <div class="w-[12.3rem] bg-green-200">w-[12.3rem]</div>
     <div class="w-[500px] bg-green-200">w-[500px]</div>
+    <h1 class="text-3xl font-bold">间距</h1>
+    <div class="p-1 bg-green-100">内边距 4px</div>
+    <div class="p-4 bg-green-200">内边距 16px</div>
+    <div class="p-7 bg-green-300">内边距 28px</div>
+    <div class="m-1 bg-green-100">外边距 4px</div>
+    <div class="m-4 bg-green-200">外边距 16px</div>
+    <div class="m-7 bg-green-300">外边距 28px</div>
+    <div class="pr-1 bg-green-300">右内边距 4px</div>
+    <div class="pl-2 bg-green-300">左内边距 8px</div>
+    <div class="mr-1 bg-green-300">右外边距 4px</div>
+    <div class="ml-2 bg-green-300">左外边距 8px</div>
+    <div class="w-full h-50">
+      <div class="w-40 m-auto bg-green-400">固定宽度的块级元素水平居中</div>
+    </div>
+    <div class="w-full h-50 bg-yellow-200">
+      <div class="w-40 mx-auto bg-green-400">固定宽度的块级元素水平居中</div>
+    </div>
+    <div class="flex w-full h-50 bg-green-200">
+      <div class="w-40 m-auto bg-green-400">固定宽度的块级元素水平居中</div>
+    </div>
+    <div class="flex w-full h-50 bg-blue-200">
+      <div class="w-40 mx-auto bg-green-400">固定宽度的块级元素水平居中</div>
+    </div>
   </div>
 </template>
 
