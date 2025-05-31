@@ -20,17 +20,33 @@
 
 原理：组件编译时给标签**添加 `data-v-xxx` 属性**，选择器附带该属性。
 
+## v-bind 绑定动态属性
+
+```css
+.progress-bar > div {
+  background-color: #000;
+  width: v-bind('props.progress');
+  /* props.progress 是 props 属性*/
+  height: 8px;
+  border-radius: 10px;
+  transition-property: width;
+  transition-duration: 150ms;
+}
+```
+
 ## deep 样式
 
-vue 提供了特殊的 `:deep` 选择器，可将父组件的样式作用到子组件内部。
+vue 提供了特殊的 `:deep` 选择器，在父组件的`作用域`样式可修改到子组件的样式。
 
 `v-deep` 已经废弃。
 
 > 将 vue component 转为 web component，deep 样式不生效。
 
-## slot 样式
+## 插槽样式
 
-在组件内部编写 slot 的样式
+插槽内容被认为父组件的一部分，子组件无法影响插槽内容的样式。
+
+组件的作用域样式不会影响 slot 的内容，子组件可通过`:slotted`选择器来修改插槽的样式。
 
 ```css
 /* slot 里包含选择器 selector  */
@@ -58,20 +74,6 @@ vue 提供了特殊的 `:deep` 选择器，可将父组件的样式作用到子�
 ```css
 :global(.yellow) {
   color: yellow;
-}
-```
-
-## v-bind 绑定动态属性
-
-```css
-.progress-bar>div {
-  background-color: #000;
-  width: v-bind('props.progress');
-  /* props.progress 是 props 属性*/
-  height: 8px;
-  border-radius: 10px;
-  transition-property: width;
-  transition-duration: 150ms;
 }
 ```
 

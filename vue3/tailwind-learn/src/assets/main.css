@@ -1,0 +1,15 @@
+@import './base.css';
+@import 'tailwindcss';
+
+@theme {
+  --color-light-blue: lightblue;
+  --color-el-primary: #409eff;
+}
+
+#app {
+  width: 70vw;
+  height: 100vh;
+  margin: 0 auto;
+  font-weight: normal;
+  background-color: azure;
+}

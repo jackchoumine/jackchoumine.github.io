@@ -10,7 +10,7 @@ importers:
     dependencies:
       vitepress-plugin-pagefind:
         specifier: ^0.2.6
-        version: 0.2.6(vitepress@1.0.0-beta.5(@algolia/client-search@4.18.0)(@types/node@20.17.26)(@types/react@18.2.14)(async-validator@4.2.5)(axios@1.8.4)(change-case@4.1.2)(drauu@0.3.2)(fuse.js@6.6.2)(less@4.1.3)(lightningcss@1.21.2)(react-dom@18.3.1(react@18.2.0))(react@18.2.0)(sass@1.86.0)(search-insights@2.7.0)(terser@5.18.2))(vue@3.3.4)
+        version: 0.2.6(vitepress@1.0.0-beta.5(@algolia/client-search@4.18.0)(@types/node@20.17.26)(@types/react@18.2.14)(async-validator@4.2.5)(axios@1.8.4)(change-case@4.1.2)(drauu@0.3.2)(fuse.js@6.6.2)(less@4.1.3)(lightningcss@1.21.2)(react-dom@18.3.1(react@18.2.0))(react@18.2.0)(sass@1.86.0)(search-insights@2.7.0)(terser@5.18.2))(vue@3.5.13(typescript@5.8.2))
     devDependencies:
       '@trivago/prettier-plugin-sort-imports':
         specifier: ^4.3.0
@@ -699,7 +699,7 @@ importers:
         version: 10.4.1(sass@1.64.1)(webpack@4.46.0)
       vue-loader:
         specifier: ^15
-        version: 15.10.1(@vue/compiler-sfc@3.5.13)(babel-core@7.0.0-bridge.0(@babel/core@7.26.10))(cache-loader@4.1.0(webpack@4.46.0))(css-loader@3.6.0(webpack@4.46.0))(lodash@4.17.21)(pug@3.0.2)(react-dom@18.3.1(react@18.2.0))(react@18.2.0)(underscore@1.13.6)(vue-template-compiler@2.7.14)(webpack@4.46.0)
+        version: 15.10.1(@vue/compiler-sfc@3.5.13)(cache-loader@4.1.0(webpack@4.46.0))(css-loader@3.6.0(webpack@4.46.0))(lodash@4.17.21)(pug@3.0.2)(react-dom@18.3.1(react@18.2.0))(react@18.2.0)(underscore@1.13.6)(vue-template-compiler@2.7.14)(webpack@4.46.0)
       vue-template-compiler:
         specifier: ^2.6.11
         version: 2.7.14
@@ -1067,7 +1067,7 @@ importers:
         version: 0.0.3
       element-plus:
         specifier: ~2.8.1
-        version: 2.8.8(vue@3.3.4)
+        version: 2.8.1(vue@3.3.4)
       graphql:
         specifier: 16.7.1
         version: 16.7.1
@@ -2165,6 +2165,7 @@ packages:
   '@azure/msal-browser@2.37.1':
     resolution: {integrity: sha512-EoKQISEpIY39Ru1OpWkeFZBcwp6Y0bG81bVmdyy4QJebPPDdVzfm62PSU0XFIRc3bqjZ4PBKBLMYLuo9NZYAow==}
     engines: {node: '>=0.8.0'}
+    deprecated: A newer major version of this library is available. Please upgrade to the latest available version.
 
   '@azure/msal-common@13.1.0':
     resolution: {integrity: sha512-wj+ULrRB0HTuMmtrMjg8j3guCx32GE2BCPbsMCZkHgL1BZetC3o/Su5UJEQMX1HNc9CrIaQNx5WaKWHygYDe0g==}
@@ -2177,6 +2178,7 @@ packages:
   '@azure/msal-node@1.17.3':
     resolution: {integrity: sha512-slsa+388bQQWnWH1V91KL+zV57rIp/0OQFfF0EmVMY8gnEIkAnpWWFUVBTTMbxEyjEFMk5ZW9xiHvHBcYFHzDw==}
     engines: {node: 10 || 12 || 14 || 16 || 18}
+    deprecated: A newer major version of this library is available. Please upgrade to the latest available version.
 
   '@babel/code-frame@7.12.11':
     resolution: {integrity: sha512-Zt1yodBx1UcyiePMSkWnU4hPqhwq7hGi2nFL1LeA3EUl+q2LQx16MISgJ0+z7dnmgvP9QtIleuETGOiOH1RcIw==}
@@ -4657,14 +4659,17 @@ packages:
   '@humanwhocodes/config-array@0.11.10':
     resolution: {integrity: sha512-KVVjQmNUepDVGXNuoRRdmmEjruj0KfiGSbS8LVc12LMsWDQzRXJ0qdhN8L8uUigKpfEHRhlaQFY0ib1tnUbNeQ==}
     engines: {node: '>=10.10.0'}
+    deprecated: Use @eslint/config-array instead
 
   '@humanwhocodes/config-array@0.11.14':
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==}
     engines: {node: '>=10.10.0'}
+    deprecated: Use @eslint/config-array instead
 
   '@humanwhocodes/config-array@0.5.0':
     resolution: {integrity: sha512-FagtKFz74XrTl7y6HCzQpwDfXP0yhxe9lHLD1UZxjvZIcbyRz8zTFF/yYNfSfzU414eDwZ1SrO0Qvtyf+wFMQg==}
     engines: {node: '>=10.10.0'}
+    deprecated: Use @eslint/config-array instead
 
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
@@ -4672,9 +4677,11 @@ packages:
 
   '@humanwhocodes/object-schema@1.2.1':
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
+    deprecated: Use @eslint/object-schema instead
 
   '@humanwhocodes/object-schema@2.0.2':
     resolution: {integrity: sha512-6EwiSjwWYP7pTckG6I5eyFANjPhmPjUX9JRLUSfNPC7FX7zK9gyZAfUEaECL6ALTpGX5AjnBq3C9XmVWPitNpw==}
+    deprecated: Use @eslint/object-schema instead
 
   '@humanwhocodes/retry@0.3.1':
     resolution: {integrity: sha512-JBxkERygn7Bv/GbN5Rv8Ul6LVknS+5Bp6RgDC/O8gEBU/yeH5Ui5C/OlWrTb6qct7LjjfT6Re2NxB0ln0yYybA==}
@@ -4763,6 +4770,7 @@ packages:
   '@intlify/vite-plugin-vue-i18n@3.4.0':
     resolution: {integrity: sha512-XXcZBgwJ+3FRu11c4ARoY9N00kElPii0/jNZ49qR045Ka7/YGCwb1Ku14BBlMSEHiHDSjLQknLwrJKSQGVZLyA==}
     engines: {node: '>= 12'}
+    deprecated: This package no longer supported. About maintenance status, see https://github.com/intlify/bundle-tools?tab=readme-ov-file#-packages
     peerDependencies:
       petite-vue-i18n: ^9.1.0
       vite: ^2.0.0
@@ -8724,6 +8732,7 @@ packages:
   '@xmldom/xmldom@0.8.8':
     resolution: {integrity: sha512-0LNz4EY8B/8xXY86wMrQ4tz6zEHZv9ehFMJPm8u2gq5lQ71cfRKdaKyxfJAx5aUoyzx0qzgURblTisPGgz3d+Q==}
     engines: {node: '>=10.0.0'}
+    deprecated: this version has critical issues, please update to the latest version
 
   '@xtuc/ieee754@1.2.0':
     resolution: {integrity: sha512-DX8nKgqcGwsc0eJSqYt5lwP4DH5FlHnmuWWBRy7X0NcaGR0ZtuyeESgMwTYVEtxmsNGY+qit4QYT/MIYTOTPeA==}
@@ -8743,6 +8752,7 @@ packages:
 
   abab@2.0.6:
     resolution: {integrity: sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA==}
+    deprecated: Use your platform's native atob() and btoa() methods instead
 
   abbrev@1.1.1:
     resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}
@@ -10605,6 +10615,7 @@ packages:
 
   copy-concurrently@1.0.5:
     resolution: {integrity: sha512-f2domd9fsVDFtaFcbaRZuYXwtdmnzqbADSwhSWYxYB/Q8zsdUUFMXVRwXGDMWmbEzAn1kdRrtI1T/KTFOL4X2A==}
+    deprecated: This package is no longer supported.
 
   copy-descriptor@0.1.1:
     resolution: {integrity: sha512-XgZ0pFcakEUlbwQEVNg3+QAis1FyTL3Qel9FYy8pSkQqoG3PNoT0bOCQtOXcOkur21r2Eq2kI+IE+gsmAEVlYw==}
@@ -11164,9 +11175,6 @@ packages:
   dateformat@2.2.0:
     resolution: {integrity: sha512-GODcnWq3YGoTnygPfi02ygEiRxqUxpJwuRHjdhJYuxpcZmDq4rjBiXYmbCCzStxo176ixfLT6i4NPwQooRySnw==}
 
-  dayjs@1.11.13:
-    resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
-
   dayjs@1.11.9:
     resolution: {integrity: sha512-QvzAURSbQ0pKdIye2txOzNaHmxtUBXerpY0FJsFXUMKbIZeFm5ht1LS/jFsrncjnmtv8HsG0W2g6c0zUjZWmpA==}
 
@@ -11523,14 +11531,17 @@ packages:
 
   domexception@1.0.1:
     resolution: {integrity: sha512-raigMkn7CJNNo6Ihro1fzG7wr3fHuYVytzquZKX5n0yizGsTcYgzdIUwj1X9pK0VvjeihV+XiclP+DjwbsSKug==}
+    deprecated: Use your platform's native DOMException instead
 
   domexception@2.0.1:
     resolution: {integrity: sha512-yxJ2mFy/sibVQlu5qHjOkf9J3K6zgmCxgJ94u2EdvDOV09H+32LtRswEcUsmUWN72pVLOEnTSRaIVVzVQgS0dg==}
     engines: {node: '>=8'}
+    deprecated: Use your platform's native DOMException instead
 
   domexception@4.0.0:
     resolution: {integrity: sha512-A2is4PLG+eeSfoTMA95/s4pvAoSo2mKtiM5jlHkAVewmiO8ISFTFKZjH7UAM1Atli/OT/7JHOrJRJiMKUZKYBw==}
     engines: {node: '>=12'}
+    deprecated: Use your platform's native DOMException instead
 
   domhandler@4.3.1:
     resolution: {integrity: sha512-GrwoxYN+uWlzO8uhUXRl0P+kHE4GtVPfYzVLcUxPL7KNdHKj66vvlhiweIHqYYXWlw+T8iLMp42Lm67ghw4WMQ==}
@@ -11674,8 +11685,8 @@ packages:
     peerDependencies:
       vue: ^3.2.0
 
-  element-plus@2.8.8:
-    resolution: {integrity: sha512-MLAH1x2PGTnOT7Iwqh9ASgfZhvgqQqrdbxuJH0w2fGjzE4ZjryyLQj24HXoQO7Zon66U3lrYxbdLI57M6OX0qw==}
+  element-plus@2.8.1:
+    resolution: {integrity: sha512-p11/6w/O0+hGvPhiN3jrcgh+XG+eg5jZlLdQVYvcPHZYhhCh3J3YeZWW1JO/REPES1vevkboT6VAi+9wHA8Dsg==}
     peerDependencies:
       vue: ^3.2.0
 
@@ -12374,6 +12385,7 @@ packages:
 
   eslint-config-standard-with-typescript@36.0.0:
     resolution: {integrity: sha512-8ZSEskfrDAkUF2lTQLMT0CBzgRNlx1uIM7l2I7L683dKAXUdHuEL2x+GxuGAsdsoWbx7W7Zv0xF67VCEZXIk0Q==}
+    deprecated: Please use eslint-config-love, instead.
     peerDependencies:
       '@typescript-eslint/eslint-plugin': ^5.50.0
       eslint: ^8.0.1
@@ -12679,21 +12691,25 @@ packages:
   eslint@6.8.0:
     resolution: {integrity: sha512-K+Iayyo2LtyYhDSYwz5D5QdWw0hCacNzyq1Y821Xna2xSJj7cijoLLYmLxTQgcgZ9mC61nryMy9S7GRbYpI5Ig==}
     engines: {node: ^8.10.0 || ^10.13.0 || >=11.10.1}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
 
   eslint@7.32.0:
     resolution: {integrity: sha512-VHZ8gX+EDfz+97jGcgyGCyRia/dPOd6Xh9yPv8Bl1+SoaIwD+a/vlrOmGRUyOYu7MwUhc7CxqeaDZU13S4+EpA==}
     engines: {node: ^10.12.0 || >=12.0.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
 
   eslint@8.44.0:
     resolution: {integrity: sha512-0wpHoUbDUHgNCyvFB5aXLiQVfK9B0at6gUvzy83k4kAsQ/u769TQDX6iKC+aO4upIHO9WSaA3QoXYQDHbNwf1A==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
 
   eslint@8.49.0:
     resolution: {integrity: sha512-jw03ENfm6VJI0jA9U+8H5zfl5b+FvuU3YYvZRdZHOlU2ggJkxrlkJH4HcDrZpj6YwD8kuYqvQM8LyesoazrSOQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
 
   eslint@9.23.0:
@@ -13286,6 +13302,7 @@ packages:
 
   fs-write-stream-atomic@1.0.10:
     resolution: {integrity: sha512-gehEzmPn2nAwr39eay+x3X34Ra+M2QlVUTLhkXPjWdeO8RF9kszk116avgBJM3ZyNHgHXBNx+VmPaFC36k0PzA==}
+    deprecated: This package is no longer supported.
 
   fs.realpath@1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
@@ -13473,6 +13490,7 @@ packages:
   glob@8.1.0:
     resolution: {integrity: sha512-r8hpEjiQEYlF2QU0df3dS+nxxSIreXQS1qRhMJM0Q5NDdR386C7jb7Hwwod8Fgiuex+k0GFjgft18yvxm5XoCQ==}
     engines: {node: '>=12'}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   global-dirs@0.1.1:
     resolution: {integrity: sha512-NknMLn7F2J7aflwFOlGdNIuCDpN3VGoSoB+aap3KABFWbHVn1TCgFC+np23J8W2BiZbjfEw3BFBycSMv1AFblg==}
@@ -14159,6 +14177,7 @@ packages:
 
   inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
+    deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
 
   inherits@2.0.1:
     resolution: {integrity: sha512-8nWq2nLTAwd02jTqJExUYFSD/fKq6VH9Y/oG2accc/kdI0V98Bag8d5a4gi3XHz73rDWa2PvTtvcWYquKqSENA==}
@@ -15986,6 +16005,7 @@ packages:
 
   lodash.get@4.4.2:
     resolution: {integrity: sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ==}
+    deprecated: This package is deprecated. Use the optional chaining (?.) operator instead.
 
   lodash.isarguments@3.1.0:
     resolution: {integrity: sha512-chi4NHZlZqZD18a0imDHnZPrDeBbTtVN7GXMwuGdRH9qotxAjYs3aVLKc7zNOG9eddR5Ksd8rvFEBc9SsggPpg==}
@@ -16542,6 +16562,7 @@ packages:
 
   move-concurrently@1.0.1:
     resolution: {integrity: sha512-hdrFxZOycD/g6A6SoI2bB5NA/5NEqD0569+S47WZhPvm46sD50ZHdYaFmnua5lndde9rCHGjmfK7Z8BuCt/PcQ==}
+    deprecated: This package is no longer supported.
 
   mpath@0.8.4:
     resolution: {integrity: sha512-DTxNZomBcTWlrMW76jy1wvV37X/cNNxPW1y2Jzd4DZkAaC5ZGsm8bfGfNOthcDuRJujXLqiuS6o3Tpy0JEoh7g==}
@@ -17372,7 +17393,8 @@ packages:
     resolution: {integrity: sha512-5DFkuoqlv1uYQKxy8omFBeJPQcdoE07Kv2sferDCrAq1ohOU+MSDswDIbnx3YAM60qIOnYa53wBhXW0EbMonrQ==}
 
   path-to-regexp@1.8.0:
-    resolution: {integrity: sha512-n43JRhlUKUAlibEJhPeir1ncUID16QnEjNpwzNdO3Lm4ywrBpBZ5oLD0I6br9evr1Y9JTqwRtAh7JLoOzAQdVA==}
+    resolution: {integrity: sha512-xIp7/apCFJuUHdDLWe8O1HIkb0kQrOMb/0u6FXQjemHn/ii5LrIzU6bdECnsiTF/GjZkMEKg1xdiZwNqDYlZ6g==, tarball: https://registry.npmmirror.com/path-to-regexp/-/path-to-regexp-1.9.0.tgz}
+    deprecated: '[WARNING] Use 1.9.0 instead of 1.8.0, reason: https://github.com/pillarjs/path-to-regexp/security/advisories/GHSA-9wv6-86v2-598j'
 
   path-to-regexp@6.2.1:
     resolution: {integrity: sha512-JLyh7xT1kizaEvcaXOQwOc2/Yhw6KZOvPf1S8401UyLk86CU79LN3vl7ztXGm/pZ+YjoyAJ4rxmHwbkBXJX+yw==}
@@ -18297,9 +18319,17 @@ packages:
   q@1.5.1:
     resolution: {integrity: sha512-kV/CThkXo6xyFEZUugw/+pIOywXcDbFYgSct5cT3gqlbkBE1SJdwy6UQoZvodiWF/ckQLZyDE/Bu1M6gVu5lVw==}
     engines: {node: '>=0.6.0', teleport: '>=0.2.0'}
+    deprecated: |-
+      You or someone you depend on is using Q, the JavaScript Promise library that gave JavaScript developers strong feelings about promises. They can almost certainly migrate to the native JavaScript promise now. Thank you literally everyone for joining me in this bet against the odds. Be excellent to each other.
+
+      (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
 
   q@2.0.3:
     resolution: {integrity: sha512-gv6vLGcmAOg96/fgo3d9tvA4dJNZL3fMyBqVRrGxQ+Q/o4k9QzbJ3NQF9cOO/71wRodoXhaPgphvMFU68qVAJQ==}
+    deprecated: |-
+      You or someone you depend on is using Q, the JavaScript Promise library that gave JavaScript developers strong feelings about promises. They can almost certainly migrate to the native JavaScript promise now. Thank you literally everyone for joining me in this bet against the odds. Be excellent to each other.
+
+      (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
 
   qrcode.react@3.1.0:
     resolution: {integrity: sha512-oyF+Urr3oAMUG/OiOuONL3HXM+53wvuH3mtIWQrYmsXoAq0DkvZp2RYUWFSMFtbdOpuS++9v+WAkzNVkMlNW6Q==}
@@ -19254,6 +19284,7 @@ packages:
 
   rimraf@2.6.3:
     resolution: {integrity: sha512-mwqeW5XsA2qAejG46gYdENaxXjx9onRNCfn7L0duuP4hCuTIi/QO7PDK07KJfp1d+izWPrzEJDcSqBa0OZQriA==}
+    deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
 
   rimraf@2.7.1:
@@ -19263,6 +19294,7 @@ packages:
 
   rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
+    deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
 
   ripemd160@2.0.2:
@@ -19804,6 +19836,7 @@ packages:
 
   shiki-es@0.2.0:
     resolution: {integrity: sha512-RbRMD+IuJJseSZljDdne9ThrUYrwBwJR04FvN4VXpfsU3MNID5VJGHLAD5je/HGThCyEKNgH+nEkSFEWKD7C3Q==}
+    deprecated: Please migrate to https://github.com/antfu/shikiji
 
   shiki@0.13.0:
     resolution: {integrity: sha512-QucKtRFyoHgivnde/6tXu+7ZfUhcg02qiFlUSa4X0jQvHVKdtrimWPlbg+q06H2EeNSuj9DcMhtB18GgtDLsmw==}
@@ -21698,6 +21731,7 @@ packages:
 
   vite-plugin-vue-markdown@0.22.6:
     resolution: {integrity: sha512-BB0/yYoRO+4hceFZRgU/iAOpgklFvo/eHLapOkavIoDkP0jeoQubOMTEF8K4FuYRX9jaN5WcP2TrfhUgc7RuUg==}
+    deprecated: '`vite-plugin-vue-markdown` is renamed to `unplugin-vue-markdown`. For usages in Vite, you also need to change the import path to `unplugin-vue-markdown/vite`.'
     peerDependencies:
       vite: ^2.0.0 || ^3.0.0-0 || ^4.0.0
 
@@ -22379,6 +22413,7 @@ packages:
 
   vue@2.7.14:
     resolution: {integrity: sha512-b2qkFyOM0kwqWFuQmgd4o+uHGU7T+2z3T+WQp8UBjADfEv2n4FEMffzBmCKNP0IGzOEEfYjvtcC62xaSKeQDrQ==}
+    deprecated: Vue 2 has reached EOL and is no longer actively maintained. See https://v2.vuejs.org/eol/ for more details.
 
   vue@2.7.7:
     resolution: {integrity: sha512-osfkncsGCWqtch+YWYxbqTNQ9hl/UQ6TFRkdmK/VqAjuMpxzr5QotFsYpmJ1AB1ez2LJeIKXDmtMkXUotMOTsA==}
@@ -22507,6 +22542,7 @@ packages:
   webpack-chain@6.5.1:
     resolution: {integrity: sha512-7doO/SRtLu8q5WM0s7vPKPWX580qhi0/yBHkOxNkv50f6qB76Zy9o2wRTrrPULqYTvQlVHuvbA8v+G5ayuUDsA==}
     engines: {node: '>=8'}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   webpack-cli@3.3.11:
     resolution: {integrity: sha512-dXlfuml7xvAFwYUPsrtQAA9e4DOe58gnzSxhgrO/ZM/gyXTBowrsYeubyN4mqGhYdpXMFNyQ6emjJS9M7OBd4g==}
@@ -32829,7 +32865,7 @@ snapshots:
       babel-loader: 8.3.0(@babel/core@7.26.10)(webpack@4.46.0)
       cache-loader: 4.1.0(webpack@4.46.0)
       thread-loader: 2.1.3(webpack@4.46.0)
-      webpack: 4.46.0(webpack-cli@4.10.0(webpack@4.46.0))
+      webpack: 4.46.0(webpack-cli@3.3.11)
     transitivePeerDependencies:
       - core-js
       - supports-color
@@ -32846,7 +32882,7 @@ snapshots:
       babel-loader: 8.3.0(@babel/core@7.26.10)(webpack@4.46.0)
       cache-loader: 4.1.0(webpack@4.46.0)
       thread-loader: 2.1.3(webpack@4.46.0)
-      webpack: 4.46.0(webpack-cli@4.10.0(webpack@4.46.0))
+      webpack: 4.46.0(webpack-cli@3.3.11)
     transitivePeerDependencies:
       - core-js
       - supports-color
@@ -32945,7 +32981,7 @@ snapshots:
       eslint-loader: 2.2.1(eslint@6.8.0)(webpack@4.46.0)
       globby: 9.2.0
       inquirer: 7.3.3
-      webpack: 4.46.0(webpack-cli@4.10.0(webpack@4.46.0))
+      webpack: 4.46.0(webpack-cli@3.3.11)
       yorkie: 2.0.0
     transitivePeerDependencies:
       - supports-color
@@ -32960,7 +32996,7 @@ snapshots:
       eslint-loader: 2.2.1(eslint@6.8.0)(webpack@4.46.0)
       globby: 9.2.0
       inquirer: 7.3.3
-      webpack: 4.46.0(webpack-cli@4.10.0(webpack@4.46.0))
+      webpack: 4.46.0(webpack-cli@3.3.11)
       yorkie: 2.0.0
     transitivePeerDependencies:
       - supports-color
@@ -33048,7 +33084,7 @@ snapshots:
       ts-loader: 6.2.2(typescript@4.9.5)
       tslint: 5.20.1(typescript@4.9.5)
       typescript: 4.9.5
-      webpack: 4.46.0(webpack-cli@4.10.0(webpack@4.46.0))
+      webpack: 4.46.0(webpack-cli@3.3.11)
       yorkie: 2.0.0
     optionalDependencies:
       '@vue/compiler-sfc': 3.2.47
@@ -33250,10 +33286,10 @@ snapshots:
       url-loader: 2.3.0(file-loader@4.3.0(webpack@4.46.0))(webpack@4.46.0)
       vue-loader: 15.10.1(@vue/compiler-sfc@3.2.47)(cache-loader@4.1.0(webpack@4.46.0))(css-loader@3.6.0(webpack@4.46.0))(lodash@4.17.21)(pug@3.0.2)(react-dom@18.3.1(react@18.2.0))(react@18.2.0)(underscore@1.13.6)(vue-template-compiler@2.7.14)(webpack@4.46.0)
       vue-style-loader: 4.1.3
-      webpack: 4.46.0(webpack-cli@4.10.0(webpack@4.46.0))
+      webpack: 4.46.0(webpack-cli@3.3.11)
       webpack-bundle-analyzer: 3.9.0
       webpack-chain: 6.5.1
-      webpack-dev-server: 3.11.3(webpack-cli@4.10.0(webpack@4.46.0))(webpack@4.46.0)
+      webpack-dev-server: 3.11.3(webpack-cli@3.3.11)(webpack@4.46.0)
       webpack-merge: 4.2.2
     optionalDependencies:
       '@vue/compiler-sfc': 3.2.47
@@ -33373,10 +33409,10 @@ snapshots:
       url-loader: 2.3.0(file-loader@4.3.0(webpack@4.46.0))(webpack@4.46.0)
       vue-loader: 15.10.1(@vue/compiler-sfc@3.5.13)(babel-core@7.0.0-bridge.0(@babel/core@7.26.10))(cache-loader@4.1.0(webpack@4.46.0))(css-loader@3.6.0(webpack@4.46.0))(lodash@4.17.21)(pug@3.0.2)(react-dom@18.3.1(react@18.2.0))(react@18.2.0)(underscore@1.13.6)(vue-template-compiler@2.7.14)(webpack@4.46.0)
       vue-style-loader: 4.1.3
-      webpack: 4.46.0(webpack-cli@4.10.0(webpack@4.46.0))
+      webpack: 4.46.0(webpack-cli@3.3.11)
       webpack-bundle-analyzer: 3.9.0
       webpack-chain: 6.5.1
-      webpack-dev-server: 3.11.3(webpack-cli@4.10.0(webpack@4.46.0))(webpack@4.46.0)
+      webpack-dev-server: 3.11.3(webpack-cli@3.3.11)(webpack@4.46.0)
       webpack-merge: 4.2.2
     optionalDependencies:
       '@vue/compiler-sfc': 3.5.13
@@ -33496,7 +33532,7 @@ snapshots:
       terser-webpack-plugin: 1.4.5(webpack@4.46.0)
       thread-loader: 2.1.3(webpack@4.46.0)
       url-loader: 2.3.0(file-loader@4.3.0(webpack@4.46.0))(webpack@4.46.0)
-      vue-loader: 15.10.1(@vue/compiler-sfc@3.5.13)(babel-core@7.0.0-bridge.0(@babel/core@7.26.10))(cache-loader@4.1.0(webpack@4.46.0))(css-loader@3.6.0(webpack@4.46.0))(lodash@4.17.21)(pug@3.0.2)(react-dom@18.3.1(react@18.2.0))(react@18.2.0)(underscore@1.13.6)(vue-template-compiler@2.7.14)(webpack@4.46.0)
+      vue-loader: 15.10.1(@vue/compiler-sfc@3.5.13)(cache-loader@4.1.0(webpack@4.46.0))(css-loader@3.6.0(webpack@4.46.0))(lodash@4.17.21)(pug@3.0.2)(react-dom@18.3.1(react@18.2.0))(react@18.2.0)(underscore@1.13.6)(vue-template-compiler@2.7.14)(webpack@4.46.0)
       vue-style-loader: 4.1.3
       webpack: 4.46.0(webpack-cli@4.10.0(webpack@4.46.0))
       webpack-bundle-analyzer: 3.9.0
@@ -38538,8 +38574,6 @@ snapshots:
 
   dateformat@2.2.0: {}
 
-  dayjs@1.11.13: {}
-
   dayjs@1.11.9: {}
 
   de-indent@1.0.2: {}
@@ -39102,7 +39136,7 @@ snapshots:
     transitivePeerDependencies:
       - '@vue/composition-api'
 
-  element-plus@2.8.8(vue@3.3.4):
+  element-plus@2.8.1(vue@3.3.4):
     dependencies:
       '@ctrl/tinycolor': 3.6.0
       '@element-plus/icons-vue': 2.3.1(vue@3.3.4)
@@ -39112,7 +39146,7 @@ snapshots:
       '@types/lodash-es': 4.17.12
       '@vueuse/core': 9.12.0(vue@3.3.4)
       async-validator: 4.2.5
-      dayjs: 1.11.13
+      dayjs: 1.11.9
       escape-html: 1.0.3
       lodash: 4.17.21
       lodash-es: 4.17.21
@@ -41510,7 +41544,7 @@ snapshots:
       semver: 5.7.1
       tapable: 1.1.3
       typescript: 4.9.5
-      webpack: 4.46.0(webpack-cli@4.10.0(webpack@4.46.0))
+      webpack: 4.46.0(webpack-cli@3.3.11)
       worker-rpc: 0.1.1
     optionalDependencies:
       eslint: 6.8.0
@@ -41532,7 +41566,7 @@ snapshots:
       semver: 7.6.0
       tapable: 1.1.3
       typescript: 4.9.5
-      webpack: 4.46.0(webpack-cli@4.10.0(webpack@4.46.0))
+      webpack: 4.46.0(webpack-cli@3.3.11)
     optionalDependencies:
       eslint: 6.8.0
       vue-template-compiler: 2.7.14
@@ -42393,7 +42427,7 @@ snapshots:
       tapable: 1.1.3
       toposort: 1.0.7
       util.promisify: 1.0.0
-      webpack: 4.46.0(webpack-cli@3.3.11)
+      webpack: 4.46.0(webpack-cli@4.10.0(webpack@4.46.0))
 
   html-webpack-plugin@5.5.3(webpack@5.88.2(@swc/core@1.11.13(@swc/helpers@0.4.14))):
     dependencies:
@@ -51397,7 +51431,7 @@ snapshots:
       serialize-javascript: 4.0.0
       source-map: 0.6.1
       terser: 4.8.1
-      webpack: 4.46.0(webpack-cli@3.3.11)
+      webpack: 4.46.0(webpack-cli@4.10.0(webpack@4.46.0))
       webpack-sources: 1.4.3
       worker-farm: 1.7.0
 
@@ -53179,16 +53213,16 @@ snapshots:
       sass: 1.86.0
       terser: 5.18.2
 
-  vitepress-plugin-pagefind@0.2.6(vitepress@1.0.0-beta.5(@algolia/client-search@4.18.0)(@types/node@20.17.26)(@types/react@18.2.14)(async-validator@4.2.5)(axios@1.8.4)(change-case@4.1.2)(drauu@0.3.2)(fuse.js@6.6.2)(less@4.1.3)(lightningcss@1.21.2)(react-dom@18.3.1(react@18.2.0))(react@18.2.0)(sass@1.86.0)(search-insights@2.7.0)(terser@5.18.2))(vue@3.3.4):
+  vitepress-plugin-pagefind@0.2.6(vitepress@1.0.0-beta.5(@algolia/client-search@4.18.0)(@types/node@20.17.26)(@types/react@18.2.14)(async-validator@4.2.5)(axios@1.8.4)(change-case@4.1.2)(drauu@0.3.2)(fuse.js@6.6.2)(less@4.1.3)(lightningcss@1.21.2)(react-dom@18.3.1(react@18.2.0))(react@18.2.0)(sass@1.86.0)(search-insights@2.7.0)(terser@5.18.2))(vue@3.5.13(typescript@5.8.2)):
     dependencies:
       '@vue/shared': 3.3.4
-      '@vueuse/core': 9.12.0(vue@3.3.4)
+      '@vueuse/core': 9.12.0(vue@3.5.13(typescript@5.8.2))
       fast-glob: 3.3.0
       gray-matter: 4.0.3
       highlight.js: 11.8.0
       javascript-stringify: 2.1.0
       vitepress: 1.0.0-beta.5(@algolia/client-search@4.18.0)(@types/node@20.17.26)(@types/react@18.2.14)(async-validator@4.2.5)(axios@1.8.4)(change-case@4.1.2)(drauu@0.3.2)(fuse.js@6.6.2)(less@4.1.3)(lightningcss@1.21.2)(react-dom@18.3.1(react@18.2.0))(react@18.2.0)(sass@1.86.0)(search-insights@2.7.0)(terser@5.18.2)
-      vue: 3.3.4
+      vue: 3.5.13(typescript@5.8.2)
       vue-command-palette: 0.1.4
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -53800,7 +53834,7 @@ snapshots:
       loader-utils: 1.4.2
       vue-hot-reload-api: 2.3.4
       vue-style-loader: 4.1.3
-      webpack: 4.46.0(webpack-cli@4.10.0(webpack@4.46.0))
+      webpack: 4.46.0(webpack-cli@3.3.11)
     optionalDependencies:
       '@vue/compiler-sfc': 3.2.47
       cache-loader: 4.1.0(webpack@4.46.0)
@@ -53928,6 +53962,74 @@ snapshots:
       - whiskers
 
   vue-loader@15.10.1(@vue/compiler-sfc@3.5.13)(babel-core@7.0.0-bridge.0(@babel/core@7.26.10))(cache-loader@4.1.0(webpack@4.46.0))(css-loader@3.6.0(webpack@4.46.0))(lodash@4.17.21)(pug@3.0.2)(react-dom@18.3.1(react@18.2.0))(react@18.2.0)(underscore@1.13.6)(vue-template-compiler@2.7.14)(webpack@4.46.0):
+    dependencies:
+      '@vue/component-compiler-utils': 3.3.0(babel-core@7.0.0-bridge.0(@babel/core@7.26.10))(lodash@4.17.21)(pug@3.0.2)(react-dom@18.3.1(react@18.2.0))(react@18.2.0)(underscore@1.13.6)
+      css-loader: 3.6.0(webpack@4.46.0)
+      hash-sum: 1.0.2
+      loader-utils: 1.4.2
+      vue-hot-reload-api: 2.3.4
+      vue-style-loader: 4.1.3
+      webpack: 4.46.0(webpack-cli@3.3.11)
+    optionalDependencies:
+      '@vue/compiler-sfc': 3.5.13
+      cache-loader: 4.1.0(webpack@4.46.0)
+      vue-template-compiler: 2.7.14
+    transitivePeerDependencies:
+      - arc-templates
+      - atpl
+      - babel-core
+      - bracket-template
+      - coffee-script
+      - dot
+      - dust
+      - dustjs-helpers
+      - dustjs-linkedin
+      - eco
+      - ect
+      - ejs
+      - haml-coffee
+      - hamlet
+      - hamljs
+      - handlebars
+      - hogan.js
+      - htmling
+      - jade
+      - jazz
+      - jqtpl
+      - just
+      - liquid-node
+      - liquor
+      - lodash
+      - marko
+      - mote
+      - mustache
+      - nunjucks
+      - plates
+      - pug
+      - qejs
+      - ractive
+      - razor-tmpl
+      - react
+      - react-dom
+      - slm
+      - squirrelly
+      - swig
+      - swig-templates
+      - teacup
+      - templayed
+      - then-jade
+      - then-pug
+      - tinyliquid
+      - toffee
+      - twig
+      - twing
+      - underscore
+      - vash
+      - velocityjs
+      - walrus
+      - whiskers
+
+  vue-loader@15.10.1(@vue/compiler-sfc@3.5.13)(cache-loader@4.1.0(webpack@4.46.0))(css-loader@3.6.0(webpack@4.46.0))(lodash@4.17.21)(pug@3.0.2)(react-dom@18.3.1(react@18.2.0))(react@18.2.0)(underscore@1.13.6)(vue-template-compiler@2.7.14)(webpack@4.46.0):
     dependencies:
       '@vue/component-compiler-utils': 3.3.0(babel-core@7.0.0-bridge.0(@babel/core@7.26.10))(lodash@4.17.21)(pug@3.0.2)(react-dom@18.3.1(react@18.2.0))(react@18.2.0)(underscore@1.13.6)
       css-loader: 3.6.0(webpack@4.46.0)
@@ -54067,7 +54169,7 @@ snapshots:
       chalk: 4.1.2
       hash-sum: 2.0.0
       loader-utils: 2.0.4
-      webpack: 4.46.0(webpack-cli@4.10.0(webpack@4.46.0))
+      webpack: 4.46.0(webpack-cli@3.3.11)
     optionalDependencies:
       '@vue/compiler-sfc': 3.2.47
       vue: 3.2.47

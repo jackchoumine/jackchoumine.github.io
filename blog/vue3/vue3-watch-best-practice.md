@@ -53,7 +53,7 @@ watch 的第一个参数是监听的数据源，有四种形式：
   const numList = shallowRef([1, 2, 3])
 
   function changeNumList() {
-    // numList.value.push(10, 20, 30)  
+    // numList.value.push(10, 20, 30)
     // NOTE shallowRef 的数组，使用 push pop 等方法修改 无法监测到 ❌
     numList.value = [...numList.value, 10, 20, 30]
   }
@@ -131,7 +131,7 @@ numList.value = [...numList.value, 10, 20, 30] // 直接重置数组 shallowRef 
 shallowA.value = {
   ...shallowA.value,
   a: {
-    b: 'this is a.b '
+    b: 'this is a.b ',
   },
   // @ts-ignore
   e: 1000,
@@ -140,25 +140,25 @@ shallowA.value = {
 
 ### 关于 reactive 和 shallowReactive 的监听
 
-* 监听整个 reactive，直接写，`watch(person)`，不用添加 `{deep: true}`，是默认深度监听的；
-* 使用函数返回整个 reactive：`watch(()=>({..person}))`, 默认浅层监听的，监听深层属性，添加`{deep:true}`；
-* 监听 reactive 的单个属性，使用函数返回，监听多个属性，使用数组：`watch(person.age) watch([()=>person.age, ()=>person.name])`
+- 监听整个 reactive，直接写，`watch(person)`，不用添加 `{deep: true}`，是默认深度监听的；
+- 使用函数返回整个 reactive：`watch(()=>({..person}))`, 默认浅层监听的，监听深层属性，添加`{deep:true}`；
+- 监听 reactive 的单个属性，使用函数返回，监听多个属性，使用数组：`watch(person.age) watch([()=>person.age, ()=>person.name])`
 
 > 不能直接侦听响应式对象的属性值
 
 ```js
 const obj = reactive({
-  count: 0
+  count: 0,
 })
 
 // 错误，因为 watch() 得到的参数是一个 number ❌
-watch(obj.count, (count) => {
+watch(obj.count, count => {
   console.log(`count is: ${count}`)
 })
 // 应该这样监听：提供一个 getter 函数 ✅
 watch(
   () => obj.count,
-  (count) => {
+  count => {
     console.log(`count is: ${count}`)
   }
 )
@@ -178,7 +178,7 @@ watch(reactiveVariable, effectCallback, {
 })
 ```
 
-> flush?: 'pre' | 'post' | 'sync'; 
+> flush?: 'pre' | 'post' | 'sync';
 
 > 何时使用 `{flush:'post'}` ？希望在 `effectCallback` 中获取到最新的 DOM 时，比如 effectCallback 中涉及 DOM 的操作。
 
@@ -187,15 +187,19 @@ watch(reactiveVariable, effectCallback, {
 监听器的**回调函数使用到的变量**与**依赖源**完全相同是很常见的，比如这样：
 
 ```js
-watch(todoId, async (newTodoId) => {
-  // totoId.value 和 newTodoId 是相同的
-  const response = await fetch(
-    `https://jsonplaceholder.typicode.com/todos/${newTodoId}`
-  )
-  data.value = await response.json()
-}, {
-  immediate: true
-})
+watch(
+  todoId,
+  async newTodoId => {
+    // totoId.value 和 newTodoId 是相同的
+    const response = await fetch(
+      `https://jsonplaceholder.typicode.com/todos/${newTodoId}`
+    )
+    data.value = await response.json()
+  },
+  {
+    immediate: true,
+  }
+)
 ```
 
 > todoId 在监听器中被使用了两次：一次是作为依赖源，另一次是在回调中，可使用 `watchEffect` 简化：
@@ -231,7 +235,8 @@ watchEffect(
   () => {
     const refPerson = toRefs(person)
     console.log(refPerson, 'zqj log toRefs  deep: true')
-  }, {
+  },
+  {
     deep: true,
   }
 )
@@ -243,7 +248,8 @@ watchEffect(() => {
 watchEffect(
   () => {
     console.log(person, 'zqj log deep: true')
-  }, {
+  },
+  {
     deep: true,
   }
 )
@@ -290,7 +296,8 @@ watchEffect(
   () => {
     const refPerson = toRefs(person)
     console.log(refPerson, 'zqj log toRefs  deep: true')
-  }, {
+  },
+  {
     deep: true,
   }
 )
@@ -299,6 +306,18 @@ watchEffect(
 > watchEffect 的第二个参数 `{flush:'pre'|'post'|'sync'}` , 用来改变回调执行时机 ，默认是 `{flush:'pre'}` ，vue 组件更新前执行。
 
 `watchPostEffect(callback)` 是 `watchEffect(callback,{post:true})` 的别名。
+
+> watchEffect 回调函数中的所有响应式变量都会作为监听源，即使在赋值语句左边。
+
+```js
+watchEffect(() => {
+  formValue1.value.applicant = ''
+})
+```
+
+上面的代码中，用户修改 `formValue1` 的 `applicant` 属性时，watchEffect 也会触发，又重置为`''`，因此 applicant 总是为 `''`。
+
+这个行为是 watchEffect 的特性，非常犯错。
 
 > 使用 watchEffect 的最佳实践
 
@@ -311,6 +330,8 @@ watchEffect(
 4. **惰性执行**副作用和希望**获取旧值**时，不要使用。
 
 5. 深度监听，使用 `toRefs`。
+
+6. 小心 watchEffect 回调函数中的赋值语句左边的响应式变量，可能会导致死循环。
 
 ## ref vs reactive
 
@@ -357,7 +378,8 @@ watch(
   () => props.obj,
   (val, old) => {
     console.log('()=>props.obj', val, old)
-  }, {
+  },
+  {
     deep: true,
   }
 )
@@ -376,7 +398,7 @@ const postID = ref(1)
 const post = ref()
 
 const stopWatchEffect = watchEffect(async () => {
-  const [error, data] = await http.get(`http://localhost:3001/posts/${postID.value}`);
+  const [error, data] = await http.get(`http://localhost:3001/posts/${postID.value}`)
   !error && (post.value = data)
 })
 
@@ -492,6 +514,8 @@ setTimeout(function() {
 
 > watchEffect 的副作用是立即执行的。
 
+> 回调函数的赋值语句左边的响应式变量，可能会导致死循环，不建议使用 watchEffect。
+
 ## watch 和 watchEffect 误用
 
 常见的误用：
@@ -499,13 +523,15 @@ setTimeout(function() {
 1. 在回调函数中修改数据源，容易导致死循环
 
 ```js
-watch(() => source.value,
+watch(
+  () => source.value,
   n => {
     // 修改数据源
     source.value = []
     if (!n) return
     // 修改数据源 ...
-  })
+  }
+)
 ```
 
 ## 小结
