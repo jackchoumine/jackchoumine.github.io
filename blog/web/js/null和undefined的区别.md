@@ -55,7 +55,7 @@ console.log(c) // undefined
 1. 它是 js 内置的变量的默认值，给函数参数，解构，空数组等用法带来方便。
 2. 能使 http 接口返回更小，因为值为`undefined`的属性被过滤了，比如使用 node 做后台。
 
-```JS
+```js
 const {
   a = 'a'
   b = 1
@@ -72,8 +72,23 @@ const {
 `undefined` 给对象解构和默认参数等 js 用法带来极大方便，简化代码。
 
 1. 对象序列化，希望不丢失属性。
-2. js 中无法避免的情况，比如正则匹配, 获取 localStorage 中保存的数据。
+2. js 中无法避免的情况，比如正则匹配、获取 localStorage 中保存的数据。
 3. 调用后台给的接口时，比如 Java 后台。
+
+## 如何在代码中禁用 null?
+
+可使用 eslint 插件 [eslint-plugin-no-null](https://www.npmjs.com/package/eslint-plugin-no-null)，禁用 null。
+
+```js
+{
+  "plugins": [
+    "no-null"
+  ],
+  "rules": {
+    "no-null/no-null": 2
+  }
+}
+```
 
 ## 参考
 
