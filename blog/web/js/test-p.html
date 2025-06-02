@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-07-07 17:22:25
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-06-02 12:23:05
+ * @LastEditTime: 2025-06-02 12:27:51
  * @Description :
 -->
 <!doctype html>
@@ -15,7 +15,7 @@
   <body>
     <h2>前端并发控制</h2>
     <button>开始并发请求</button>
-    <input type="text" />
+    <input type="text" id="input" />
     <script>
       function pControl(limit) {
         const taskQueue = [] // {task: Function, params: any[]}[]
@@ -103,9 +103,19 @@
       const button = document.querySelector('button')
       button.addEventListener('click', startHttp)
       const input = document.querySelector('input')
-      input.addEventListener('input', event => {
-        console.log(event.target.value)
-      })
+      //input.addEventListener('input', event => {
+      //  console.log(event.target.value)
+      //})
+      const inputEl = document.querySelector('#input')
+      inputEl.addEventListener('input', onInput)
+      function onInput(e) {
+        const text = toUpperCase(e.target.value)
+        inputEl.value = text
+      }
+      function toUpperCase(text) {
+        // ... 其他复杂逻辑
+        return text.toUpperCase()
+      }
     </script>
   </body>
 </html>
