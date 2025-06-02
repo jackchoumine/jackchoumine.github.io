@@ -2,10 +2,10 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-07-07 17:22:25
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2024-07-07 18:46:00
- * @Description : 
+ * @LastEditTime: 2025-06-02 12:23:05
+ * @Description :
 -->
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -18,93 +18,94 @@
     <input type="text" />
     <script>
       function pControl(limit) {
-          const taskQueue = [] // {task: Function, params: any[]}[]
-          return {
-            add,
-            start,
-          }
-
-          function add(task, params) {
-            taskQueue.push({
-              task,
-              params,
-            })
-            // console.log('add', taskQueue.length,params)
-          }
-
-          function start() {
-            return runAllTasks2()
-          }
-
-          function runAllTasks() {
-            const allResults = []
-            return new Promise(resolve => {
-                runTask()
-                function runTask(){
-                    if(taskQueue.length === 0){
-                        return resolve(allResults)
-                    }
-                    // 等待任务队列有任务
-                    const needRunSize = Math.min(taskQueue.length, limit)
-                    const tasks = taskQueue.splice(0, needRunSize)
-                    const promises = tasks.map(({task, params}) => task(params))
-                    Promise.all(promises).then(resList => {
-                        allResults.push(...resList)
-                        runTask()
-                    })
-                }
-            })
-          }
-          async function runAllTasks2(){
-            const allResults = []
-            const groupArr = []
-            let startIndex =0
-            // 划分分组
-            while (startIndex < taskQueue.length) {
-                const arr = taskQueue.slice(startIndex,startIndex+limit)
-                groupArr.push(arr)
-                startIndex += limit
-            }
-            // 迭代分组
-            // const it = groupArr.entries()
-            // for (const  [key,value] of it){
-            //     const pList = value.map(({task,params})=>task(params))
-            //     const res = await Promise.all(pList)
-            //     // console.log(res)
-            //     allResults.push(...res)
-            // }
-            for (let index = 0; index < groupArr.length; index++) {
-                const pList = groupArr[index].map(({task,params})=>task(params))
-                const res = await Promise.all(pList)
-                allResults.push(...res)
-            }
-            return allResults
-          }
+        const taskQueue = [] // {task: Function, params: any[]}[]
+        return {
+          add,
+          start,
         }
 
+        function add(task, params) {
+          taskQueue.push({
+            task,
+            params,
+          })
+          // console.log('add', taskQueue.length,params)
+        }
 
-        function startHttp(){
-            console.log('startHttp')
-            const p = pControl(3)
-        function asyncTask(id){
-            const url = `https://jsonplaceholder.typicode.com/todos/${id}`
-            return fetch(url).then(res=>res.json()).then(res=>{
-                return res
+        function start() {
+          return runAllTasks2()
+        }
+
+        function runAllTasks() {
+          const allResults = []
+          return new Promise(resolve => {
+            runTask()
+            function runTask() {
+              if (taskQueue.length === 0) {
+                return resolve(allResults)
+              }
+              // 等待任务队列有任务
+              const needRunSize = Math.min(taskQueue.length, limit)
+              const tasks = taskQueue.splice(0, needRunSize)
+              const promises = tasks.map(({ task, params }) => task(params))
+              Promise.all(promises).then(resList => {
+                allResults.push(...resList)
+                runTask()
+              })
+            }
+          })
+        }
+        async function runAllTasks2() {
+          const allResults = []
+          const groupArr = []
+          let startIndex = 0
+          // 划分分组
+          while (startIndex < taskQueue.length) {
+            const arr = taskQueue.slice(startIndex, startIndex + limit)
+            groupArr.push(arr)
+            startIndex += limit
+          }
+          // 迭代分组
+          // const it = groupArr.entries()
+          // for (const  [key,value] of it){
+          //     const pList = value.map(({task,params})=>task(params))
+          //     const res = await Promise.all(pList)
+          //     // console.log(res)
+          //     allResults.push(...res)
+          // }
+          for (let index = 0; index < groupArr.length; index++) {
+            const pList = groupArr[index].map(({ task, params }) => task(params))
+            const res = await Promise.all(pList)
+            allResults.push(...res)
+          }
+          return allResults
+        }
+      }
+
+      function startHttp() {
+        console.log('startHttp')
+        const p = pControl(3)
+        function asyncTask(id) {
+          const url = `https://jsonplaceholder.typicode.com/todos/${id}`
+          return fetch(url)
+            .then(res => res.json())
+            .then(res => {
+              return res
             })
         }
         for (let index = 0; index < 10; index++) {
-           p.add(asyncTask, index + 1)
+          p.add(asyncTask, index + 1)
         }
-            p.start().then(allResults=>{
-                console.log(allResults)
-            })
-        }
-        const button = document.querySelector('button')
-        button.addEventListener('click', startHttp)
-        const input = document.querySelector('input')
-        input.addEventListener('input',(event)=>{
-            console.log(event.target.value)
+        p.start().then(allResults => {
+          console.log(allResults)
         })
+      }
+      const button = document.querySelector('button')
+      button.addEventListener('click', startHttp)
+      const input = document.querySelector('input')
+      input.addEventListener('input', event => {
+        console.log(event.target.value)
+      })
     </script>
   </body>
 </html>
