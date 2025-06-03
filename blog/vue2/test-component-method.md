@@ -19,8 +19,8 @@
     methods: {
       onClick() {
         console.log('click')
-      }
-    }
+      },
+    },
   }
 </script>
 ```
@@ -38,9 +38,7 @@
 测试方法：调用方法，然后断言方法的**返回值**或者**副作用**是否符合预期。
 
 ```js
-import {
-  shallowMount
-} from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 
 const Demo = {
   template: '<div>{{count}}</div>',
@@ -99,9 +97,7 @@ it('test timer', () => {
 上面的 Demo 组件加上一个 start ，每秒钟加 1。
 
 ```js
-import {
-  shallowMount
-} from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 
 const Demo = {
   template: '<div>{{count}}</div>',
@@ -182,9 +178,7 @@ Demo 组件：
 完整的代码
 
 ```js
-import {
-  shallowMount
-} from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 
 const Demo = {
   template: '<div>{{count}}</div>',
@@ -350,9 +344,9 @@ it('better test finish', () => {
 shallowMount(VueComponent, {
   mocks: {
     $bar: {
-      start() {}
-    }
-  }
+      start() {},
+    },
+  },
 })
 ```
 
@@ -363,7 +357,7 @@ shallowMount(VueComponent, {
 需要测试函数是否被调用，那么可使用能记录自身调用信息的模拟函数。
 
 ```js
-const mock = function(...rest) {
+const mock = function (...rest) {
   mock.calls.push(rest)
 }
 mock.calls = []
@@ -414,8 +408,8 @@ describe('mock ', () => {
     }
     shallowMount(VueDemo, {
       mocks: {
-        $bar
-      }
+        $bar,
+      },
     })
 
     expect($bar.start).toHaveBeenCalled()
@@ -500,9 +494,7 @@ describe('CounterDemo', () => {
 测试组件**销毁时**是否执行了 `stop` ：
 
 ```js
-import {
-  shallowMount
-} from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 
 describe('CounterDemo', () => {
   it('测试 destroy 时的函数调用', () => {
@@ -534,9 +526,9 @@ describe('CounterDemo', () => {
 
 异步代码是指在未来某个时间点执行的代码，比如定时器、网络请求等。
 
-###  回调函数类型的异步
+### 回调函数类型的异步
 
-想看一个**永远都通过**的测试用例，可以这样写：
+先看一个**永远都通过**的测试用例，可以这样写：
 
 ```js
 it('async function', () => {
@@ -555,7 +547,7 @@ it('async function', () => {
 使用 `done` ，执行异步回调。
 
 ```js
-it('async function', (done) => {
+it('async function', done => {
   let finish = false
   setTimeout(() => {
     finish = true
@@ -592,7 +584,7 @@ it('async callback function', done => {
 测试异步代码，往往会忘记编写断言，导致测试**误报**，可使用 `expect.assertions` 指定断言数量。
 
 ```js
-it('async callback function', (done) => {
+it('async callback function', done => {
   expect.assertions(1) // 必须执行一次断言
   let finish = false
   setTimeout(() => {
@@ -631,9 +623,9 @@ it('async promise function', done => {
 })
 ```
 
-> then 回调形式嵌套深，可读性差，希望使用 await。
+> then 回调形式嵌套深，可读性差，推荐使用 await。
 
-```JS
+```js
 it('async promise function', async () => {
   expect.assertions(1)
   const promiseFn = () => {
@@ -668,9 +660,8 @@ it('async promise function', async () => {
 </template>
 
 <script>
-  import {
-    getTodoList
-  } from '@/api'
+  import { getTodoList } from '@/api'
+
   // 从 api/index.js 导入依赖
   export default {
     name: 'MockModule',
@@ -694,9 +685,7 @@ getTodoList 调用 http:
 function getTodoList() {
   return fetch('https://jsonplaceholder.typicode.com/todos').then(res => res.json())
 }
-export {
-  getTodoList
-}
+export { getTodoList }
 ```
 
 组件的 http 接口在 created 里调用，如何测试呢？
@@ -712,9 +701,7 @@ api/__mocks__/index.js # 模拟 api/index.js
 ```js
 const getTodoList = jest.fn(() => Promise.resolve([]))
 
-export {
-  getTodoList
-}
+export { getTodoList }
 ```
 
 > 默认情况下，使用 jest.fn 创建的函数是无操作函数，即它们不执行任何操作。你可以通过调用 jest.fn 将 mock 函数的实现设置成期望的函数实现。例如，创建一个始终返回 true 的 mock 函数。
@@ -725,16 +712,13 @@ jest.fn(() => true)
 
 getTodoList 返回 promise，所以模拟函数也返回 promise。
 
- `MockModule.spec.js`
+`MockModule.spec.js`
 
-```JS
-import {
-  shallowMount
-} from '@vue/test-utils'
+```js
+import { shallowMount } from '@vue/test-utils'
 import flushPromises from 'flush-promises'
-import {
-  getTodoList
-} from '@/api'
+
+import { getTodoList } from '@/api'
 
 import MockModule from './MockModule.vue'
 
@@ -743,20 +727,24 @@ jest.mock('@/api') // 模拟 api 模块
 describe('MockModule.vue', () => {
   it('测试异步接口', async () => {
     expect.assertions(1)
-    const todos = [{
-      id: '1',
-      title: '测试'
-    }]
+    const todos = [
+      {
+        id: '1',
+        title: '测试',
+      },
+    ]
     // 模拟 getTodoList 返回值
     getTodoList.mockResolvedValueOnce(todos)
     const todoList = await getTodoList()
     expect(todoList).toEqual(todos)
   })
   it('模拟模块依赖', async () => {
-    const todos = [{
-      id: '1',
-      title: '测试'
-    }]
+    const todos = [
+      {
+        id: '1',
+        title: '测试',
+      },
+    ]
     // 模拟 getTodoList 返回值
     getTodoList.mockResolvedValueOnce(todos)
     const wrapper = shallowMount(MockModule)
@@ -783,22 +771,22 @@ await flushPromises 的作用：flush-promises 会刷新所有处于 pending 状
 修改上面的测试：
 
 ```js
-import {
-  shallowMount
-} from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import flushPromises from 'flush-promises'
-import {
-  getTodoList
-} from '@/api'
+
+import { getTodoList } from '@/api'
 
 import MockModule from './MockModule.vue'
 
 jest.mock('@/api') // 模拟 api 模块
+
 describe('MockModule.vue', () => {
-  const todos = [{
-    id: '1',
-    title: '测试'
-  }]
+  const todos = [
+    {
+      id: '1',
+      title: '测试',
+    },
+  ]
   beforeEach(() => {
     // getTodoList.mockResolvedValueOnce(todos)
     getTodoList.mockResolvedValue(todos)
@@ -828,17 +816,17 @@ describe('MockModule.vue', () => {
 
 常见的会降低测试速度的副作用：
 
-* http 请求；
-* 数据库连接；
-* 使用文件系统。
+- http 请求；
+- 数据库连接；
+- 使用文件系统。
 
 ## 小结
 
-* 只测试组件的共有方法：调用共有方法，断言输出。
-* 使用 Jest 假定时器来测试定时器函数。
-* 使用`mockResolvedValue` 或者 `mockResolvedValueOnce` 来模拟函数的返回值。
-* `jet.fn` 来模拟函数。
-* 使用 `jest.spyOn` 来监视函数的调用情况。
-* shallowMount 的 mocks 选项，可模拟组件实例属性。
-* `jest.mock` 模拟模块。
-* 适度使用 mock。
+- 只测试组件的共有方法：调用共有方法，断言输出。
+- 使用 Jest 假定时器来测试定时器函数。
+- 使用`mockResolvedValue` 或者 `mockResolvedValueOnce` 来模拟函数的返回值。
+- `jet.fn` 来模拟函数。
+- 使用 `jest.spyOn` 来监视函数的调用情况。
+- shallowMount 的 mocks 选项，可模拟组件实例属性。
+- `jest.mock` 模拟模块。
+- 适度使用 mock。
