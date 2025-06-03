@@ -52,9 +52,9 @@ testing-library 倡导以用户实际使用软件的方式来测试组件，所�
 
 该如何选择查询函数呢？
 
-> 单测的越接近用户的使用方式，单侧越稳定越可靠，只要需要不变，单测就无需调整。
+> 单测的越接近用户的使用方式，单测越稳定，越可靠，只要需求不变，单测就无需调整。
 
-基于这样的原则，把查询参照分成三类：
+基于这样的原则，根据用户是否能看到查询参照，把查询参照分成三类：
 
 可见的参照，推荐使用：getByText、getByLabelText、getByPlaceholderText、getByDisplayValue、getByRole
 条件可见的参照，可使用：getByAltText、getByTitle
@@ -276,7 +276,7 @@ Error: Timed out in waitForElementToBeRemoved.
 
 - 配合 queryBy 检查消失后的状态。
 
-## 测试实时任务
+## 测试定时任务
 
 定时功能也是很常见的，如何对定时任务进行测试呢？比如一个定时任务需要一个小时执行一次，真实的去测试这个定时任务，就需要等待一个小时，单元测试要求快速得到反馈，这样显然不可取。
 
