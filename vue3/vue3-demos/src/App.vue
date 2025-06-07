@@ -2,18 +2,20 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-10-17 15:17:02
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-06-07 13:12:42
+ * @LastEditTime: 2025-06-07 13:34:58
  * @Description :
 -->
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import { routes } from './router'
 </script>
 
 <template>
   <header>
     <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
+      <RouterLink v-for="route in routes" :key="route.path" :to="route.path">
+        {{ route.name }}
+      </RouterLink>
     </nav>
   </header>
 
