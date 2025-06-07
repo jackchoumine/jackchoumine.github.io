@@ -2,91 +2,49 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-10-17 15:17:02
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2023-10-17 15:30:16
- * @Description : 
+ * @LastEditTime: 2025-06-07 13:12:42
+ * @Description :
 -->
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
+    <nav>
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/about">About</RouterLink>
+    </nav>
   </header>
 
   <RouterView />
 </template>
 
-<style scoped>
+<style lang="scss">
 header {
-  line-height: 1.5;
+  line-height: 2;
   max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--active-color);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
+  background-color: lightblue;
   nav {
-    text-align: left;
-    margin-left: -1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
     font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
+    a {
+      display: inline-block;
+      padding: 0 1rem;
+      border-left: 1px solid var(--color-border);
+    }
+    a:first-of-type {
+      border: 0;
+    }
+    a.router-link-exact-active {
+      color: var(--active-color);
+      :hover {
+        background-color: transparent;
+      }
+    }
   }
 }
 </style>
