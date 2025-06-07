@@ -9,7 +9,6 @@
 <script setup>
 import { useCounterStore } from '@/stores'
 
-const { increment } = useCounterStore()
 const counterStore = useCounterStore()
 </script>
 
@@ -18,7 +17,7 @@ const counterStore = useCounterStore()
     <h1>Pinia Page</h1>
     <p>Count: {{ counterStore.count }}</p>
     <p>Double Count: {{ counterStore.doubleCount }}</p>
-    <button @click="increment">Increment</button>
+    <button @click="counterStore.increment">Increment</button>
     <hr />
   </div>
 </template>
