@@ -1,6 +1,6 @@
 # vue 技巧
 
-## 如何一次绑定多个值和事件
+## 如何一次绑定多个 prop 和事件
 
 `v-bind` 和 `v-on`
 
@@ -144,7 +144,7 @@ ref 获取 setup 函数的返回值
 
 > [vue 文档中的 defineExpose](https://cn.vuejs.org/api/sfc-script-setup.html#defineexpose)
 
-## 在子组件内部修改插槽里的代码样式
+## 在子组件内部修改插槽样式
 
 > :slotted(selector) 修改插槽样式
 
@@ -160,7 +160,7 @@ ref 获取 setup 函数的返回值
 
 <style lang="scss" scoped>
   /* 修改父组件传递过来的额插槽样式 */
-  :global(.slot) {
+  :slotted(.slot) {
     background-color: red;
   }
 </style>
@@ -169,7 +169,7 @@ ref 获取 setup 函数的返回值
 父组件：
 
 ```html
-<script setup name="Demos">
+<script setup>
   import TestSlotted from './TestSlotted.vue'
 </script>
 
