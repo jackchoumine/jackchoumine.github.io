@@ -136,8 +136,24 @@ Host gitee.com
 
 > IdentityFile 使用绝对路径
 
-### 参考
+## 添加两个远程地址，一个命令推送到两个远程仓库
+
+```bash
+git remote set-url --add origin https://github.com/yourname/repo.git
+git remote set-url --add origin https://gitee.com/yourname/repo.git
+```
+
+> 如果已经有了 origin 远程地址，可以使用 `git remote set-url --add` 命令添加新的远程地址。
+
+然后使用
+
+```bash
+git push # 或者
+git push origin main
+```
+
+就推送到两个远程仓库了。
+
+## 参考
 
 [Windows 下 Git 多账号配置，同一电脑多个 ssh-key 的管理](https://www.cnblogs.com/popfisher/p/5731232.html)
-
-<!-- 为何没进入版本控制 -->
