@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-10-17 15:58:44
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-06-08 17:14:45
+ * @LastEditTime: 2025-06-09 12:54:54
  * @Description :
 -->
 <script lang="ts" setup>
@@ -17,7 +17,7 @@ try {
 } catch (error) {
   todo.value = '获取 todo 遇到错误'
 }
-const { emit } = useMitt('user:login')
+const { emit } = useMitt('user:login', false)
 // 触发事件，传递数据
 const onClickEmit = () => {
   emit({
