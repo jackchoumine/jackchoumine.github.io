@@ -169,6 +169,26 @@ export function useMitt<EventKey extends keyof GlobalMittEvents>(
 
 > 暴露了 on、emit 和 off 方法，方便使用者手动处理事件，使用方式上和 mitt 保持一致。
 
+### 把 GlobalMittEvents 声明为全局类型
+
+可避免导入语句。
+
+在`types/global.d.ts` 中添加：
+
+```ts
+declare global {
+  type GlobalMittEvents = {
+    'user:login': { username: string; password: string }
+  }
+}
+
+// 确保文件是一个模块文件,export {} 不导出任何内容
+// 只要文件中有 import 或 export，它就会被 TypeScript 识别为“模块文件”。
+export {}
+```
+
+> 注意：务必把 `types/global.d.ts` 纳入 include 或 files 中，以确保 TypeScript 能正确识别。
+
 ## 注意事项
 
 > 事件必须**先注册后触发**，否则会导致事件无法被监听到。

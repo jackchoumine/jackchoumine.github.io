@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-06-08 16:40:27
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-06-08 17:33:45
+ * @LastEditTime: 2025-06-09 10:45:04
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -12,7 +12,7 @@ import { onBeforeUnmount, onMounted, shallowRef } from 'vue'
 // TODO 如何扩展 mitt 的事件类型
 // 以便不用导入事件类型
 // 在 'src/types/globalEvents' // 确保导入了全局事件类型定义
-import type { GlobalMittEvents } from '@/types'
+//import type { GlobalMittEvents } from '@/types'
 
 // 定义全局事件类型
 // 这里的事件类型可以根据实际需求进行扩展
