@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-06-08 16:40:27
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-06-09 13:00:30
+ * @LastEditTime: 2025-06-09 13:14:58
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -36,6 +36,12 @@ const _mitt: Emitter<GlobalMittEvents> = mitt<GlobalMittEvents>()
  * // 触发事件
  * const { emit } = useMitt('user:login')
  * emit({ username: 'testUser', password: 'testPass' })
+ * // 仅仅想触发事件而不注册处理函数
+ * const { emit } = useMitt('user:login', false)
+ * emit({ username: 'testUser', password: 'testPass' })
+ * // 手动注册事件处理函数
+ * const { on } = useMitt('user:login', false)
+ * on((payload) => { console.log('User logged in:', payload) })
  * ```
  */
 export function useMitt<EventKey extends keyof GlobalMittEvents>(

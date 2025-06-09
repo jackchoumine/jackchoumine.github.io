@@ -2,12 +2,12 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-10-17 15:58:44
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-06-09 12:54:54
+ * @LastEditTime: 2025-06-09 13:11:35
  * @Description :
 -->
 <script lang="ts" setup>
 import { useMitt } from '@/hooks'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const url = 'https://jsonplaceholder12.typicode.com/todos/1'
 const todo = ref()
@@ -17,7 +17,7 @@ try {
 } catch (error) {
   todo.value = '获取 todo 遇到错误'
 }
-const { emit } = useMitt('user:login', false)
+const { emit, on } = useMitt('user:login', false)
 // 触发事件，传递数据
 const onClickEmit = () => {
   emit({
@@ -25,6 +25,12 @@ const onClickEmit = () => {
     password: Math.random().toString(36).slice(2, 8)
   })
 }
+on((payload) => {
+  console.log('password', payload.password)
+})
+onMounted(() => {
+  console.log('AsyncSetup mounted')
+})
 </script>
 
 <template>
