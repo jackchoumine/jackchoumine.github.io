@@ -1,46 +1,32 @@
 # vue3-demos
 
-This template should help get you started developing with Vue 3 in Vite.
+## 给全局对象 window 添加额外的属性类型
 
-## Recommended IDE Setup
+> 1. `types/global.d.ts` 文件中添加了对 `window` 对象的类型扩展。
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+```ts
+declare global {
+  interface Window {
+    myGlobalFn: () => void
+    age: number
+  }
+}
 
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
+// 确保文件是一个模块文件,export {} 不导出任何内容
+// 只要文件中有 import 或 export，它就会被 TypeScript 识别为“模块文件”。
+export {}
 ```
 
-### Compile and Hot-Reload for Development
+没有 `export {}` 的话，TypeScript 会将这个文件视为全局脚本文件，而不是模块文件，这可能会导致类型定义不被正确识别。
 
-```sh
-npm run dev
+扩展全局对象，必须使用 `declare global` 语句。
+
+> 2. 在 `tsconfig.app.json` 纳入 types/global.d.ts。
+
+```json
+{
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "types"]
+}
 ```
 
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+完成以上步骤后，window.age 就有类型提示了。
