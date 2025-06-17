@@ -348,9 +348,11 @@ import { createApp } from 'vue/dist/vue.esm-bundler.js'
     <p>123</p>
   </div>
 </template>
+
 <script setup>
   const text = ref('hello')
 </script>
+
 <style scoped>
   div p:first-of-type:before {
     content: attr(data-text);
