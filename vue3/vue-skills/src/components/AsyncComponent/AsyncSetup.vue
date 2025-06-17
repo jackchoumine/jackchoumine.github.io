@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-10-17 15:58:44
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-06-09 13:11:35
+ * @LastEditTime: 2025-06-17 11:19:42
  * @Description :
 -->
 <script lang="ts" setup>
@@ -36,7 +36,7 @@ onMounted(() => {
 <template>
   <div class="AsyncSetup">
     {{ todo }}
-    <button @click="onClickEmit">发布时间</button>
+    <button @click="onClickEmit">触发事件</button>
   </div>
 </template>
 
