@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-12-03 20:34:48
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-06-07 13:32:41
+ * @LastEditTime: 2025-06-17 11:21:28
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -12,7 +12,7 @@ import HomeView from '../views/HomeView.vue'
 export const routes = [
   {
     path: '/',
-    name: 'home',
+    name: '异步组件',
     component: HomeView
   },
   {
