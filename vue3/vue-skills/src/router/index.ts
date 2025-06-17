@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2023-12-03 20:34:48
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-06-17 11:21:28
+ * @LastEditTime: 2025-06-17 11:34:23
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -14,6 +14,11 @@ export const routes = [
     path: '/',
     name: '异步组件',
     component: HomeView
+  },
+  {
+    path: '/use-mitt',
+    name: '事件总线',
+    component: () => import('../views/UseMittPage.vue')
   },
   {
     path: '/about',
