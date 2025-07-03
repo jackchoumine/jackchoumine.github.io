@@ -1,5 +1,8 @@
 # js 学习
 
+
+### [浅谈value和presentation](./浅谈value和presentation.md)
+
 ### [AbortController 用法](./AbortController使用.md)
 
 ### [再学跨域（三）-- html 标签上的跨域](./再学跨域2-html标签上的跨域.md)

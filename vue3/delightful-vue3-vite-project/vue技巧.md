@@ -325,6 +325,8 @@ import { createApp } from 'vue/dist/vue.esm-bundler.js'
 
 ## 二次封装如何处理插槽
 
+### 方式一：循环 slots
+
 ```html
 <template>
   <div>
@@ -333,6 +335,16 @@ import { createApp } from 'vue/dist/vue.esm-bundler.js'
         <slot :name="name" v-bind="slotProps??{}"></slot>
       </template>
     </ThirdPartyComponent>
+  </div>
+</template>
+```
+
+### 方式二：component 传递 slots
+
+```html
+<template>
+  <div>
+    <component :is="h(ThirdPartyComponent,{...$attrs,...props,ref:refIns},$slots)" />
   </div>
 </template>
 ```
@@ -348,9 +360,11 @@ import { createApp } from 'vue/dist/vue.esm-bundler.js'
     <p>123</p>
   </div>
 </template>
+
 <script setup>
   const text = ref('hello')
 </script>
+
 <style scoped>
   div p:first-of-type:before {
     content: attr(data-text);
