@@ -13,6 +13,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "element-plus": "^2.10.2",
     "mitt": "^3.0.1",
     "petite-utils": "^0.0.25",
     "pinia": "^3.0.3",
