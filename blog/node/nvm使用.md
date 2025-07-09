@@ -36,18 +36,20 @@ nvm -v # 输出版本号说明安装成功
 
 ```bash
 nvm ls # 查看安装了哪些版本
+nvm ls-remote --lts # 查看长期支持的版本
+nvm alias default version-no # 设置默认版本 新开一个终端后生效
+nvm use version-no # 切换版本
+nvm use --lts # 切换到你已安装的最新 LTS 版本
 nvm install node # 安装最新版本
 nvm install version-no # 安装指定版本
 nvm install 14.0.0
 nvm which version-no # 查看安装目录
-nvm install --lts # 安装长支持版本
+nvm install --lts # 安装最新的长期支持版本
 nvm install --lts=version-symbol # 通过版本代号安装长支持版本
 nvm uninstall --lts=version-symbol # 通过版本代号安装长支持版本
-nvm use version-no # 切换版本
 nvm use default # 默认版本
 nvm use stable # 稳定版本
 nvm use system # 系统版本 TODO 什么叫系统版本？
-nvm alias default version # 设置默认版本
 ```
 
 > 绿色箭头的是当前使用的版本，并列出了可安装的长期支持版本
