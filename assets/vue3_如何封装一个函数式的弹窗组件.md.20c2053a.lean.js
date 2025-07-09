@@ -1,0 +1,1 @@
+import{_ as s,o as n,c as a,a as p}from"./app.adb98358.js";const C=JSON.parse('{"title":"如何封装一个函数式的弹窗组件","description":"","frontmatter":{},"headers":[],"relativePath":"vue3/如何封装一个函数式的弹窗组件.md"}'),l={name:"vue3/如何封装一个函数式的弹窗组件.md"},o=p("",6),e=[o];function c(r,t,D,y,F,i){return n(),a("div",null,e)}const _=s(l,[["render",c]]);export{C as __pageData,_ as default};
