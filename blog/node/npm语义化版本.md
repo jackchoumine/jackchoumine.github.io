@@ -77,7 +77,7 @@ npm i vue@beta # 安装 2.6.0-beta.3
 
 （1）更新**文档**以便使用者知道这个变化。
 
-（2）发布不包含弃用功能的**次版本**。在新的主版本中完全移除弃用功能前，至少应有一个包含弃用功能的副版本发布，以便使用者能够平滑过渡到新 API。
+（2）发布包含弃用功能的**次版本**。在新的主版本中完全移除弃用功能前，至少应有一个包含弃用功能的次版本发布，以便使用者能够平滑过渡到新 API。
 
 如何更新版本号？不用手动修改 package.json。而是用如下命令：
 
@@ -117,6 +117,8 @@ npm version [<newversion> | major | minor | patch | premajor | preminor | prepat
 | 发布 2.0.0                             | 2.0.0-beta.1 --> 2.0.0          | `npm version major`                  | `npm publish`             |
 
 > 0.y.z 的版本是不稳定版本，发布时可以不用添加 tag，这是 npm 推荐的做法。
+
+> alpha 和 beta 版本，不是必需的，提供给不特定用户使用的库，比如开源的库，只建议发布 beta 版本。内部库，可有 alpha 和 beta 版本。
 
 ## git 和 npm version 结合
 
