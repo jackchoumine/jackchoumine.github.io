@@ -1,6 +1,6 @@
 {
   "name": "jack-front",
-  "version": "1.1.0-beta.0",
+  "version": "1.1.0-beta.1",
   "description": "把所有前端项目都集中到这里",
   "main": "index.js",
   "scripts": {
