@@ -87,8 +87,8 @@ npm version [<newversion> | major | minor | patch | premajor | preminor | prepat
 
 1. **newversion**: 直接给一个版本号；
 2. **major**: 主版本增加 1，`1.1.2 --> 2.0.0`；
-3. **premajor preid=beta**: 次主版本，主版本增加 1，附上预发版本，`1.1.2 --> 2.0.0-beta-0`；
-4. **prelease preid=beta**: 预发布版本，预发版本号增加 1，`2.0.0-beta-0 --> 2.0.0-beta-1`；
+3. **premajor --preid=beta**: 次主版本，主版本增加 1，附上预发版本，`1.1.2 --> 2.0.0-beta.0`；
+4. **prelease --preid=beta**: 预发布版本，预发版本号增加 1，`2.0.0-beta.0 --> 2.0.0-beta.1`；
 
 ## 版本演进是怎样的？
 
