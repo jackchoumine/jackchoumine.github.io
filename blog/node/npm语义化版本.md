@@ -7,9 +7,9 @@
 npm 的版本号由三部分组成：
 `主版本号` 、 `次版本号` 、 `补丁版本号` 。变更不同的版本号，表示不同的意义：
 
-* 主版本号（major）：软件做了不兼容的变更（breaking change 重大变更）；
-* 次版本号（minor）：添加功能或者废弃功能，向下兼容；
-* 补丁版本号（patch）：bug 修复，向下兼容。
+- 主版本号（major）：不兼容的变更（breaking change 重大变更）；
+- 次版本号（minor）：添加功能或者废弃功能，可包含 bug 修复，向下兼容；
+- 补丁版本号（patch）：bug 修复，向下兼容。
 
 有时候为了表达更加确切的版本，还会在版本号后面添加**标签**或者**扩展**，来说明是预发布版本或者测试版本等。比如 **3.2.3-beta-3**。
 
@@ -19,7 +19,7 @@ npm 的版本号由三部分组成：
 |demo|demo 版本|可能用于验证问题的版本|
 |dev|开发版|开发阶段用的，bug 多，体积较大等特点，功能不完善|
 |alpha|α 版本|用于内部交流或者测试人员测试|bug 较多|
-|beta|测试版(β 版本)|较 α 版本，有较大的改进，但是还是有 bug|
+|beta|测试版(β 版本)|较 α 版本，有较大的改进，还是有 bug|
 |gamma|（γ）伽马版本|较 α 和 β 版本有很大的改进，与稳定版相差无几，用户可使用|
 |trial|试用版本|本软件通常都有时间限制，过期之后用户如果希望继续使用，一般得交纳一定的费用进行注册或购买。有些试用版软件还在功能上做了一定的限制。|
 |stable|稳定版||
@@ -27,6 +27,9 @@ npm 的版本号由三部分组成：
 |latest|最新版本|不指定版本和标签，npm 默认安装最新版|
 
 [更多关于标签的内容](https://docs.npmjs.com/cli/dist-tag)
+
+> 实践建议：没有特殊需求，仅使用 alpha 、beta 和 latest 就能满足绝大部分情况。
+
 查看标签：
 
 ```bash
@@ -71,8 +74,10 @@ npm i vue@beta # 安装 2.6.0-beta.3
 ## 如何处理即将弃用的功能？
 
 弃用现存的功能是软件开发中的家常便饭，也通常是向前发展所必须的。但当你弃用公共 API 的一部分时，你应该做两件事：
+
 （1）更新**文档**以便使用者知道这个变化。
-（2）发行不包含弃用功能的**次版本**。在新的主版本中完全移除弃用功能前，至少应有一个包含弃用功能的副版本发布，以便使用者能够平滑过渡到新 API。
+
+（2）发布不包含弃用功能的**次版本**。在新的主版本中完全移除弃用功能前，至少应有一个包含弃用功能的副版本发布，以便使用者能够平滑过渡到新 API。
 
 如何更新版本号？不用手动修改 package.json。而是用如下命令：
 
@@ -81,9 +86,37 @@ npm version [<newversion> | major | minor | patch | premajor | preminor | prepat
 ```
 
 1. **newversion**: 直接给一个版本号；
-2. **major**:主版本增加 1；
-3. **premajor**:预备主版本，主版本增加 1，增加先行版本号；
-4. **prelease**:预先发布版本，先行版本号增加 1；
+2. **major**: 主版本增加 1，`1.1.2 --> 2.0.0`；
+3. **premajor preid=beta**: 次主版本，主版本增加 1，附上预发版本，`1.1.2 --> 2.0.0-beta-0`；
+4. **prelease preid=beta**: 预发布版本，预发版本号增加 1，`2.0.0-beta-0 --> 2.0.0-beta-1`；
+
+## 版本演进是怎样的？
+
+假设开发一个 js 库，从`0.1.0`开始开发，`1.0.0`为第一个稳定版本，然后发展到`2.0.0`，可能会经历这些版本阶段：
+
+| 阶段                                   | 版本号变化                      | 升级命令                             | 发布命令                  |
+| -------------------------------------- | ------------------------------- | ------------------------------------ | ------------------------- |
+| 初始项目                               | 0.1.0                           |                                      | 不用发布                  |
+| 第一个功能                             | 0.1.0 --> 0.2.0                 | `npm version minor`                  | `npm publish`             |
+| 第二个功能                             | 0.2.0 --> 0.3.0                 | `npm version minor`                  | `npm publish`             |
+| 修复 bug                               | 0.2.0 --> 0.2.1                 | `npm version patch`                  | `npm publish`             |
+| 修复 bug                               | 0.2.1 --> 0.2.2                 | `npm version patch`                  | `npm publish`             |
+| 第八个功能                             | 0.7.2 --> 0.8.0                 | `npm version minor`                  | `npm publish`             |
+| 功能开发完毕，发布第一个 alpha 版本    | 0.8.0 --> 1.0.0-alpha.0         | `npm version premajor preid=alpha`   | `npm publish --tag alpha` |
+| 内测发现bug，修复功能                  | 1.0.0-alpha.0 --> 1.0.0-alpha.1 | `npm version prerelease preid=alpha` | `npm publish --tag alpha` |
+| 内测完毕，发布第一个公测版本           | 1.0.0-alpha.1 --> 1.0.0-beta.0  | `npm version prerelease preid=beta`  | `npm publish --tag beta`  |
+| 修复bug，发布第二个公测版本            | 1.0.0-beta.0 --> 1.0.0-beta.1   | `npm version prerelease preid=beta`  | `npm publish --tag beta`  |
+| 发布第一个正式版本                     | 1.0.0-beta.1 --> 1.0.0          | `npm version patch`                  | `npm publish`             |
+| 新增一个功能，发布公测版本             | 1.0.0 --> 1.1.0-beta.0          | `npm version preminor preid-beta`    | `npm publish --tag beta`  |
+| 修复 bug                               | 1.1.0-beta.0 --> 1.1.0-beta.1   | `npm version perrelease --pid=beta`  | `npm publish --tag beta`  |
+| 修复完毕，发布一个正式版               | 1.1.0-beta.1 --> 1.1.0          | `npm version minor`                  | `npm publish`             |
+| 新增第二个功能，直接发布正式版         | 1.1.0 --> 1.2.0                 | `npm version minor`                  | `npm publish`             |
+| 弃用功能，发布一个包含移除功能的次版本 | 1.2.0 --> 1.3.0                 | `npm version minor`                  | `npm publish`             |
+| 移除弃用功能的代码，发布一个 beta 版本 | 1.3.0 --> 2.0.0-beta.0          | `npm version premajor preid=beta`    | `npm publish --tag beta`  |
+| 修复bug                                | 2.0.0-beta.0 --> 2.0.0-beta.1   | `npm version prerelease preid=beta`  | `npm publish --tag beta`  |
+| 发布 2.0.0                             | 2.0.0-beta.1 --> 2.0.0          | `npm version major`                  | `npm publish`             |
+
+> 0.y.z 的版本是不稳定版本，发布时可以不用添加 tag，这是 npm 推荐的做法。
 
 ## git 和 npm version 结合
 
