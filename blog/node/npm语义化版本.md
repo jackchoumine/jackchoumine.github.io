@@ -109,7 +109,7 @@ npm version [<newversion> | major | minor | patch | premajor | preminor | prepat
 | 发布第一个正式版本                     | 1.0.0-beta.1 --> 1.0.0          | `npm version patch`                  | `npm publish`             |
 | 新增一个功能，发布公测版本             | 1.0.0 --> 1.1.0-beta.0          | `npm version preminor preid-beta`    | `npm publish --tag beta`  |
 | 修复 bug                               | 1.1.0-beta.0 --> 1.1.0-beta.1   | `npm version perrelease --pid=beta`  | `npm publish --tag beta`  |
-| 修复完毕，发布一个正式版               | 1.1.0-beta.1 --> 1.1.0          | `npm version minor`                  | `npm publish`             |
+| 修复完毕，发布一个正式版               | 1.1.0-beta.1 --> 1.1.0          | `npm version patch`                  | `npm publish`             |
 | 新增第二个功能，直接发布正式版         | 1.1.0 --> 1.2.0                 | `npm version minor`                  | `npm publish`             |
 | 弃用功能，发布一个包含移除功能的次版本 | 1.2.0 --> 1.3.0                 | `npm version minor`                  | `npm publish`             |
 | 移除弃用功能的代码，发布一个 beta 版本 | 1.3.0 --> 2.0.0-beta.0          | `npm version premajor preid=beta`    | `npm publish --tag beta`  |
