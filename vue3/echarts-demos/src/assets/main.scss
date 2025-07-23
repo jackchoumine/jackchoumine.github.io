@@ -1,0 +1,49 @@
+@import './reset.css'; /* layer(reset); */
+@import url('element-plus/theme-chalk/src/index.scss');
+//@import url('element-plus/dist/index.css'); /* layer(element-plus); */
+@import './base.css'; /* layer(base); */
+
+html {
+  body {
+    #app {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
+.h-full {
+  height: 100%;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+@keyframes loading_map {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+  padding: 3px;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}

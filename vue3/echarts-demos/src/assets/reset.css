@@ -1,0 +1,64 @@
+/*
+  1. 使用更直观的盒模型。
+*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+/*
+    2. 移除默认的边距
+  */
+* {
+  margin: 0;
+}
+/*
+    字体排版调整！
+    3. 添加可访问的行高
+    4. 改善文字渲染
+  */
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+/*
+ * 5. 改善媒体默认值
+ */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+/*
+    6. 移除内置表单排版样式
+  */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+/*
+  7. 避免文本溢出
+  */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+/* 
+ 8. 创建根堆叠上下文
+  */
+#root,
+#__next {
+  isolation: isolate;
+}
+
+/* https://mp.weixin.qq.com/s/q6K3LqW4FHFvCNSZjMjz0Q */
