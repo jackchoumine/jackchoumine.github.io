@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-07-30 16:28:04
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-07-31 02:05:32
+ * @LastEditTime: 2025-07-31 02:29:57
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
 -->
@@ -12,6 +12,7 @@ import { useCounterStore } from '@/stores/counter'
 
 const counterStore = useCounterStore()
 const APP_URL = import.meta.env.VITE_APP_URL
+console.log(typeof APP_URL)
 const MODE = import.meta.env.MODE
 const isDev = import.meta.env.DEV
 const isProd = import.meta.env.PROD
