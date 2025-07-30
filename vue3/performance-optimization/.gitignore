@@ -28,3 +28,5 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+# 打包分析
+stats.html
