@@ -121,3 +121,5 @@ blog/.vitepress/cache
 *.xlsx
 *.xls
 vite.*.mjs
+auto-imports.d.ts
+components.d.ts

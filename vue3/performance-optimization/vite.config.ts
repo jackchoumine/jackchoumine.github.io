@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-07-31 00:15:16
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-07-31 01:09:55
+ * @LastEditTime: 2025-07-31 01:15:41
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -12,6 +12,9 @@ import { URL, fileURLToPath } from 'node:url'
 import path from 'path'
 //import visualizer from 'vite-bundle-visualizer'
 import { visualizer } from 'rollup-plugin-visualizer'
+import AutoImport from 'unplugin-auto-import/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import { analyzer } from 'vite-bundle-analyzer'
 import htmlMinifier from 'vite-plugin-html-minifier'
@@ -22,10 +25,17 @@ export default defineConfig({
     vue(),
     vueJsx(),
     htmlMinifier(),
+    AutoImport({
+      resolvers: [ElementPlusResolver()],
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()],
+    }),
     analyzer({
       analyzerPort: 8081,
+      openAnalyzer: false,
     }),
-    visualizer({ open: false, template: 'sunburst' }),
+    visualizer({ open: true, template: 'sunburst' }),
   ],
   build: {
     rollupOptions: {
