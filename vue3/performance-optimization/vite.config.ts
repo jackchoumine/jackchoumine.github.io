@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-07-31 00:15:16
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-07-31 01:56:47
+ * @LastEditTime: 2025-07-31 02:19:09
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -24,7 +24,9 @@ import htmlMinifier from 'vite-plugin-html-minifier'
 export default defineConfig(({ mode, command }) => {
   console.log({ mode, command })
   const plugins = [vue(), vueJsx(), VitePluginHtmlEnv()]
-  if (mode === 'production') {
+  // 使用 command 来区分生产环境和开发环境 command 的值只有两种
+  // NOTE 不要使用 MODE 因为的值任意
+  if (command === 'build') {
     plugins.push(
       htmlMinifier(),
       AutoImport({

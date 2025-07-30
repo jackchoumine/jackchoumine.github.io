@@ -11,6 +11,7 @@
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
+    "build-test": "NODE_ENV=production vite build --mode test",
     "type-check": "vue-tsc --build"
   },
   "dependencies": {
