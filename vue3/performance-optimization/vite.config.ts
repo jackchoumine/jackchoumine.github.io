@@ -21,9 +21,30 @@ export default defineConfig({
       },
       output: {
         // 设置输出入口文件名为 main.js
-        entryFileNames: 'assets/[name].js',
-        chunkFileNames: 'assets/[name]-[hash].js',
-        assetFileNames: 'assets/[name]-[hash][extname]',
+        //entryFileNames: 'js/[name].js',
+        //chunkFileNames: 'js/[name]-[hash].js',
+        //assetFileNames: '[ext]/[name]-[hash].[ext]',
+        // 入口文件不加 hash
+        entryFileNames: chunkInfo => {
+          if (chunkInfo.name === 'main') {
+            return 'js/main.js' // 不加 hash
+          }
+          return 'js/[name]-[hash].js'
+        },
+        // 动态分包的 chunk 根据 name 判断是否加 hash
+        chunkFileNames: chunkInfo => {
+          if (['vue', 'vue-router', 'pinia', 'element-plus'].includes(chunkInfo.name)) {
+            return `js/${chunkInfo.name}.js`
+          }
+          return 'js/[name]-[hash].js'
+        },
+        assetFileNames: chunkInfo => {
+          const chunkName = chunkInfo.name
+          if (chunkName?.includes('element-plus')) {
+            return '[ext]/[name].[ext]'
+          }
+          return '[ext]/[name]-[hash].[ext]'
+        },
 
         // ✅ 手动分包配置
         manualChunks(id) {
@@ -37,7 +58,7 @@ export default defineConfig({
             if (dep.includes('vue')) return 'vue'
             if (dep.includes('pinia')) return 'pinia'
             if (dep.startsWith('lodash-es')) return 'lodash-es'
-            if (dep.startsWith('lodash')) return 'lodash'
+            //if (dep.startsWith('lodash')) return 'lodash'
             if (dep.startsWith('element-plus')) return 'element-plus'
             return 'vendor' // 其他库统一放这里
           }
