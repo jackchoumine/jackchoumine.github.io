@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-07-30 16:28:04
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-07-30 16:57:43
+ * @LastEditTime: 2025-07-30 17:22:09
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
 -->
@@ -19,7 +19,7 @@ const counterStore = useCounterStore()
       <h3>count</h3>
       <div>count :{{ counterStore.count }}</div>
       <div>
-        <button @click="counterStore.increment">+</button>
+        <el-button type="primary" @click="counterStore.increment">+</el-button>
       </div>
     </div>
     <TheWelcome />
