@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-07-31 00:15:16
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-07-31 01:31:41
+ * @LastEditTime: 2025-07-31 01:56:47
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -17,12 +17,13 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import { analyzer } from 'vite-bundle-analyzer'
+import VitePluginHtmlEnv from 'vite-plugin-html-env'
 import htmlMinifier from 'vite-plugin-html-minifier'
 
 // https://vite.dev/config/
 export default defineConfig(({ mode, command }) => {
   console.log({ mode, command })
-  const plugins = [vue(), vueJsx()]
+  const plugins = [vue(), vueJsx(), VitePluginHtmlEnv()]
   if (mode === 'production') {
     plugins.push(
       htmlMinifier(),
