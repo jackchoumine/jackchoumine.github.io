@@ -1,23 +1,40 @@
+/*
+ * @Author      : ZhouQiJun
+ * @Date        : 2025-07-31 00:15:16
+ * @LastEditors : ZhouQiJun
+ * @LastEditTime: 2025-07-31 01:01:07
+ * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
+ * @加微信         : MasonChou123，进技术交流群
+ */
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import { URL, fileURLToPath } from 'node:url'
 import path from 'path'
+//import visualizer from 'vite-bundle-visualizer'
+import { visualizer } from 'rollup-plugin-visualizer'
 import { defineConfig } from 'vite'
 import { analyzer } from 'vite-bundle-analyzer'
+import viteHtmlPlugin from 'vite-plugin-template-html'
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
     vueJsx(),
+    //viteHtmlPlugin({
+    //  templateParameters: {
+    //    INJECT_SCRIPT: `<script src="dist/main.js"></scri>`,
+    //  },
+    //}),
     analyzer({
       analyzerPort: 8081,
     }),
+    visualizer({ open: false, template: 'sunburst' }),
   ],
   build: {
     rollupOptions: {
       input: {
-        main: path.resolve(__dirname, 'src/main.ts'),
+        main: path.resolve(__dirname, 'index.html'),
       },
       output: {
         // 设置输出入口文件名为 main.js
