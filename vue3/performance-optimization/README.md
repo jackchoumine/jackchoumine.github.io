@@ -54,7 +54,7 @@ export default defineConfig(({ mode, command }) => {
           manualChunks(id) {
             if (id.includes('node_modules')) {
               // 第三方依赖
-              const result = findDep(dep)
+              const result = findDep(dep, separatedModules)
               if(result) return result
               return 'vendor' // 其他库统一放这里
             }
@@ -65,17 +65,21 @@ export default defineConfig(({ mode, command }) => {
   }
 })
 
-function findDep(dep: string) {
-  return separatedModules.find(item => {
-    if (item === dep) return true
+function findDep(dep: string, modules: string[] = []) {
+  let i = 0
+  while (modules[i]) {
+    const module = modules[i]
+    if (module === dep) return module
     const includeDep =
-      item.startsWith(dep) ||
-      dep.startsWith(item) ||
-      item.endsWith(dep) ||
-      dep.endsWith(item)
-    if (includeDep) return true
-    return false
-  })
+      dep.startsWith(module) ||
+      dep.startsWith(module, 1) || // @vue/reactivity vue  @dfjs/ec-ui
+      dep.endsWith(module) ||
+      module.startsWith(dep) ||
+      module.endsWith(dep)
+    if (includeDep) return module
+    ++i
+  }
+  return null
 }
 ```
 
