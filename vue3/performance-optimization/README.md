@@ -8,6 +8,11 @@ vite 打包优化，希望达到减少打包输出，从而提高加载速到的
 
 <!-- TODO -->
 
+```js
+import { visualizer } from 'rollup-plugin-visualizer'
+import { analyzer } from 'vite-bundle-analyzer'
+```
+
 ## 手动分包 -- 不会频繁变动的依赖单独输出
 
 vue、vue-router 和 pinia 等**不会频繁变动**的依赖，手动分包，让他们单独输出，减少`index.js`的大小。
@@ -94,6 +99,10 @@ function findDep(dep: string, modules: string[] = []) {
 ## 按需加载 - 组件库、工具库能按需加载的都按需加载
 
 ### 按需导入组件库的组件
+
+> 如何实现开发时全量加载组件库，打包时按需加载?
+
+.env 文件的使用。
 
 ### 使用支持 ESM 的工具库
 
