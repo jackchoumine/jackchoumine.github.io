@@ -1,33 +1,82 @@
 # performance-optimization
 
-This template should help get you started developing with Vue 3 in Vite.
+vite 打包优化，希望达到减少打包输出，从而提高加载速到的目的。
 
-## Recommended IDE Setup
+可采用如下优化手段：
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## 手动分包
 
-## Type Support for `.vue` Imports in TS
+vue、vue-router 和 pinia 等**不会频繁变动**的依赖，手动分包，让他们单独输出。
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+vite 配置：
 
-## Customize configuration
+```js
+// 不常变更的依赖独立输出
+const separatedModules = ['vue', 'vue-router', 'pinia', 'element-plus', 'lodash-es']
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+export default defineConfig(({ mode, command }) => {
+  console.log({ mode, command })
+  return {
+    build: {
+      rollupOptions: {
+        // 默认 html 作为入口
+        //input: {
+        //  main: path.resolve(__dirname, 'index.html'),
+        //},
+        output: {
+          // 设置输出入口文件名为 main.js
+          //entryFileNames: 'js/[name].js',
+          //chunkFileNames: 'js/[name]-[hash].js',
+          //assetFileNames: '[ext]/[name]-[hash].[ext]',
+          entryFileNames: chunkInfo => {
+            if (chunkInfo.name === 'main') {
+              // 入口文件不加 hash
+              return 'js/main.js'
+            }
+            return 'js/[name]-[hash].js'
+          },
+          chunkFileNames: chunkInfo => {
+            if (['vue', 'vue-router', 'pinia', 'element-plus'].includes(chunkInfo.name)) {
+              // 动态分包的 chunk 根据 name 判断是否加 hash
+              return `js/${chunkInfo.name}.js`
+            }
+            return 'js/[name]-[hash].js'
+          },
+          // 对静态资源进行分类输出
+          assetFileNames: chunkInfo => {
+            const chunkName = chunkInfo.name
+            if (chunkName?.includes('element-plus')) {
+              return '[ext]/[name].[ext]'
+            }
+            return '[ext]/[name]-[hash].[ext]'
+          },
+          // ✅ 手动分包配置
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              // 第三方依赖
+              const result = findDep(dep)
+              if(result) return result
+              return 'vendor' // 其他库统一放这里
+            }
+          },
+        },
+      },
+    },
+  }
+})
 
-## Project Setup
-
-```sh
-npm install
+function findDep(dep: string) {
+  return separatedModules.find(item => {
+    if (item === dep) return true
+    const includeDep =
+      item.startsWith(dep) ||
+      dep.startsWith(item) ||
+      item.endsWith(dep) ||
+      dep.endsWith(item)
+    if (includeDep) return true
+    return false
+  })
+}
 ```
 
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
+> 不要把 js (通常是 `src/main.*`) 作为打包入口，否则 vite 不会自动处理模板。
