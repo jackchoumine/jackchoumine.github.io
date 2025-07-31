@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-07-31 00:15:16
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-07-31 15:18:01
+ * @LastEditTime: 2025-07-31 15:28:42
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -70,6 +70,7 @@ export default defineConfig(({ mode, command }) => {
             }
             return 'js/[name]-[hash].js'
           },
+          //experimentalMinChunkSize: 20 * 1024, // 单位b 3.3 之后才支持
           assetFileNames: chunkInfo => {
             const chunkName = chunkInfo.name
             if (chunkName?.includes('element-plus')) {
