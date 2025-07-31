@@ -84,3 +84,47 @@ function findDep(dep: string, modules: string[] = []) {
 ```
 
 > 不要把 js (通常是 `src/main.*`) 作为打包入口，否则 vite 不会自动处理模板。
+
+> 为何手动分割后，总的打包输出反而变大了？
+
+## 按需加载 - 组件库、工具库能按需加载的都按需加载
+
+### 按需导入组件库的组件
+
+### 使用支持 ESM 的工具库
+
+### 异步组件
+
+### 动态导入
+
+## 压缩资源
+
+### vite 打包输出压缩
+
+> js 压缩
+
+> 如何压缩位于 public 下直接引入的 js 呢？
+
+> js 移除不必要的日志
+
+> css 压缩
+
+> html 压缩
+
+### 图片压缩
+
+> 直接使用压缩后的图片
+
+使用 [tinypng](https://tinypng.com/) 压缩图片后再放入项目。
+
+任何目录下的图片都可压缩后放入项目，尤其是 public 目录下的图片，不经过 vite 处理，推荐先压缩再放入。
+
+> 使用插件压缩图片
+
+## 参考
+
+[vite打包性能优化以及填坑](https://juejin.cn/post/7232688124416458789)
+
+[Vite打包优化基本操作](https://note.bingkele.cc/content/docs/24)
+
+[vue代码优化方案](https://jackchoumine.github.io/vue3/vue%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88.html)
