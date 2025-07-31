@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-07-31 00:15:16
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-07-31 02:19:09
+ * @LastEditTime: 2025-07-31 11:24:05
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -20,6 +20,8 @@ import { analyzer } from 'vite-bundle-analyzer'
 import VitePluginHtmlEnv from 'vite-plugin-html-env'
 import htmlMinifier from 'vite-plugin-html-minifier'
 
+// 不常变更的依赖独立输出
+const separatedModules = ['vue', 'vue-router', 'pinia', 'element-plus', 'lodash-es']
 // https://vite.dev/config/
 export default defineConfig(({ mode, command }) => {
   console.log({ mode, command })
@@ -46,9 +48,9 @@ export default defineConfig(({ mode, command }) => {
     plugins,
     build: {
       rollupOptions: {
-        input: {
-          main: path.resolve(__dirname, 'index.html'),
-        },
+        //input: {
+        //  main: path.resolve(__dirname, 'index.html'),
+        //},
         output: {
           // 设置输出入口文件名为 main.js
           //entryFileNames: 'js/[name].js',
@@ -84,12 +86,8 @@ export default defineConfig(({ mode, command }) => {
               const end = id.slice(index)
               const [_0, dep] = end.split('/')
               //console.log({ dep }, 'zqj')
-              if (dep.includes('vue-router')) return 'vue-router'
-              if (dep.includes('vue')) return 'vue'
-              if (dep.includes('pinia')) return 'pinia'
-              if (dep.startsWith('lodash-es')) return 'lodash-es'
-              //if (dep.startsWith('lodash')) return 'lodash'
-              if (dep.startsWith('element-plus')) return 'element-plus'
+              const result = findDep(dep)
+              if (result) return result
               return 'vendor' // 其他库统一放这里
             }
           },
@@ -106,3 +104,16 @@ export default defineConfig(({ mode, command }) => {
     },
   }
 })
+
+function findDep(dep: string) {
+  return separatedModules.find(item => {
+    if (item === dep) return true
+    const includeDep =
+      item.startsWith(dep) ||
+      dep.startsWith(item) ||
+      item.endsWith(dep) ||
+      dep.endsWith(item)
+    if (includeDep) return true
+    return false
+  })
+}
