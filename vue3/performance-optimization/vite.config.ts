@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-07-31 00:15:16
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-07-31 15:28:42
+ * @LastEditTime: 2025-07-31 18:07:14
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -30,7 +30,7 @@ export default defineConfig(({ mode, command }) => {
   // NOTE 不要使用 MODE 因为的值任意
   if (command === 'build') {
     plugins.push(
-      htmlMinifier(),
+      //htmlMinifier(),
       AutoImport({
         resolvers: [ElementPlusResolver()],
       }),
@@ -41,7 +41,12 @@ export default defineConfig(({ mode, command }) => {
         analyzerPort: 8081,
         openAnalyzer: false,
       }),
-      visualizer({ open: true, template: 'sunburst' })
+      visualizer({
+        open: true,
+        //template: 'sunburst',
+        //template: 'list',
+        template: 'treemap',
+      })
     )
   }
   return {
@@ -84,7 +89,11 @@ export default defineConfig(({ mode, command }) => {
             if (id.includes('node_modules')) {
               // 第三方依赖
               const parts = id.split('node_modules')[1].split('/').slice(1)
-              const [dep] = parts
+              let [dep, childDep] = parts
+              if (dep.startsWith('@')) {
+                //console.log({ dep, childDep, parts })
+                dep = `${dep}/${childDep}`
+              }
               const result = findDep(dep, separatedModules)
               if (result) return result
               return 'vendor' // 其他库统一放这里
@@ -108,11 +117,17 @@ function findDep(dep: string, modules: string[] = []) {
   let i = 0
   while (modules[i]) {
     const module = modules[i]
+    //dep.includes('vue') && module === 'vue' && console.log({ dep, module })
+    //dep.includes('vue') && module === 'vue-router' && console.log({ dep, module })
     if (module === dep) return module
+    // vue 单独打包
+    //if (dep === '@vueuse') return 'vueuse'
+    if (dep === 'vue-router') return 'vue-router'
+    if (dep === 'vue' || dep.startsWith('@vue')) return 'vue'
     const includeDep =
       dep.startsWith(module) ||
-      dep.startsWith(module, 1) || // @vue/reactivity vue  @dfjs/ec-ui
       dep.endsWith(module) ||
+      dep.startsWith(module, 1) || // @vue/reactivity vue  @dfjs/ec-ui
       module.startsWith(dep) ||
       module.endsWith(dep)
     if (includeDep) return module
