@@ -122,3 +122,4 @@ blog/.vitepress/cache
 vite.*.mjs
 auto-imports.d.ts
 components.d.ts
+vue3/performance-optimization/stats.yml
