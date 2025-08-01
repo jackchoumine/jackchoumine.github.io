@@ -58,16 +58,18 @@ export default defineConfig(({ mode, command }) => {
         //},
         output: {
           // 设置输出入口文件名为 main.js
-          //entryFileNames: 'js/[name].js',
+          entryFileNames: 'js/app-[hash].js',
           //chunkFileNames: 'js/[name]-[hash].js',
           //assetFileNames: '[ext]/[name]-[hash].[ext]',
           // 入口文件不加 hash
-          entryFileNames: chunkInfo => {
-            if (chunkInfo.name === 'main') {
-              return 'js/main.js' // 不加 hash
-            }
-            return 'js/[name]-[hash].js'
-          },
+          //entryFileNames: chunkInfo => {
+          //  const chunkName = chunkInfo.name
+          //  console.log({ chunkName }, 'zqj')
+          //  if (chunkInfo.name === 'main') {
+          //    return 'js/main.js' // 不加 hash
+          //  }
+          //  return 'js/[name]-[hash].js'
+          //},
           // 动态分包的 chunk 根据 name 判断是否加 hash
           chunkFileNames: chunkInfo => {
             if (findDep(chunkInfo.name, separatedModules)) {
