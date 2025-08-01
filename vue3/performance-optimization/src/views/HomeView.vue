@@ -2,11 +2,12 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-07-30 16:28:04
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-07-31 02:29:57
+ * @LastEditTime: 2025-08-02 00:41:15
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
 -->
 <script setup lang="ts">
+import imgSrc from '@/assets/test_2025-08-02.png'
 import TheWelcome from '@/components/TheWelcome.vue'
 import { useCounterStore } from '@/stores/counter'
 
@@ -30,6 +31,7 @@ const isProd = import.meta.env.PROD
         <el-button type="primary" @click="counterStore.increment">+</el-button>
       </div>
     </div>
+    <img :src="imgSrc" alt="测试图片压缩" width="200" height="200" />
     <TheWelcome />
   </main>
 </template>

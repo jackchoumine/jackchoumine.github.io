@@ -2,14 +2,13 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-07-31 00:15:16
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-07-31 18:07:14
+ * @LastEditTime: 2025-08-02 00:49:34
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import { URL, fileURLToPath } from 'node:url'
-import path from 'path'
 //import visualizer from 'vite-bundle-visualizer'
 import { visualizer } from 'rollup-plugin-visualizer'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -19,6 +18,7 @@ import { defineConfig } from 'vite'
 import { analyzer } from 'vite-bundle-analyzer'
 import VitePluginHtmlEnv from 'vite-plugin-html-env'
 import htmlMinifier from 'vite-plugin-html-minifier'
+import minipic from 'vite-plugin-minipic'
 
 // 不常变更的依赖独立输出
 const separatedModules = ['vue', 'vue-router', 'pinia', 'element-plus', 'lodash-es']
@@ -37,6 +37,7 @@ export default defineConfig(({ mode, command }) => {
       Components({
         resolvers: [ElementPlusResolver()],
       }),
+      minipic(),
       analyzer({
         analyzerPort: 8081,
         openAnalyzer: false,
