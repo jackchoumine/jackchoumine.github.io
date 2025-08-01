@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-07-31 00:15:16
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-08-02 00:49:34
+ * @LastEditTime: 2025-08-02 01:17:11
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -22,6 +22,8 @@ import minipic from 'vite-plugin-minipic'
 
 // 不常变更的依赖独立输出
 const separatedModules = ['vue', 'vue-router', 'pinia', 'element-plus', 'lodash-es']
+
+const picExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg', '.webp']
 // https://vite.dev/config/
 export default defineConfig(({ mode, command }) => {
   console.log({ mode, command })
@@ -78,15 +80,28 @@ export default defineConfig(({ mode, command }) => {
             }
             return 'js/[name]-[hash].js'
           },
-          assetFileNames: '[ext]/[name]-[hash].[ext]',
+          //assetFileNames: '[ext]/[name]-[hash].[ext]',
           //experimentalMinChunkSize: 20 * 1024, // 单位b 3.3 之后才支持
-          //assetFileNames: chunkInfo => {
-          //  const chunkName = chunkInfo.name
-          //  if (chunkName?.includes('element-plus')) {
-          //    return '[ext]/[name].[ext]'
-          //  }
-          //  return '[ext]/[name]-[hash].[ext]'
-          //},
+          assetFileNames: chunkInfo => {
+            const chunkName = chunkInfo.name
+            //const ext = chunkInfo.type
+            //chunkName?.includes('element-plus') && console.log({ chunkName })
+            const pathParts = chunkName?.split('/')
+            const fileName = pathParts?.at(-1) // pathParts?.slice(pathParts.length - 1)
+            const dotIndex = fileName?.lastIndexOf('.') as number
+            const ext = fileName?.substring(dotIndex) as string
+            //console.log({ fileName, ext })
+            //const [_fileName, ext] = fileName?.split('.')
+            //const ext = chunkName?.index
+            //chunkName?.includes('png') && console.log({ fileName })
+            if (chunkName?.includes('element-plus')) {
+              return '[ext]/[name].[ext]'
+            }
+            if (picExtensions.includes(ext?.toLowerCase())) {
+              return '[ext]/[name].[ext]'
+            }
+            return '[ext]/[name]-[hash].[ext]'
+          },
 
           // ✅ 手动分包配置
           manualChunks(id) {
