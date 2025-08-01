@@ -34,6 +34,7 @@
     "vite": "^3.2.5",
     "vite-bundle-analyzer": "^1.1.0",
     "vite-bundle-visualizer": "^1.2.1",
+    "vite-plugin-font": "^5.1.2",
     "vite-plugin-html-env": "^1.2.8",
     "vite-plugin-html-minifier": "^1.0.5",
     "vite-plugin-minipic": "^1.3.1",
