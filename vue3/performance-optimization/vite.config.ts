@@ -77,14 +77,15 @@ export default defineConfig(({ mode, command }) => {
             }
             return 'js/[name]-[hash].js'
           },
+          assetFileNames: '[ext]/[name]-[hash].[ext]',
           //experimentalMinChunkSize: 20 * 1024, // 单位b 3.3 之后才支持
-          assetFileNames: chunkInfo => {
-            const chunkName = chunkInfo.name
-            if (chunkName?.includes('element-plus')) {
-              return '[ext]/[name].[ext]'
-            }
-            return '[ext]/[name]-[hash].[ext]'
-          },
+          //assetFileNames: chunkInfo => {
+          //  const chunkName = chunkInfo.name
+          //  if (chunkName?.includes('element-plus')) {
+          //    return '[ext]/[name].[ext]'
+          //  }
+          //  return '[ext]/[name]-[hash].[ext]'
+          //},
 
           // ✅ 手动分包配置
           manualChunks(id) {
