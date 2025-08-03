@@ -11,8 +11,8 @@
 ;(function () {
   const sortStyle = `
   :root {
-    --sort-color-default: #bbc6ce;
-    --sort-color-active: #df319a;
+    --sort-color-default: #e8deff;
+    --sort-color-active: #885afa;
   }
   .flex {
     display: flex;
