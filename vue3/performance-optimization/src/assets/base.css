@@ -61,7 +61,7 @@
 @font-face {
   /*font-family: DingLieSongKeTi;*/
   font-family: dingliesongtypeface;
-  /*src: url('/DingLieSongKeTi/dingliesongtypeface20241217-2.ttf');*/
+  src: url('/DingLieSongKeTi/dingliesongtypeface20241217-2.ttf');
 }
 
 body {

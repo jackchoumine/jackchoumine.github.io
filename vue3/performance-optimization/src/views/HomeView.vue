@@ -16,7 +16,7 @@ import png500 from '@/assets/500.png'
 import png1500 from '@/assets/1500.min.png'
 import png5000 from '@/assets/5000.png'
 import big1m from '@/assets/big1m_min.jpg'
-import { css as fontDingLieSongKeTi } from '@/assets/fonts/DingLieSongKeTi/dingliesongtypeface20241217-2.ttf'
+//import { css as fontDingLieSongKeTi } from '@/assets/fonts/DingLieSongKeTi/dingliesongtypeface20241217-2.ttf'
 import imgSrc from '@/assets/test_2025-08-02.png'
 import TheWelcome from '@/components/TheWelcome.vue'
 import { useCounterStore } from '@/stores/counter'
@@ -29,7 +29,7 @@ console.log(typeof APP_URL)
 const MODE = import.meta.env.MODE
 const isDev = import.meta.env.DEV
 const isProd = import.meta.env.PROD
-const dingLieSongKeTi = shallowRef(fontDingLieSongKeTi)
+//const dingLieSongKeTi = shallowRef(fontDingLieSongKeTi)
 </script>
 
 <template>
@@ -74,9 +74,9 @@ p {
   font-weight: bolder;
 }
 .DingLieSongKeTi {
-  /*font-family: dingliesongtypeface;*/
+  font-family: dingliesongtypeface;
   /*font-weight: v-bind(css.bolder);*/
-  font-family: v-bind(dingLieSongKeTi.family);
+  /*font-family: v-bind(dingLieSongKeTi.family);*/
 }
 .img-container {
   display: flex;

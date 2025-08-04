@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-07-31 00:15:16
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-08-04 09:33:14
+ * @LastEditTime: 2025-08-04 14:51:51
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -16,7 +16,7 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import { analyzer } from 'vite-bundle-analyzer'
-import Font from 'vite-plugin-font'
+//import Font from 'vite-plugin-font'
 import VitePluginHtmlEnv from 'vite-plugin-html-env'
 import htmlMinifier from 'vite-plugin-html-minifier'
 import minipic from 'vite-plugin-minipic'
@@ -32,9 +32,9 @@ export default defineConfig(({ mode, command }) => {
     vue(),
     vueJsx(),
     VitePluginHtmlEnv(),
-    Font.vite({
-      scanFiles: ['src/**/*.{vue,ts,tsx,js,jsx}'],
-    }),
+    //Font.vite({
+    //  scanFiles: ['src/**/*.{vue,ts,tsx,js,jsx}'],
+    //}),
   ]
   // 使用 command 来区分生产环境和开发环境 command 的值只有两种
   // NOTE 不要使用 MODE 因为的值任意
