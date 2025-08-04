@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-07-31 00:15:16
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-08-04 14:51:51
+ * @LastEditTime: 2025-08-04 15:30:00
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -54,17 +54,17 @@ export default defineConfig(({ mode, command }) => {
         cache: false,
         convertPublic: false,
         //exclude: 'min.*',
-      }),
-      analyzer({
-        analyzerPort: 8081,
-        openAnalyzer: false,
-      }),
-      visualizer({
-        open: true,
-        //template: 'sunburst',
-        //template: 'list',
-        template: 'treemap',
       })
+      //analyzer({
+      //  analyzerPort: 8081,
+      //  openAnalyzer: false,
+      //}),
+      //visualizer({
+      //  open: true,
+      //  //template: 'sunburst',
+      //  //template: 'list',
+      //  template: 'treemap',
+      //})
     )
   }
   return {

@@ -1,5 +1,5 @@
-import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
+import { computed, reactive, ref } from 'vue'
 
 export const useCounterStore = defineStore('counter', () => {
   const count = ref(0)
@@ -8,5 +8,12 @@ export const useCounterStore = defineStore('counter', () => {
     count.value++
   }
 
-  return { count, doubleCount, increment }
+  const obj = {
+    format: undefined,
+  }
+  const params = reactive({
+    ...obj,
+    format: 'image/png',
+  })
+  return { count, doubleCount, increment, params }
 })

@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-07-30 16:28:04
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-08-04 09:31:51
+ * @LastEditTime: 2025-08-04 15:27:29
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
 -->
@@ -29,13 +29,15 @@ console.log(typeof APP_URL)
 const MODE = import.meta.env.MODE
 const isDev = import.meta.env.DEV
 const isProd = import.meta.env.PROD
+const format = 'image/png'
 //const dingLieSongKeTi = shallowRef(fontDingLieSongKeTi)
 </script>
 
 <template>
   <main>
     <div>
-      <h3>count</h3>
+      <h3>count -- format {{ format }}</h3>
+      <h3>params.format {{ counterStore.params.format }}</h3>
       <div>count :{{ counterStore.count }}</div>
       <h4>{{ APP_URL }}</h4>
       <h4>isDev {{ isDev }} isProd {{ isProd }}</h4>
