@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-07-30 16:28:04
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-08-02 03:56:29
+ * @LastEditTime: 2025-08-04 09:31:51
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
 -->
@@ -57,7 +57,7 @@ const dingLieSongKeTi = shallowRef(fontDingLieSongKeTi)
       <img :src="png1500" alt="1500" width="200" height="200" />
       <img :src="png5000" alt="5000" width="200" height="200" />
       <img :src="big1m" alt="big1m" width="200" height="200" />
-      <img src="/test_in_public.min.png" alt="big1m" width="200" height="200" />
+      <!--<img src="/test_in_public.min.png" alt="big1m" width="200" height="200" />-->
     </div>
     <!--<TheWelcome />-->
   </main>

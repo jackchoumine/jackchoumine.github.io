@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-07-31 00:15:16
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-08-02 03:59:41
+ * @LastEditTime: 2025-08-04 09:33:14
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -52,6 +52,7 @@ export default defineConfig(({ mode, command }) => {
       minipic({
         limitInputPixels: false,
         cache: false,
+        convertPublic: false,
         //exclude: 'min.*',
       }),
       analyzer({
@@ -96,26 +97,26 @@ export default defineConfig(({ mode, command }) => {
           },
           //assetFileNames: '[ext]/[name]-[hash].[ext]',
           //experimentalMinChunkSize: 20 * 1024, // 单位b 3.3 之后才支持
-          assetFileNames: chunkInfo => {
-            const chunkName = chunkInfo.name
-            //const ext = chunkInfo.type
-            //chunkName?.includes('element-plus') && console.log({ chunkName })
-            const pathParts = chunkName?.split('/')
-            const fileName = pathParts?.at(-1) // pathParts?.slice(pathParts.length - 1)
-            const dotIndex = fileName?.lastIndexOf('.') as number
-            const ext = fileName?.substring(dotIndex) as string
-            //console.log({ fileName, ext })
-            //const [_fileName, ext] = fileName?.split('.')
-            //const ext = chunkName?.index
-            //chunkName?.includes('png') && console.log({ fileName })
-            if (chunkName?.includes('element-plus')) {
-              return '[ext]/[name].[ext]'
-            }
-            if (picExtensions.includes(ext?.toLowerCase())) {
-              return '[ext]/[name].[ext]'
-            }
-            return '[ext]/[name]-[hash].[ext]'
-          },
+          //assetFileNames: chunkInfo => {
+          //  const chunkName = chunkInfo.name
+          //  //const ext = chunkInfo.type
+          //  //chunkName?.includes('element-plus') && console.log({ chunkName })
+          //  const pathParts = chunkName?.split('/')
+          //  const fileName = pathParts?.at(-1) // pathParts?.slice(pathParts.length - 1)
+          //  const dotIndex = fileName?.lastIndexOf('.') as number
+          //  const ext = fileName?.substring(dotIndex) as string
+          //  //console.log({ fileName, ext })
+          //  //const [_fileName, ext] = fileName?.split('.')
+          //  //const ext = chunkName?.index
+          //  //chunkName?.includes('png') && console.log({ fileName })
+          //  if (chunkName?.includes('element-plus')) {
+          //    return '[ext]/[name].[ext]'
+          //  }
+          //  if (picExtensions.includes(ext?.toLowerCase())) {
+          //    return '[ext]/[name].[ext]'
+          //  }
+          //  return '[ext]/[name]-[hash].[ext]'
+          //},
 
           // ✅ 手动分包配置
           manualChunks(id) {
