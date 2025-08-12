@@ -73,12 +73,14 @@
   let heads = null
   let versionsTbody = null
   let hasAppendDownloadSortIcon = false
+  let hasAppendVersionsSortIcon = false
 
   insertStyle(sortStyle)
 
   if (checkTab() === VERSION_TAB) {
     setTimeout(() => {
       appendSortIcon()
+      appendVersionsSortIcon()
       sortByDownloads(findVersionsTbody())
       downloadSort()
     }, 100)
@@ -89,6 +91,7 @@
   function onClickVersionTab() {
     setTimeout(() => {
       appendSortIcon()
+      appendVersionsSortIcon()
       sortByDownloads(findVersionsTbody())
       downloadSort()
     }, 100)
@@ -103,6 +106,16 @@
     //downloadHead.classList.add('items-center')
     downloadHead.appendChild(createSortIcon('download', text))
     hasAppendDownloadSortIcon = true
+  }
+  function appendVersionsSortIcon() {
+    if (hasAppendVersionsSortIcon) return
+    const downloadHead = findHeads()[0]
+    console.log({ downloadHead })
+    //downloadHead.classList.add('flex')
+    //downloadHead.classList.add('flex-end')
+    //downloadHead.classList.add('items-center')
+    downloadHead.appendChild(createSortIcon('version', 'Version'))
+    hasAppendVersionsSortIcon = true
   }
 
   let hasOnDownload = false
