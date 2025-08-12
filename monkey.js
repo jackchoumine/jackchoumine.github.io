@@ -144,6 +144,7 @@
         sortByDownloads(findVersionsTbody(), 'asc')
         downloadUp.classList.add('up-active')
         downloadDown.classList.remove('down-active')
+        removeActive('version')
       },
       downloadUp
     )
@@ -153,6 +154,7 @@
         sortByDownloads(findVersionsTbody(), 'desc')
         downloadUp.classList.remove('up-active')
         downloadDown.classList.add('down-active')
+        removeActive('version')
       },
       downloadDown
     )
@@ -163,6 +165,7 @@
     if (hasOnVersion) return
     const sortUp = $('#version-up')
     const sortDown = $('#version-down')
+
     console.log({
       sortUp,
       sortDown,
@@ -173,6 +176,7 @@
         sortByVersions(findVersionsTbody(), 'asc')
         sortUp.classList.add('up-active')
         sortDown.classList.remove('down-active')
+        removeActive('download')
       },
       sortUp
     )
@@ -182,10 +186,18 @@
         sortByVersions(findVersionsTbody(), 'desc')
         sortUp.classList.remove('up-active')
         sortDown.classList.add('down-active')
+        removeActive('download')
       },
       sortDown
     )
     hasOnVersion = true
+  }
+
+  function removeActive(sort = 'download') {
+    const sortUp = $(`#${sort}-up`)
+    const sortDown = $(`#${sort}-down`)
+    sortUp.classList.remove('up-active')
+    sortDown.classList.remove('down-active')
   }
 
   function findVersionsTable() {
