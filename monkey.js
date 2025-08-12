@@ -74,6 +74,7 @@
   let versionsTbody = null
   let hasAppendDownloadSortIcon = false
   let hasAppendVersionsSortIcon = false
+  let hasAppendPublishedSortIcon = false
 
   insertStyle(sortStyle)
 
@@ -81,6 +82,7 @@
     setTimeout(() => {
       appendSortIcon()
       appendVersionsSortIcon()
+      appendPublishedSortIcon()
       sortByDownloads(findVersionsTbody())
       downloadSort()
     }, 100)
@@ -92,6 +94,7 @@
     setTimeout(() => {
       appendSortIcon()
       appendVersionsSortIcon()
+      appendPublishedSortIcon()
       sortByDownloads(findVersionsTbody())
       downloadSort()
     }, 100)
@@ -116,6 +119,16 @@
     //downloadHead.classList.add('items-center')
     downloadHead.appendChild(createSortIcon('version', 'Version'))
     hasAppendVersionsSortIcon = true
+  }
+  function appendPublishedSortIcon() {
+    if (hasAppendPublishedSortIcon) return
+    const downloadHead = findHeads()[2]
+    console.log({ downloadHead })
+    //downloadHead.classList.add('flex')
+    //downloadHead.classList.add('flex-end')
+    //downloadHead.classList.add('items-center')
+    downloadHead.appendChild(createSortIcon('published', 'Published'))
+    hasAppendPublishedSortIcon = true
   }
 
   let hasOnDownload = false
