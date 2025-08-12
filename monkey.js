@@ -274,10 +274,18 @@
   }
 
   function createSortIcon(sortBy = 'download', text) {
-    const sortHtml = `
-    <div class="triangle up" id="${sortBy}-up"></div>
-    <div class="triangle down" id="${sortBy}-down"></div>
-  `
+    let sortHtml = ''
+    if (sortBy === 'download') {
+      sortHtml = `
+      <div class="triangle up" id="${sortBy}-up"></div>
+      <div class="triangle down down-active" id="${sortBy}-down"></div>
+      `
+    } else {
+      sortHtml = `
+      <div class="triangle up" id="${sortBy}-up"></div>
+      <div class="triangle down" id="${sortBy}-down"></div>
+      `
+    }
     const div = h('div')
     div.classList.add('sort-icon')
     div.innerHTML = sortHtml
