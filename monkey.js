@@ -85,6 +85,7 @@
       appendPublishedSortIcon()
       sortByDownloads(findVersionsTbody())
       downloadSort()
+      versionSort()
     }, 100)
   }
 
@@ -97,6 +98,7 @@
       appendPublishedSortIcon()
       sortByDownloads(findVersionsTbody())
       downloadSort()
+      versionSort()
     }, 100)
   }
 
@@ -140,8 +142,7 @@
       'click',
       () => {
         sortByDownloads(findVersionsTbody(), 'asc')
-        const classList = downloadUp.classList
-        classList.add('up-active')
+        downloadUp.classList.add('up-active')
         downloadDown.classList.remove('down-active')
       },
       downloadUp
@@ -150,13 +151,41 @@
       'click',
       () => {
         sortByDownloads(findVersionsTbody(), 'desc')
-        const classList = downloadUp.classList
-        classList.remove('up-active')
+        downloadUp.classList.remove('up-active')
         downloadDown.classList.add('down-active')
       },
       downloadDown
     )
     hasOnDownload = true
+  }
+  var hasOnVersion = false
+  function versionSort() {
+    if (hasOnVersion) return
+    const sortUp = $('#version-up')
+    const sortDown = $('#version-down')
+    console.log({
+      sortUp,
+      sortDown,
+    })
+    on(
+      'click',
+      () => {
+        sortByVersions(findVersionsTbody(), 'asc')
+        sortUp.classList.add('up-active')
+        sortDown.classList.remove('down-active')
+      },
+      sortUp
+    )
+    on(
+      'click',
+      () => {
+        sortByVersions(findVersionsTbody(), 'desc')
+        sortUp.classList.remove('up-active')
+        sortDown.classList.add('down-active')
+      },
+      sortDown
+    )
+    hasOnVersion = true
   }
 
   function findVersionsTable() {
@@ -200,10 +229,30 @@
     tbody.appendChild(fragment)
   }
 
+  function sortByVersions(tbody, sort = 'desc') {
+    const rows = Array.from($$('tr', tbody))
+
+    rows.sort((a, b) => {
+      const aVal = parseVersion(a)
+      const bVal = parseVersion(b)
+      if (sort === 'desc') return compareVersion(bVal, aVal)
+      return -compareVersion(bVal, aVal)
+    })
+
+    const fragment = document.createDocumentFragment()
+    rows.forEach(row => fragment.appendChild(row))
+    tbody.appendChild(fragment)
+  }
+
   function parseDownloads(tr) {
     const downloadsText = $('.downloads', tr)?.textContent.replace(/,/g, '') || '0'
     const downloads = parseInt(downloadsText, 10)
     return downloads
+  }
+
+  function parseVersion(tr) {
+    const text = $('a', tr)?.textContent.replace(/,/g, '')
+    return text
   }
 
   function insertStyle(styleContent) {
@@ -227,7 +276,7 @@
   function createSortIcon(sortBy = 'download', text) {
     const sortHtml = `
     <div class="triangle up" id="${sortBy}-up"></div>
-    <div class="triangle down down-active" id="${sortBy}-down"></div>
+    <div class="triangle down" id="${sortBy}-down"></div>
   `
     const div = h('div')
     div.classList.add('sort-icon')
@@ -250,5 +299,74 @@
 
   function h(tag) {
     return document.createElement(tag)
+  }
+
+  function compareVersion(v1, v2) {
+    // 解析版本号
+    const parseVersion = version => {
+      const [numbers, prerelease] = version.split('-')
+      const [major, minor = '0', patch = '0'] = numbers.split('.')
+      return {
+        major: parseInt(major, 10),
+        minor: parseInt(minor, 10),
+        patch: parseInt(patch, 10),
+        prerelease: prerelease ? prerelease.split('.') : [],
+      }
+    }
+
+    const parsed1 = parseVersion(v1)
+    const parsed2 = parseVersion(v2)
+
+    // 比较主版本号
+    if (parsed1.major !== parsed2.major) {
+      return parsed1.major > parsed2.major ? 1 : -1
+    }
+
+    // 比较次版本号
+    if (parsed1.minor !== parsed2.minor) {
+      return parsed1.minor > parsed2.minor ? 1 : -1
+    }
+
+    // 比较修订号
+    if (parsed1.patch !== parsed2.patch) {
+      return parsed1.patch > parsed2.patch ? 1 : -1
+    }
+
+    // 比较预发标签
+    const prerelease1 = parsed1.prerelease
+    const prerelease2 = parsed2.prerelease
+
+    // 没有预发标签的版本 > 有预发标签的版本
+    if (prerelease1.length === 0 && prerelease2.length > 0) return 1
+    if (prerelease1.length > 0 && prerelease2.length === 0) return -1
+    if (prerelease1.length === 0 && prerelease2.length === 0) return 0
+
+    // 逐个比较预发标签
+    const maxLength = Math.max(prerelease1.length, prerelease2.length)
+    for (let i = 0; i < maxLength; i++) {
+      const part1 = prerelease1[i]
+      const part2 = prerelease2[i]
+
+      // 如果一个标签比另一个长
+      if (part1 === undefined) return -1
+      if (part2 === undefined) return 1
+
+      // 如果两个标签都是数字
+      const num1 = parseInt(part1, 10)
+      const num2 = parseInt(part2, 10)
+      if (!isNaN(num1)) {
+        if (isNaN(num2)) return -1
+        if (num1 !== num2) return num1 > num2 ? 1 : -1
+      } else if (!isNaN(num2)) {
+        return 1
+      }
+
+      // 如果都是字符串，按字母顺序比较
+      if (part1 !== part2) {
+        return part1 > part2 ? 1 : -1
+      }
+    }
+
+    return 0
   }
 })()
