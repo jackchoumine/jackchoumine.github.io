@@ -13,6 +13,10 @@
   :root {
     --sort-color-default: #e8deff;
     --sort-color-active: #885afa;
+    --bg-ali: aliceblue;
+  }
+  .bg-ali {
+    background-color:var(--bg-ali);
   }
   .flex {
     display: flex;
@@ -94,10 +98,9 @@
     if (hasAppendDownloadSortIcon) return
     const downloadHead = findHeads()[index]
     console.log({ downloadHead })
-    downloadHead.classList.add('w-full_i')
-    downloadHead.classList.add('flex')
-    downloadHead.classList.add('flex-end')
-    downloadHead.classList.add('items-center')
+    //downloadHead.classList.add('flex')
+    //downloadHead.classList.add('flex-end')
+    //downloadHead.classList.add('items-center')
     downloadHead.appendChild(createSortIcon('download', text))
     hasAppendDownloadSortIcon = true
   }
