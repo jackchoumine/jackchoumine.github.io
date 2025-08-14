@@ -155,8 +155,3 @@
 3. 修复版本更新通知的bug
 4. 做一些打包优化
 5. 替换接口
-
-
-www.tapd.cn/api/company/company/get_company_renew_info?workspace_id=0&product_type=1
-
-https://www.tapd.cn/tapd_fe/my/work?dialog_preview_id=story_1153992610001002575#&filter_close=true
