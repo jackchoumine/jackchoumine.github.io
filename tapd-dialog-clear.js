@@ -1,15 +1,10 @@
 // ==UserScript==
 // @name         tapd-dialog-clear
 // @namespace    http://tampermonkey.net/
-// @version      1.3.0
+// @version      1.4.0
 // @description  移除tapd授权人数提醒弹窗
 // @author       JackZhouMine(zhouqijun4job@163.com)
-// @match        https://www.tapd.cn/tapd_fe/*
-// @match        https://www.tapd.cn/tapd_fe/my/work
-// @match        https://www.tapd.cn/*/personal_documents/my_create_personal/*
-// @match        https://www.tapd.cn/my_dashboard
-// @match        https://www.tapd.cn/company/*
-// @match        https://www.tapd.cn/personal_settings/index
+// @match        https://www.tapd.cn/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=mozilla.org
 // @grant        none
 // @license      MIT
