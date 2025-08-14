@@ -147,3 +147,16 @@
 4. 【河道站补充，能修改展示】
 5. 县级用户页面加载慢，做打包优化以提高性能
 6. 上架 iOS app
+
+### 2025-08-08
+
+1. 开发四预枯水预警
+2. 统计在线用户使用新接口
+3. 修复版本更新通知的bug
+4. 做一些打包优化
+5. 替换接口
+
+
+www.tapd.cn/api/company/company/get_company_renew_info?workspace_id=0&product_type=1
+
+https://www.tapd.cn/tapd_fe/my/work?dialog_preview_id=story_1153992610001002575#&filter_close=true
