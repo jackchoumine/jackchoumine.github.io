@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @version      2025-08-02
 // @description  try to take over the world!
-// @author       ZhouQiJun
+// @author       JackZhouMine(zhouqijun4job@163.com)
 // @match        https://www.npmjs.com/package/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=npmjs.com
 // @grant        none
@@ -68,14 +68,6 @@
   const mainDiv = $('#main')
   const versionsTab = findVersionsTab()
 
-  let versionsTable = null
-  let versionsThead = null
-  let heads = null
-  let versionsTbody = null
-  let hasAppendDownloadSortIcon = false
-  let hasAppendVersionsSortIcon = false
-  let hasAppendPublishedSortIcon = false
-
   insertStyle(sortStyle)
 
   if (checkTab() === VERSION_TAB) {
@@ -86,6 +78,7 @@
       sortByDownloads(findVersionsTbody())
       downloadSort()
       versionSort()
+      publishedSort()
     }, 100)
   }
 
@@ -93,49 +86,33 @@
 
   function onClickVersionTab() {
     setTimeout(() => {
-      appendSortIcon()
-      appendVersionsSortIcon()
-      appendPublishedSortIcon()
-      sortByDownloads(findVersionsTbody())
+      insertSortIcon()
       downloadSort()
       versionSort()
-    }, 100)
+      publishedSort()
+    }, 300)
   }
 
   function appendSortIcon(index = 1, text = 'Downloads (Last 7 Days)') {
-    if (hasAppendDownloadSortIcon) return
     const downloadHead = findHeads()[index]
-    console.log({ downloadHead })
-    //downloadHead.classList.add('flex')
-    //downloadHead.classList.add('flex-end')
-    //downloadHead.classList.add('items-center')
     downloadHead.appendChild(createSortIcon('download', text))
-    hasAppendDownloadSortIcon = true
   }
   function appendVersionsSortIcon() {
-    if (hasAppendVersionsSortIcon) return
     const downloadHead = findHeads()[0]
-    console.log({ downloadHead })
-    //downloadHead.classList.add('flex')
-    //downloadHead.classList.add('flex-end')
-    //downloadHead.classList.add('items-center')
     downloadHead.appendChild(createSortIcon('version', 'Version'))
-    hasAppendVersionsSortIcon = true
   }
   function appendPublishedSortIcon() {
-    if (hasAppendPublishedSortIcon) return
     const downloadHead = findHeads()[2]
-    console.log({ downloadHead })
-    //downloadHead.classList.add('flex')
-    //downloadHead.classList.add('flex-end')
-    //downloadHead.classList.add('items-center')
     downloadHead.appendChild(createSortIcon('published', 'Published'))
-    hasAppendPublishedSortIcon = true
   }
 
-  let hasOnDownload = false
+  function insertSortIcon() {
+    appendSortIcon()
+    appendVersionsSortIcon()
+    appendPublishedSortIcon()
+  }
+
   function downloadSort() {
-    if (hasOnDownload) return
     const downloadUp = $('#download-up')
     const downloadDown = $('#download-down')
     on(
@@ -145,6 +122,7 @@
         downloadUp.classList.add('up-active')
         downloadDown.classList.remove('down-active')
         removeActive('version')
+        removeActive('published')
       },
       downloadUp
     )
@@ -155,21 +133,14 @@
         downloadUp.classList.remove('up-active')
         downloadDown.classList.add('down-active')
         removeActive('version')
+        removeActive('published')
       },
       downloadDown
     )
-    hasOnDownload = true
   }
-  var hasOnVersion = false
   function versionSort() {
-    if (hasOnVersion) return
     const sortUp = $('#version-up')
     const sortDown = $('#version-down')
-
-    console.log({
-      sortUp,
-      sortDown,
-    })
     on(
       'click',
       () => {
@@ -177,6 +148,7 @@
         sortUp.classList.add('up-active')
         sortDown.classList.remove('down-active')
         removeActive('download')
+        removeActive('published')
       },
       sortUp
     )
@@ -187,10 +159,37 @@
         sortUp.classList.remove('up-active')
         sortDown.classList.add('down-active')
         removeActive('download')
+        removeActive('published')
       },
       sortDown
     )
-    hasOnVersion = true
+  }
+  function publishedSort() {
+    //if (hasOnPublished) return
+    const sortUp = $('#published-up')
+    const sortDown = $('#published-down')
+    on(
+      'click',
+      () => {
+        sortByPublished(findVersionsTbody(), 'asc')
+        sortUp.classList.add('up-active')
+        sortDown.classList.remove('down-active')
+        removeActive('download')
+        removeActive('version')
+      },
+      sortUp
+    )
+    on(
+      'click',
+      () => {
+        sortByPublished(findVersionsTbody(), 'desc')
+        sortUp.classList.remove('up-active')
+        sortDown.classList.add('down-active')
+        removeActive('download')
+        removeActive('version')
+      },
+      sortDown
+    )
   }
 
   function removeActive(sort = 'download') {
@@ -201,28 +200,24 @@
   }
 
   function findVersionsTable() {
-    if (versionsTable) return versionsTable
-    versionsTable = $('table[aria-labelledby="version-history"]', mainDiv)
+    const versions = $('#tabpanel-versions')
+    const versionsTable = $('table[aria-labelledby="version-history"]', versions)
     return versionsTable
   }
 
   function findVersionsTbody() {
-    if (versionsTbody) return versionsTbody
+    //if (versionsTbody) return versionsTbody
     const tbody = $('tbody', findVersionsTable())
-    versionsTbody = tbody
     return tbody
   }
 
   function findVersionsThead() {
-    if (versionsThead) return versionsThead
     const head = $('thead', findVersionsTable())
-    versionsThead = head
     return head
   }
 
   function findHeads() {
-    if (heads) return heads
-    heads = Array.from($$('th', findVersionsThead()))
+    const heads = Array.from($$('th', findVersionsThead()))
     return heads
   }
 
@@ -256,6 +251,21 @@
     tbody.appendChild(fragment)
   }
 
+  function sortByPublished(tbody, sort = 'desc') {
+    const rows = Array.from($$('tr', tbody))
+
+    rows.sort((a, b) => {
+      const aVal = parsePublishedTime(a)
+      const bVal = parsePublishedTime(b)
+      if (sort === 'desc') return -compareIsoTime(bVal, aVal)
+      return compareIsoTime(bVal, aVal)
+    })
+
+    const fragment = document.createDocumentFragment()
+    rows.forEach(row => fragment.appendChild(row))
+    tbody.appendChild(fragment)
+  }
+
   function parseDownloads(tr) {
     const downloadsText = $('.downloads', tr)?.textContent.replace(/,/g, '') || '0'
     const downloads = parseInt(downloadsText, 10)
@@ -265,6 +275,12 @@
   function parseVersion(tr) {
     const text = $('a', tr)?.textContent.replace(/,/g, '')
     return text
+  }
+
+  function parsePublishedTime(tr) {
+    const time = $('time', tr)
+    const dateTime = time.getAttribute('datetime')
+    return dateTime
   }
 
   function insertStyle(styleContent) {
@@ -388,5 +404,20 @@
     }
 
     return 0
+  }
+
+  function compareIsoTime(time1, time2) {
+    // 将 ISO 时间字符串转换为 Date 对象
+    const date1 = new Date(time1)
+    const date2 = new Date(time2)
+
+    // 比较日期
+    if (date1 > date2) {
+      return 1 // time1 大于 time2
+    } else if (date1 < date2) {
+      return -1 // time1 小于 time2
+    } else {
+      return 0 // time1 等于 time2
+    }
   }
 })()
