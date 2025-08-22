@@ -1,11 +1,12 @@
 # vue 高级组件设计
-01. 受控组件
 
-02. 自定义的受控组件
+1.  受控组件
 
-03. 使用第三方库封装组件
+2.  自定义的受控组件
 
-04. 封装行为--全局事件
+3.  使用第三方库封装组件
+
+4.  封装行为--全局事件
 
 使用 ref 自动聚焦；
 
@@ -19,15 +20,13 @@ nextTick 里聚焦，tabIndex 进行导航，这个实现复杂了，同时不�
 
 [动态使用生命钩子](https://www.digitalocean.com/community/tutorials/vuejs-component-event-hooks)
 
-06. 封装行为--操作 DOM
+6.  封装行为--操作 DOM
 
-07. 封装行为--瞬移组件
+7.  封装行为--瞬移组件
 
-08. 重用瞬移组件
+8.  重用瞬移组件
 
-9. 
-
-10. vue3 中复用 props 的方法
+9.  vue3 中复用 props 的方法
 
 ```js
 // Overlay.js
@@ -38,26 +37,25 @@ export default {
     age: Number,
     address: String,
   },
-  setup(props, {
-    expose
-  }) {
-    const innerName = ref('hello');
+  setup(props, { expose }) {
+    const innerName = ref('hello')
     expose({
       name: innerName,
-    });
+    })
     return {
       name: props.name,
       age: props.age,
       address: props.address,
-    };
+    }
   },
-};
+}
 // Dialog.vue
 ```
 
 ```html
 <script setup>
-  import Overlay from './Overlay';
+  import Overlay from './Overlay'
+
   export default {
     name: 'Dialog',
     props: {
@@ -65,13 +63,13 @@ export default {
       // other props
     },
     setup(props, context) {
-      const overlay = Overlay.setup(props, context);
-      const hello = ref('hello Dialog');
+      const overlay = Overlay.setup(props, context)
+      const hello = ref('hello Dialog')
       return {
         ...overlay,
         hello,
       }
-    }
+    },
   }
 </script>
 ```
