@@ -8,7 +8,7 @@
     "blog-dev": "vitepress dev blog",
     "docs-build": "vitepress build blog",
     "docs-preview": "vitepress preview blog",
-    "minify": "esbuild tapd-dialog-clear.js --outdir=tampermonkey --allow-overwrite --minify"
+    "minify": "esbuild  monkey.js --outdir=tampermonkey --allow-overwrite --minify"
   },
   "devDependencies": {
     "mitt": "^3.0.1",
