@@ -215,7 +215,7 @@ it('异步查询 DOM', async () => {
 
 ### waitFor
 
-等待异步操作在测试中非常常见，因为测试库提供了专门的函数`waitFor`：
+等待异步操作在测试中非常常见，因此测试库提供了专门的函数`waitFor`：
 
 ```js
 waitFor(callback, options)
