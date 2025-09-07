@@ -52,12 +52,6 @@ class CounterUI {
       }
     })
 
-    effect(() => {
-      const counter = this.#container.querySelector('.counter')
-      if (counter) {
-        counter.className = `counter ${this.state.theme}`
-      }
-    })
     watch(this.doubleCount, (newVal, old) => {
       console.log({ newVal, old })
       const doubleDisplay = this.#container.querySelector('.double-count')
