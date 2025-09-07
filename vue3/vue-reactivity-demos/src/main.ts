@@ -1,3 +1,7 @@
+import { CounterUI } from './CounterUI'
+import './demo-1'
 import './style.css'
 
-import './demo-1'
+const container = document.querySelector('.demos')
+
+const counter = new CounterUI(container)

@@ -26,7 +26,8 @@ body {
   place-items: center;
   min-height: 100vh;
   min-width: 100vw;
-  background-color: lightcyan;
+  background-color: white;
+  color: black;
 }
 
 h1 {

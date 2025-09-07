@@ -1,4 +1,4 @@
-import { computed, effect, reactive, ref } from '@vue/reactivity'
+import { computed, effect, reactive, ref, watch } from '@vue/reactivity'
 
 // 创建响应式对象
 const state = reactive({
@@ -16,6 +16,9 @@ const countRef = ref(0)
 // 创建计算属性
 const doubled = computed(() => state.count * 2)
 
+watch(doubled, (v, old) => {
+  console.log({ v, old })
+})
 // 副作用 effect
 effect(() => {
   console.log('count changed:', state.count)
