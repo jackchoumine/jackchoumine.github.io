@@ -10,7 +10,7 @@ class CounterUI {
       theme: 'light',
     })
 
-    this.doubleCount = computed(() => this.state.count * 2)
+    this.doubleCount = computed(() => this.#state.count * 2)
 
     this.#init()
   }
@@ -22,10 +22,10 @@ class CounterUI {
 
   #render() {
     this.#container.innerHTML = `
-      <div class="counter ${this.state.theme}">
+      <div class="counter ${this.#state.theme}">
         <h3>计数器</h3>
-        <div class="count" id="count-display">${this.state.count}</div>
-        <div class="double-count">${this.state.count}</div>
+        <div class="count" id="count-display">${this.#state.count}</div>
+        <div class="double-count">${this.#state.count}</div>
         <button id="increment-btn">增加</button>
         <button id="decrement-btn">减少</button>
       </div>
@@ -36,11 +36,11 @@ class CounterUI {
 
   #bindEvents() {
     this.#container.querySelector('#increment-btn').addEventListener('click', () => {
-      this.state.count++
+      this.#state.count++
     })
 
     this.#container.querySelector('#decrement-btn').addEventListener('click', () => {
-      this.state.count--
+      this.#state.count--
     })
   }
 
@@ -49,7 +49,7 @@ class CounterUI {
     effect(() => {
       const display = this.#container.querySelector('#count-display')
       if (display) {
-        display.textContent = this.state.count
+        display.textContent = this.#state.count
       }
     })
 
@@ -72,7 +72,7 @@ class CounterUI {
   }
 
   getCount() {
-    return this.state.count
+    return this.#state.count
   }
 }
 
