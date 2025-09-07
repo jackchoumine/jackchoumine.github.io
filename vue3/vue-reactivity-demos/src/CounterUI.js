@@ -2,9 +2,10 @@ import { computed, effect, reactive, watch } from '@vue/reactivity'
 
 class CounterUI {
   #container
+  #state
   constructor(container) {
     this.#container = container
-    this.state = reactive({
+    this.#state = reactive({
       count: 0,
       theme: 'light',
     })
@@ -63,11 +64,11 @@ class CounterUI {
 
   // 外部更新方法
   setCount(value) {
-    this.state.count = value
+    this.#state.count = value
   }
 
   add(value = 1) {
-    this.state.count += value
+    this.#state.count += value
   }
 
   getCount() {

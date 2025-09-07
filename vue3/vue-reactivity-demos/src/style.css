@@ -34,7 +34,7 @@ h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
-
+input,
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -45,9 +45,14 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+input {
+  background-color: rgba(237, 240, 243, 0.7);
+}
+input:focus,
 button:hover {
   border-color: #646cff;
 }
+input:focus,
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
