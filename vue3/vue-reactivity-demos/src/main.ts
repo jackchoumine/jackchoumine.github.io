@@ -5,3 +5,7 @@ import './style.css'
 const container = document.querySelector('.demos')
 
 const counter = new CounterUI(container)
+console.log({ counter })
+document.querySelector('#btn-outer')!.addEventListener('click', () => {
+  counter.add()
+})
