@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Reactivity Demo</title>
+</head>
+<body>
+<div id="app">
+  <p id="counter"></p>
+  <button id="btn">+1</button>
+</div>
+
+<script type="module">
+  // ===== 引入简化的响应式核心（直接复制你那份 JS 文件里的 reactive/effect/ref/computed）=====
+  // 为了示例简单，我只贴关键的 API
+
+  const targetMap = new WeakMap()
+  let activeEffect = null
+  let shouldTrack = false
+  const effectStack = []
+
+  class ReactiveEffect {
+    constructor(fn) { this.fn = fn; this.deps = new Set(); this.active = true }
+    run() {
+      if (!this.active) return this.fn()
+      try {
+        effectStack.push(this)
+        activeEffect = this
+        shouldTrack = true
+        return this.fn()
+      } finally {
+        shouldTrack = false
+        effectStack.pop()
+        activeEffect = effectStack[effectStack.length - 1] || null
+      }
+    }
+  }
+
+  function effect(fn) {
+    const eff = new ReactiveEffect(fn)
+    eff.run()
+    return eff
+  }
+
+  function track(target, key) {
+    if (!shouldTrack || !activeEffect) return
+    let depsMap = targetMap.get(target)
+    if (!depsMap) targetMap.set(target, (depsMap = new Map()))
+    let dep = depsMap.get(key)
+    if (!dep) depsMap.set(key, (dep = new Set()))
+    if (!dep.has(activeEffect)) {
+      dep.add(activeEffect)
+      activeEffect.deps.add(dep)
+    }
+  }
+
+  function trigger(target, key) {
+    const depsMap = targetMap.get(target)
+    if (!depsMap) return
+    const dep = depsMap.get(key)
+    if (dep) dep.forEach(eff => eff.run())
+  }
+
+  function reactive(target) {
+    return new Proxy(target, {
+      get(t, key, r) {
+        const res = Reflect.get(t, key, r)
+        track(t, key)
+        return typeof res === 'object' && res !== null ? reactive(res) : res
+      },
+      set(t, key, val, r) {
+        const old = t[key]
+        const result = Reflect.set(t, key, val, r)
+        if (val !== old) trigger(t, key)
+        return result
+      }
+    })
+  }
+
+  function computed(getter) {
+    let dirty = true
+    let value
+    const runner = effect(() => getter(), { lazy: true })
+    return {
+      get value() {
+        if (dirty) {
+          value = runner.run()
+          dirty = false
+        }
+        return value
+      }
+    }
+  }
+
+  // ===== 使用示例 =====
+  const state = reactive({ count: 0 })
+  const double = computed(() => state.count * 2)
+
+  const counterEl = document.getElementById('counter')
+  const btn = document.getElementById('btn')
+
+  effect(() => {
+    counterEl.textContent = `count: ${state.count}, double: ${double.value}`
+  })
+
+  btn.addEventListener('click', () => {
+    state.count++
+  })
+</script>
+</body>
+</html>
