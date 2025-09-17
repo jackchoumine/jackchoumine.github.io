@@ -1,0 +1,39 @@
+<!--
+ * @Author      : ZhouQiJun
+ * @Date        : 2024-11-20 23:55:56
+ * @LastEditors : ZhouQiJun
+ * @LastEditTime: 2024-11-21 00:14:03
+ * @Description :
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>I am child</title>
+    <style>
+      body {
+       background-color: aqua;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>I ma child</h2>
+    <button id="send">发送</button>
+    <script>
+      send.onclick=function(){
+        const arr =[1,2]
+        const date = new Date()
+        const obj = {}
+        const reg = new RegExp('\\d+','g')
+        const err = new Error('test')
+        arr.push(Math.random() * 10)
+        console.log(arr instanceof Array)
+        console.log(date instanceof Date)
+        console.log(reg instanceof RegExp)
+        const event = new CustomEvent('myCustomEvent', { detail: {arr,date,reg} })
+        window.parent.document.dispatchEvent(event)
+      }
+    </script>
+  </body>
+</html>
