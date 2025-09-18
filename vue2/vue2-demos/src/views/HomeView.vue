@@ -1,3 +1,11 @@
+<!--
+ * @Author      : ZhouQiJun
+ * @Date        : 2025-08-27 12:12:43
+ * @LastEditors : ZhouQiJun
+ * @LastEditTime: 2025-09-18 15:26:16
+ * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
+ * @加微信         : MasonChou123，进技术交流群
+-->
 <script>
 import { useCounter, useMouse } from '@/hooks'
 
@@ -25,6 +33,11 @@ export default {
   },
   mounted() {
     console.log('component mounted')
+  },
+  methods: {
+    helloThis() {
+      console.log({ this: this, mouseX: this.mouseX.value, mouseY: this.mouseY.value })
+    },
   },
 }
 </script>
