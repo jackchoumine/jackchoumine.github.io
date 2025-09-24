@@ -126,3 +126,4 @@ vue3/performance-optimization/stats.yml
 tampermonkey
 
 *.min.js
+vitest.config.js.timestamp*.mjs
