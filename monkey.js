@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         npm-versions-sort
 // @namespace    http://tampermonkey.net/
-// @version      2025-08-02
+// @version      1.0.1
 // @description  try to take over the world!
 // @author       JackZhouMine(zhouqijun4job@163.com)
 // @match        https://www.npmjs.com/package/*
@@ -66,20 +66,18 @@
 `
   const VERSION_TAB = 'versions'
 
-  const mainDiv = $('#main')
   const versionsTab = findVersionsTab()
 
   insertStyle(sortStyle)
 
   if (checkTab() === VERSION_TAB) {
     setTimeout(() => {
-      appendSortIcon()
-      appendVersionsSortIcon()
-      appendPublishedSortIcon()
+      insertSortIcon()
       sortByDownloads(findVersionsTbody())
-      downloadSort()
-      versionSort()
-      publishedSort()
+      onDownloadSort()
+      onVersionSort()
+      onPublishedSort()
+      console.log('in versions tab')
     }, 100)
   }
 
@@ -88,9 +86,11 @@
   function onClickVersionTab() {
     setTimeout(() => {
       insertSortIcon()
-      downloadSort()
-      versionSort()
-      publishedSort()
+      sortByDownloads(findVersionsTbody())
+      onDownloadSort()
+      onVersionSort()
+      onPublishedSort()
+      console.log('click versions tab')
     }, 300)
   }
 
@@ -113,7 +113,7 @@
     appendPublishedSortIcon()
   }
 
-  function downloadSort() {
+  function onDownloadSort() {
     const downloadUp = $('#download-up')
     const downloadDown = $('#download-down')
     on(
@@ -139,7 +139,7 @@
       downloadDown
     )
   }
-  function versionSort() {
+  function onVersionSort() {
     const sortUp = $('#version-up')
     const sortDown = $('#version-down')
     on(
@@ -165,7 +165,7 @@
       sortDown
     )
   }
-  function publishedSort() {
+  function onPublishedSort() {
     //if (hasOnPublished) return
     const sortUp = $('#published-up')
     const sortDown = $('#published-down')
@@ -297,9 +297,7 @@
   }
 
   function findVersionsTab() {
-    const tabList = $('ul[role="tablist"]', mainDiv)
-    const versionsTab = tabList?.lastElementChild
-    return versionsTab
+    return $('#package-tab-versions').closest('li')
   }
 
   function createSortIcon(sortBy = 'download', text) {

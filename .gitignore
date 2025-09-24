@@ -124,3 +124,5 @@ auto-imports.d.ts
 components.d.ts
 vue3/performance-optimization/stats.yml
 tampermonkey
+
+*.min.js
