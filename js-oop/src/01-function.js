@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2024-11-21 10:07:26
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-03-30 22:50:09
+ * @LastEditTime: 2025-07-04 04:25:16
  * @Description : 函数
  */
 
@@ -35,103 +35,155 @@ console.log(next()) // 3
 // console.log(updateSelf.count) // 1
 // updateSelf()
 // console.log(updateSelf.count) // 2
+// 把函数体也改了
+async function copyText(val) {
+  if (navigator.clipboard && navigator.permissions) {
+    //await navigator.clipboard.writeText(val)
+    const copy = v => navigator.clipboard.writeText(v)
+    await copy(v)
+    copyText = copy
+  } else {
+    copyBack(v)
+    function copyBack(v) {
+      const textArea = document.createElement('textArea')
+      textArea.value = val
+      textArea.style.width = 0
+      textArea.style.position = 'fixed'
+      textArea.style.left = '-999px'
+      textArea.style.top = '10px'
+      textArea.setAttribute('readonly', 'readonly')
+      document.body.appendChild(textArea)
 
-const person = {
-  sayHi,
-}
-
-person.sayHi(1, 2, 3)
-
-function sayHi(...rest) {
-  console.log(arguments, 'zqj')
-  console.log(rest)
-  console.log('Hi')
-}
-sayHi()
-const sayHello = sayHi
-sayHello('123')
-
-const greet = (...rest) => {
-  //console.log(arguments, 'arguments')
-  console.log(rest, 'rest')
-  console.log('greet')
-}
-greet(1, 2, 3)
-
-function onClick(handler) {
-  window.addEventListener('click', handler)
-}
-
-onClick(sayHello)
-
-function plus(n) {
-  return function (m) {
-    return n + m
-  }
-}
-const plus100 = plus(100)
-const result1 = plus100(10)
-const result2 = plus100(100)
-console.log({ result1, result2 })
-
-function sum(...rest) {
-  return rest.reduce((curr, total) => total + curr, 0)
-}
-
-console.log(sum())
-console.log(sum(1, 2, 3))
-console.log(sum(1, 2, 3, 4, 5))
-
-var name = '外面的小明'
-const xiaoMing = {
-  name: '小明',
-  printName: function () {
-    console.log(this.name, 'printName name')
-    function inner() {
-      console.log('inner', this?.name)
+      textArea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textArea)
     }
-    //inner()
-    const arrow = () => {
-      console.log('arrow', this?.name)
-    }
-    arrow()
-  },
-  // 剪头函数不可作为对象方法
-  sayName: () => {
-    // console.log(this.name, 'sayName name') // 报错 ❌
-    function inner() {
-      console.log('inner', this.name) // 报错 ❌
-    }
-    const arrow = () => {
-      console.log('arrow', this.name) // 报错 ❌
-    }
-  },
-  hello() {
-    console.log('name', this.name)
-  },
-}
-
-xiaoMing.printName()
-xiaoMing.sayName()
-
-const hi = xiaoMing.printName
-hi()
-
-class A {
-  name = 'AAAA'
-  method = () => {
-    console.log('A.name', this.name)
-  }
-  sayHi() {
-    //console.log('this.name', this.name)
+    copyText = copyBack
   }
 }
 
-const a = new A()
-a.method()
+function add1(n, m) {
+  throw new Error('Test Error1')
+  //return n + m
+}
 
-const { method } = a
-method()
-a.sayHi()
-const { sayHi: ASayHi } = a
-ASayHi()
+const add2 = function (n, m) {
+  throw new Error('Test Error2')
+
+  //return n + m
+}
+const add3 = (n, m) => {
+  throw new Error('Test Error3')
+
+  //return n + m
+}
+
+function outer() {
+  //add1(1, 2)
+  //add2(1, 2)
+  //add3(1, 2)
+  console.log('outer')
+}
+outer()
+
+console.log(add('Jack', 'Chou')) // 字符串拼接
+console.log(add(100, 200)) // 数字相加
+
+function add(a, b) {
+  if (isStr(a) && isStr(b)) {
+    return contact(a, b)
+  }
+  return plus(a, b)
+
+  function isStr(v) {
+    return typeof v === 'string'
+  }
+}
+
+function plus(n, m) {
+  return n + m
+}
+function contact(a, b) {
+  return `${a} ${b}`
+}
+
+var name = '小华'
+const bob = {
+  name: '鲍勃',
+  intro() {
+    const greeting = `我是${this?.name}`
+    console.log(greeting)
+  },
+}
+bob.intro() // this 是 bob
+const introMe = bob.intro
+introMe() // this 是 window 输出  我是小华
+const tom = {
+  name: '汤姆',
+}
+bob.intro.call(tom) // this 是 tom 输出 我是汤姆
+
+function hasProp(obj, key, checkPrototype = false) {
+  if (!checkPrototype) return obj.hasOwnProperty(key)
+  return key in obj
+}
+
+const obj = {
+  name: 'Jack',
+}
+
+console.log(hasProp(obj, 'name'))
+
+/**
+ * 比较两个字符串
+ * @param {*} str1 1-222---3---4--5
+ * @param {*} str2 2-33---444-55
+ * @return 0 1 -1
+ */
+function compare(str1, str2) {
+  const strIter1 = walk(str1)
+  const strIter2 = walk(str2)
+  while (true) {
+    const { value: v1, done: d1 } = strIter1.next()
+    const { value: v2, done: d2 } = strIter2.next()
+    if (d1 && d2) return 0
+    if (d1) return -1
+    if (d2) return 1
+    if (v1 < v2) return 1
+    if (v1 > v2) return -1
+  }
+}
+
+//console.log(compare('1---2---33-41-5', '12-2-3-4-5'))
+//console.log(compare('1---2---33-41-5', '1---2---33-41-5'))
+//console.log(compare('1---2---33-41-5', '1---2---33-41-6'))
+//console.log(compare('1---2---33-41-5', '1---2---33-41-4'))
+console.log(compare('1.2.4', '1.2.5')) // 1
+console.log(compare('1.2.4', '1.2.6')) // 1
+console.log(compare('2.2.4', '1.2.6')) // -1
+console.log(compare('2.2.4', '2.2.4')) // 0
+
+function* walk(str) {
+  let n = ''
+  for (const c of str) {
+    if (c !== '-') {
+      n += c
+    } else {
+      if (n) {
+        yield Number.parseInt(n)
+        n = ''
+      }
+    }
+  }
+  if (n) {
+    yield Number.parseInt(n)
+  }
+}
+
+//const strIter = walk('-1-222---3---4--5-')
+//let done = false
+//while (!done) {
+//  const { value, done: d } = strIter.next()
+//  done = d
+//  console.log({ value, done: d })
+//}
