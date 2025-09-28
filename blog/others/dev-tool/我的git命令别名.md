@@ -68,6 +68,8 @@ git config --global core.quotepath false # 全局设置 -- 推荐
 git config core.quotepath false # 局部设置
 ```
 
+验证是否生效，新建一个`测试.txt`， `git add 测试.txt`，`git status` 查看终端是否正常显示中文文件名。
+
 ## 常用的 git 命令别名
 
 ```bash
