@@ -1,5 +1,53 @@
 ## git 技巧
 
+## 仓库设置两个远程源
+
+仓库保存在 github，希望 gitee 最为备份，希望能同时把代码推送到 github 和 gitee，如何配置？
+
+1. 查看当前远程源
+
+```bash
+git remote -v
+# 只有 origin 一个远程源
+origin  https://gitee.com/jackzhoumine/jackchoumine.github.io.git (fetch)
+origin  https://gitee.com/jackzhoumine/jackchoumine.github.io.git (push)
+```
+
+2. 添加一个新的远程源
+
+```bash
+git remote add github https://github.com/jackchoumine/jackchoumine.github.io.git
+```
+
+3. 查看远程源
+
+```bash
+git remote -v
+github  https://github.com/jackchoumine/jackchoumine.github.io.git (fetch) # 新的远程源已经添加
+github  https://github.com/jackchoumine/jackchoumine.github.io.git (push)
+origin  https://gitee.com/jackzhoumine/jackchoumine.github.io.git (fetch)
+origin  https://gitee.com/jackzhoumine/jackchoumine.github.io.git (push)
+```
+
+4. 推送
+
+```bash
+git push # 默认推送到 origin
+git push github # 推送到 github
+git push --all # 推送到两个源
+```
+
+5. 拉取
+
+```bash
+git pull  # 默认从  origin 拉取
+git pull  github # 从 github 源拉取
+```
+
+### 其他方法
+
+还能同一个远程设置多个 URL，也能达到上述目的。
+
 ## 根据目录自动切换用户名和邮箱
 
 git 的提交信息是`用户名`+`邮箱`，希望个人项目和公司项目分开，如何配置呢？
