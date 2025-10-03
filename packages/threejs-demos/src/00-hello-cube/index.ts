@@ -2,13 +2,17 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-10-03 17:33:14
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-10-03 18:16:08
+ * @LastEditTime: 2025-10-03 18:33:20
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
 import * as THREE from 'three'
+import { OrbitControls } from 'three/addons'
 
-let scene: THREE.Scene, camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer
+let scene: THREE.Scene,
+  camera: THREE.PerspectiveCamera,
+  renderer: THREE.WebGLRenderer,
+  controls: OrbitControls
 
 const windowW = window.innerWidth
 const windowH = window.innerHeight
@@ -37,7 +41,9 @@ function init() {
   document.body.appendChild(canvas)
   scene.add(createCube())
   // 渲染函数必须放在最后
-  renderer.render(scene, camera)
+  // renderer.render(scene, camera)
+  createControls()
+  renderLoop()
 }
 
 function createCube() {
@@ -51,4 +57,23 @@ function createCube() {
   // 创建网格物体对象
   const cube = new THREE.Mesh(geometry, material)
   return cube
+}
+
+/**
+ * 轨道控制器：使相机围绕目标物体进行运动，以查看物体的不同位置。
+ * 右键拖动，左键旋转，滚轮拉近拉远相机。
+ */
+function createControls() {
+  controls = new OrbitControls(camera, renderer.domElement)
+}
+
+/**
+ * 渲染循环
+ * 根据浏览器的刷新率，一直渲染，更新视锥体内的物体
+ * 只要有动态效果（物体变化或者相机移动），都要循环渲染
+ */
+function renderLoop() {
+  renderer.render(scene, camera)
+  controls.update()
+  requestAnimationFrame(renderLoop)
 }
