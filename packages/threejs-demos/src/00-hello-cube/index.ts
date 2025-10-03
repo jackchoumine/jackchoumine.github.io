@@ -2,13 +2,16 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-10-03 17:33:14
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-10-03 18:14:08
+ * @LastEditTime: 2025-10-03 18:16:08
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
 import * as THREE from 'three'
 
 let scene: THREE.Scene, camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer
+
+const windowW = window.innerWidth
+const windowH = window.innerHeight
 
 export { init }
 
@@ -20,7 +23,7 @@ function init() {
   const fov = 75
   // 宽高比，默认为 2
   // 宽高比会影响图形拉伸、压缩。通常设置和画布的宽高比相同，保证不会压缩或者横向拉伸。
-  const aspect = window.innerWidth / window.innerHeight
+  const aspect = windowW / windowH
   const near = 0.1 // 近平面到相机的距离
   const far = 1000 // 远平面到相机的距离
   // 以上参数确定后，视野范围限制在一个四棱台内，在图形学里叫视锥体。
@@ -29,7 +32,7 @@ function init() {
   camera = new THREE.PerspectiveCamera(fov, aspect, near, far)
   camera.position.z = 5 // 相机位置默认在坐标原点，threejs 中使用的是右手坐标
   renderer = new THREE.WebGLRenderer()
-  renderer.setSize(window.innerWidth, window.innerHeight)
+  renderer.setSize(windowW, windowH)
   const canvas = renderer.domElement
   document.body.appendChild(canvas)
   scene.add(createCube())
