@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-10-03 17:33:14
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-10-03 18:33:20
+ * @LastEditTime: 2025-10-03 18:50:46
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -40,6 +40,7 @@ function init() {
   const canvas = renderer.domElement
   document.body.appendChild(canvas)
   scene.add(createCube())
+  scene.add(createAxesHelper(4))
   // 渲染函数必须放在最后
   // renderer.render(scene, camera)
   createControls()
@@ -76,4 +77,8 @@ function renderLoop() {
   renderer.render(scene, camera)
   controls.update()
   requestAnimationFrame(renderLoop)
+}
+
+function createAxesHelper(len: number) {
+  return new THREE.AxesHelper(len)
 }
