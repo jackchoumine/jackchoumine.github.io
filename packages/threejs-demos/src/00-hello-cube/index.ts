@@ -2,10 +2,11 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-10-03 17:33:14
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-10-03 23:55:20
+ * @LastEditTime: 2025-10-04 16:05:25
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
+import { throttle } from 'petite-utils'
 import * as THREE from 'three'
 // three 为了保持内核小，仅包含场景、摄像机、渲染器、原始几何体、纹理、光照、阴影等相关的类，其他功能，比如模型加载，以插件形式提供，需要额外导入。
 import { OrbitControls } from 'three/addons'
@@ -46,6 +47,7 @@ function init() {
   // renderer.render(scene, camera)
   createControls()
   renderLoop()
+  renderOnResize()
 }
 
 function createCube() {
@@ -85,4 +87,17 @@ function renderLoop() {
 
 function createAxesHelper(len: number) {
   return new THREE.AxesHelper(len)
+}
+
+function renderOnResize() {
+  window.addEventListener('resize', throttle(onWindowResize))
+}
+
+function onWindowResize() {
+  // 改变画布尺寸
+  renderer.setSize(window.innerWidth, window.innerHeight)
+  // 改变相机宽高比
+  camera.aspect = window.innerWidth / window.innerHeight
+  // camera.updateProjectionMatrix() 在相机参数改变后必须调用，以确保投影矩阵与当前参数同步，否则会出现显示异常。
+  camera.updateProjectionMatrix()
 }
