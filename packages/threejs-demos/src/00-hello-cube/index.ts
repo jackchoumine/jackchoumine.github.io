@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-10-03 17:33:14
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-10-04 16:05:25
+ * @LastEditTime: 2025-10-04 16:07:02
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -37,7 +37,10 @@ function init() {
   // https://threejs.org/manual/resources/frustum-3d.svg
   camera = new THREE.PerspectiveCamera(fov, aspect, near, far)
   camera.position.z = 5 // 相机位置默认在坐标原点，threejs 中使用的是右手坐标
-  renderer = new THREE.WebGLRenderer()
+  renderer = new THREE.WebGLRenderer({
+    // 抗锯齿
+    antialias: true,
+  })
   renderer.setSize(windowW, windowH)
   const canvas = renderer.domElement
   document.body.appendChild(canvas)
