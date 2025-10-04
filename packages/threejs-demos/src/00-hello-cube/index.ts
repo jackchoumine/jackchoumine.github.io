@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-10-03 17:33:14
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-10-04 16:07:02
+ * @LastEditTime: 2025-10-04 16:26:54
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -14,7 +14,8 @@ import { OrbitControls } from 'three/addons'
 let scene: THREE.Scene,
   camera: THREE.PerspectiveCamera,
   renderer: THREE.WebGLRenderer,
-  controls: OrbitControls
+  controls: OrbitControls,
+  cube: THREE.Mesh
 
 const windowW = window.innerWidth
 const windowH = window.innerHeight
@@ -44,13 +45,17 @@ function init() {
   renderer.setSize(windowW, windowH)
   const canvas = renderer.domElement
   document.body.appendChild(canvas)
-  scene.add(createCube())
+  scene.add((cube = createCube()))
   scene.add(createAxesHelper(4))
   // 渲染函数必须放在最后
   // renderer.render(scene, camera)
   createControls()
   renderLoop()
   renderOnResize()
+  // 操作物体
+  moveCube()
+  rotateCube()
+  scaleCube()
 }
 
 function createCube() {
@@ -85,6 +90,7 @@ function createControls() {
 function renderLoop() {
   renderer.render(scene, camera)
   controls.update()
+  //cube.rotation.x = cube.rotation.x + 0.005 // 测试旋转方式
   requestAnimationFrame(renderLoop)
 }
 
@@ -103,4 +109,21 @@ function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight
   // camera.updateProjectionMatrix() 在相机参数改变后必须调用，以确保投影矩阵与当前参数同步，否则会出现显示异常。
   camera.updateProjectionMatrix()
+}
+
+// 操作物体
+// 移动
+function moveCube() {
+  cube.position.x = 4.5
+}
+// 旋转
+function rotateCube() {
+  // 从轴的正方向看，逆时针旋转为正数，顺时针为负数
+  // 或者右手大拇指指向轴的正方向，四指弯曲方向为正方向
+  // cube.rotation.x = Math.PI / 4
+  cube.rotation.set(Math.PI / 4, 0, 0)
+}
+// 放缩
+function scaleCube() {
+  cube.scale.set(2, 1, 1)
 }
