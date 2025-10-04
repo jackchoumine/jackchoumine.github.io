@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-10-03 17:33:14
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-10-04 16:26:54
+ * @LastEditTime: 2025-10-05 02:13:26
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -10,6 +10,8 @@ import { throttle } from 'petite-utils'
 import * as THREE from 'three'
 // three 为了保持内核小，仅包含场景、摄像机、渲染器、原始几何体、纹理、光照、阴影等相关的类，其他功能，比如模型加载，以插件形式提供，需要额外导入。
 import { OrbitControls } from 'three/addons'
+
+import { addDebugGUI } from './dat-gui'
 
 let scene: THREE.Scene,
   camera: THREE.PerspectiveCamera,
@@ -56,6 +58,7 @@ function init() {
   moveCube()
   rotateCube()
   scaleCube()
+  addDebugGUI(cube, controls)
 }
 
 function createCube() {
