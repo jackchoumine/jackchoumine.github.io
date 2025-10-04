@@ -2,11 +2,12 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-10-03 17:33:14
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-10-03 18:50:46
+ * @LastEditTime: 2025-10-03 23:55:20
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
 import * as THREE from 'three'
+// three 为了保持内核小，仅包含场景、摄像机、渲染器、原始几何体、纹理、光照、阴影等相关的类，其他功能，比如模型加载，以插件形式提供，需要额外导入。
 import { OrbitControls } from 'three/addons'
 
 let scene: THREE.Scene,
@@ -65,7 +66,10 @@ function createCube() {
  * 右键拖动，左键旋转，滚轮拉近拉远相机。
  */
 function createControls() {
+  // 构造函数两个参数：相机对象，用于事件监听的 dom 元素，第二个参数可选。
   controls = new OrbitControls(camera, renderer.domElement)
+  // 轨道控制的属性
+  // https://threejs.org/docs/#examples/zh/controls/OrbitControls
 }
 
 /**
