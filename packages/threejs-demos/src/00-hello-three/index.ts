@@ -2,13 +2,13 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-10-03 17:33:14
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-10-05 17:07:23
+ * @LastEditTime: 2025-10-05 17:21:14
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
 import { randomNum } from 'petite-utils'
 import * as THREE from 'three'
-import { cameraPosition } from 'three/tsl'
+import Stats from 'three/examples/jsm/libs/stats.module.js'
 
 import { addDebugGUI } from './dat-gui'
 import { initScene } from './initScene'
@@ -31,6 +31,7 @@ function helloThree() {
   scaleCube()
   addDebugGUI(cube, controls)
   scene.add(createColorfulCube())
+  addPerformanceMonitor()
 }
 
 function createCube() {
@@ -102,4 +103,13 @@ function rotateCube() {
 // 放缩
 function scaleCube() {
   cube.scale.set(2, 1, 1)
+}
+
+function addPerformanceMonitor() {
+  const monitor = new Stats()
+  monitor.showPanel(1)
+  monitor.dom.style.position = 'fixed'
+  monitor.dom.style.left = '0'
+  monitor.dom.style.top = '0'
+  document.body.append(monitor.dom)
 }

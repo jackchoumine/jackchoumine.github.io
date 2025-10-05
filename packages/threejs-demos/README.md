@@ -509,3 +509,20 @@ function addDebugGUI(cube: Mesh, controls: OrbitControls) {
 ### 类似的库还有哪些？
 
 `lil-gui`、`Tweakpane`。
+
+## 性能监控器
+
+threejs 提供了性能监控器，辅助调试性能问题。
+
+```ts
+import Stats from 'three/examples/jsm/libs/stats.module.js'
+
+function addPerformanceMonitor() {
+  const monitor = new Stats()
+  monitor.showPanel(1)
+  monitor.dom.style.position = 'fixed'
+  monitor.dom.style.left = '0'
+  monitor.dom.style.top = '0'
+  document.body.append(monitor.dom)
+}
+```
