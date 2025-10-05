@@ -6,21 +6,327 @@ threejs 是一个在浏览器里绘制3D场景的 js 库。基于 webGL, 即 web
 
 ### threejs 三个要素
 
-> 场景
+#### 场景
 
 放置物体的容器，类似舞台。
 
-> 相机
+创建一个场景：
+
+```ts
+const scene = new THREE.Scene()
+```
+
+#### 相机
 
 类似人眼，可调整角度、位置，展示场景里的不同位置的不同物体。
 
-> 渲染器
+创建一个相机：
+
+```ts
+// field of view 视野范围，单位为角度。
+// 类似眼睛睁开大小，0 类似眼睛闭上，什么都看不到，180，就失去聚焦，也会什么都看不到。
+// 越大，视野范围越大，物体越小，通常设置为 75 度。
+const fov = 75
+// 宽高比，默认为 2
+// 宽高比会影响图形拉伸、压缩。通常设置和画布的宽高比相同，保证不会压缩或者横向拉伸。
+const aspect = windowW / windowH
+const near = 0.1 // 近平面到相机的距离
+const far = 1000 // 远平面到相机的距离
+const camera = new THREE.PerspectiveCamera(fov, aspect, near, far)
+camera.position.z = 5 // 相机位置默认在坐标原点，threejs 中使用的是右手坐标
+```
+
+> 相机的参数
+
+新建一个相机，需要四个参数：
+
+| 参数   | 类型   | 描述         |
+| ------ | ------ | ------------ |
+| fov    | number | 角度         |
+| aspect | number | 宽高比       |
+| near   | number | 近截面的距离 |
+| far    | number | 远截面的距离 |
+
+> 视锥体
+
+相机的参数确定后，视野范围就被限制在一个四棱台内，这个四棱台在图形学里叫视锥体。小于或者大于这两个距离的物体即不在视锥体内的物体，会被剔除，即不绘制，这叫视锥体剔除技术。
+
+![视锥体](https://threejs.org/manual/resources/frustum-3d.svg)
+
+#### 渲染器
 
 接收场景和相机，在浏览器上渲染出 2D 画面。
 
 为何是 2D 画面？浏览器里支持渲染 2D 图形， threejs 会调整角度，让人看上去是 3D。
 
+```ts
+const renderer = new THREE.WebGLRenderer({
+  // 启用抗锯齿
+  antialias: true,
+})
+// 浏览器窗口宽高
+renderer.setSize(windowW, windowH)
+const canvas = renderer.domElement
+document.body.appendChild(canvas)
+// 创建一个立方体
+scene.add((cube = createCube()))
+// 渲染必须放在最后
+renderer.render(scene, camera)
+```
+
 ### hello cube
+
+创建一个 cube：
+
+```ts
+function createCube() {
+  const boxWidth = 1
+  const boxHeight = 1
+  const boxDepth = 1
+  // 立方体
+  const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth)
+  // 材质
+  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+  // 创建网格物体对象
+  const cube = new THREE.Mesh(geometry, material)
+  return cube
+}
+```
+
+> 几何体、材质和网格物体对象有什么关系？
+
+```bash
+几何体 (Geometry) + 材质 (Material) = 网格 (Mesh)
+    ↓                  ↓                  ↓
+ 物体的形状           外观特性           可渲染的3D物体
+```
+
+几何体提供形状，材质提供外观，网格将它们组合成可以在3D场景中渲染、变换和动画的实际物体。分离的设计让非常灵活，可自由组合和复用它们。
+
+同一几何体，应用不同的材质，可得到不同的物体；不同的几何体，应用同一材质，可得到不同的物体。
+
+> 相机的轨道运动
+
+场景就像物体，用户想要从不同角度观看舞台上的物体，移动相机就能做到。通过`轨道控制器`可操作相机。
+
+轨道运动：相机围绕目标物体的运动，可看成圆周运动或椭圆运动。
+
+three 为了保持内核小巧，仅包含场景、摄像机、渲染器、原始几何体、纹理、光照、阴影等相关的类，其他功能，比如模型加载，以插件形式提供，需要额外导入。
+
+导入轨道控制器：
+
+```ts
+import { OrbitControls } from 'three/addons'
+
+function createControls() {
+  // 构造函数两个参数：相机对象，用于事件监听的 dom 元素，第二个参数可选。
+  controls = new OrbitControls(camera, renderer.domElement)
+  // 轨道控制的属性
+  // https://threejs.org/docs/#examples/zh/controls/OrbitControls
+}
+```
+
+> 渲染循环
+
+加了轨道控制器后，用户操作相机，还是看不到物体在动，是因为场景和相机没有重新渲染。
+
+只要有**动态效果**（物体变化或者相机移动），都要循环渲染。
+
+编写一个循环执行的函数完成渲染工作：
+
+```ts
+function renderLoop() {
+  renderer.render(scene, camera)
+  controls.update()
+  //cube.rotation.x = cube.rotation.x + 0.005 // 测试旋转方式
+  requestAnimationFrame(renderLoop)
+}
+```
+
+renderLoop 会在下一次重绘更新你的动画时被调用到。
+
+使用`requestAnimationFrame`的原因：
+
+1. 调函数的调用频率通常与显示器的刷新率相匹配，动画会感觉流畅；
+2. 浏览器页面被隐藏后，会暂停执行，性能好。
+
+添加渲染循环后，我们就可在场景、渲染器和轨道控制器创建后，启用渲染循环，之后再添加物体或者改变物体的参数，场景会自动更新。
+
+代码的执行顺序如下：
+
+```bash
+# 创建场景
+# 创建渲染器
+# 创建轨道控制器
+# 渲染循环
+# 操作相机，场景自动更新
+# 改变物体参数，场景自动更新
+```
+
+把前面4个步骤封装成一个 initScene 函数：
+
+```ts
+/*
+ * @Author      : ZhouQiJun
+ * @Date        : 2025-10-05 11:32:50
+ * @LastEditors : ZhouQiJun
+ * @LastEditTime: 2025-10-05 11:45:18
+ * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
+ * @加微信         : MasonChou123，进技术交流群
+ * initScene.ts
+ */
+import * as THREE from 'three'
+import { OrbitControls } from 'three/addons'
+
+let scene: THREE.Scene,
+  camera: THREE.PerspectiveCamera,
+  renderer: THREE.WebGLRenderer,
+  controls: OrbitControls
+const windowW = window.innerWidth
+const windowH = window.innerHeight
+
+export { initScene }
+
+function initScene() {
+  scene = new THREE.Scene()
+  // field of view 视野范围，单位为角度。
+  // 类似眼睛睁开大小，0 类似眼睛闭上，什么都看不到，180，就失去聚焦，也会什么都看不到。
+  // 越大，视野范围越大，物体越小，通常设置为 75 度。
+  const fov = 75
+  // 宽高比，默认为 2
+  // 宽高比会影响图形拉伸、压缩。通常设置和画布的宽高比相同，保证不会压缩或者横向拉伸。
+  const aspect = windowW / windowH
+  const near = 0.1 // 近平面到相机的距离
+  const far = 1000 // 远平面到相机的距离
+  // 以上参数确定后，视野范围限制在一个四棱台内，在图形学里叫视锥体。
+  // 小于或者大于这两个距离的物体，会被剔除，即不绘制，这叫视锥体剔除技术。
+  // https://threejs.org/manual/resources/frustum-3d.svg
+  camera = new THREE.PerspectiveCamera(fov, aspect, near, far)
+  // 相机位置默认在坐标原点，threejs 中使用的是右手坐标
+  camera.position.x = 5
+  camera.position.y = 5
+  camera.position.z = 5
+  renderer = new THREE.WebGLRenderer({
+    // 抗锯齿
+    antialias: true,
+  })
+  renderer.setSize(windowW, windowH)
+  const canvas = renderer.domElement
+  document.body.appendChild(canvas)
+  controls = createControls()
+  renderLoop()
+  return {
+    scene,
+    camera,
+    renderer,
+    controls,
+  }
+}
+
+/**
+ * 轨道控制器：使相机围绕目标物体进行运动，以查看物体的不同位置。
+ * 右键拖动，左键旋转，滚轮拉近拉远相机。
+ */
+function createControls() {
+  // 构造函数两个参数：相机对象，用于事件监听的 dom 元素，第二个参数可选。
+  const controls = new OrbitControls(camera, renderer.domElement)
+  // 轨道控制的属性
+  // https://threejs.org/docs/#examples/zh/controls/OrbitControls
+  return controls
+}
+
+/**
+ * 渲染循环
+ * 根据浏览器的刷新率，一直渲染，更新视锥体内的物体
+ * 只要有动态效果（物体变化或者相机移动），都要循环渲染
+ */
+function renderLoop() {
+  renderer.render(scene, camera)
+  controls.update()
+  //cube.rotation.x = cube.rotation.x + 0.005 // 测试旋转方式
+  requestAnimationFrame(renderLoop)
+}
+```
+
+希望浏览器窗口变化，相机的宽高比和渲染器尺寸能及时更新，需要监听 window 的 resize 事件：
+
+```ts
+function initScene() {
+  // 其他不变
+  renderLoop()
+  renderOnResize() // 监听窗口变化
+  return {
+    scene,
+    camera,
+    renderer,
+    controls,
+  }
+}
+```
+
+```ts
+function renderOnResize() {
+  window.addEventListener('resize', throttle(onWindowResize))
+}
+
+function onWindowResize() {
+  const windowW = window.innerWidth
+  const windowH = window.innerHeight
+  // 改变画布尺寸
+  renderer.setSize(windowW, windowH)
+  // 改变相机宽高比
+  camera.aspect = windowW / windowH
+  // camera.updateProjectionMatrix() 在相机参数改变后必须调用，以确保投影矩阵与当前参数同步，否则会出现显示异常。
+  camera.updateProjectionMatrix()
+}
+```
+
+重构后的 init:
+
+```ts
+import * as THREE from 'three'
+
+let cube: THREE.Mesh
+function helloThree() {
+  const { scene, controls } = initScene()
+  cube = createCube()
+  scene.add(cube)
+  // 操作物体
+  moveCube()
+  rotateCube()
+  scaleCube()
+}
+
+function createCube() {
+  const boxWidth = 1
+  const boxHeight = 1
+  const boxDepth = 1
+  // 立方体
+  const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth)
+  // 材质
+  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+  // 创建网格物体对象
+  const cube = new THREE.Mesh(geometry, material)
+  return cube
+}
+
+// 操作物体
+// 移动
+function moveCube() {
+  cube.position.x = 4.5
+}
+// 旋转
+function rotateCube() {
+  // 从轴的正方向看，逆时针旋转为正数，顺时针为负数
+  // 或者右手大拇指指向轴的正方向，四指弯曲方向为正方向
+  // cube.rotation.x = Math.PI / 4
+  cube.rotation.set(Math.PI / 4, 0, 0)
+}
+// 放缩
+function scaleCube() {
+  cube.scale.set(2, 1, 1)
+}
+```
 
 ## 使用 dat.gui 添加调试工具
 
