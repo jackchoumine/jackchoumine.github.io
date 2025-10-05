@@ -2,18 +2,20 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-10-05 11:32:50
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-10-05 17:06:07
+ * @LastEditTime: 2025-10-05 17:30:33
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
 import { throttle } from 'petite-utils'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons'
+import type Stats from 'three/examples/jsm/libs/stats.module.js'
 
 let scene: THREE.Scene,
   camera: THREE.PerspectiveCamera,
   renderer: THREE.WebGLRenderer,
-  controls: OrbitControls
+  controls: OrbitControls,
+  performanceMonitor: Stats
 const windowW = window.innerWidth
 const windowH = window.innerHeight
 
@@ -24,7 +26,8 @@ type Position = {
 }
 export { initScene }
 
-function initScene(cameraPosition: Position) {
+function initScene(cameraPosition: Position, monitor: Stats) {
+  performanceMonitor = monitor
   scene = new THREE.Scene()
   // field of view 视野范围，单位为角度。
   // 类似眼睛睁开大小，0 类似眼睛闭上，什么都看不到，180，就失去聚焦，也会什么都看不到。
@@ -81,6 +84,7 @@ function createControls() {
 function renderLoop() {
   renderer.render(scene, camera)
   controls.update()
+  performanceMonitor?.update()
   //cube.rotation.x = cube.rotation.x + 0.005 // 测试旋转方式
   requestAnimationFrame(renderLoop)
 }

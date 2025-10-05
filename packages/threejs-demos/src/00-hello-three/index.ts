@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-10-03 17:33:14
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-10-05 17:21:14
+ * @LastEditTime: 2025-10-05 17:28:32
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -18,7 +18,8 @@ let cube: THREE.Mesh
 export { helloThree }
 
 function helloThree() {
-  const { scene, controls } = initScene({ x: 10, y: 13, z: 11 })
+  const monitor = createPerformanceMonitor()
+  const { scene, controls } = initScene({ x: 10, y: 13, z: 11 }, monitor)
   cube = createCube()
   scene.add(cube)
   scene.add(createAxesHelper(100))
@@ -31,7 +32,6 @@ function helloThree() {
   scaleCube()
   addDebugGUI(cube, controls)
   scene.add(createColorfulCube())
-  addPerformanceMonitor()
 }
 
 function createCube() {
@@ -105,11 +105,12 @@ function scaleCube() {
   cube.scale.set(2, 1, 1)
 }
 
-function addPerformanceMonitor() {
+function createPerformanceMonitor() {
   const monitor = new Stats()
   monitor.showPanel(1)
   monitor.dom.style.position = 'fixed'
   monitor.dom.style.left = '0'
   monitor.dom.style.top = '0'
   document.body.append(monitor.dom)
+  return monitor
 }
