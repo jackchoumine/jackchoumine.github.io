@@ -111,7 +111,7 @@ function addDebugGUI(cube: Mesh, controls: OrbitControls) {
 }
 ```
 
-调用 addDebugGUI 传入参数就行了。
+调用 addDebugGUI 传入参数，就看到调试组件了。
 
 更多高级功能可查阅 [API文档](https://github.com/dataarts/dat.gui/blob/master/API.md) 或者 AI 工具。
 
