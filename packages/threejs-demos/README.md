@@ -74,7 +74,7 @@ scene.add((cube = createCube()))
 renderer.render(scene, camera)
 ```
 
-### hello cube
+### hello three
 
 创建一个 cube：
 
@@ -327,6 +327,40 @@ function scaleCube() {
   cube.scale.set(2, 1, 1)
 }
 ```
+
+#### 展示坐标轴
+
+为了更直观的展示物体在三维坐标中的位置，可把坐标轴添加到场景中：
+
+```ts
+function helloThree() {
+  const { scene, controls } = initScene()
+  cube = createCube()
+  scene.add(cube)
+  scene.add(createAxesHelper(4))
+  // 操作物体
+  moveCube()
+  rotateCube()
+  scaleCube()
+}
+
+function createAxesHelper(len: number) {
+  return new THREE.AxesHelper(len)
+}
+```
+
+在 Threejs 中，使用的是右手坐标系，这是计算机图形学中最常用的坐标系系统。
+
+```bash
+    Y
+    ↑
+    |
+    +----→ X
+   /
+  Z
+```
+
+坐标轴在 Threejs 中被视为特殊的物体，也能随着相机的移动，可观察不同视角的样子，但是其他物体的位置还是以原点作为参照。
 
 ## 使用 dat.gui 添加调试工具
 
