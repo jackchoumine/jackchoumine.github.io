@@ -281,7 +281,7 @@ function onWindowResize() {
 }
 ```
 
-重构后的 init:
+重构后的代码:
 
 ```ts
 import * as THREE from 'three'
