@@ -366,6 +366,25 @@ X轴水平向右，Y轴垂直向上，Z轴垂直屏幕向外。理解这个坐�
 
 绕轴旋转：绕某条转旋转，右手握住该轴，大拇指指向正方向，四指弯曲方向为旋转正方向。
 
+### 创建一个六面颜色都不同的立方体
+
+```ts
+function createColorfulCube() {
+  const boxWidth = 2
+  const boxHeight = 2
+  const boxDepth = 2
+  // 立方体
+  const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth)
+  // 材质
+  const colors = ['red', 'pink', 'green', 'white', 'blue', 'yellow']
+  // 使用六个颜色创建6个材质对象，x 正轴的面 x 负轴的面 y 正轴的面 y 负轴的面 z 正轴的面 x 负轴的面
+  const materials = colors.map(color => new THREE.MeshBasicMaterial({ color }))
+  // 创建网格物体对象
+  const cube = new THREE.Mesh(geometry, materials)
+  return cube
+}
+```
+
 ## 使用 dat.gui 添加调试工具
 
 一个轻量的用户界面库，可通过可视化的界面轻松修改对象属性和执行对象方法。

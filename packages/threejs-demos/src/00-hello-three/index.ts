@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-10-03 17:33:14
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-10-05 12:06:22
+ * @LastEditTime: 2025-10-05 12:53:43
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -25,6 +25,7 @@ function helloThree() {
   rotateCube()
   scaleCube()
   addDebugGUI(cube, controls)
+  scene.add(createColorfulCube())
 }
 
 function createCube() {
@@ -37,6 +38,20 @@ function createCube() {
   const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
   // 创建网格物体对象
   const cube = new THREE.Mesh(geometry, material)
+  return cube
+}
+
+function createColorfulCube() {
+  const boxWidth = 2
+  const boxHeight = 2
+  const boxDepth = 2
+  // 立方体
+  const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth)
+  // 材质
+  const colors = ['red', 'pink', 'green', 'white', 'blue', 'yellow']
+  const materials = colors.map(color => new THREE.MeshBasicMaterial({ color }))
+  // 创建网格物体对象
+  const cube = new THREE.Mesh(geometry, materials)
   return cube
 }
 
