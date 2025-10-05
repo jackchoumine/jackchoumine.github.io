@@ -2,7 +2,7 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-10-05 11:32:50
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-10-05 12:00:18
+ * @LastEditTime: 2025-10-05 17:06:07
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
@@ -17,9 +17,14 @@ let scene: THREE.Scene,
 const windowW = window.innerWidth
 const windowH = window.innerHeight
 
+type Position = {
+  x: number
+  y: number
+  z: number
+}
 export { initScene }
 
-function initScene() {
+function initScene(cameraPosition: Position) {
   scene = new THREE.Scene()
   // field of view 视野范围，单位为角度。
   // 类似眼睛睁开大小，0 类似眼睛闭上，什么都看不到，180，就失去聚焦，也会什么都看不到。
@@ -35,9 +40,9 @@ function initScene() {
   // https://threejs.org/manual/resources/frustum-3d.svg
   camera = new THREE.PerspectiveCamera(fov, aspect, near, far)
   // 相机位置默认在坐标原点，threejs 中使用的是右手坐标
-  camera.position.x = 5
-  camera.position.y = 5
-  camera.position.z = 5
+  camera.position.x = cameraPosition.x
+  camera.position.y = cameraPosition.y
+  camera.position.z = cameraPosition.z
   renderer = new THREE.WebGLRenderer({
     // 抗锯齿
     antialias: true,

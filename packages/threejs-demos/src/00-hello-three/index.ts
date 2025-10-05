@@ -2,11 +2,13 @@
  * @Author      : ZhouQiJun
  * @Date        : 2025-10-03 17:33:14
  * @LastEditors : ZhouQiJun
- * @LastEditTime: 2025-10-05 12:53:43
+ * @LastEditTime: 2025-10-05 17:07:23
  * @Description : 关于博主，前端程序员，最近专注于 webGis 开发
  * @加微信         : MasonChou123，进技术交流群
  */
+import { randomNum } from 'petite-utils'
 import * as THREE from 'three'
+import { cameraPosition } from 'three/tsl'
 
 import { addDebugGUI } from './dat-gui'
 import { initScene } from './initScene'
@@ -16,10 +18,13 @@ let cube: THREE.Mesh
 export { helloThree }
 
 function helloThree() {
-  const { scene, controls } = initScene()
+  const { scene, controls } = initScene({ x: 10, y: 13, z: 11 })
   cube = createCube()
   scene.add(cube)
-  scene.add(createAxesHelper(4))
+  scene.add(createAxesHelper(100))
+  createCubes(5).forEach(cube => {
+    scene.add(cube)
+  })
   // 操作物体
   moveCube()
   rotateCube()
@@ -55,6 +60,29 @@ function createColorfulCube() {
   return cube
 }
 
+function createCubes(size: number = 10) {
+  const cubes = Array.from({ length: size }).map(() => {
+    const color = `#${Math.random().toString(16).slice(3, 9)}`
+    const size = {
+      width: randomNum(1),
+      height: Math.random() * 10,
+      deep: Math.random() * 5,
+    }
+    const position = {
+      x: randomNum(1),
+      y: Math.random() * 4,
+      z: Math.random() * 6,
+    }
+    const geometry = new THREE.BoxGeometry(size.width, size.height, size.deep)
+    // 材质
+    const material = new THREE.MeshBasicMaterial({ color })
+    // 创建网格物体对象
+    const cube = new THREE.Mesh(geometry, material)
+    cube.position.set(position.x, position.y, position.z)
+    return cube
+  })
+  return cubes
+}
 function createAxesHelper(len: number) {
   return new THREE.AxesHelper(len)
 }
