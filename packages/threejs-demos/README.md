@@ -385,6 +385,34 @@ function createColorfulCube() {
 }
 ```
 
+创建多个随机颜色和大小的 cube:
+
+```ts
+function createCubes(size: number = 10) {
+  const cubes = Array.from({ length: size }).map(() => {
+    const color = `#${Math.random().toString(16).slice(3, 9)}`
+    const size = {
+      width: randomNum(1),
+      height: Math.random() * 10,
+      deep: Math.random() * 5,
+    }
+    const position = {
+      x: randomNum(1),
+      y: Math.random() * 4,
+      z: Math.random() * 6,
+    }
+    const geometry = new THREE.BoxGeometry(size.width, size.height, size.deep)
+    // 材质
+    const material = new THREE.MeshBasicMaterial({ color })
+    // 创建网格物体对象
+    const cube = new THREE.Mesh(geometry, material)
+    cube.position.set(position.x, position.y, position.z)
+    return cube
+  })
+  return cubes
+}
+```
+
 ## 使用 dat.gui 添加调试工具
 
 一个轻量的用户界面库，可通过可视化的界面轻松修改对象属性和执行对象方法。
