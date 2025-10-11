@@ -1,8 +1,6 @@
 {
   "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "always"
-  },
+  "editor.codeActionsOnSave": { "source.fixAll.eslint": "always" },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "stylelint.validate": ["css", "scss", "less", "scss", "vue", "sass"],
   "liveSassCompile.settings.formats": [
@@ -15,9 +13,7 @@
       "savePath": "~/css"
     }
   ],
-  "markdownFormatter.formatOpt": {
-    "indent_size": 2
-  },
+  "markdownFormatter.formatOpt": { "indent_size": 2 },
   // "[markdown]": {
   //   "editor.formatOnSave": true,
   //   "editor.defaultFormatter": "mervin.markdown-formatter",
@@ -28,11 +24,7 @@
   //     "strings": true
   //   }
   // },
-  "editor.quickSuggestions": {
-    "other": true,
-    "comments": true,
-    "strings": true
-  },
+  "editor.quickSuggestions": { "other": true, "comments": true, "strings": true },
   "fileheader.customMade": {
     "Author": "ZhouQiJun",
     "Date": "Do not edit",
@@ -67,6 +59,7 @@
     "retval",
     "rushstack",
     "stylelint",
+    "threejs",
     "todos",
     "trivago",
     "unplugin",
